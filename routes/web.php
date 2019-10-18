@@ -12,7 +12,7 @@ Route::get('/portfolio/{project}','ProjectController@show')->name('projects.show
 Route::delete('/portfolio/{project}','ProjectController@destroy')->name('projects.destroy');*/
 
 Route::view('/contact','contact')->name('contact');
-Route::get('/asistencia','AsistenciaController@index');
+Route::get('/asistencia/{rfc}','AsistenciaController@index');
 
 
 
