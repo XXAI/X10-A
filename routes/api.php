@@ -17,5 +17,7 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 
+Route::get('/credencializacion','AsistenciaController@show');
+
 
 Route::get('reporte','API\reporteController@index');

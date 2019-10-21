@@ -11,8 +11,12 @@ Route::post('/portfolio','ProjectController@store')->name('projects.store');
 Route::get('/portfolio/{project}','ProjectController@show')->name('projects.show');
 Route::delete('/portfolio/{project}','ProjectController@destroy')->name('projects.destroy');*/
 
-Route::view('/contact','contact')->name('contact');
-Route::get('/asistencia/{rfc}','AsistenciaController@index');
+//Route::view('/contact','contact')->name('contact');
+//Route::get('/asistencia','AsistenciaController@index');
+
+//ASI QUEDARA PARA CONSULTAR EN INDUCCION
+
+Route::view('/asistencia/{rfc}','home');
 
 
 

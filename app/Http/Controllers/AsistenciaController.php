@@ -6,6 +6,7 @@ $carbon = new \Carbon\Carbon();
 $date = $carbon->now();
 use Illuminate\Http\Request;
 use DB;
+
 class AsistenciaController extends Controller
 {
     /**
@@ -16,12 +17,6 @@ class AsistenciaController extends Controller
     public function index(Request $request)
     {
 
-        $rfc = $request->rfc;
-
-
-        return view('home',['rfc' => $rfc]);
-
-        
     }
 
     /**
@@ -51,9 +46,21 @@ class AsistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+
+        $ch = curl_init();
+        $rfc = $request->buscar;
+        $header[]         = 'Content-Type: application/x-www-form-urlencoded';
+        curl_setopt($ch, CURLOPT_HTTPHEADER,     $header);
+        curl_setopt($ch, CURLOPT_URL, env('URL_RH').'?buscar='.$rfc);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+
+        $api_response = curl_exec($ch);
+
+        return $api_response[0];
+
     }
 
     /**

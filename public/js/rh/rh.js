@@ -1,41 +1,56 @@
+var datos_credencializacion;
+var datos_checado;
 $(document).ready(function(){
-
-      // jQuery('#rfc').change(function() {
-
-      var rfc = $("#rfc").val();
-      var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php?buscar="+rfc;
-
-      if(rfc !=''){
-
-            jQuery.ajax({
-                  data: {},
-                  type: "GET",
-                  dataType: "json",
-                  url: urlrh,
-            }).done(function( data, textStatus, jqXHR ) {
-                  console.log(data); http://credencializacion.saludchiapas.gob.mx/images/credenciales/1858.jpeg
-
-                  $("#Nombre").text(data[0].Nombre);
-                  $("#Adscripcion_Area").text(data[0].DesPuesto);  
-                  $("#nombre").text(data[0].nombre);
-                  $("#Direccion").text(data[0].Direccion);
-                  $("#Adscripcion_Area").text(data[0].Adscripcion_Area);
-                  $("#TipoSangre").text(data[0].TipoSangre);
-                  $("#Curp").text(data[0].Curp);
-                  $("#Rfc").text(data[0].Rfc);
-
-
-                  $("#foto").attr("src","http://credencializacion.saludchiapas.gob.mx/images/credenciales/"+data[0].id+".jpeg");
-
-                  //console.log("http://credencializacion.saludchiapas.gob.mx/images/credenciales/"+data[0].id+".jpeg");
-
-            }).fail(function( jqXHR, textStatus, errorThrown ) {
-                  if ( console && console.log ) {
-                  alert( "Error en la carga de Datos, asista a Sistematización: " +  textStatus);
-                  }
-            });
-
-      }
-
+      var dato = getParameterByName();
+      var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
+      //var urlrh = '../api/credencializacion';
+      cargar_dato(dato, urlrh)
+      
 });
+function cargar_dato(dato, urlrh)
+{
+      jQuery.ajax({
+            data: {'buscar': dato},
+            type: "GET",
+            dataType: "json",
+            url: urlrh,
+      }).done(function( data, textStatus, jqXHR ) {
+            datos_credencializacion = data[0];
+            cargar_datos_checadas();
 
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            if ( console && console.log ) {
+            alert( "Error en la carga de Datos, asista a Sistematización: " +  textStatus);
+            }
+      });
+
+      for(var i=2019; i < 2030; i++)
+      {
+            $("select[name=anio]").append(new Option(i,i));
+      }
+}
+
+function cargar_datos_checadas()
+{
+      cargar_blade();
+}
+
+function cargar_blade()
+{ 
+      $("#Nombre").text(datos_credencializacion.Nombre);
+      $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);  
+      $("#nombre").text(datos_credencializacion.nombre);
+      $("#Direccion").text(datos_credencializacion.Direccion);
+      $("#Adscripcion_Area").text(datos_credencializacion.Adscripcion_Area);
+      $("#TipoSangre").text(datos_credencializacion.TipoSangre);
+      $("#Curp").text(datos_credencializacion.Curp);
+      $("#Rfc").text(datos_credencializacion.Rfc);
+      $("#Clue").text(datos_credencializacion.Clue);
+      $("#foto").attr("src","http://credencializacion.saludchiapas.gob.mx/images/credenciales/"+datos_credencializacion.id+".jpeg");
+}
+
+function getParameterByName() {
+      var ruta_completa = location.pathname;
+      var splits = ruta_completa.split("/");
+      return splits[2];
+}
