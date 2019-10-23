@@ -1,9 +1,10 @@
+
 @extends('layout')
 @section('title','Home')
 @section('content')@section('content')
 <div class="card-body">
 
-    
+
 
 
 </div>
@@ -21,10 +22,10 @@
 					<h4 id="Direccion" class="card-title mt-3"></h4>
 					<h4 id="Adscripcion_Area" class="card-title mt-3"></h4>
 					<div class="col-md-5 col-5">
-						<p><strong>CLUES: </strong><!--<i id="Rfc"></i>--></p>					
+						<p><strong>CLUES: </strong><!--<i id="Rfc"></i>--></p>
 					</div>
 					<div class="col-md-7 col-7">
-						<p><!--<strong>RFC: </strong>--><i id="Clue"></i></p>					
+						<p><!--<strong>RFC: </strong>--><i id="Clue"></i></p>
 					</div>
 				</div>
 			</div>
@@ -48,10 +49,10 @@
 				</div>
 				<div class='row'>
 					<div class="col-md-5 col-5">
-						<p><strong>RFC: </strong><!--<i id="Rfc"></i>--></p>					
+						<p><strong>RFC: </strong><!--<i id="Rfc"></i>--></p>
 					</div>
 					<div class="col-md-7 col-7">
-						<p><!--<strong>RFC: </strong>--><i id="Rfc"></i></p>					
+						<p><!--<strong>RFC: </strong>--><i id="Rfc"></i></p>
 					</div>
 				</div>
 			</div>
@@ -100,7 +101,7 @@
 					</div>
 				</th>
 				<th colspan="2"></th>
-			</tr>	
+			</tr>
 			<tr>
 				<th>FECHA</th>
 				<th>HORA ENTRADA</th>
@@ -148,7 +149,7 @@
 			</tr>
 		</tfoot>
 	</table>
-	</div>	
+	</div>
 </div>
 </section>
 
@@ -178,63 +179,5 @@
 	</table>
 </section>
 
-{{-- <table class="table table-dark" >
-	<thead>
-		<tr>
-		<th>Fecha</th>
-		<th>Hora Entrada</th>
-		<th>Hora Salida</th>
-
-	 </tr>
-	  </thead>
-
-		@foreach ($asistencia as $asistenciax)
-			<tr>
-				<td>{{$asistenciax['fecha']}}</td>
-				<td>{{$asistenciax['checado_entrada']}}</td>
-				<td>{{$asistenciax['checado_salida']}}</td>
-			</tr>
-		@endforeach
-</table> --}}
-
-{{-- <table class="table table-dark" >
-	<thead>
-		<tr>
-		<th>Fecha</th>
-		<th>Hora Entrada</th>
-		<th>CalEnt</th>
-		<th>Hora Salida</th>
-		<th>CalSal</th>
-		<th>dif</th>
-		</tr>
-	</thead>
-
-		@forelse ($asistencia as $asistenciaItem)
-		<tr>
-		<!--$fecha=$asistenciaItem->fecha;-->
-		<td>{{ $asistenciaItem->fecha}}</td>
-		<td>{{ $asistenciaItem->centrada}}</td>
-		@if($asistenciaItem->difent >= -30 and $asistenciaItem->difent <= 15 )
-
-		<td> bien </td>
-		@else
-			<td> mal </td>
-		@endif
-		<td>{{ $asistenciaItem->csalida}}</td>
-
-		@if($asistenciaItem->difsal >= 0 and $asistenciaItem->difsal <= 30 )
-
-		<td> bien </td>
-		@else
-			<td> mal </td>
-		@endif
-		<td>{{$asistenciaItem->difsal}}</td>
-
-		</tr>
-		@empty
-
-		@endforelse
-</table> --}}
 
 
-@endsection
