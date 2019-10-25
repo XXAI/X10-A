@@ -1,5 +1,9 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@extends('layout')
 
+@section('title','Home')
+
+
+@section('content')@section('content')
 
 
 	<div class="card-body">
@@ -9,13 +13,13 @@
 		        <div class="form-group row">
 	                <label for="id" class="col-md-4 col-form-label text-md-right">Id</label>
 	                <div class="col-md-6">
-	                    <input id="id" type="text"  name="id" value="{{ old('id')}}" required autocomplete="id" autofocus>
+	                    <input id="id" type="text"  name="id" value="{{ old('id') }}" required autocomplete="id" autofocus>
 	                </div>
 	            </div>
 	            <div class="form-group row">
 	                <label for="rfc" class="col-md-4 col-form-label text-md-right">RFC</label>
 	                <div class="col-md-6">
-	                    <input id="rfc" type="text"  name="rfc" value="{{ old('rfc')}}" required autocomplete="rfc" autofocus>
+	                    <input id="rfc" type="text"  name="rfc" value="{{ old('rfc') }}" required autocomplete="rfc" autofocus>
 	                </div>
 	            </div>
 
@@ -28,7 +32,7 @@
 	           <div class="form-group row">
 	             <label for="fin" class="col-md-4 col-form-label text-md-right">Fecha Fin:</label>
 	             <div class="col-md-6">
-	                    <input type="datetime-local" id="fin" name="trip-fin" value="2019-10-17T00:01">
+	                    <input type="datetime-local" id="fin" name="trip-fin" >
 
 	             </div>
 	           </div>
@@ -44,37 +48,60 @@
 	                        @endif
 	                    </div>
 	           </div>
+
+
 		</form>
+	@isset($asistencia[0])
+	<div class="container-fluid">
+	<h3>ID : {{$asistencia[0]->Badgenumber}} Nombre : {{$asistencia[0]->Name}} RFC : {{$asistencia[0]->TITLE}}  </h3>
+	<h3>Horario de {{$asistencia[0]->hentrada}} A {{$asistencia[0]->hsalida}} </h3>
+
 	</div>
+	@endisset
 
+
+	</div>
 	<table class="table table-dark" >
-		<!--thead>
-			@forelse($resumen as $resumenx)
-			<h1>{{$resumenx['vac2019_1']}}<h1>
-			@empty
-
-		@endforelse
+		<thead>
    		 <tr>
 			<th>Fecha</th>
 		    <th>Hora Entrada</th>
+		    <th>CalEnt</th>
 		    <th>Hora Salida</th>
-
+		    <th>CalSal</th>
+		    <th>dif</th>
 		 </tr>
-  		</thead-->
+  		</thead>
 
-
-		@forelse ($asistencia as $asistenciax)
+			@forelse ($asistencia as $asistenciaItem)
 			<tr>
-				<td>{{$asistenciax['fecha']}}</td>
-				<td>{{$asistenciax['checado_entrada']}}</td>
-				<td>{{$asistenciax['checado_salida']}}</td>
+			<!--$fecha=$asistenciaItem->fecha;-->
+			<td>{{ $asistenciaItem->fecha}}</td>
+			<td>{{ $asistenciaItem->centrada}}</td>
+			@if($asistenciaItem->difent >= -30 and $asistenciaItem->difent <= 15 )
+
+			<td> bien </td>
+			@else
+				<td> mal </td>
+			@endif
+			<td>{{ $asistenciaItem->csalida}}</td>
+
+			@if($asistenciaItem->difsal >= 0 and $asistenciaItem->difsal <= 30 )
+
+			<td> bien </td>
+			@else
+				<td> mal </td>
+			@endif
+			<td>{{$asistenciaItem->difsal}}</td>
 
 			</tr>
 			@empty
 
-		@endforelse
-
+			@endforelse
 	</table>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+
+@endsection

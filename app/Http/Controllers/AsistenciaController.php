@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-$carbon = new \Carbon\Carbon();
-$date = $carbon->now();
+
+
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use DB;
 class AsistenciaController extends Controller
 {
@@ -29,38 +30,34 @@ class AsistenciaController extends Controller
            // ->groupBy('fecha','CHECKINOUT.userid')
 
             ->get();*/
-                  $asistencia = DB::table('CHECKINOUT')
-            ->join('USERINFO', 'CHECKINOUT.userid', '=', 'USERINFO.userid')
-            ->join('user_of_run', 'user_of_run.userid', '=','CHECKINOUT.userid')
-            ->join('num_run_deil','num_run_deil.NUM_RUNID', '=', 'user_of_run.NUM_OF_RUN_ID')
-            ->select('USERINFO.Name', 'CHECKINOUT.USERID',DB::raw('date(CHECKINOUT.CHECKTIME) as fecha'),
-                'USERINFO.Badgenumber','USERINFO.TITLE',DB::raw('right(min(CHECKINOUT.CHECKTIME),8) as centrada'),
-
-                DB::raw('right(max(CHECKINOUT.CHECKTIME),8) as csalida'),
-                DB::raw('right(num_run_deil.STARTTIME,8) as hentrada'),DB::raw('right(num_run_deil.ENDTIME,8) as hsalida'),
-                DB::raw('TIMEDIFF(right(min(CHECKINOUT.CHECKTIME),8),right(num_run_deil.STARTTIME,8)) as difent'),
-                DB::raw('TIMESTAMPDIFF(MINUTE,
-                    concat(date(CHECKINOUT.CHECKTIME)," ", right(num_run_deil.ENDTIME,8)),
-                    max(CHECKINOUT.CHECKTIME)
-                    )
-                    as difsal')
-
-
-
-
-
-
-
-            )
-
-            ->where('USERINFO.Badgenumber', '=' , $request -> get('id'))
-            ->where('USERINFO.TITLE', '=' , $request -> get('rfc'))
-            ->where('CHECKINOUT.CHECKTIME','>=','20191001')
-           ->whereBetween('CHECKINOUT.CHECKTIME', [$request -> get('trip-start'),$request -> get('trip-fin')])
-           ->groupBy('fecha','USERINFO.userid')
+         $empleado = DB::TABLE("userinfo")
+                            ->join("user_of_run", "userinfo.USERID", "=", "user_of_run.USERID")
+                            ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
+                            ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
+                            ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
+                            ->select("userinfo.name"
+                                    ,"num_run.name as horario"
+                                    ,DB::RAW("SUBSTRING(num_run.STARTDATE, 1, 10) as fecha_inicial")
+                                    ,DB::RAW("SUBSTRING(num_run.ENDDATE, 1, 10) as fecha_final")
+                                    ,"num_run_deil.SDAYS as dia"
+                                    ,"schclass.schName as Detalle_Horario"
+                                    ,DB::RAW("SUBSTRING(schclass.StartTime, 12, 5) as HoraInicio")
+                                    ,"schclass.EndTime as HoraFin"
+                                    ,"schclass.LateMinutes as Tolerancia"
+                                    ,DB::RAW("SUBSTRING(schclass.CheckInTime1, 12, 5) as InicioChecarEntrada")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckInTime2, 12, 5) as FinChecarEntrada")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckOutTime1, 12, 5) as InicioChecarSalida")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckOutTime2, 12, 5) as FinChecarSalida")
+                                    )
+                            ->where("userinfo.USERID", "=",  $request -> get('id'))->get();
 
 
-            ->get();
+
+
+
+
+
+
 
 
 

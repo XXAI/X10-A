@@ -13,6 +13,7 @@ Route::delete('/portfolio/{project}','ProjectController@destroy')->name('project
 
 Route::view('/contact','contact')->name('contact');
 Route::get('/asistencia','AsistenciaController@index');
+//Route::get('/API/reporte','reporteController@index');
 
 
 

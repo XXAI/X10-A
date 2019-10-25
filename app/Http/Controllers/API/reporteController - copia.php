@@ -24,17 +24,17 @@ class reporteController extends Controller
                             ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
                             ->select("userinfo.name"
                                     ,"num_run.name as horario"
-                                    ,DB::RAW("CONVERT(varchar, num_run.STARTDATE, 112) as fecha_inicial")
-                                    ,DB::RAW("CONVERT(varchar,num_run.ENDDATE, 112) as fecha_final")
+                                    ,DB::RAW("SUBSTRING(num_run.STARTDATE, 1, 10) as fecha_inicial")
+                                    ,DB::RAW("SUBSTRING(num_run.ENDDATE, 1, 10) as fecha_final")
                                     ,"num_run_deil.SDAYS as dia"
                                     ,"schclass.schName as Detalle_Horario"
-                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.StartTime,108) as HoraInicio")
+                                    ,DB::RAW("SUBSTRING(schclass.StartTime, 12, 5) as HoraInicio")
                                     ,"schclass.EndTime as HoraFin"
                                     ,"schclass.LateMinutes as Tolerancia"
-                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime1, 108) as InicioChecarEntrada")
-                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime2, 108) as FinChecarEntrada")
-                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime1, 108) as InicioChecarSalida")
-                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime2, 108) as FinChecarSalida")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckInTime1, 12, 5) as InicioChecarEntrada")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckInTime2, 12, 5) as FinChecarEntrada")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckOutTime1, 12, 5) as InicioChecarSalida")
+                                    ,DB::RAW("SUBSTRING(schclass.CheckOutTime2, 12, 5) as FinChecarSalida")
                                     ,"schclass.CheckOutTime2 as prueba"
                                     ,DB::RAW("left(schclass.schClassId, 2) as idH")
                                     )
@@ -42,7 +42,6 @@ class reporteController extends Controller
                             ->where("userinfo.TITLE", "=",  $request -> get('rfc'))
                             ->get();
 
-                            //dd($empleado);
                        //$query = DB::getQueryLog();
                         //dd($query);
         $arreglo_dias = array();
@@ -52,7 +51,6 @@ class reporteController extends Controller
         foreach ($empleado as $key => $value) {
             $arreglo_dias[$value->dia] = $value;
         }
-
         $f_ini= new Carbon($request -> get('trip-start'));
         $f_fin= new Carbon($request -> get('trip-fin'));
         $diff= $f_ini->diffInDays($f_fin)+1;
@@ -71,7 +69,7 @@ class reporteController extends Controller
         $falta=0;
         $vacMR=0;
         $vacEx=0;
-        for($i = 2; $i<=$diff; $i++)
+        for($i = 1; $i<=$diff; $i++)
         {
             $fecha_evaluar = $fecha_actual;
             $fecha_evaluar->day = $i;
@@ -87,52 +85,40 @@ class reporteController extends Controller
                 $checada_entrada = DB::table("checkinout")
                         ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                         ->where("TITLE", "=",  $request -> get('rfc'))
-                      ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarEntrada.":00.000", $fecha_eval."T".$value->FinChecarEntrada.":00.000"])
-                        //->whereBetween("CHECKTIME", ["2019-10-02T00:00:01.000", "2019-10-02T23:59:59.000"])
-                        //->where("CHECKTIME", "=", "2019-10-02T07:57:40.000")
-                        //->select(DB::RAW("SUBSTRING(MIN(CHECKTIME), 12, 5) AS HORA"))
-                      ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
-                      //->select(DB::RAW("CHECKTIME AS HORA"))
+                      ->whereBetween("CHECKTIME", [$fecha_eval." ".$value->InicioChecarEntrada,
+                        $fecha_eval." 11:00:00"])
+                        ->select(DB::RAW("SUBSTRING(MIN(CHECKTIME), 12, 5) AS HORA"))
                         ->first();
-                        //dd($checada_entrada);
 
 
                 $checada_salida = DB::table("checkinout")
                          ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                         ->where("TITLE", "=",  $request -> get('rfc'))
                         //->whereBetween("CHECKTIME", [$fecha_eval." ".$value->InicioChecarSalida, $fecha_eval." ".$value->FinChecarSalida])
-                        ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T23:00:00.000"])
-                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                        ->whereBetween("CHECKTIME", [$fecha_eval." ".$value->InicioChecarSalida, $fecha_eval." 23:00:00"])
+                        ->select(DB::RAW("SUBSTRING(MIN(CHECKTIME), 12, 5) AS HORA"))
                         ->first();
 
                        // $checada_extra="";
-                        //DB::enableQueryLog();
-                        //$varia=$fecha_eval." 23:59:00.000";
+                       // DB::enableQueryLog();
+
                         $checada_extra = DB::table("user_speday")
                         ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                         ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                        ->where("TITLE", "=",  $request -> get('rfc'))
-                       ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])
-                     // ->where("STARTSPECDAY",'<=',$fecha_eval." 23:59:00.000")
-                       //->where("ENDSPECDAY",'>=',$fecha_eval." 00:00:00.000")
-                      // ->where("STARTSPECDAY",'<=',"2019101")
-                       //->where("ENDSPECDAY",'>=',"20191001")
+                       ->where("STARTSPECDAY",'<=',$fecha_eval." 23:59:00")
+                        ->where("ENDSPECDAY",'>=',$fecha_eval." 00:00:00")
                         ->select("leaveclass.LeaveName as Exepcion"
-                            ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
-                           ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
-                           ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
+                            ,DB::RAW("SUBSTRING(MIN(STARTSPECDAY), 12, 5) AS HORA")
+                           ,DB::RAW("TIMESTAMPDIFF(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
+                           ,DB::RAW("TIMESTAMPDIFF(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
                            ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
                         )
-                        ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId')
-
                         ->first();
-                      // $query = DB::getQueryLog();
-                        //dd( $query );
-                        if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                            switch($checada_extra->TIPO){
+                       // $query = DB::getQueryLog();
+                      //  dd($query);
+
+                        switch($checada_extra->TIPO){
                             case 1:
                               //  echo $fecha_eval."  Pase de Salida"."<br>";
                                 $impr=$checada_extra->HORA. " ".$checada_extra->Exepcion;
@@ -196,14 +182,7 @@ class reporteController extends Controller
                                 $impr="";
                                 break;
                         }
-                        }
-
-                    if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                             $hora_extra=$checada_extra->HORA;
-                         }
+                         $hora_extra=$checada_extra->HORA;
                 if(isset($checada_entrada))
                 {
                     $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
@@ -215,11 +194,11 @@ class reporteController extends Controller
                                 $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA;
                             else{
                                 if ($formato_checado>($tolerancia)){
-                                  if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=15){
+                                  if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
                                         $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
                                         $rme=$rme+1;
                                     }
-                                    if ($formato_checado->diffInMinutes($tolerancia) >= 16){
+                                    if ($formato_checado->diffInMinutes($tolerancia) >= 26){
                                         $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
                                         $rm=$rm+1;
                                     }
@@ -230,16 +209,11 @@ class reporteController extends Controller
 
                 }
                 if(is_null($asistencia[$i]['checado_entrada'])){
-                     if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                            if(($hora_extra)<>"")
-                                $asistencia[$i]['checado_entrada'] = $impr;
-                            else
-                            $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
-                            $falta = $falta+1;
-                        }
+                    if(($hora_extra)<>"")
+                        $asistencia[$i]['checado_entrada'] = $impr;
+                    else
+                    $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
+                    $falta = $falta+1;
                  }
                 if(isset($checada_salida)){
                     //echo "HoraChecada:    ".$checada_salida->HORA."       HoraSalida: " .$value->prueba."<br>";
@@ -249,25 +223,20 @@ class reporteController extends Controller
                         $asistencia[$i]['checado_salida'] =$checada_salida->HORA;
                 }
                if(is_null($asistencia[$i]['checado_salida'])){
-                     if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                        if(($hora_extra)<>""){
-                            $asistencia[$i]['checado_salida'] = $impr;
-                            $ini = new Carbon($checada_extra->INI);
-                            $fin = new Carbon($checada_extra->FIN);
-                        }
-                        else
-                           $asistencia[$i]['checado_salida'] ="SIN REGISTRO";
-                   }
+                    if(($hora_extra)<>""){
+                        $asistencia[$i]['checado_salida'] = $impr;
+                        $ini = new Carbon($checada_extra->INI);
+                        $fin = new Carbon($checada_extra->FIN);
+                    }
+                    else
+                       $asistencia[$i]['checado_salida'] ="SIN REGISTRO";
                }
             }
          }
         $ps=$ps/60;
        // echo $falta;
         //echo $vac19_1;
-        $resumen = array(['ps'=>$ps,'rm'=>$rm,'rme'=>$rme,'vac19_1'=> $vac19_1,'vac19_2'=>$vac19_2,'vac18_1'=>$vac18_1,'vac18_2'=>$vac18_2,'diaE'=>$diaE,'ono'=>$ono,'oE'=> $oE,'oS'=>$oS,'falta'=>$falta,'vacMR'=>$vacMR,'vacEx'=>$vacEx, "vac2019_1"=>"la cagas"]);
+        /*$resumen = array(['ps'=>$ps,'rm'=>$rm,'rme'=>$rme,'vac19_1'=> $vac19_1,'vac19_2'=>$vac19_2,'vac18_1'=>$vac18_1,'vac18_2'=>$vac18_2,'diaE'=>$diaE,'ono'=>$ono,'oE'=> $oE,'oS'=>$oS,'falta'=>$falta,'vacMR'=>$vacMR,'vacEx'=>$vacEx]);*/
        /* $asistencia[$i]['ps']=$ps;
         $asistencia[$i]['rm']=$rm;
         $asistencia[$i]['rme']=$rme;
@@ -283,7 +252,7 @@ class reporteController extends Controller
         $asistencia[$i]['vacMR']=$vacMR;
         $asistencia[$i]['vacEx']=$vacEx;*/
 
-      return view('home',['asistencia' => $asistencia, "resumen"=>$resumen]);
+      return view('home',['asistencia' => $asistencia]);
       //return $asistencia;
     }
 }
