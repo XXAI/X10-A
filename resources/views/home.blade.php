@@ -28,7 +28,7 @@
 	           <div class="form-group row">
 	             <label for="fin" class="col-md-4 col-form-label text-md-right">Fecha Fin:</label>
 	             <div class="col-md-6">
-	                    <input type="datetime-local" id="fin" name="trip-fin" value="2019-10-17T00:01">
+	                    <input type="datetime-local" id="fin" name="trip-fin" >
 
 	             </div>
 	           </div>
