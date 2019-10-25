@@ -2,7 +2,7 @@ var datos_credencializacion;
 var datos_checadas_mes;
 var resumen_checadas;
 var validacion;
-var urlchecadas = "../api/consulta-mensual";
+var urlchecadas = "../api/consulta-asistencia";
 var dato;
 var inicio;
 var fin;
@@ -66,8 +66,10 @@ function cargar_datos_checadas(urlchecadas)
                   cargar_blade_resumen();
             }else{
 
-                  var table = $("#resumen");
-                  table.html("");
+                  var resumen = $("#resumen");
+                  var checadas = $("#checadas");
+                  resumen.html("");
+                  checadas.html("");
                   $("#resumen").append("<div class=card><h1>Acuda a sistematización</h1></div>");
             }
 

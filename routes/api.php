@@ -19,6 +19,6 @@ use Illuminate\Http\Request;
 
 Route::get('/credencializacion','AsistenciaController@show');
 
-Route::get('/consulta-mensual','AsistenciaController@consulta_checadas');
+Route::get('/consulta-asistencia','API\reporteController@consulta_checadas');
 
 Route::get('reporte','API\reporteController@index');
