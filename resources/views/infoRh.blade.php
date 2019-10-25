@@ -17,16 +17,19 @@
 						<h4 id="nombre" class="card-title mt-3"></h4>
 						<h4 id="Direccion" class="card-title mt-3"></h4>
 						<h4 id="Adscripcion_Area" class="card-title mt-3"></h4>
-						<div class="col-md-5 col-5">
-							<p><strong>CLUES: </strong><!--<i id="Rfc"></i>--></p>					
-						</div>
-						<div class="col-md-7 col-7">
-							<p><!--<strong>RFC: </strong>--><i id="Clue"></i></p>					
-						</div>
 					</div>
 				</div>
 				<hr>
 				<div class="container">
+
+					<div class="row">
+						<div class="col-md-5 col-5">
+							<p><strong>CLUES: </strong><!--<i id="Clue"></i>--></p>
+						</div>
+						<div class="col-md-7 col-7">
+							<p><!--<strong>Tipo de Sangre: </strong>--><i id="Clue"></i></p>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-5 col-5">
 							<p><strong>Tipo de Sangre: </strong><!--<i id="TipoSangre"></i>--></p>
@@ -55,21 +58,23 @@
 			</div>
 		</div>
 		<div class="col-md-8">
-		<table id="resumen" class="table table-bordered">
+		<table id="resumen" class="table table-striped">
 			<thead>
 				<tr>
 					<th colspan="2"><img src="../images/salud.png" class="img-fluid flex" alt="Responsive image" width="20%"></th>
 					<th colspan="2" style="text-align:right"><img src="../images/chiapas.png" class="img-fluid flex" alt="Responsive image" width="20%"></th>
 				</tr>
 				<tr>
-					<th colspan="3">FILTRAR:
+					<th colspan="3">
 						<br>
 						<div class="row">
 							<div class="col-md-5 col-5">
+								<label for="fecha_inicio">Fecha Inicio:</label>
 								<input type="datetime-local" class="form-control" id="inicio" name="fecha_inicio" value="">
 							</div>
 
 							<div class="col-md-5 col-5">
+								<label for="fecha_inicio">Fecha Fin:</label>
 								<input type="datetime-local" class="form-control" id="fin" name="fecha_fin"  value="">
 							</div>
 
@@ -147,7 +152,7 @@
 		<table id="tabla_checadas" class="table table-dark">
 			<thead class="black white-text">
 				<tr>
-					<th>N°</th>
+					<th>N° De Día</th>
 					<th>Fecha</th>
 					<th>Hora Entrada</th>
 					<th>Hora Salida</th>
@@ -159,4 +164,31 @@
 	</section>
 
 </div>
+
+<a id="modal" data-toggle="modal" data-target="#modal_aviso"></a>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal_aviso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		<p><strong>
+		  Sus datos no se encuantran registrados, acudir a sistematización
+		  </strong>
+		</p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Cerrar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
 @endsection

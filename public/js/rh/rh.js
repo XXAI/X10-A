@@ -70,7 +70,11 @@ function cargar_datos_checadas(urlchecadas)
                   var checadas = $("#checadas");
                   resumen.html("");
                   checadas.html("");
-                  $("#resumen").append("<div class=card><h1>Acuda a sistematización</h1></div>");
+                  $("#resumen").append("<div class=card-body> <h1 class=card-title align=center>Acudir a Sistematización</h1> <hr> <div class=row> <div class='col-md-6 col-sm-6' style='text-align:left'><img src=../images/salud.png class=img-fluid flex alt=Responsive image width=50%></div> <div class='col-md-6 col-sm-6' style='text-align:right' ><img src=../images/chiapas.png class=img-fluid flex alt=Responsive image width=50%></div></div> </div>");
+
+                  document.getElementById('modal').click();
+
+
             }
 
             
@@ -143,6 +147,9 @@ function getParameterByName() {
       //console.log(splits);
       return splits[2];
 }
+
+
+
 
 
 // var table = $("#datosxx");
