@@ -1,13 +1,22 @@
 var datos_credencializacion;
-var datos_checadas;
+var datos_checadas_mes;
+var resumen_checadas;
+var validacion;
 var urlchecadas = "../api/consulta-mensual";
 var dato;
+var inicio;
+var fin;
+
 $(document).ready(function(){
 
       dato = getParameterByName();
+      inicio = $("#inicio").val();
+      fin = $("#fin").val();
+
       var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
       
       cargar_dato(dato, urlrh);
+      cargar_datos_checadas(urlchecadas);
       
 });
 
@@ -20,12 +29,14 @@ function cargar_dato(dato, urlrh)
             url: urlrh,
       }).done(function( data, textStatus, jqXHR ) {
             datos_credencializacion = data[0];
-            cargar_blade();
-            cargar_datos_checadas(urlchecadas);
+
+            cargar_blade_credencializacion();
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             if ( console && console.log ) {
-            alert( "Error en la carga de Datos, asista a Sistematización: " +  textStatus);
+
+               alert( "Error en la carga de Datos, acuda a Sistematización y Credencialización: " + " " +  textStatus);
+               window.location.replace("http://induccion.saludchiapas.gob.mx/");
             }
       });
 
@@ -39,23 +50,39 @@ function cargar_datos_checadas(urlchecadas)
 {
 
       jQuery.ajax({
-            data: {'rfc': dato},
+            data: {'rfc': dato,
+                   'fecha_inicio': inicio,
+                   'fecha_fin': fin
+                  },
             type: "GET",
             dataType: "json",
             url: urlchecadas,
       }).done(function( data, textStatus, jqXHR ) {
-            datos_checadas = data;
-            console.log("checadas", datos_checadas);
+            datos_checadas_mes = data.data;
+            resumen_checadas = data.resumen[0];
+            validacion = data.validacion;
+            if(validacion != null){
+                  cargar_blade_checadas();
+                  cargar_blade_resumen();
+            }else{
+
+                  var table = $("#resumen");
+                  table.html("");
+                  $("#resumen").append("<div class=card><h1>Acuda a sistematización</h1></div>");
+            }
+
+            
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             if ( console && console.log ) {
-            alert( "No se cargo la lista de asistencia" +  textStatus);
+                  alert( "No se cargo la lista de asistencia " +" "+ textStatus);
             }
       });
 }
 
-function cargar_blade()
+function cargar_blade_credencializacion()
 { 
+
       $("#Nombre").text(datos_credencializacion.Nombre);
       $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);  
       $("#nombre").text(datos_credencializacion.nombre);
@@ -69,20 +96,64 @@ function cargar_blade()
       if(datos_credencializacion.tieneFoto == 0){
 
             $("#foto").attr('src', '../images/usuarios.jpg');      
-            
       }
       else{
             $("#foto").attr("src","http://credencializacion.saludchiapas.gob.mx/images/credenciales/"+datos_credencializacion.id+"."+datos_credencializacion.tipoFoto);
       }
+}
 
+
+function cargar_blade_checadas()
+{
+
+      var table = $("#datos_filtros_checadas");
+      table.html("");
+      $.each(datos_checadas_mes, function(index, value){
+            table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
+      })
       
-            
+}
+
+function cargar_blade_resumen()
+{
+      $("#diaE").text(resumen_checadas.diaE);
+      $("#falta").text(resumen_checadas.falta);
+      $("#oE").text(resumen_checadas.oE);
+      $("#oS").text(resumen_checadas.oS);
+      $("#ono").text(resumen_checadas.ono);
+      $("#ps").text(resumen_checadas.ps);
+      $("#rm").text(resumen_checadas.rm);
+      $("#rme").text(resumen_checadas.rme);
+}
+
+function filtrar_checadas()
+{
+      inicio = $("#inicio").val();
+      fin = $("#fin").val();
+      cargar_blade_checadas();
+      cargar_datos_checadas(urlchecadas);
+
 }
 
 function getParameterByName() {
       var ruta_completa = location.pathname;
       var splits = ruta_completa.split("/");
-      console.log(splits);
+      //console.log(splits);
       return splits[2];
 }
 
+
+// var table = $("#datosxx");
+// table.html("");
+// //table.find("tbody tr").remove();
+// $.each(datos_checadas_mes, function(index, value){
+//       table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
+// })
+
+
+
+// var table = $('#tabla_checadas');
+// table.find("tbody tr").remove();
+// $.each(datos_checadas_mes, function(index, value){
+//       table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
+// });

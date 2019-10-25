@@ -16,7 +16,7 @@ Route::delete('/portfolio/{project}','ProjectController@destroy')->name('project
 
 //ASI QUEDARA PARA CONSULTAR EN INDUCCION
 
-Route::view('/asistencia/{rfc}','home');
+Route::view('/asistencia/{rfc}','infoRh');
 
 
 
