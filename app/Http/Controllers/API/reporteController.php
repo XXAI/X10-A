@@ -283,13 +283,20 @@ class reporteController extends Controller
 
                 }
                 if(is_null($asistencia[$i]['checado_entrada'])){
+                        $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
                      if(is_null($checada_extra)){
                         $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
                         $falta = $falta+1;
                         }
-                    else{                            
-                            $asistencia[$i]['checado_entrada'] = $impr;
-                            $falta-=1;
+                    else{         
+                            if ($checada_extra->TIPO==1){   
+                                $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
+                            }
+                            else{
+                                $asistencia[$i]['checado_entrada'] = $impr;
+                            }
+                            //$falta-=1;
+                           
                            
                         }
                  }
@@ -305,9 +312,9 @@ class reporteController extends Controller
                         $asistencia[$i]['checado_salida'] ="SIN REGISTRO";
                         }
                     else{
+                        echo$asistencia[$i]['checado_salida'] = $impr ."<br>";
                         $asistencia[$i]['checado_salida'] = $impr;
-                            $ini = new Carbon($checada_extra->INI);
-                            $fin = new Carbon($checada_extra->FIN);
+                           
                         }
                         
                    }
@@ -597,16 +604,23 @@ class reporteController extends Controller
 
                 }
                 if(is_null($asistencia[$i]['checado_entrada'])){
-                    if(is_null($checada_extra)){
-                       $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
-                       $falta = $falta+1;
-                       }
-                   else{                            
-                           $asistencia[$i]['checado_entrada'] = $impr;
-                           $falta -= 1;
-                          
-                       }
-                }
+                    $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
+                 if(is_null($checada_extra)){
+                    $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
+                    $falta = $falta+1;
+                    }
+                else{         
+                        if ($checada_extra->TIPO==1){   
+                            $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
+                        }
+                        else{
+                            $asistencia[$i]['checado_entrada'] = $impr;
+                        }
+                        //$falta-=1;
+                       
+                       
+                    }
+             }
                if(isset($checada_salida)){
                    
                    if($checada_salida->HORA>$value->FinChecarSalida)
