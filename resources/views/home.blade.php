@@ -61,6 +61,20 @@
 
 		 </tr>
   		</thead-->
+		
+			@forelse($resumen as $resumenx)
+			<h4>{{"Faltas: ".$resumenx['Falta']}}</h4>
+			<h4>{{"Retardos Mayores: ".$resumenx['Retardo Mayor']}}</h4>
+			<h4>{{"Retardos Menores: ".$resumenx['Retardo Menor']}}</h4>
+			<h4>{{"Pases de Salida(Horas): ".$resumenx['Pase de Salida']}}</h4>
+			<h4>{{"Dia(s) Economico(s): ".$resumenx['Dia Economico']}}</h4>
+			<h4>{{"Vacaciones Primavera 2018 : ".$resumenx['Vacaciones 2018 Primavera-Verano']}}</h4>
+			<h4>{{"Vacaciones Invierno 2018 : ".$resumenx['Vacaciones 2018 Invierno']}}</h4>
+			<h4>{{"Vacaciones Primavera 2019 : ".$resumenx['Vacaciones 2019 Primavera-Verano']}}</h4>
+			<h4>{{"Vacaciones Invierno 2019 : ".$resumenx['Vacaciones 2019 Invierno']}}</h4>
+			@empty
+
+			@endforelse
 
 
 		@forelse ($asistencia as $asistenciax)
