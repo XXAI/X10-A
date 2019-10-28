@@ -335,34 +335,35 @@ class reporteController extends Controller
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
         $desc = $this->decrypt($Rfc);
+
            // DB::enableQueryLog();
         $validacion = DB::TABLE("userinfo")
             ->where("userinfo.TITLE", "=",  $desc)
             ->first();
             $empleado = DB::TABLE("userinfo")
-            ->join("user_of_run", "userinfo.USERID", "=", "user_of_run.USERID")
-            ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
-            ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
-            ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
-            ->select("userinfo.name"
-                    ,"num_run.name as horario"
-                    ,DB::RAW("CONVERT(varchar, num_run.STARTDATE, 112) as fecha_inicial")
-                    ,DB::RAW("CONVERT(varchar,num_run.ENDDATE, 112) as fecha_final")
-                    ,"num_run_deil.SDAYS as dia"
-                    ,"schclass.schName as Detalle_Horario"
-                    ,DB::RAW("CONVERT(nvarchar(5), schclass.StartTime,108) as HoraInicio")
-                    ,"schclass.EndTime as HoraFin"
-                    ,"schclass.LateMinutes as Tolerancia"
-                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime1, 108) as InicioChecarEntrada")
-                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime2, 108) as FinChecarEntrada")
-                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime1, 108) as InicioChecarSalida")
-                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime2, 108) as FinChecarSalida")
-                    ,"schclass.CheckOutTime2 as prueba"
-                    ,DB::RAW("left(schclass.schClassId, 2) as idH")
-                    )
-            //->where("userinfo.USERID", "=",  $request -> get('id'))
-            ->where("userinfo.TITLE", "=",   $desc )
-            ->get();
+                            ->join("user_of_run", "userinfo.USERID", "=", "user_of_run.USERID")
+                            ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
+                            ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
+                            ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
+                            ->select("userinfo.name"
+                                    ,"num_run.name as horario"
+                                    ,DB::RAW("CONVERT(varchar, num_run.STARTDATE, 112) as fecha_inicial")
+                                    ,DB::RAW("CONVERT(varchar,num_run.ENDDATE, 112) as fecha_final")
+                                    ,"num_run_deil.SDAYS as dia"
+                                    ,"schclass.schName as Detalle_Horario"
+                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.StartTime,108) as HoraInicio")
+                                    ,"schclass.EndTime as HoraFin"
+                                    ,"schclass.LateMinutes as Tolerancia"
+                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime1, 108) as InicioChecarEntrada")
+                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckInTime2, 108) as FinChecarEntrada")
+                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime1, 108) as InicioChecarSalida")
+                                    ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime2, 108) as FinChecarSalida")
+                                    ,"schclass.CheckOutTime2 as prueba"
+                                    ,DB::RAW("left(schclass.schClassId, 2) as idH")
+                                    )
+                           
+                            ->where("userinfo.TITLE", "=",  $desc)
+                            ->get();
 
             $checa_dias = DB::table("user_speday")
             ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
