@@ -16,7 +16,6 @@ $(document).ready(function(){
       var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
       
       cargar_dato(dato, urlrh);
-      cargar_datos_checadas(urlchecadas);
       
 });
 
@@ -29,8 +28,8 @@ function cargar_dato(dato, urlrh)
             url: urlrh,
       }).done(function( data, textStatus, jqXHR ) {
             datos_credencializacion = data[0];
-
             cargar_blade_credencializacion();
+            cargar_datos_checadas(urlchecadas);
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             if ( console && console.log ) {
@@ -117,27 +116,42 @@ function cargar_blade_checadas()
       $.each(datos_checadas_mes, function(index, value){
             table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
       })
+
+
+      $('#datos_filtros_checadas tr').hover(function() {
+            $(this).addClass('hover');
+        }, function() {
+            $(this).removeClass('hover');
+        });
       
 }
 
 function cargar_blade_resumen()
 {
-      $("#diaE").text(resumen_checadas.diaE);
-      $("#falta").text(resumen_checadas.falta);
-      $("#oE").text(resumen_checadas.oE);
-      $("#oS").text(resumen_checadas.oS);
-      $("#ono").text(resumen_checadas.ono);
-      $("#ps").text(resumen_checadas.ps);
-      $("#rm").text(resumen_checadas.rm);
-      $("#rme").text(resumen_checadas.rme);
+      $("#Día_Económico").text(resumen_checadas.Día_Económico);
+      $("#Falta").text(resumen_checadas.Falta);
+      $("#Omisión_Entrada").text(resumen_checadas.Omisión_Entrada);
+      $("#Omisión_Salida").text(resumen_checadas.Omisión_Salida);
+      $("#Onomástico").text(resumen_checadas.Onomástico);
+      $("#Pase_Salida").text(resumen_checadas.Pase_Salida);
+      $("#Retardo_Mayor").text(resumen_checadas.Retardo_Mayor);
+      $("#Retardo_Menor").text(resumen_checadas.Retardo_Menor);
+      $("#Vacaciones_2018_Invierno").text(resumen_checadas.Vacaciones_2018_Invierno);
+      $("#Vacaciones_2018_Primavera_Verano").text(resumen_checadas.Vacaciones_2018_Primavera_Verano);
+      $("#Vacaciones_2019_Invierno").text(resumen_checadas.Vacaciones_2019_Invierno);
+      $("#Vacaciones_2019_Primavera_Verano").text(resumen_checadas.Vacaciones_2019_Primavera_Verano);
+      $("#Vacaciones_Extra_Ordinarias").text(resumen_checadas.Vacaciones_Extra_Ordinarias);
+      $("#Vacaciones_Mediano_Riesgo").text(resumen_checadas.Vacaciones_Mediano_Riesgo);
+
 }
 
 function filtrar_checadas()
 {
       inicio = $("#inicio").val();
       fin = $("#fin").val();
-      cargar_blade_checadas();
       cargar_datos_checadas(urlchecadas);
+      //cargar_blade_checadas();
+      
 
 }
 
@@ -145,8 +159,9 @@ function getParameterByName() {
       var ruta_completa = location.pathname;
       var splits = ruta_completa.split("/");
       //console.log(splits);
-      return splits[2];
+      return splits[(splits.length - 1)];
 }
+
 
 
 

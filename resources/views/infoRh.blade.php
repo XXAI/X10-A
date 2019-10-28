@@ -108,35 +108,59 @@
 				</tr>
 				<tr>
 					<td colspan="3">Día Economico</td>
-					<td id="diaE"></td>
+					<td id="Día_Económico"></td>
 				</tr>
 				<tr>
 					<td colspan="3">Faltas Totales</td>
-					<td id="falta"></td>
+					<td id="Falta"></td>
 				</tr>
 				<tr>
 					<td colspan="3">Omision Entrada</td>
-					<td id="oE"></td>
+					<td id="Omisión_Entrada"></td>
 				</tr>
 				<tr>
 					<td colspan="3">Omision Salida</td>
-					<td id="oS"></td>
+					<td id="Omisión_Salida"></td>
 				</tr>
 				<tr>
 					<td colspan="3">Onomastico</td>
-					<td id="ono"></td>
+					<td id="Onomástico"></td>
 				</tr>
 				<tr>
-					<td colspan="3">Pase de Salida</td>
-					<td id="ps"></td>
-				</tr>
-				<tr>
-					<td colspan="3">Retardo Menor</td>
-					<td id="rm"></td>
+					<td colspan="3">Pase de Salida (Hrs.)</td>
+					<td id="Pase_Salida"></td>
 				</tr>
 				<tr>
 					<td colspan="3">Retardo Mayor</td>
-					<td id="rme"></td>
+					<td id="Retardo_Mayor"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Retardo Menor</td>
+					<td id="Retardo_Menor"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones 2018 Invierno</td>
+					<td id="Vacaciones_2018_Invierno"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones 2018 Primavera-Verano</td>
+					<td id="Vacaciones_2018_Primavera_Verano"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones 2019 Invierno</td>
+					<td id="Vacaciones_2019_Invierno"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones 2019 Primavera-Verano</td>
+					<td id="Vacaciones_2019_Primavera_Verano"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones Extra Ordinarias</td>
+					<td id="Vacaciones_Extra_Ordinarias"></td>
+				</tr>
+				<tr>
+					<td colspan="3">Vacaciones Mediano Riesgo</td>
+					<td id="Vacaciones_Mediano_Riesgo"></td>
 				</tr>
 			</tfoot>
 		</table>
@@ -163,6 +187,8 @@
 		</table>
 	</section>
 
+  
+
 </div>
 
 <a id="modal" data-toggle="modal" data-target="#modal_aviso"></a>
@@ -180,7 +206,7 @@
 		</div>
 		<div class="modal-body">
 		<p><strong>
-		  Sus datos no se encuantran registrados, acudir a sistematización
+		  Sus datos no se encuantran registrados, acudir al Depto. de sistematización y Nomina.
 		  </strong>
 		</p>
 		</div>
