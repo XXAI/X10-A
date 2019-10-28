@@ -315,23 +315,9 @@ class reporteController extends Controller
             }
          }
         $ps=$ps/60;
-       // echo $falta;
-        //echo $vac19_1;
+      
         $resumen = array(['Pase de Salida'=>$ps,'Retardo Mayor'=>$rm,'Retardo Menor'=>$rme,'Vacaciones 2019 Primavera-Verano'=> $vac19_1,'Vacaciones 2019 Invierno'=>$vac19_2,'Vacaciones 2018 Primavera-Verano'=>$vac18_1,'Vacaciones 2018 Invierno'=>$vac18_2,'Dia Economico'=>$diaE,'Onomastico'=>$ono,'Omision Entrada'=> $oE,'oS'=>$oS,'Falta'=>$falta,'Vacaciones Mediano Riesgo'=>$vacMR,'Vacaciones Extra Ordinarias'=>$vacEx, "vac2019_1"=>"la cagas"]);
-       /* $asistencia[$i]['ps']=$ps;
-        $asistencia[$i]['rm']=$rm;
-        $asistencia[$i]['rme']=$rme;
-        $asistencia[$i]['vac19_1']= $vac19_1;
-        $asistencia[$i]['vac19_2']=$vac19_2;
-        $asistencia[$i]['vac18_1']=$vac18_1;
-        $asistencia[$i]['vac18_2']=$vac18_2;
-        $asistencia[$i]['diaE']=$diaE;
-        $asistencia[$i]['ono']=$ono;
-        $asistencia[$i]['oE']= $oE;
-        $asistencia[$i]['oS']=$oS;
-        $asistencia[$i]['falta']=$falta;
-        $asistencia[$i]['vacMR']=$vacMR;
-        $asistencia[$i]['vacEx']=$vacEx;*/
+      
 
       return view('home',['asistencia' => $asistencia, "resumen"=>$resumen]);
       //return $asistencia;
@@ -377,6 +363,63 @@ class reporteController extends Controller
             //->where("userinfo.USERID", "=",  $request -> get('id'))
             ->where("userinfo.TITLE", "=",   $desc )
             ->get();
+
+            $checa_dias = DB::table("user_speday")
+            ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
+            ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")                            
+           ->where("TITLE", "=",  $request -> get('rfc'))   
+           ->whereBetween(DB::RAW("DATEPART(DW,STARTSPECDAY)"),[2,6])
+           ->groupBy('leaveclass.LeaveId','leaveclass.LeaveName') 
+           
+            ->select("leaveclass.LeaveName as Exepcion"                            
+               ,'leaveclass.LeaveId AS TIPO'
+               ,DB::RAW("count(leaveclass.LeaveId) as total")                               
+            )
+            //'STARTSPECDAY AS INI','ENDSPECDAY AS FIN',
+            ->get();
+                $vac19_1=0;
+                $vac19_2=0;
+                $vac18_1=0;
+                $vac18_2=0;
+                $diaE=0;
+                $vacEx=0;
+                $vacMR=0;
+                $diaE=0;
+                $ono=0;
+            foreach($checa_dias as $tipos){
+                switch($tipos->TIPO){
+                    
+                    case 2:                       
+                        $vac19_1=$tipos->total;                                        
+                        break;                                  
+                    
+                    case 6:                                       
+                        $diaE=$tipos->total;
+                        break;
+                    
+                    case 10:                                        
+                        $ono=$tipos->total;
+                        break;
+                    case 11:                                        
+                        $vac18_1=$tipos->total;
+                        break;
+                    case 12:                                       
+                        $vac18_2=$tipos->total;
+                        break;
+                    case 13:                                        
+                        $vac19_2=$tipos->total;
+                        break;                                    
+                    case 15:                                        
+                        $vacMR=$tipos->total;
+                        break;
+                    case 16:                                        
+                        $vacEx=$tipos->total;
+                        break;
+                    default:
+                        $impr="";
+                        break;
+                }                                                           
+            }
                        //$query = DB::getQueryLog();
                         //dd($query);
         $arreglo_dias = array();
@@ -395,19 +438,11 @@ class reporteController extends Controller
         $diff= $f_ini->diffInDays($f_fin)+1;
         $asistencia = array();
         $rm=0;
-        $rme=0;
-        $ps=0;
-        $vac19_1=0;
-        $vac19_2=0;
-        $vac18_1=0;
-        $vac18_2=0;
-        $diaE=0;
-        $ono=0;
+        $rme=0;        
         $oE=0;
         $oS=0;
         $falta=0;
-        $vacMR=0;
-        $vacEx=0;
+       
         for($i = 1; $i<=$diff; $i++)
         {
             $fecha_evaluar = $fecha_actual;
@@ -476,7 +511,7 @@ class reporteController extends Controller
                                 $dif_dia=$checada_extra->DIFDIA;
                               
                                 $impr= "Vacaciones 2019 1er Periodo";
-                                $vac19_1=$vac19_1+1;
+                               
                                 break;
                             case 3:
                                 $impr= "Comision";
@@ -491,37 +526,37 @@ class reporteController extends Controller
                                 break;
                              case 6:
                                 $impr="Dia Economico";
-                                $diaE=$diaE+1;
+                                
                                 break;
                              case 8:
                                 $impr="Licencia Medica";
                                 break;
                              case 10:
                                 $impr= "Onomastico";
-                                $ono=$ono+1;
+                                
                                 break;
                             case 11:
                                 $impr="Vacaciones 2018 1er Periodo";
-                                $vac18_1=$vac18_1+1;
+                                
                                 break;
                             case 12:
                                 $impr="Vacaciones 2018 2do Periodo";
-                                $vac18_2=$vac18_2+1;
+                                
                                 break;
                             case 13:
                                 $impr="Vacaciones 2019 2do Periodo";
-                                $vac19_2=$vac19_2+1;
+                                
                                 break;
                             case 14:
                                 $impr="Reposicion";
                                 break;
                             case 15:
                                 $impr="Vacaciones Mediano Riesgo";
-                                $vacMR=$vacMR+1;
+                                
                                 break;
                             case 15:
                                 $impr="Vacaciones Extra Ordinarias";
-                                $vacEx=$vacEx+1;
+                                
                                 break;
                             default:
                                 $impr="";
@@ -567,12 +602,12 @@ class reporteController extends Controller
                        }
                    else{                            
                            $asistencia[$i]['checado_entrada'] = $impr;
-                           
+                           $falta -= 1;
                           
                        }
                 }
                if(isset($checada_salida)){
-                   //echo "HoraChecada:    ".$checada_salida->HORA."       HoraSalida: " .$value->prueba."<br>";
+                   
                    if($checada_salida->HORA>$value->FinChecarSalida)
                        $asistencia[$i]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
                    else
@@ -593,26 +628,11 @@ class reporteController extends Controller
            }
         }
         $ps=$ps/60;
-       // echo $falta;
-        //echo $vac19_1;
-        $resumen = array(['ps'=>$ps,'rm'=>$rm,'rme'=>$rme,'vac19_1'=> $vac19_1,'vac19_2'=>$vac19_2,'vac18_1'=>$vac18_1,
-            'vac18_2'=>$vac18_2,'diaE'=>$diaE,'ono'=>$ono,'oE'=> $oE,'oS'=>$oS,'falta'=>$falta,'vacMR'=>$vacMR,'vacEx'=>$vacEx]);
-       /* $asistencia[$i]['ps']=$ps;
-        $asistencia[$i]['rm']=$rm;
-        $asistencia[$i]['rme']=$rme;
-        $asistencia[$i]['vac19_1']= $vac19_1;
-        $asistencia[$i]['vac19_2']=$vac19_2;
-        $asistencia[$i]['vac18_1']=$vac18_1;
-        $asistencia[$i]['vac18_2']=$vac18_2;
-        $asistencia[$i]['diaE']=$diaE;
-        $asistencia[$i]['ono']=$ono;
-        $asistencia[$i]['oE']= $oE;
-        $asistencia[$i]['oS']=$oS;
-        $asistencia[$i]['falta']=$falta;
-        $asistencia[$i]['vacMR']=$vacMR;
-        $asistencia[$i]['vacEx']=$vacEx;*/
+       
+        $resumen = array(['Pase de Salida'=>$ps,'Retardo Mayor'=>$rm,'Retardo Menor'=>$rme,'Vacaciones 2019 Primavera-Verano'=> $vac19_1,'Vacaciones 2019 Invierno'=>$vac19_2,'Vacaciones 2018 Primavera-Verano'=>$vac18_1,'Vacaciones 2018 Invierno'=>$vac18_2,'Dia Economico'=>$diaE,'Onomastico'=>$ono,'Omision Entrada'=> $oE,'oS'=>$oS,'Falta'=>$falta,'Vacaciones Mediano Riesgo'=>$vacMR,'Vacaciones Extra Ordinarias'=>$vacEx, "vac2019_1"=>"la cagas"]);
+       
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion]);
-      //return $asistencia;
+      
     }
 
 
