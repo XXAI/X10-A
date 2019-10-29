@@ -24,7 +24,7 @@ class reporteController extends Controller
         $Rfc = str_replace("(", "/", $Rfc);
         $desc = $this->decrypt($Rfc);
 
-           // DB::enableQueryLog();
+           // DB::enableQueryLog()p;
         $validacion = DB::TABLE("userinfo")
             ->where("userinfo.TITLE", "=",  $desc)
             ->first();
@@ -197,8 +197,9 @@ class reporteController extends Controller
                             ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
                             ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
                             ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
+                            ,'user_speday.YUANYING AS REPO'
                             )
-                            ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId')
+                            ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING')
 
                             ->first();
                         
@@ -213,9 +214,12 @@ class reporteController extends Controller
                                     break;
                                 case 2:
                                 
-                                    $dia_ini=$checada_extra->INI;
-                                    $dia_fin=$checada_extra->FIN;
-                                    $dif_dia=$checada_extra->DIFDIA;
+                                break;
+                            case 14:
+                                $impr="Reposición ".$checada_extra->REPO;
+                                break;
+                            case 15:
+                                $impr="Vacaciones Mediano Riesgo";
                                 
                                     $impr= "Vacaciones 2019 Primavera-Verano";
                                 
