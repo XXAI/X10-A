@@ -7,6 +7,8 @@ var dato;
 var inicio;
 var fin;
 
+arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
+
 $(document).ready(function(){
 
       dato = getParameterByName();
@@ -16,6 +18,7 @@ $(document).ready(function(){
       var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
       
       cargar_dato(dato, urlrh);
+      $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
       
 });
 
@@ -47,7 +50,7 @@ function cargar_dato(dato, urlrh)
 
 function cargar_datos_checadas(urlchecadas)
 {
-
+      $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
       jQuery.ajax({
             data: {'rfc': dato,
                    'fecha_inicio': inicio,
@@ -57,6 +60,8 @@ function cargar_datos_checadas(urlchecadas)
             dataType: "json",
             url: urlchecadas,
       }).done(function( data, textStatus, jqXHR ) {
+            $("#inicio").val(data.fecha_inicial);
+            $("#fin").val(data.fecha_final);
             datos_checadas_mes = data.data;
             resumen_checadas = data.resumen[0];
             validacion = data.validacion;
@@ -90,7 +95,7 @@ function cargar_blade_credencializacion()
 
       $("#Nombre").text(datos_credencializacion.Nombre);
       $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);  
-      $("#nombre").text(datos_credencializacion.nombre);
+      //$("#nombre").text(datos_credencializacion.nombre);
       $("#Direccion").text(datos_credencializacion.Direccion);
       $("#Adscripcion_Area").text(datos_credencializacion.Adscripcion_Area);
       $("#TipoSangre").text(datos_credencializacion.TipoSangre);
@@ -114,7 +119,11 @@ function cargar_blade_checadas()
       var table = $("#datos_filtros_checadas");
       table.html("");
       $.each(datos_checadas_mes, function(index, value){
-            table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
+            icono = "<i class='fa fa-check' style='color:green'></i>";
+            if(value.validacion == 0)
+            icono = "<i class='fa fa-close' style='color:red'></i>";
+
+            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
       })
 
 

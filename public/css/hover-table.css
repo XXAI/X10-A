@@ -1,1 +1,22 @@
-.hover { background-color:rgba(151, 156, 160, 0.986)
+/*.hover { background-color:rgba(151, 156, 160, 0.986)*/
+#datos_filtros_checadas tr:hover
+{
+    background-color:rgba(151, 156, 160, 0.986);
+    cursor: pointer;
+}
+
+.logo_cabecera
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 999;
+    background: white;
+    border-bottom: 1px solid #cfcfcf;
+}
+
+.contenido_blade
+{
+    margin-top: 80px;
+}

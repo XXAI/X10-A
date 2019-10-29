@@ -109,22 +109,31 @@ class reporteController extends Controller
                         break;
                 }                                                           
             }
-                       //$query = DB::getQueryLog();
-                        //dd($query);
+                       
         $arreglo_dias = array();
         for($dias = 1; $dias<8; $dias++)
             $arreglo_dias[$dias] = null;
         foreach ($empleado as $key => $value) {
             $arreglo_dias[$value->dia] = $value;
         }
+        $fecha_view_inicio = Carbon::now()->startOfMonth();
+        $fecha_view_fin    = Carbon::now();
         if($inicio == null){
             $f_ini = Carbon::now()->startOfMonth();
-            $f_fin = Carbon::now();
+            $f_fin = Carbon::now()->addDays(1);
+            $inicio = date("Y-m-")."01";
+            $fin = date("Y-m-d");
         }else{
             $f_ini= new Carbon($inicio);
             $f_fin= new Carbon($fin);
+            $f_fin = $f_fin->addDays(1);
+
+            $fecha_view_inicio = new Carbon($inicio);
+            $fecha_view_fin    = new Carbon($fin);
         }
         $diff= $f_ini->diffInDays($f_fin)+1;
+        $fecha_pivote = $f_ini;
+
         $asistencia = array();
         $rm=0;
         $rme=0;        
@@ -133,207 +142,220 @@ class reporteController extends Controller
         $falta=0;
         $ps=0;
        
-        for($i = 1; $i<=$diff; $i++)
-        {
-            $fecha_evaluar = $fecha_actual;
-            $fecha_evaluar->day = $i;
-            //echo $fecha_evaluar."<br>";
-            
-            if($arreglo_dias[$fecha_evaluar->dayOfWeekIso])
+        /*for($i = 1; $i<=$diff; $i++)
+        {*/
+            //echo $fecha_pivote->diffInDays($f_fin);
+            $indice = 0;
+            while($fecha_pivote->diffInDays($f_fin)  > 0)
             {
-                $asistencia[$i]['fecha'] = $fecha_evaluar->format('Y-m-d');
-                $fecha_eval = $asistencia[$i]['fecha'];
-
-                $inicio=$fecha_eval." ".$value->InicioChecarEntrada;
-                $final=$fecha_eval." 11:00:00";
-
-                $checada_entrada = DB::table("checkinout")
-                        ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
-                        ->where("TITLE", "=",  $desc)
-                      ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarEntrada.":00.000", $fecha_eval."T".$value->FinChecarEntrada.":00.000"])
-                       
-                      ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
-                     
-                        ->first();
-                   
-
-
-                $checada_salida = DB::table("checkinout")
-                         ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
-                        ->where("TITLE", "=",  $desc)
-                       
-                        //->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T23:00:00.000"])
-                        ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T".$value->FinChecarSalida.":00.000"])
-                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
-                        ->first();
-
-                      
-                        $checada_extra = DB::table("user_speday")
-                        ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
-                        ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
-                       ->where("TITLE", "=",  $desc)
-                       ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])
-                     
-                        ->select("leaveclass.LeaveName as Exepcion"
-                            ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
-                           ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
-                           ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
-                           ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
-                        )
-                        ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId')
-
-                        ->first();
-                     
-                        if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                            switch($checada_extra->TIPO){
-                            case 1:
-                              
-                                $impr=$checada_extra->HORA." "."(Pase de Salida)";
-                                break;
-                            case 2:
-                              
-                                $dia_ini=$checada_extra->INI;
-                                $dia_fin=$checada_extra->FIN;
-                                $dif_dia=$checada_extra->DIFDIA;
-                              
-                                $impr= "Vacaciones 2019 Primavera-Verano";
-                               
-                                break;
-                            case 3:
-                                $impr= "Comisión";
-                                break;
-                            case 4:
-                                $impr= "Omisión Salida";
-                                $oS=$oS+1;
-                                break;
-                            case 5:
-                                $impr="Omisión Entrada";
-                                $oE=$oE+1;
-                                break;
-                             case 6:
-                                $impr="Día Económico";
-                                
-                                break;
-                             case 8:
-                                $impr="Licencia Médica";
-                                break;
-                             case 10:
-                                $impr= "Onomástico";
-                                
-                                break;
-                            case 11:
-                                $impr="Vacaciones 2018 Primavera-Verano";
-                                
-                                break;
-                            case 12:
-                                $impr="Vacaciones 2018 Invierno";
-                                
-                                break;
-                            case 13:
-                                $impr="Vacaciones 2019 Invierno";
-                                
-                                break;
-                            case 14:
-                                $impr="Reposición";
-                                break;
-                            case 15:
-                                $impr="Vacaciones Mediano Riesgo";
-                                
-                                break;
-                            case 16:
-                                $impr="Vacaciones Extra Ordinarias";
-                                
-                                break;
-                            default:
-                                $impr="";
-                                break;
-                        }
-                        }
-
-                    if(is_null($checada_extra)){
-                            "checada_extra";
-                        }
-                        else{
-                             $hora_extra=$checada_extra->HORA;
-                         }
-                if(isset($checada_entrada))
+                
+                //$fecha_evaluar = $fecha_actual;
+                //$fecha_evaluar->day = $i;
+                $fecha_evaluar = $fecha_pivote;
+                //echo $fecha_evaluar."<br>";
+                
+                if($arreglo_dias[$fecha_evaluar->dayOfWeekIso])
                 {
-                    $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
-                    $hora_con_tolerancia = new Carbon($fecha_eval." ".$value->HoraInicio);
-                    $hora_permitida = new Carbon($fecha_eval." ".$value->FinChecarEntrada);
-                    $tolerancia=$hora_con_tolerancia->addMinutes($value->Tolerancia);
+                    $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
+                    $asistencia[$indice]['validacion'] = 1;
 
-                            if($value->idH==40)
-                                $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA;
+                    $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
+                    $fecha_eval = $asistencia[$indice]['fecha'];
+
+                    $inicio=$fecha_eval." ".$value->InicioChecarEntrada;
+                    $final=$fecha_eval." 11:00:00";
+
+                    $checada_entrada = DB::table("checkinout")
+                            ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                            ->where("TITLE", "=",  $desc)
+                        ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarEntrada.":00.000", $fecha_eval."T".$value->FinChecarEntrada.":00.000"])
+                        
+                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                        
+                            ->first();
+                    
+
+
+                    $checada_salida = DB::table("checkinout")
+                            ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                            ->where("TITLE", "=",  $desc)
+                        
+                            //->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T23:00:00.000"])
+                            ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T".$value->FinChecarSalida.":00.000"])
+                            ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                            ->first();
+
+                        
+                            $checada_extra = DB::table("user_speday")
+                            ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
+                            ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
+                        ->where("TITLE", "=",  $desc)
+                        ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])
+                        
+                            ->select("leaveclass.LeaveName as Exepcion"
+                                ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
+                            ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
+                            ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
+                            ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
+                            )
+                            ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId')
+
+                            ->first();
+                        
+                            if(is_null($checada_extra)){
+                                "checada_extra";
+                            }
                             else{
-                                if ($formato_checado>($tolerancia)){
-                                  if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=15){
-                                        $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
-                                        $rme=$rme+1;
-                                    }
-                                    if ($formato_checado->diffInMinutes($tolerancia) >= 16){
-                                        $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
-                                        $rm=$rm+1;
-                                    }
-                                }
-                                else
-                                $asistencia[$i]['checado_entrada'] = $checada_entrada->HORA;
-                        }
+                                switch($checada_extra->TIPO){
+                                case 1:
+                                
+                                    $impr=$checada_extra->HORA." "."(Pase de Salida)";
+                                    break;
+                                case 2:
+                                
+                                    $dia_ini=$checada_extra->INI;
+                                    $dia_fin=$checada_extra->FIN;
+                                    $dif_dia=$checada_extra->DIFDIA;
+                                
+                                    $impr= "Vacaciones 2019 Primavera-Verano";
+                                
+                                    break;
+                                case 3:
+                                    $impr= "Comisión";
+                                    break;
+                                case 4:
+                                    $impr= "Omisión Salida";
+                                    $oS=$oS+1;
+                                    break;
+                                case 5:
+                                    $impr="Omisión Entrada";
+                                    $oE=$oE+1;
+                                    break;
+                                case 6:
+                                    $impr="Día Económico";
+                                    
+                                    break;
+                                case 8:
+                                    $impr="Licencia Médica";
+                                    break;
+                                case 10:
+                                    $impr= "Onomástico";
+                                    
+                                    break;
+                                case 11:
+                                    $impr="Vacaciones 2018 Primavera-Verano";
+                                    
+                                    break;
+                                case 12:
+                                    $impr="Vacaciones 2018 Invierno";
+                                    
+                                    break;
+                                case 13:
+                                    $impr="Vacaciones 2019 Invierno";
+                                    
+                                    break;
+                                case 14:
+                                    $impr="Reposición";
+                                    break;
+                                case 15:
+                                    $impr="Vacaciones Mediano Riesgo";
+                                    
+                                    break;
+                                case 16:
+                                    $impr="Vacaciones Extra Ordinarias";
+                                    
+                                    break;
+                                default:
+                                    $impr="";
+                                    break;
+                            }
+                            }
 
-                }
-                if(is_null($asistencia[$i]['checado_entrada'])){
-                    $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
-                 if(is_null($checada_extra)){
-                    $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
-                    $falta = $falta+1;
+                        if(is_null($checada_extra)){
+                                "checada_extra";
+                            }
+                            else{
+                                $hora_extra=$checada_extra->HORA;
+                            }
+                    if(isset($checada_entrada))
+                    {
+                        $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
+                        $hora_con_tolerancia = new Carbon($fecha_eval." ".$value->HoraInicio);
+                        $hora_permitida = new Carbon($fecha_eval." ".$value->FinChecarEntrada);
+                        $tolerancia=$hora_con_tolerancia->addMinutes($value->Tolerancia);
+
+                                if($value->idH==40)
+                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
+                                else{
+                                    if ($formato_checado>($tolerancia)){
+                                    if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=15){
+                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
+                                            $rme=$rme+1;
+                                        }
+                                        if ($formato_checado->diffInMinutes($tolerancia) >= 16){
+                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
+                                            $rm=$rm+1;
+                                        }
+                                    }
+                                    else
+                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
+                            }
+
                     }
-                else{         
-                        if ($checada_extra->TIPO==1){   
-                            $asistencia[$i]['checado_entrada'] = "SIN REGISTRO";
-                        }
-                        else{
-                            $asistencia[$i]['checado_entrada'] = $impr;
-                        }
-                        //$falta-=1;
-                       
-                       
-                    }
-             }
-               if(isset($checada_salida)){
-                   
-                   if($checada_salida->HORA>$value->FinChecarSalida)
-                       $asistencia[$i]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
-                   else
-                       $asistencia[$i]['checado_salida'] =$checada_salida->HORA;
-               }
-              if(is_null($asistencia[$i]['checado_salida'])){
+                    if(is_null($asistencia[$indice]['checado_entrada'])){
+                        $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
+                        $asistencia[$indice]['validacion'] = 0;
                     if(is_null($checada_extra)){
-                       $asistencia[$i]['checado_salida'] ="SIN REGISTRO";
-                       }
-                   else{
-                       $asistencia[$i]['checado_salida'] = $impr;
-                           $ini = new Carbon($checada_extra->INI);
-                           $fin = new Carbon($checada_extra->FIN);
-                       }
-                       
-                  }
-              
-           }
+                        $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
+                        $asistencia[$indice]['validacion'] = 0;
+                        $falta = $falta+1;
+                        }
+                    else{         
+                            if ($checada_extra->TIPO==1){   
+                                $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
+                                $asistencia[$indice]['validacion'] = 0;
+                            }
+                            else{
+                                $asistencia[$indice]['checado_entrada'] = $impr;
+                            }
+                            //$falta-=1;
+                        
+                        
+                        }
+                }
+                if(isset($checada_salida)){
+                    
+                    if($checada_salida->HORA>$value->FinChecarSalida)
+                        $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
+                    else
+                        $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                }
+                if(is_null($asistencia[$indice]['checado_salida'])){
+                        if(is_null($checada_extra)){
+                        $asistencia[$indice]['checado_salida'] ="SIN REGISTRO";
+                        $asistencia[$indice]['validacion'] = 0;
+                        }
+                    else{
+                        $asistencia[$indice]['checado_salida'] = $impr;
+                            $ini = new Carbon($checada_extra->INI);
+                            $fin = new Carbon($checada_extra->FIN);
+                        }
+                        
+                    }
+                
+            }
+            $indice++;
+            $fecha_pivote->addDays(1);
         }
+        //}
         $ps=$ps/60;
        
         $resumen = array(['Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        
-        return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion]);
+        return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
       
     }
 
-
-
-    
     public function decrypt($string) {
 
         $result = '';
