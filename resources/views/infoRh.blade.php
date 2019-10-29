@@ -4,8 +4,8 @@
 <head>
 	<title>@yield('title',"SISTEMATIZACIÓN ASISTENCIA")</title>
 	<!--<link rel="stylesheet" href="../css/app.css">-->
-	<link rel="stylesheet" href="../../libs/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/hover-table.css">
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="../js/popper.min.js"></script>
