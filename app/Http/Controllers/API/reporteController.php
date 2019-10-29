@@ -21,6 +21,7 @@ class reporteController extends Controller
         
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
+        $Rfc = str_replace("(", "/", $Rfc);
         $desc = $this->decrypt($Rfc);
 
            // DB::enableQueryLog();
