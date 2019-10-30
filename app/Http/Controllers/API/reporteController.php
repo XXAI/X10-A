@@ -208,22 +208,15 @@ class reporteController extends Controller
                             }
                             else{
                                 switch($checada_extra->TIPO){
-                                case 1:
-                                
+                                case 1:                                
                                     $impr=$checada_extra->HORA." "."(Pase de Salida)";
+                                    $ps=$ps+$checada_extra->DIFHORA;
                                     break;
                                 case 2:
-                                
-                                break;
-                            case 14:
-                                $impr="Reposición ".$checada_extra->REPO;
-                                break;
-                            case 15:
-                                $impr="Vacaciones Mediano Riesgo";
-                                
                                     $impr= "Vacaciones 2019 Primavera-Verano";
-                                
                                     break;
+                                break;
+                              
                                 case 3:
                                     $impr= "Comisión";
                                     break;
@@ -259,11 +252,11 @@ class reporteController extends Controller
                                     
                                     break;
                                 case 14:
-                                    $impr="Reposición";
-                                    break;
-                                case 15:
-                                    $impr="Vacaciones Mediano Riesgo";
+                                    $impr="Reposición ".$checada_extra->REPO;                                  
+                                case 15:                                
+                                $impr="Vacaciones Mediano Riesgo";                                 
                                     
+                                
                                     break;
                                 case 16:
                                     $impr="Vacaciones Extra Ordinarias";
@@ -273,7 +266,7 @@ class reporteController extends Controller
                                     $impr="";
                                     break;
                             }
-                            }
+                        }
 
                         if(is_null($checada_extra)){
                                 "checada_extra";
@@ -306,6 +299,7 @@ class reporteController extends Controller
                             }
 
                     }
+                      
                     if(is_null($asistencia[$indice]['checado_entrada'])){
                         $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
                         $asistencia[$indice]['validacion'] = 0;
@@ -314,15 +308,17 @@ class reporteController extends Controller
                         $asistencia[$indice]['validacion'] = 0;
                         $falta = $falta+1;
                         }
-                    else{         
+                    else{
+                       // return $checada_extra->TIPO ."<br>";      
                             if ($checada_extra->TIPO==1){   
+                               
                                 $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
                                 $asistencia[$indice]['validacion'] = 0;
                             }
                             else{
                                 $asistencia[$indice]['checado_entrada'] = $impr;
                             }
-                            //$falta-=1;
+                           
                         
                         
                         }
