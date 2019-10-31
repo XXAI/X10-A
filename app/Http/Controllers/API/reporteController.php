@@ -214,8 +214,7 @@ class reporteController extends Controller
                                     break;
                                 case 2:
                                     $impr= "Vacaciones 2019 Primavera-Verano";
-                                    break;
-                                break;
+                                    break;                               
                               
                                 case 3:
                                     $impr= "Comisión";
@@ -229,38 +228,32 @@ class reporteController extends Controller
                                     $oE=$oE+1;
                                     break;
                                 case 6:
-                                    $impr="Día Económico";
-                                    
+                                    $impr="Día Económico";                                    
                                     break;
                                 case 8:
                                     $impr="Licencia Médica";
                                     break;
                                 case 10:
-                                    $impr= "Onomástico";
-                                    
+                                    $impr= "Onomástico";                                    
                                     break;
                                 case 11:
-                                    $impr="Vacaciones 2018 Primavera-Verano";
-                                    
+                                    $impr="Vacaciones 2018 Primavera-Verano";                                    
                                     break;
                                 case 12:
                                     $impr="Vacaciones 2018 Invierno";
                                     
                                     break;
                                 case 13:
-                                    $impr="Vacaciones 2019 Invierno";
-                                    
+                                    $impr="Vacaciones 2019 Invierno";                                    
                                     break;
                                 case 14:
-                                    $impr="Reposición ".$checada_extra->REPO;                                  
+                                    $impr="Reposición ".$checada_extra->REPO; 
+                                    break;                                 
                                 case 15:                                
-                                $impr="Vacaciones Mediano Riesgo";                                 
-                                    
-                                
-                                    break;
+                                    $impr="Vacaciones Mediano Riesgo";                                
+                                     break;
                                 case 16:
-                                    $impr="Vacaciones Extra Ordinarias";
-                                    
+                                    $impr="Vacaciones Extra Ordinarias";                                    
                                     break;
                                 default:
                                     $impr="";
@@ -309,7 +302,8 @@ class reporteController extends Controller
                         $falta = $falta+1;
                         }
                     else{
-                       // return $checada_extra->TIPO ."<br>";      
+                       // return $checada_extra->TIPO ."<br>";
+                            $asistencia[$indice]['validacion'] = 1;      
                             if ($checada_extra->TIPO==1){   
                                
                                 $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
@@ -317,6 +311,7 @@ class reporteController extends Controller
                             }
                             else{
                                 $asistencia[$indice]['checado_entrada'] = $impr;
+                                
                             }
                            
                         
@@ -339,6 +334,7 @@ class reporteController extends Controller
                         $asistencia[$indice]['checado_salida'] = $impr;
                             $ini = new Carbon($checada_extra->INI);
                             $fin = new Carbon($checada_extra->FIN);
+                            $asistencia[$indice]['validacion'] = 1;
                         }
                         
                     }

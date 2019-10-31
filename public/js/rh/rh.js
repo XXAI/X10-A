@@ -122,6 +122,8 @@ function cargar_blade_checadas()
             icono = "<i class='fa fa-check' style='color:green'></i>";
             if(value.validacion == 0)
             icono = "<i class='fa fa-close' style='color:red'></i>";
+            else
+            icono = "<i class='fa fa-check' style='color:green'></i>";
 
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
       })
