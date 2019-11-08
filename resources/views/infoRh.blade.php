@@ -100,12 +100,12 @@
 							<div class="row">
 								<div class="col-sm-6">
 									<label for="fecha_inicio">Fecha Inicio:</label>
-									<input type="date" class="form-control" id="inicio" name="fecha_inicio" value="">
+									<input type="date" class="form-control" id="inicio" min='2019-10-01' name="fecha_inicio" value="">
 								</div>
 
 								<div class="col-sm-6">
 									<label for="fecha_inicio">Fecha Fin:</label>
-									<input type="date" class="form-control" id="fin" name="fecha_fin"  value="">
+									<input type="date" class="form-control" id="fin" name="fecha_fin"  value="" max= "{{date('Y-m-d')}}">
 								</div>
 
 							</div>

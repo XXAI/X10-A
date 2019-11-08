@@ -127,7 +127,7 @@ function cargar_blade_checadas()
 
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
       })
-
+//<td>" + value.horario + "</td>" + "</td>
 
       $('#datos_filtros_checadas tr').hover(function() {
             $(this).addClass('hover');
