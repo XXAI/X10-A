@@ -129,6 +129,7 @@ function cargar_blade_checadas()
       })
 //<td>" + value.horario + "</td>" + "</td>
 
+
       $('#datos_filtros_checadas tr').hover(function() {
             $(this).addClass('hover');
         }, function() {

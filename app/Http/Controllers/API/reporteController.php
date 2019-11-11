@@ -219,23 +219,26 @@ class reporteController extends Controller
                 {
                     $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                     $asistencia[$indice]['validacion'] = 1;
-                    $asistencia[$indice]['horario'] = $var_reglas[$fecha_evaluar->dayOfWeekIso]->horario;
+                    
 
                     $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                     $fecha_eval = $asistencia[$indice]['fecha'];
 
-                    $inicio=$fecha_eval." ".$value->InicioChecarEntrada;
-                    $final=$fecha_eval." 11:00:00";
+                  //  $inicio=$fecha_eval." ".$value->InicioChecarEntrada;
+                    $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
+                    $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
+                    $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000";                   
+                    $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
                     
                     
-                    
+                   // $asistencia[$indice]['horario'] = $fecha_eval."T".$value->InicioChecarEntrada.":00.000";//$var_reglas[$fecha_evaluar->dayOfWeekIso]->horario;
                    
-                    
+                   $asistencia[$indice]['horario'] = $inicio;
 
                     $checada_entrada = DB::table("checkinout")
                             ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                             ->where("TITLE", "=",  $desc)
-                            ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarEntrada.":00.000", $fecha_eval."T".$value->FinChecarEntrada.":00.000"])                                           
+                            ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
                             ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))                        
                             ->first();
                     
@@ -244,7 +247,7 @@ class reporteController extends Controller
                     $checada_salida = DB::table("checkinout")
                             ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                             ->where("TITLE", "=",  $desc)
-                            ->whereBetween("CHECKTIME", [$fecha_eval."T".$value->InicioChecarSalida.":00.000", $fecha_eval."T".$value->FinChecarSalida.":00.000"])
+                            ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
                             ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                             ->first();
 
@@ -338,22 +341,22 @@ class reporteController extends Controller
                         $hora_permitida = new Carbon($fecha_eval." ".$value->FinChecarEntrada);
                         $tolerancia=$hora_con_tolerancia->addMinutes($value->Tolerancia);
 
-                                if($value->idH==40)
+                            /*    if($value->idH==40)
                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
-                                else{
+                                else{*/
                                     if ($formato_checado>($tolerancia)){
-                                    if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
-                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
-                                            $rme=$rme+1;
-                                        }
-                                        if ($formato_checado->diffInMinutes($tolerancia) >= 26){
-                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
-                                            $rm=$rm+1;
-                                        }
+                                        if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
+                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
+                                                $rme=$rme+1;
+                                            }
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 26){
+                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
+                                                $rm=$rm+1;
+                                            }
                                     }
                                     else
                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
-                            }
+                            //}
 
                     }
                       
