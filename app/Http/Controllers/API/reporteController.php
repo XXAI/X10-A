@@ -31,11 +31,13 @@ class reporteController extends Controller
         if($inicio == null){
             $f_ini = Carbon::now()->startOfMonth();
             $f_fin = Carbon::now()->addDays(1);
+            $ff_fin = Carbon::now();
             $inicio = date("Y-m-")."01";
             $fin = date("Y-m-d");
         }else{
             $f_ini= new Carbon($inicio);
-            $f_fin= new Carbon($fin);
+            $f_fin = new Carbon($fin);
+            $ff_fin = new Carbon($fin);
             $f_fin = $f_fin->addDays(1);
 
             $fecha_view_inicio = new Carbon($inicio);
@@ -108,7 +110,7 @@ class reporteController extends Controller
         }
             $buscaHorario=DB::table("USER_OF_RUN")                  
                     ->where("USERID", "=",  $validacion->USERID)                                 
-                    ->where("STARTDATE","<=",substr($f_fin->subDay(), 0, 10).'T23:59:59.000')
+                    ->where("STARTDATE","<=",substr($ff_fin, 0, 10).'T23:59:59.000')
                     ->where("ENDDATE",">=",substr($f_ini, 0, 10).'T00:00:01.000')   
                     ->orderBy("ENDDATE")   
                     ->select("USERID",
