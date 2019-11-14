@@ -32,6 +32,7 @@ function cargar_dato(dato, urlrh)
       }).done(function( data, textStatus, jqXHR ) {
             datos_credencializacion = data[0];
             cargar_blade_credencializacion();
+           // console.log(data);
             cargar_datos_checadas(urlchecadas);
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -95,7 +96,7 @@ function cargar_blade_credencializacion()
 
       $("#Nombre").text(datos_credencializacion.Nombre);
       $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);  
-      //$("#nombre").text(datos_credencializacion.nombre);
+      $("#codigo").text(datos_credencializacion.codTab);
       $("#Direccion").text(datos_credencializacion.Direccion);
       $("#Adscripcion_Area").text(datos_credencializacion.Adscripcion_Area);
       $("#TipoSangre").text(datos_credencializacion.TipoSangre);
@@ -109,13 +110,15 @@ function cargar_blade_credencializacion()
       }
       else{
             $("#foto").attr("src","http://credencializacion.saludchiapas.gob.mx/images/credenciales/"+datos_credencializacion.id+"."+datos_credencializacion.tipoFoto);
+            
       }
 }
 
 
 function cargar_blade_checadas()
 {
-
+      if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
+            alert("Favor de Acudir al Área de Sistematización para verificar su horario");
       var table = $("#datos_filtros_checadas");
       table.html("");
       $.each(datos_checadas_mes, function(index, value){
@@ -126,9 +129,11 @@ function cargar_blade_checadas()
             icono = "<i class='fa fa-check' style='color:green'></i>";
 
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
+            
       })
 //<td>" + value.horario + "</td>" + "</td>
-
+            if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
+            table.append("<tr><td><h1>Favor de Acudir al Área de Sistematización para verificar su horario </h1></td></tr>");
 
       $('#datos_filtros_checadas tr').hover(function() {
             $(this).addClass('hover');
