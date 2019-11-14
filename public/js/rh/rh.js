@@ -133,7 +133,7 @@ function cargar_blade_checadas()
       })
 //<td>" + value.horario + "</td>" + "</td>
             if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
-            table.append("<tr><td><h1>Favor de Acudir al Área de Sistematización para verificar su horario </h1></td></tr>");
+            table.append("<tr><td colspan='5' style='color:red'><h1>Favor de Acudir al Área de Sistematización para verificar su horario </h1></td></tr>");
 
       $('#datos_filtros_checadas tr').hover(function() {
             $(this).addClass('hover');
