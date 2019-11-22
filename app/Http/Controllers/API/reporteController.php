@@ -414,16 +414,25 @@ class reporteController extends Controller
                         
                     }
                 
-                    if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
+                    if($asistencia[$indice]['checado_entrada']=="SIN REGISTRO"){
                         $checa_inhabil = DB::TABLE("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
                         if(isset($checa_inhabil)){
                             $asistencia[$indice]['checado_entrada']=$checa_inhabil->HOLIDAYNAME;
-                            $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                            
                             $asistencia[$indice]['validacion'] = 1;
                         }
-        
+                if($asistencia[$indice]['checado_salida']=="SIN REGISTRO"){
+                    $checa_inhabil = DB::TABLE("HOLIDAYS")
+                    ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
+                    ->first();
+                    if(isset($checa_inhabil)){
+                        
+                        $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                        $asistencia[$indice]['validacion'] = 1;
+                    }
+
                     }
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")||($asistencia[$indice]['checado_entrada']=="SIN REGISTRO"))
                       $falta = $falta+1;
