@@ -22,3 +22,5 @@ Route::get('/credencializacion','AsistenciaController@show');
 Route::get('/consulta-asistencia','API\reporteController@consulta_checadas');
 
 Route::get('reporte','API\reporteController@index');
+
+Route::get('repgral','API\reporteGralController@index');
