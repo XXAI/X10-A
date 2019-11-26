@@ -332,9 +332,10 @@ class reporteController extends Controller
                             }
                         if(isset($checada_entrada)){                        
                             $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
-                            $hora_con_tolerancia = new Carbon($fecha_eval." ".$value->HoraInicio);
-                            $hora_permitida = new Carbon($fecha_eval." ".$value->FinChecarEntrada);
-                            $tolerancia=$hora_con_tolerancia->addMinutes($value->Tolerancia);
+                            $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
+                           // echo  $hora_con_tolerancia;
+                            $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
+                            $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
 
                                 
                                         if ($formato_checado>($tolerancia)){
