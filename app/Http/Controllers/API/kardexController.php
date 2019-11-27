@@ -17,18 +17,39 @@ class kardexController extends Controller
     public function index(Request $request)
     {
         $name = $request->get('name');
-        //dd($name);
-        $userinfo= DB::TABLE("user_of_run")
-        ->join("checkinout","user_of_run.userid","=","checkinout.userid")
-        ->leftjoin("userinfo","userinfo.userid","=","user_of_run.userid")
-        ->groupBy("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
-        "userinfo.PAGER","userinfo.street","userinfo.MINZU","userinfo.DEFAULTDEPTID")
-        ->select("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
-        "userinfo.PAGER as Codigo","userinfo.street as TipoTrabajador","userinfo.MINZU as Area","userinfo.DEFAULTDEPTID")
-        ->orderBy("userinfo.userid")
+        if(isset($name) || $name<>""){
+            $userinfo= DB::TABLE("user_of_run")
+            ->join("checkinout","user_of_run.userid","=","checkinout.userid")
+            ->leftjoin("userinfo","userinfo.userid","=","user_of_run.userid")
+            ->groupBy("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
+            "userinfo.PAGER","userinfo.street","userinfo.MINZU","userinfo.DEFAULTDEPTID")
+            ->select("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
+            "userinfo.PAGER as Codigo","userinfo.street as TipoTrabajador","userinfo.MINZU as Area","userinfo.DEFAULTDEPTID")
+            ->orderBy("userinfo.userid")
+            ->where("userinfo.Badgenumber","=",$name)
+            ->orWhere("userinfo.TITLE","=",$name)
+            ->orWhere("userinfo.Name","like","%$name%")                      
+            ->paginate(15);
+        }
+
+        else
+        {
+            $userinfo= DB::TABLE("user_of_run")
+            ->join("checkinout","user_of_run.userid","=","checkinout.userid")
+            ->leftjoin("userinfo","userinfo.userid","=","user_of_run.userid")
+            ->groupBy("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
+            "userinfo.PAGER","userinfo.street","userinfo.MINZU","userinfo.DEFAULTDEPTID")
+            ->select("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
+            "userinfo.PAGER as Codigo","userinfo.street as TipoTrabajador","userinfo.MINZU as Area","userinfo.DEFAULTDEPTID")
+            ->orderBy("userinfo.userid")
+                                
+            ->paginate(15);
+        }
        //->name($name)
-        ->paginate(15);
-        //->get();
+     
+       // ->get();
+       
+        //print_r($userinfo);
         return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
 

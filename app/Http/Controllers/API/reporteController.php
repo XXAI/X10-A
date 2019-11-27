@@ -49,11 +49,11 @@ class reporteController extends Controller
 
            // DB::enableQueryLog()p;
           // dd($desc);
-        $validacion = DB::TABLE("userinfo")
+             $validacion = DB::TABLE("userinfo")
             ->where("userinfo.TITLE", "=",  $desc)
             ->first();
 
-            $checa_dias = DB::table("user_speday")
+                $checa_dias = DB::table("user_speday")
                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")                            
                 ->where("TITLE", "=",  $desc)   
@@ -140,7 +140,7 @@ class reporteController extends Controller
                             ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime1, 108) as InicioChecarSalida")
                             ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime2, 108) as FinChecarSalida")
                             ,"schclass.CheckOutTime2 as prueba"
-                            ,DB::RAW("left(schclass.schClassId, 2) as idH")                                   )                           
+                            ,"schclass.schClassId as idH")                                                             
                             ->where("user_of_run.USERID", "=",  $validacion->USERID)
                             ->where("USER_OF_RUN.NUM_OF_RUN_ID","=",$horario->NUM_OF_RUN_ID)
                             
@@ -204,9 +204,16 @@ class reporteController extends Controller
                     $indice_reglas++;
                
                 }
+               
               
                 if($var_reglas[$fecha_evaluar->dayOfWeekIso])
                 {
+
+                        /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
+                        $buscaFestivo=DB::TABLE("USER_TEMP_SCH")
+                        ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
+                        ->first();
+                        }*/
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
                         
@@ -380,7 +387,7 @@ class reporteController extends Controller
                      }
                     if(isset($checada_salida)){
                         
-                        if($checada_salida->HORA>$value->FinChecarSalida)
+                        if($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
                             $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
                         else
                             $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
