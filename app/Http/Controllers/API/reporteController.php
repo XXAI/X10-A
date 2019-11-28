@@ -323,6 +323,12 @@ class reporteController extends Controller
                                     case 16:
                                         $impr="Vacaciones Extra Ordinarias";                                    
                                         break;
+                                    case 17:
+                                        $impr="Cuidados Maternos";                                    
+                                        break;
+                                    case 18:
+                                        $impr="Constancia de Entrada";                                    
+                                        break;
                                     default:
                                         $impr="";
                                         break;

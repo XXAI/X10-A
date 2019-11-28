@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+
 use Carbon\Carbon, DB;
 
 class kardexController extends Controller
@@ -41,15 +41,10 @@ class kardexController extends Controller
             "userinfo.PAGER","userinfo.street","userinfo.MINZU","userinfo.DEFAULTDEPTID")
             ->select("userinfo.USERID","userinfo.Badgenumber","userinfo.Name","userinfo.TITLE",
             "userinfo.PAGER as Codigo","userinfo.street as TipoTrabajador","userinfo.MINZU as Area","userinfo.DEFAULTDEPTID")
-            ->orderBy("userinfo.userid")
-                                
+            ->orderBy("userinfo.userid")                                
             ->paginate(15);
         }
-       //->name($name)
-     
-       // ->get();
        
-        //print_r($userinfo);
         return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
 

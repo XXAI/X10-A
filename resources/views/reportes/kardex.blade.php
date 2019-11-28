@@ -56,6 +56,7 @@
 						<td>{{ $empleado->Name}}</td>
 
 						<td>{{ $empleado->TITLE}}</td>
+						<td><input class="form-check-input" type="checkbox" id="gridCheck1"></td>
 						</tr>
 				
 					@endforeach
