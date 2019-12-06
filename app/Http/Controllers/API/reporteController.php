@@ -329,6 +329,12 @@ class reporteController extends Controller
                                     case 18:
                                         $impr="Constancia de Entrada";                                    
                                         break;
+                                    case 19:
+                                        $impr="Memorandum";                                    
+                                        break;
+                                    case 20:
+                                        $impr="Licencia Sin Goce";                                    
+                                        break;
                                     default:
                                         $impr="";
                                         break;

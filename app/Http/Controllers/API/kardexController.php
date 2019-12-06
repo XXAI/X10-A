@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use Carbon\Carbon, DB;
 
 class kardexController extends Controller
@@ -75,9 +74,9 @@ class kardexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return "glltrltrltlrk";
     }
 
     /**

@@ -51,10 +51,20 @@ class reporteGralController extends Controller
         
             $busca_trab= DB::TABLE("user_of_run")
                 ->join("checkinout","user_of_run.userid","=","checkinout.userid")
+<<<<<<< HEAD
+                ->leftjoin("userinfo","userinfo.userid","=","user_of_run.userid")
+                ->groupBy("user_of_run.userid")
+                ->select("user_of_run.userid")   
+                ->where("DEFAULTDEPTID","=",14)        
+                ->get();
+            $tot_trab=count($busca_trab);
+            //return $tot_trab;
+=======
                 ->groupBy("user_of_run.userid")
                 ->select("user_of_run.userid")           
                 ->get();
             $tot_trab=count($busca_trab);
+>>>>>>> 5b2f945546125c928d570b2135206ddc475ed3f2
             $arreglo_trab = array();
             foreach($busca_trab as $trabajador){               
                 $arreglo_trab[]=$trabajador;
@@ -466,4 +476,8 @@ class reporteGralController extends Controller
         return $result;
      }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 5b2f945546125c928d570b2135206ddc475ed3f2
