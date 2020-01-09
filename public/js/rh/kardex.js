@@ -9,6 +9,10 @@ var fin;
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 
+$(document).ready(function(){
+      console.log("hola");
+      cargar_dato('', './api/kardex');
+});
 /*$(document).ready(function(){
 
       dato = getParameterByName();
@@ -30,23 +34,49 @@ function cargar_dato(dato, urlrh)
             dataType: "json",
             url: urlrh,
       }).done(function( data, textStatus, jqXHR ) {
-            datos_credencializacion = data[0];
-            cargar_blade_credencializacion();
+            console.log(data);
+            cargar_datos_empleado(data.usuarios.data);
+            
+            //datos_credencializacion = data[0];
+            //cargar_blade_credencializacion();
            // console.log(data);
-            cargar_datos_checadas(urlchecadas);
+            //cargar_datos_checadas(urlchecadas);
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
-            if ( console && console.log ) {
+            /*if ( console && console.log ) {
 
                alert( "Error en la carga de Datos, acuda a Sistematización y Credencialización: " + " " +  textStatus);
                window.location.replace("http://induccion.saludchiapas.gob.mx/");
-            }
+            }*/
       });
+}
 
-      for(var i=2019; i < 2030; i++)
+function cargar_datos_empleado(datos)
+{
+      var table = $("#empleados");
+      //console.log("hola2");
+      //console.log(datos);
+      $.each(datos, function(key, value)
       {
-            $("select[name=anio]").append(new Option(i,i));
-      }
+            var linea = $("<tr></tr>");
+            var campo1 = $("<td>"+value.Badgenumber+"</td>");
+            var campo2 = $("<td>"+value.Name+"</td>");
+            var campo3 = $("<td>"+value.TITLE+"</td>");
+            var campo4 = $("<td><button type='button' class='btn btn-success' onclick='kardex_usuario("+value.USERID+")'>kardex</button></td>");
+            
+            var campo5 = $("<td>Sin Horario</td>");
+            if(value.horarios.length > 0)
+                  var campo5 = $("<td>Horario Activo</td>");
+
+            //console.log(value);
+            linea.append(campo1, campo2, campo3, campo4, campo5);
+            table.append(linea);
+      });
+}
+
+function kardex_usuario(id)
+{
+      window.location.replace("./kardex/"+id);
 }
 
 function cargar_datos_checadas(urlchecadas)
