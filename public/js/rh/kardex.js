@@ -9,21 +9,32 @@ var fin;
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 
-/*$(document).ready(function(){
+$(document).ready(function(){
 
-      dato = getParameterByName();
+     
       inicio = $("#inicio").val();
       fin = $("#fin").val();
 
       var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
       
-      cargar_dato(dato, urlrh);
-      $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
+      cargar_dato(dato);
+    //  $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
       
-});*/
+});
 
-function cargar_dato(dato, urlrh)
+function filtrar_checadas(id)
+{ 
+      alert(id);
+    /* var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
+      
+      cargar_dato(dato, urlrh);
+      $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");*/
+
+}
+
+function cargar_dato(dato)
 {
+      
       jQuery.ajax({
             data: {'buscar': dato},
             type: "GET",
@@ -32,7 +43,7 @@ function cargar_dato(dato, urlrh)
       }).done(function( data, textStatus, jqXHR ) {
             datos_credencializacion = data[0];
             cargar_blade_credencializacion();
-           // console.log(data);
+            console.log(data);
             cargar_datos_checadas(urlchecadas);
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -162,19 +173,7 @@ function cargar_blade_resumen()
 
 }
 
-function filtrar_checadas(id)
-{
-     /* inicio = $("#inicio").val();
-      fin = $("#fin").val();
-      cargar_datos_checadas(urlchecadas);
-      //cargar_blade_checadas();*/
 
-     
-
-      console.log(id);
-      
-
-}
 
 function getParameterByName() {
       var ruta_completa = location.pathname;
