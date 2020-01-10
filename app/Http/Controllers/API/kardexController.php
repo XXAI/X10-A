@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
+use App\Models\Usuarios;
 class kardexController extends Controller
 {
     /**
@@ -15,8 +16,15 @@ class kardexController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->get('name');
-        if(isset($name) || $name<>""){
+        $name = $request->get('buscar');
+        //$name = 'VIDM870128TJA';
+        $usuarios = Usuarios::with("horarios")->where('status', '=', 0);#->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
+        if($name !='')
+            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%');
+
+        $usuarios = $usuarios->paginate(15);
+
+        /*if(isset($name) || $name<>""){
             $userinfo= DB::TABLE("user_of_run")
             ->join("checkinout","user_of_run.userid","=","checkinout.userid")
             ->leftjoin("userinfo","userinfo.userid","=","user_of_run.userid")
@@ -42,9 +50,10 @@ class kardexController extends Controller
             "userinfo.PAGER as Codigo","userinfo.street as TipoTrabajador","userinfo.MINZU as Area","userinfo.DEFAULTDEPTID")
             ->orderBy("userinfo.userid")                                
             ->paginate(15);
-        }
-       
-        return view("reportes.kardex" , ['empleados' => $userinfo]);
+        }*/
+        //return response()->json(["usuarios" => $userinfo]);
+        return response()->json(["usuarios" => $usuarios]);
+        //return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
 
     /**
