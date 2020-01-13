@@ -81,9 +81,9 @@ class reporteController extends Controller
                     $vac19_1=$tipos->total;                                        
                     break;                                  
                 
-                case 6:                                       
+               /* case 6:                                       
                     $diaE=$tipos->total;
-                    break;
+                    break;*/
                 
                 case 10:                                        
                     $ono=$tipos->total;
@@ -296,7 +296,8 @@ class reporteController extends Controller
                                         $oE=$oE+1;
                                         break;
                                     case 6:
-                                        $impr="Día Económico";                                    
+                                        $impr="Día Económico"; 
+                                        $diaE=$diaE+1;                                   
                                         break;
                                     case 8:
                                         $impr="Licencia Médica";

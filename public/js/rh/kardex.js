@@ -36,7 +36,7 @@ function filtrar_checadas(id)
 
 }*/
 
-function cargar_dato(dato)
+function cargar_dato(dato, urlrh)
 {
       
       jQuery.ajax({
