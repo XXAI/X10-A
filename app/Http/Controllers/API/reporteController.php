@@ -288,12 +288,12 @@ class reporteController extends Controller
                                         $impr= "Comisión";
                                         break;
                                     case 4:
-                                        //$impr= "Omisión Salida";
-                                        $oS=$oS+1;
+                                        $impr= "Omisión Salida";
+                                        //$oS=$oS+1;
                                         break;
                                     case 5:
-                                        //$impr="Omisión Entrada";
-                                        $oE=$oE+1;
+                                        $impr="Omisión Entrada";
+                                        //$oE=$oE+1;
                                         break;
                                     case 6:
                                         $impr="Día Económico"; 
