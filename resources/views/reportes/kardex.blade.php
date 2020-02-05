@@ -3,11 +3,11 @@
 <head>
 	<title>Kardex</title>
 	<!--<link rel="stylesheet" href="../css/app.css">-->
-	
 	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
 	<script type="text/javascript" src="js/rh/kardex.js"></script>
 
     
