@@ -178,23 +178,3 @@ function getParameterByName() {
       //console.log(splits);
       return splits[(splits.length - 1)];
 }
-
-
-
-
-
-
-// var table = $("#datosxx");
-// table.html("");
-// //table.find("tbody tr").remove();
-// $.each(datos_checadas_mes, function(index, value){
-//       table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
-// })
-
-
-
-// var table = $('#tabla_checadas');
-// table.find("tbody tr").remove();
-// $.each(datos_checadas_mes, function(index, value){
-//       table.append("<tr><td>" + index + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> </tr>");
-// });

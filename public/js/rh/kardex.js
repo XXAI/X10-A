@@ -13,28 +13,6 @@ $(document).ready(function(){
       console.log("hola");
       cargar_dato('', './api/kardex');
 });
-/*$(document).ready(function(){
-
-     
-      inicio = $("#inicio").val();
-      fin = $("#fin").val();
-
-      var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
-      
-      cargar_dato(dato);
-    //  $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
-      
-});
-
-function filtrar_checadas(id)
-{ 
-      alert(id);
-    /* var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
-      
-      cargar_dato(dato, urlrh);
-      $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
-
-}*/
 
 function cargar_dato(dato, urlrh)
 {
@@ -48,32 +26,21 @@ function cargar_dato(dato, urlrh)
             console.log(data);
             cargar_datos_empleado(data.usuarios.data);
             
-            //datos_credencializacion = data[0];
-            //cargar_blade_credencializacion();
-           // console.log(data);
-            //cargar_datos_checadas(urlchecadas);
-
-      }).fail(function( jqXHR, textStatus, errorThrown ) {
-            /*if ( console && console.log ) {
-
-               alert( "Error en la carga de Datos, acuda a Sistematización y Credencialización: " + " " +  textStatus);
-               window.location.replace("http://induccion.saludchiapas.gob.mx/");
-            }*/
+            }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
       });
 }
 
 function cargar_datos_empleado(datos)
 {
       var table = $("#empleados");
-      //console.log("hola2");
-      //console.log(datos);
-      $.each(datos, function(key, value)
+        $.each(datos, function(key, value)
       {
             var linea = $("<tr></tr>");
             var campo1 = $("<td>"+value.Badgenumber+"</td>");
             var campo2 = $("<td>"+value.Name+"</td>");
             var campo3 = $("<td>"+value.TITLE+"</td>");
-            var campo4 = $("<td><button type='button' class='btn btn-success' onclick='kardex_usuario("+value.USERID+")'>kardex</button></td>");
+            var campo4 = $("<td><button type='button' class='btn btn-success' onclick='kardex_usuario(\""+value.TITLE+"\")'>kardex</button></td>");
             
             var campo5 = $("<td>Sin Horario</td>");
             if(value.horarios.length > 0)
@@ -87,6 +54,7 @@ function cargar_datos_empleado(datos)
 
 function kardex_usuario(id)
 {
+      console.log(id);
       window.location.replace("./kardex/"+id);
 }
 
@@ -208,7 +176,6 @@ function cargar_blade_resumen()
 function getParameterByName() {
       var ruta_completa = location.pathname;
       var splits = ruta_completa.split("/");
-      //console.log(splits);
       return splits[(splits.length - 1)];
 }
 
