@@ -16,6 +16,16 @@ class DashboardController extends Controller
         return view('dashboard');
     }
 
+    public function mensual()
+    {
+        return view('mensual');
+    }
+
+    public function trimestral()
+    {
+        return view('trimestral');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
