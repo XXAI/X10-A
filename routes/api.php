@@ -28,7 +28,7 @@ Route::get('kardex','API\kardexController@index');#->name('kardex');
 Route::get('/kardex2','API\kardexController@show')->name('repkardex');
 
 Route::get('/mensual','API\ReporteMensualController@index');
-Route::get('/trimestral','API\ReporteMensualController@index');
+Route::get('/trimestral','API\ReporteTrimestralController@index');
 
 Route::get('/catalogo','API\ReporteMensualController@catalogo');
 Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');

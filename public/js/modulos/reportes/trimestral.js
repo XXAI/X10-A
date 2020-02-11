@@ -32,7 +32,7 @@ function btn_filtrar()
       var tipo_trabajador = $("#tipo_trabajador").val();
       var quincena = $("#quincena").val();
 
-      obj_filtro = { 'anio': anio, 'trimestre': trimestre, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };
+      obj_filtro = { 'anio': anio, 'trimestre': trimestre, 'tipo_trabajador': tipo_trabajador };
       cargar_dato(obj_filtro);
 }
 

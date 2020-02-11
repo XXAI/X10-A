@@ -114,8 +114,7 @@ class ReporteMensualController extends Controller
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
         }])
-        //->limit(5)
-        
+        ->whereNull("state")
         ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
         ->get();
         
