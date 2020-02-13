@@ -12,9 +12,11 @@ const plumber = require("gulp-plumber");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
+var elixir = require('laravel-elixir')
 
 // Load package.json for banner
 const pkg = require('./package.json');
+require('laravel-elixir-vue-2');
 
 // Set the banner content
 const banner = ['/*!\n',

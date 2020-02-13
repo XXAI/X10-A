@@ -14,7 +14,7 @@ use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use Illuminate\Support\Facades\Input;
 
-class ReporteMensualController extends Controller
+class ReporteTrimestralController extends Controller
 {
     public function index(Request $request)
     {
@@ -51,7 +51,7 @@ class ReporteMensualController extends Controller
         $anio = date("Y");
         $mes  = date("m");
         $tipo_trabajador = 1;
-        $quincena = 1;
+        $trimestre = 1;
         //$parametros = Input::all();
 
         $fecha_limite_actual = Carbon::now();
@@ -59,36 +59,21 @@ class ReporteMensualController extends Controller
         //return response()->json(["usuarios" => $parametros]);
         if(count($parametros) > 0)
         {
-            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
+            if($parametros['anio'] != "" && $parametros['trimestre']!="" && $parametros['tipo_trabajador'] != "")
             {
                 $anio = $parametros['anio'];
-                $mes = $parametros['mes'];
+                $trimestre = $parametros['trimestre'];
                 $tipo_trabajador = $parametros['tipo_trabajador'];
-                $quincena = $parametros['quincena'];
             }
         }
 
-        $catalogo_meses = ['01' => "ENERO", "02" => "FEBRERO", "03" => "MARZO", "04" => "ABRIL", "05" => "MAYO", "06" => "JUNIO", "07" => "JULIO", "08" => "AGOSTO", "09" => "SEPTIEMBRE", "10" => "OCTUBRE", "11" => "NOVIEMBRE", "12" => "DICIEMBRE"];
-        //print_r($parametros);
-        
-        $fecha_actual = Carbon::now();
+        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [10,11,12]];
+        //print_r($catalogo_trimestre);
+        //return response()->json(["data" => $catalogo_trimestre]);
+
+        /*$fecha_actual = Carbon::now();
         $fecha_actual->year = $anio;
-        $fecha_actual->month = $mes;
-        
-        
-        if($quincena == 1)
-        {
-            $fecha_inicio   = $anio."-".$mes."-01";
-            $fecha_fin      = $anio."-".$mes."-15";
-            $dias_mes = 15;
-        }else if($quincena == 2)
-        {
-            $fecha_inicio   = $anio."-".$mes."-16";
-            $dias_mes = $fecha_actual->daysInMonth;
-            $fecha_fin      = $anio."-".$mes."-".$dias_mes;
-            
-        }
-        
+        $fecha_actual->month = $mes;*/
         
         //Obtenemos los dias Festivos
         $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
@@ -104,20 +89,28 @@ class ReporteMensualController extends Controller
             $arreglo_salidas = $this->salidas($salidas);
         
         
-        
-        $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
-        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
-        }])
-        ->whereNull("state")
-        ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
-        ->get();
-        
+        foreach ($catalogo_trimestre[$trimestre] as $index_trimestre => $data_trimestre) {
+
+            $fecha_ejercicio = Carbon::now();
+            $fecha_ejercicio->year =  $anio;
+            $fecha_ejercicio->month = $data_trimestre;
+            $fecha_ejercicio->day = 1;
+            $fecha_inicio = $fecha_ejercicio->format('Y-m-d');
+            $fecha_fin = $fecha_ejercicio->format('Y-m-').$fecha_ejercicio->daysInMonth;
+            
+            $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
+            }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+            }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
+            }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
+            }])
+            ->whereNull("state")
+            ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+            ->get();
+        }    
         
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];

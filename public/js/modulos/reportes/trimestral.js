@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    cargar_dato("");
+    //cargar_dato("");
     cargar_catalogo();
 });
 
@@ -28,11 +28,11 @@ function btn_filtrar()
 {
       //console.log("entro");
       var anio = $("#anio").val();
-      var mes = $("#mes").val();
+      var trimestre = $("#trimestre").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
       var quincena = $("#quincena").val();
 
-      obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };
+      obj_filtro = { 'anio': anio, 'trimestre': trimestre, 'tipo_trabajador': tipo_trabajador };
       cargar_dato(obj_filtro);
 }
 
@@ -47,9 +47,18 @@ function cargar_dato(dato)
             data: dato,
             type: "GET",
             dataType: "json",
-            url: './api/mensual',
+            url: './api/trimestral',
       }).done(function( data, textStatus, jqXHR ) {
             lista.html("");
+            console.log(data.usuarios.length);
+            if(data.usuarios.length == 0)
+            {
+                  var linea = $("<tr ></tr>");
+                  var campo1 = $("<td colspan='20'>No se encontraron resultados</td>");
+                  linea.append(campo1);
+                  lista.append(linea);
+                    
+            }
             $.each(data.usuarios, function(index, value)
             {
                 
@@ -61,9 +70,9 @@ function cargar_dato(dato)
                 campo2 =  $("<td style='text-align:center'>A<br>" + value.resumen.ASISTENCIA + "</td>");
                 campo3 =  $("<td  style='text-align:center'>RM<br>" + value.resumen.RETARDOS + "</td>");
                 campo4 =  $("<td style='text-align:center'>F<br>" + value.resumen.FALTAS + "</td>");
-                campo5 =  $("<td style='text-align:center'>RQ1<br>" + value.resumen.RETARDOS_1 + "</td>");
-                campo6 =  $("<td style='text-align:center'>RQ2<br>" + value.resumen.RETARDOS_2 + "</td>");
-                linea.append(campo1, campo2, campo3, campo4, campo5, campo6);
+                //campo5 =  $("<td style='text-align:center'>RQ1<br>" + value.resumen.RETARDOS_1 + "</td>");
+                //campo6 =  $("<td style='text-align:center'>RQ2<br>" + value.resumen.RETARDOS_2 + "</td>");
+                linea.append(campo1, campo2, campo3, campo4);
                 lista.append(linea);
 
                 //var i = 1;
