@@ -63,6 +63,7 @@ function cargar_datos_checadas(urlchecadas)
       }).done(function( data, textStatus, jqXHR ) {
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
+            console.log(data);
             datos_checadas_mes = data.data;
             resumen_checadas = data.resumen[0];
             validacion = data.validacion;
@@ -169,6 +170,31 @@ function filtrar_checadas()
       cargar_datos_checadas(urlchecadas);
       //cargar_blade_checadas();
       
+
+}
+
+function cargar_formato(){
+
+      document.getElementById('justificante').click();
+
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+      console.log(datos_credencializacion);
+
+      //mGZmt316o4aBibe5mw==
+      //iGZ3wn9zo4aAjsi9lw==
+
+      
+
+      $("#nombre_empleado").val(datos_credencializacion.Nombre);  
+      $("#direccion_departamento").val(datos_credencializacion.Direccion);
+      $("#departamento").val(datos_credencializacion.Adscripcion_Area);
+      $("#fecha").val(today);
+      $("#att").val(datos_credencializacion.Nombre);  
+
 
 }
 
