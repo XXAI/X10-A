@@ -75,19 +75,11 @@ class ReporteTrimestralController extends Controller
         $fecha_actual->year = $anio;
         $fecha_actual->month = $mes;*/
         
-        //Obtenemos los dias Festivos
-        $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
-        $arreglo_festivos = array();
-        if(count($festivos) > 0)
-            $arreglo_festivos = $this->festivos($festivos);
-        
+        $empleados_trimestral = [];
 
-        //Obtenemos salidas autorizadas
-        $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
-        $arreglo_salidas = array();
-        if(count($salidas) > 0)
-            $arreglo_salidas = $this->salidas($salidas);
-        
+        //$fecha_inicio = "2019-11-01";
+        //$fecha_fin = "2019-11-30";
+      
         
         foreach ($catalogo_trimestre[$trimestre] as $index_trimestre => $data_trimestre) {
 
@@ -97,7 +89,24 @@ class ReporteTrimestralController extends Controller
             $fecha_ejercicio->day = 1;
             $fecha_inicio = $fecha_ejercicio->format('Y-m-d');
             $fecha_fin = $fecha_ejercicio->format('Y-m-').$fecha_ejercicio->daysInMonth;
+            $dias_mes = $fecha_ejercicio->daysInMonth;
             
+            //Obtenemos los dias Festivos
+            $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
+            $arreglo_festivos = array();
+            if(count($festivos) > 0)
+            {
+                $arreglo_festivos = $this->festivos($festivos);
+            }
+
+            //Obtenemos salidas autorizadas
+            $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
+            $arreglo_salidas = array();
+            if(count($salidas) > 0)
+            {
+                $arreglo_salidas = $this->salidas($salidas);
+            }
+
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
             }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -108,225 +117,215 @@ class ReporteTrimestralController extends Controller
                 $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
             }])
             ->whereNull("state")
+            //->where("TITLE","=", 'RACJ720914V94')
             ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+            //->limit(200)
             ->get();
-        }    
-        
-        foreach ($empleados as $index_empleado => $data_empleado) {
-            $empleado_seleccionado = $empleados[$index_empleado];
-            $horarios_periodo = $data_empleado->horarios;
-            $indice_horario_seleccionado = 0;
-            $arreglo_consulta = array();
-            $dias_habiles = array();
+            //return array("datos" => $empleados);
 
-            $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0];
-            
-            $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
-            $omisiones          = $this->omisiones($data_empleado->omisiones);
-            $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
-            //return response()->json(["usuarios" => $dias_otorgados]);
-            if($quincena == 1)
-            {
-                $i = 1;
-            }else if($quincena == 2)
-            {
-                $i = 16;
-            }    
-
-            //return response()->json(["usuarios" => $i]);
-
-            for($i; $i<=$dias_mes; $i++)
-            {
-                $fecha_evaluar = new Carbon($fecha_inicio);
-                $fecha_evaluar->day = $i;
-            
-                //if($fecha_evaluar->lessThanOrEqualTo($fecha_limite_actual))
-                if($fecha_evaluar->lessThan($fecha_limite_actual))
+            foreach ($empleados as $index_empleado => $data_empleado) {
+                $empleado_seleccionado = $empleados[$index_empleado];
+                
+                if(!array_key_exists($empleados[$index_empleado]->TITLE, $empleados_trimestral))
                 {
-                    //return response()->json(["usuarios" => $horarios_periodo[$indice_horario_seleccionado]->ENDDATE]);
-                    if($indice_horario_seleccionado < count($horarios_periodo))
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE] = $empleados[$index_empleado];
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 0;
+                }
+                
+
+                $horarios_periodo = $data_empleado->horarios;
+                $indice_horario_seleccionado = 0;
+                $arreglo_consulta = array();
+                $dias_habiles = array();
+    
+                //$resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0];
+                
+                $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
+                $omisiones          = $this->omisiones($data_empleado->omisiones);
+                $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
+
+                $verificador = 0;
+                for($i = 1; $i<=$dias_mes; $i++)
+                {
+                    $fecha_evaluar = new Carbon($fecha_inicio);
+                    $fecha_evaluar->day = $i;
+                
+                    if($fecha_evaluar->lessThan($fecha_limite_actual))
                     {
-                        
-                        $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
-                        $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
-
-                        if(count($dias_habiles) == 0)
-                        {
-                            $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
-                        }
-
-                        
-                        while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
-                        {
-                            $indice_horario_seleccionado++;
-                            if($indice_horario_seleccionado < count($horarios_periodo))
-                            {
-                                $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
-                                $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
-                                $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
-                            }
-                        }
-                        
                         if($indice_horario_seleccionado < count($horarios_periodo))
                         {
                             
-                            if(array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles))
+                            $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
+                            $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
+
+                            
+                            if(count($dias_habiles) == 0)
                             {
-                                //return response()->json(["usuarios" => $fecha_evaluar]);
-                                if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados))
+                                $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
+                            }
+                            
+                            
+                            while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
+                            {
+                                $indice_horario_seleccionado++;
+                                if($indice_horario_seleccionado < count($horarios_periodo))
                                 {
-                                    //$arreglo_consulta[$i] = $i;
-                                    // Empieza la consulta por dia 
-                                    
-                                    $dia_seleccionado = $dias_habiles[$fecha_evaluar->dayOfWeekIso]->reglaAsistencia;
-                                    
-                                    $retardo = intval($dia_seleccionado->LateMinutes);
-                                    //$hora_entrada_exacta = substr($horarios_periodo[$indice_horario_seleccionado]->STARTTIME, 11,8);
-                                    $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
-                                    $fecha_hora_entrada_exacta->addMinutes($retardo);
-                                    $fecha_hora_entrada_exacta->addMinutes(1);
+                                    $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
+                                    $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
+                                    $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
+                                }
+                            }
 
-                                    //return response()->json(["usuarios" => substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8)]);
-                                    $inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
-                                    $fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
-                                    $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
-                                    $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
-
-                                    $checada_entrada = 0;
-                                    $checada_salida  = 0;
-                                    if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos))
+                            
+                            
+                            if($indice_horario_seleccionado < count($horarios_periodo))
+                            {
+                                
+                                if(array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles))
+                                {
+                                    if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados))
                                     {
-                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
-                                        {
-                                            foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
-                                                
-                                                $checada = new Carbon($dato_checada->CHECKTIME);
-                                                if($checada_entrada == 0)
-                                                {
-                                                    if($checada->greaterThanOrEqualTo($inicio_entrada) && $checada->lessThanOrEqualTo($fin_entrada))
-                                                    {
-                                                        if($checada->greaterThan($fecha_hora_entrada_exacta))
-                                                            $checada_entrada = 2;
-                                                        else
-                                                            $checada_entrada = 1;    
-                                                    }
-                                                    
-                                                }
-                                                if($checada_salida == 0)
-                                                {
-                                                    if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
-                                                        $checada_salida = 1;
-                                                }
-                                            }
+                                        $dia_seleccionado = $dias_habiles[$fecha_evaluar->dayOfWeekIso]->reglaAsistencia;
+                                        
+                                        //$retardo = intval($dia_seleccionado->LateMinutes);
+                                        $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
+                                        //$fecha_hora_entrada_exacta->addMinutes($retardo);
+                                        $fecha_hora_entrada_exacta->addMinutes(1);
 
+                                        
+                                        //$inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
+                                        //$fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
+                                        $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
+                                        $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
+
+                                        
+                                        $checada_entrada = 0;
+                                        $checada_salida  = 0;
+                                        if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos))
+                                        {
                                             
-                                            //Checar si existe una omision
-                                            if(array_key_exists($fecha_evaluar->format('Y-m-d'), $omisiones))
+                                           
+                                            if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
                                             {
-                                                foreach ($omisiones[$fecha_evaluar->format('Y-m-d')] as $index_omision => $dato_omision) {
-                                                    if($dato_omision->CHECKTYPE == "I")
-                                                    {
-                                                        $checada_entrada = 1;
-                                                    }
-                                                    
-                                                    if($dato_omision->CHECKTYPE == "O")
-                                                    {
-                                                        $checada_salida = 1;
-                                                    }
-                                                }
-                                                //unset($omisiones[$fecha_evaluar->format('Y-m-d')]);
-                                            }
-                                            
-                                    
-                                            if($checada_entrada == 1 and $checada_salida == 1){
-                                                $arreglo_consulta[$i] = "A";
-                                                $resumen['ASISTENCIA']++;
-                                            }else if($checada_entrada == 2 and $checada_salida == 1){
-                                                $arreglo_consulta[$i] = "RM";
-                                                $resumen['RETARDOS']++;
-                                                if($fecha_evaluar->day <= 15)
-                                                {
-                                                    $resumen['RETARDOS_1']++;
-                                                }else{
-                                                    $resumen['RETARDOS_2']++;
-                                                }
-                                            }else if(($checada_entrada == 1 or $checada_entrada == 2) and $checada_salida == 0)
-                                            { 
                                                 
-                                                if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_salidas))
-                                                {
-                                                    if($checada_entrada == 1 )
+                                        
+                                                foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                                                    
+                                                    $checada = new Carbon($dato_checada->CHECKTIME);
+                                                    if($checada_entrada == 0)
                                                     {
-                                                        $arreglo_consulta[$i] = "A";
-                                                        $resumen['ASISTENCIA']++;
-                                                    }else if($checada_entrada == 2 ){
-                                                        $arreglo_consulta[$i] = "RM";
-                                                        $resumen['RETARDOS']++;
-                                                        if($fecha_evaluar->day <= 15)
+                                                        
+                                                            if($checada->lessThanOrEqualTo($fecha_hora_entrada_exacta))
+                                                            {
+                                                                
+                                                                $checada_entrada = 1;
+                                                            }    
+                                                        
+                                                        
+                                                    }
+                                                    if($checada_salida == 0)
+                                                    {
+                                                        if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                                                         {
-                                                            $resumen['RETARDOS_1']++;
-                                                        }else{
-                                                            $resumen['RETARDOS_2']++;
+                                                            $checada_salida = 1;
                                                         }
                                                     }
-                                                }else{
-                                                    $arreglo_consulta[$i] = "FS";
-                                                    $resumen['FALTAS']++;
-                                                } 
+                                                }
+
+                                                if(array_key_exists($fecha_evaluar->format('Y-m-d'), $omisiones))
+                                                {
+                                                    foreach ($omisiones[$fecha_evaluar->format('Y-m-d')] as $index_omision => $dato_omision) {
+                                                        if($dato_omision->CHECKTYPE == "I")
+                                                        {
+                                                            $checada_entrada = 1;
+                                                        }
+                                                        
+                                                        if($dato_omision->CHECKTYPE == "O")
+                                                        {
+                                                            $checada_salida = 1;
+                                                        }
+                                                    }
+                                                }
                                                 
-                                            }else if($checada_entrada == 0 and $checada_salida == 1)  
+                                        
+                                                if($checada_entrada == 1 and $checada_salida == 1){
+                                                   $verificador++;
+                                                }else if($checada_entrada == 2 and $checada_salida == 1){
+                                                    break;
+                                                }else if(($checada_entrada == 1 or $checada_entrada == 2) and $checada_salida == 0)
+                                                { 
+                                                    if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_salidas))
+                                                    {
+                                                        if($checada_entrada == 1 )
+                                                        {
+                                                            $verificador++;
+                                                        }else if($checada_entrada == 2 ){
+                                                            break;
+                                                        }
+                                                    }else{
+                                                        break;
+                                                    } 
+                                                    
+                                                }else if($checada_entrada == 0 and $checada_salida == 1)  
+                                                {
+                                                    break;
+                                                }else if($checada_entrada == 0 and $checada_salida == 0)  
+                                                {
+                                                    break;
+                                                }
+                                                
+                                            }else
                                             {
-                                                $arreglo_consulta[$i] = "FE";
-                                                $resumen['FALTAS']++;
-                                            }else if($checada_entrada == 0 and $checada_salida == 0)  
-                                            {
-                                                $arreglo_consulta[$i] = "F";
-                                                $resumen['FALTAS']++;
+                                                break;
                                             }
-                                            
-                                        }else
-                                        {
-                                            $arreglo_consulta[$i] = "F";
-                                            $resumen['FALTAS']++;
+                                        }else{
+                                            //Dias festivos
+                                            $verificador++;
                                         }
+                                        //unset($dias_otorgados[$fecha_evaluar->format('Y-m-d')]);
                                     }else{
-                                        $arreglo_consulta[$i] = "DF";
-                                        $resumen['JUSTIFICADOS']++;
-                                    }
-                                    //unset($dias_otorgados[$fecha_evaluar->format('Y-m-d')]);
-                                }else{
-                                    $arreglo_consulta[$i] = "DO";
-                                    $resumen['JUSTIFICADOS']++;
-                                }    
-                            }else
-                            {   
-                                $arreglo_consulta[$i] = "N/A";
+                                        //Dias otorgados (aqui hay que verificar)
+                                        $verificador++;
+                                    }    
+                                }else
+                                {   
+                                    //dias no habiles para su horario
+                                    $verificador++;
+                                }
+                            }else{
+                                break;        
                             }
                         }else{
-                            $arreglo_consulta[$i] = "ERROR/HORARIO";        
+                            break;  
                         }
-                    }else{
-                        $arreglo_consulta[$i] = "S/H";    
-                    }
-                }else
+                    }else
+                    {
+                        break; 
+                    }    
+
+                    //echo $fecha_evaluar->format("Y-m-d")."--";
+                }
+                
+                if($verificador == $dias_mes)
                 {
-                    $arreglo_consulta[$i] = "N/C";
-                }    
+                    //$empleados[$index_empleado]->TRIMESTRAL += 1;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] += 1;
+                }
                 
             }
-            
-            $empleados[$index_empleado]->asistencia = $arreglo_consulta;
-            $resumen['FALTAS'] += intval($resumen['RETARDOS'] / 7);
-            $empleados[$index_empleado]->resumen = $resumen;
-            if($resumen['FALTAS'] == 0 && $resumen['RETARDOS_1'] < 4 && $resumen['RETARDOS_2'] < 4)
-            {
-                unset($empleados[$index_empleado]);
+            $lista_empleados_trimestral = [];
+            foreach ($empleados_trimestral as $index_trimestral => $data_trimestral) {
+                if($data_trimestral['TRIMESTRAL'] > 0)
+                {
+                    $lista_empleados_trimestral[] = $data_trimestral;
+                }
             }
-        }
+            //return array("datos" => $lista_empleados_trimestral);
+        } 
         
-        //$empleado->nombre_mes = $catalogo_meses;#[$parametros['mes']];
+        //return array("datos" => $empleados_trimestral);
         $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
-        return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
+        return array("datos" => $lista_empleados_trimestral);//, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }
     function dias_horario($arreglo)
     {
