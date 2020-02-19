@@ -32,5 +32,6 @@ Route::get('/trimestral','API\ReporteTrimestralController@index');
 
 Route::get('/catalogo','API\ReporteMensualController@catalogo');
 Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
+Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
 
 Route::post('login', 'API\LoginController@login');

@@ -35,9 +35,9 @@
                         <td>
                         <select class='select form-control' id = 'trimestre'>
                                 <option value='1'>1 - ENERO - MARZO</option>
-                                <option value='1'>2 - ABRIL - JUNIO</option>
-                                <option value='1'>3 - JULIO - SEPTIEMBRE</option>
-                                <option value='1'>4 - OCTUBRE - DICIEMBRE</option>
+                                <option value='2'>2 - ABRIL - JUNIO</option>
+                                <option value='3'>3 - JULIO - SEPTIEMBRE</option>
+                                <option value='4'>4 - OCTUBRE - DICIEMBRE</option>
                             </select>
                         </td>
                         <td>
@@ -54,11 +54,15 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nombre / RFC</th>
-                        
-                        <th colspan='3' style='text-align:center'>Resumen</th>
-                        <th colspan='17' style='text-align:center'>Asistencias</th>
-                        
+                        <th>#</th>
+                        <th>RFC</th>
+                        <th>CÓDIGO</th>
+                        <th>CR</th>
+                        <th>JORNADA LABORAL</th>
+                        <th>ID</th>
+                        <th>NOMBRE DEL TRABAJADOR</th>
+                        <th>DÍAS</th>
+                        <th>LETRAS</th>
                     </tr>
                     
                 </thead>
