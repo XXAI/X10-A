@@ -28,7 +28,7 @@ class ReporteTrimestralController extends Controller
     {
 
         $asistencia = $this->claseAsistencia($request);
-        $pdf = PDF::loadView('reportes\\reporte-trimestral', ['empleados' => $asistencia]);
+        $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia]);
         //$pdf = PDF::loadView('reportes\\reporte-trimestral');
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
