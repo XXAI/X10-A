@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChecadasTrabajador extends Model
 {
-    protected $table = "CHECKINOUT_copy";
+    protected $table = "CHECKINOUT";
 }
