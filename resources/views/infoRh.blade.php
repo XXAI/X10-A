@@ -111,17 +111,17 @@
 							</div>
 							<br>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<button type="button" onclick="filtrar_checadas()" class="form-control btn btn-primary">
 										{{ __('Buscar') }}
 									</button>
 								</div>
 
-								<div class="col-md-6">
+								<!-- <div class="col-md-6">
 									<button type="button" onclick="cargar_formato()" class="form-control btn btn-primary">
 											{{ __('Generar Justificante') }}
 									</button>
-								</div>
+								</div> -->
 							</div>
 						</th>
 						

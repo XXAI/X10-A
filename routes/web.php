@@ -21,6 +21,5 @@ Route::get('/repgral','reporteGralController@index');
 
 Route::middleware('auth')->get('/dashboard', 'DashboardController@index');
 Route::middleware('auth')->get('/reporte-mensual', 'DashboardController@mensual');
-//Route::middleware('auth')->get('/reporte-trimestral', 'DashboardController@trimestral');
-
-Route::get('/reporte-trimestral', 'DashboardController@trimestral');
+Route::middleware('auth')->get('/reporte-trimestral', 'DashboardController@trimestral');
+Route::middleware('auth')->get('/empleado', 'DashboardController@empleado');
