@@ -23,8 +23,9 @@ class reporteController extends Controller
         $fin = $request->fecha_fin;
 
         $Rfc = str_replace("(", "/", $Rfc);
-        $Rfc = str_replace("+", "/", $Rfc);
+        $Rfc = str_replace(" ", "+", $Rfc);
         $desc = $this->decrypt($Rfc);
+        //return response()->json(["data" => $desc]);
 
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();

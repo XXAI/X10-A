@@ -33,7 +33,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_empleados" aria-expanded="true" aria-controls="menu_empleados">
           <i class="fa fa-fw fa-cog"></i>
           <span>EMPLEADOS</span>
@@ -46,10 +46,10 @@
             
           </div>
         </div>
-      </li>
+      </li> -->
 
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
+     <!--  <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_justificaciones" aria-expanded="true" aria-controls="menu_justificaciones">
           <i class="fa fa-fw fa-file"></i>
           <span>JUSTIFICACIONES</span>
@@ -62,7 +62,7 @@
             <a class="collapse-item" href="">SALIDA GENERAL</a>
           </div>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_reportes" aria-expanded="true" aria-controls="menu_reportes">
           <i class="fa fa-fw fa-print"></i>
