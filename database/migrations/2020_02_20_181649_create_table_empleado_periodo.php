@@ -13,9 +13,16 @@ class CreateTableEmpleadoPeriodo extends Migration
      */
     public function up()
     {
-        Schema::create('table_empleado_periodo', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('empleado_periodo', function (Blueprint $table) {
+            $table->Increments('id')->unsigned();
+            $table->unsignedInteger("empleado_id");
+            $table->date("fecha_inicio");
+            $table->date("fecha_final");
+           
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('empleado_id')->references('id')->on('empleados');
         });
     }
 
@@ -26,6 +33,6 @@ class CreateTableEmpleadoPeriodo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_empleado_periodo');
+        Schema::dropIfExists('empleado_periodo');
     }
 }
