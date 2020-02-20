@@ -13,8 +13,8 @@ class CreateTableUr extends Migration
      */
     public function up()
     {
-        Schema::create('table_ur', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('catalogo_ur', function (Blueprint $table) {
+            $table->string('ur', 10)->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ class CreateTableUr extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_ur');
+        Schema::dropIfExists('catalogo_ur');
     }
 }

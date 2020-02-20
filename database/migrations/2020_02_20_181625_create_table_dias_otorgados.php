@@ -13,9 +13,16 @@ class CreateTableDiasOtorgados extends Migration
      */
     public function up()
     {
-        Schema::create('table_dias_otorgados', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('dias_otorgados', function (Blueprint $table) {
+            $table->smallIncrements('id')->unsigned();
+            $table->unsignedInteger("empleado_id");
+            $table->unsignedInteger("incidencia_id");
+            $table->date("fecha");
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('empleado_id')->references('id')->on('empleados');
+            $table->foreign('incidencia_id')->references('id')->on('incidencias');
         });
     }
 
@@ -26,6 +33,6 @@ class CreateTableDiasOtorgados extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_dias_otorgados');
+        Schema::dropIfExists('dias_otorgados');
     }
 }
