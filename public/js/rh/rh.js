@@ -12,12 +12,14 @@ arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "S
 $(document).ready(function(){
 
       dato = getParameterByName();
+      
       inicio = $("#inicio").val();
       fin = $("#fin").val();
 
       var urlrh = "http://credencializacion.saludchiapas.gob.mx/ConsultaRhPersonal.php";
       
       cargar_dato(dato, urlrh);
+      
       $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
       
 });
@@ -51,6 +53,7 @@ function cargar_dato(dato, urlrh)
 
 function cargar_datos_checadas(urlchecadas)
 {
+      
       $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
       jQuery.ajax({
             data: {'rfc': dato,
@@ -87,6 +90,7 @@ function cargar_datos_checadas(urlchecadas)
 
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             if ( console && console.log ) {
+                  
                   alert( "No se cargo la lista de asistencia " +" "+ textStatus);
             }
       });
@@ -201,6 +205,6 @@ function cargar_formato(){
 function getParameterByName() {
       var ruta_completa = location.pathname;
       var splits = ruta_completa.split("/");
-      //console.log(splits);
+      console.log(ruta_completa);
       return splits[(splits.length - 1)];
 }
