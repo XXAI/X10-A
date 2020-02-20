@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCatalogoCr extends Migration
+class CreateTableHorarios extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateCatalogoCr extends Migration
      */
     public function up()
     {
-        Schema::create('catalogo_cr', function (Blueprint $table) {
-            $table->string('cr', 11)->unique();
+        Schema::create('catalogo_horarios', function (Blueprint $table) {
+            $table->SmallIncrements('id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +27,6 @@ class CreateCatalogoCr extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catalogo_cr');
+        Schema::dropIfExists('catalogo_horarios');
     }
 }

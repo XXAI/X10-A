@@ -13,8 +13,8 @@ class CreateTableCatalogoTipoIncidencia extends Migration
      */
     public function up()
     {
-        Schema::create('table_catalogo_tipo_incidencia', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('catalogo_tipo_incidencia', function (Blueprint $table) {
+            $table->SmallIncrements('id')->unsigned();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ class CreateTableCatalogoTipoIncidencia extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_catalogo_tipo_incidencia');
+        Schema::dropIfExists('catalogo_tipo_incidencia');
     }
 }

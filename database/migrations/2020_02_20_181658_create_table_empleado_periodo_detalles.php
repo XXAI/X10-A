@@ -13,9 +13,16 @@ class CreateTableEmpleadoPeriodoDetalles extends Migration
      */
     public function up()
     {
-        Schema::create('table_empleado_periodo_detalles', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('empleado_periodo_detalles', function (Blueprint $table) {
+            $table->Increments('id')->unsigned();
+            $table->unsignedInteger("empleado_periodo_id");
+            $table->unsignedSmallInteger("horario_id");
+            $table->unsignedSmallInteger("dia_inicio");
+            $table->unsignedSmallInteger("dia_fin");
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('empleado_periodo_id')->references('id')->on('empleado_periodo');
+            $table->foreign('horario_id')->references('id')->on('catalogo_horarios');
         });
     }
 
@@ -26,6 +33,6 @@ class CreateTableEmpleadoPeriodoDetalles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_empleado_periodo_detalles');
+        Schema::dropIfExists('empleado_periodo_detalles');
     }
 }
