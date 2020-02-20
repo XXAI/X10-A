@@ -1,34 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Carbon\Carbon, DB;
 
-class DashboardController extends Controller
+use App\Models\Usuarios;
+class EmpleadoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
-    }
+        $name = $request->get('buscar');
+        //$name = 'VIDM870128TJA';
+        $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
+        if($name !='')
+            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%');
 
-    public function mensual()
-    {
-        return view('mensual');
-    }
+        $usuarios = $usuarios->paginate(15);
 
-    public function trimestral()
-    {
-        return view('trimestral');
-    }
-
-    public function empleado()
-    {
-        return view('empleado');
+        
+        return response()->json(["usuarios" => $usuarios]);
+        //return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
 
     /**
@@ -58,9 +56,9 @@ class DashboardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return "glltrltrltlrk";
     }
 
     /**
