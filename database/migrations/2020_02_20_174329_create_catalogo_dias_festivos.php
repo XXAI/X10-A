@@ -14,8 +14,11 @@ class CreateCatalogoDiasFestivos extends Migration
     public function up()
     {
         Schema::create('catalogo_dias_festivos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('descripcion', 100);
+            $table->date('fecha');           
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

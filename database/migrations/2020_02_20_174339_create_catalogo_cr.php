@@ -15,7 +15,13 @@ class CreateCatalogoCr extends Migration
     {
         Schema::create('catalogo_cr', function (Blueprint $table) {
             $table->string('cr', 11)->unique();
+            $table->string('descripcion', 150);
+            $table->string('clues', 14);
+            $table->string('area', 10);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('clues')->references('clues')->on('catalogo_clues');
         });
     }
 

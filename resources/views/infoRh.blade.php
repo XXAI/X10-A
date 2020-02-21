@@ -117,11 +117,11 @@
 									</button>
 								</div>
 
-								<!-- <div class="col-md-6">
+								<div class="col-md-6">
 									<button type="button" onclick="cargar_formato()" class="form-control btn btn-primary">
 											{{ __('Generar Justificante') }}
 									</button>
-								</div> -->
+								</div> 
 							</div>
 						</th>
 						

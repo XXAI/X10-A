@@ -14,8 +14,11 @@ class CreateTableUr extends Migration
     public function up()
     {
         Schema::create('catalogo_ur', function (Blueprint $table) {
-            $table->string('ur', 10)->unique();
+            $table->smallIncrements('id');
+            $table->string('llave', 5)->unique();
+            $table->string('descripcion', 10);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

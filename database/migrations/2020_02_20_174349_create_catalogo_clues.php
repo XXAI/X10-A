@@ -14,8 +14,21 @@ class CreateCatalogoClues extends Migration
     public function up()
     {
         Schema::create('catalogo_clues', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->string('clues', 14)->unique();
+            $table->string('cve_jurisdiccion', 2);
+            $table->string('nombre_unidad', 255);
+            $table->string('estatus', 100);
+            $table->smallInteger('clave_estatus',3);
+            $table->string('longitud', 50);
+            $table->string('latitud', 50);
+            $table->string('nivel_atencion', 255);
+            $table->smallInteger('clave_nivel',3);
+            $table->string('estatus_acreditacion', 100);
+            $table->smallInteger('responsable_id',5);
+            $table->string('cargo_responsable', 255);
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

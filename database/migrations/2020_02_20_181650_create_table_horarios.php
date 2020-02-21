@@ -15,6 +15,11 @@ class CreateTableHorarios extends Migration
     {
         Schema::create('catalogo_horarios', function (Blueprint $table) {
             $table->SmallIncrements('id')->unsigned();
+            $table->smallInteger('min_tolerancia',2);           
+            $table->time('hora_entrada_inicio');
+            $table->time('hora_entrada_fin');
+            $table->time('hora_salida_inicio');
+            $table->time('hora_salida_fin');
             $table->timestamps();
             $table->softDeletes();
         });
