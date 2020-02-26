@@ -26,7 +26,7 @@ class reporteController extends Controller
        $Rfc = str_replace(" ", "+", $Rfc);
         
         $desc = $this->decrypt($Rfc);
-        //return $desc;
+        //return $Rfc;
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
 
@@ -233,11 +233,26 @@ class reporteController extends Controller
 
                         $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
                         $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
-                        $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000";                   
-                        $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";                 
+                       
+
+                        $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
+                        $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";                  
+
+                        $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
                         
-                    
-                    
+
+
+                        $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                        $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
+                        $inicio_sal_fuera->subHours(2);
+                        $final_entra_fuera=$inicio_sal_fuera->subHours(2);
+                        $final_entra_fuera->subMinute();
+                        $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
+                        $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                        //echo  "INICIO: ".$final_entra_fuera."SALIDA: ".$final_sal_fuera;
+                                               
+                        
+                      
                     $asistencia[$indice]['horario'] = $inicio;
 
                         $checada_entrada = DB::table("checkinout")
@@ -246,7 +261,12 @@ class reporteController extends Controller
                                 ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))                        
                                 ->first();
-                        
+                        $checada_entrada_fuera = DB::table("checkinout")
+                        ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                        ->where("TITLE", "=",  $desc)
+                        ->whereBetween("CHECKTIME", [$inicio_entra_fuera, $final_entra_fuera])                                           
+                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))                        
+                        ->first();
 
 
                         $checada_salida = DB::table("checkinout")
@@ -255,6 +275,13 @@ class reporteController extends Controller
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
+                        
+                        $checada_sal_fuera = DB::table("checkinout")
+                        ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                        ->where("TITLE", "=",  $desc)
+                        ->whereBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
+                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                        ->first();
 
                             
                         $checada_extra = DB::table("user_speday")
@@ -355,7 +382,7 @@ class reporteController extends Controller
                         if(isset($checada_entrada)){                        
                             $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
                             $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
-                           // echo  $hora_con_tolerancia;
+                          
                             $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
                             $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
 
@@ -365,10 +392,10 @@ class reporteController extends Controller
                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
                                                     $rme=$rme+1;
                                                 }
-                                                if ($formato_checado->diffInMinutes($tolerancia) >= 26){
-                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
-                                                    $rm=$rm+1;
-                                                }
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 26){
+                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
+                                                $rm=$rm+1;
+                                            }
                                         }
                                         else
                                         $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;                                
@@ -400,10 +427,31 @@ class reporteController extends Controller
                         
                         }
                      }
+
+
+
+                    if(isset($checada_sal_fuera)){
+                        $asistencia[$indice]['checado_salida_fuera'] =$checada_sal_fuera->HORA;
+                       
+                    }
+
+                    if(isset($checada_entrada_fuera)){
+                        $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
+                       
+                    }
+
                     if(isset($checada_salida)){
+                            
                         
-                        if($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
-                            $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
+                        
+                        if(($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
+                           { 
+                               
+                               $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
+                               $asistencia[$indice]['validacion'] = 1;
+                           }
+                        //|| ($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
+                            
                         else
                             $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
                     }
