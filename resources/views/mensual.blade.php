@@ -19,7 +19,7 @@
                     <tr>
                         <th>Año</th>
                         <th>Mes</th>
-                        <th>RFC o Nombre</th>
+                        <th>ID, RFC o Nombre</th>
                         <th>Tipo Empleado</th>
                         <th></th>
                     </tr>

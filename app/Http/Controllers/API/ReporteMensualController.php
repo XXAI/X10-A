@@ -173,7 +173,8 @@ class ReporteMensualController extends Controller
                         }
 
                         
-                        while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
+                        //while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
+                        while($fecha_evaluar->greaterThan($fecha_inicio_periodo) && $fecha_fin_periodo->lessThan($fecha_evaluar) && $indice_horario_seleccionado < count($horarios_periodo))
                         {
                             $indice_horario_seleccionado++;
                             if($indice_horario_seleccionado < count($horarios_periodo))
@@ -183,7 +184,9 @@ class ReporteMensualController extends Controller
                                 $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
                             }
                         }
-                        
+                        //return array("datos" =>$indice_horario_seleccionado);
+                        //return array("datos" => $fecha_fin_periodo->lessThan($fecha_evaluar), 'evaluar'=>$fecha_evaluar, 'inicio'=> $fecha_inicio_periodo, 'fin'=>$fecha_fin_periodo);
+
                         if($indice_horario_seleccionado < count($horarios_periodo))
                         {
                             

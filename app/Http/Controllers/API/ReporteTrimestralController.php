@@ -193,7 +193,17 @@ class ReporteTrimestralController extends Controller
                                 }
                                 
                                 
-                                while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
+                                /*while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
+                                {
+                                    $indice_horario_seleccionado++;
+                                    if($indice_horario_seleccionado < count($horarios_periodo))
+                                    {
+                                        $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
+                                        $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
+                                        $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
+                                    }
+                                }*/
+                                while($fecha_evaluar->greaterThan($fecha_inicio_periodo) && $fecha_fin_periodo->lessThan($fecha_evaluar) && $indice_horario_seleccionado < count($horarios_periodo))
                                 {
                                     $indice_horario_seleccionado++;
                                     if($indice_horario_seleccionado < count($horarios_periodo))
