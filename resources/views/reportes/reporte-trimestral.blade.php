@@ -124,7 +124,7 @@ switch($empleados['trimestre'])
                         </td>
                         <td>
                             <div class="centrado datos">
-                           SECRETARÁIA DE SALUD<BR>
+                           SECRETARÍA DE SALUD<BR>
                            INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<BR>
                             DIRECCIÓN DE ADMINISTRACIÓN Y FINANZAS<BR>
                             DEPARTAMENTO DE OPERACIÓN Y SISTEMATIZACIÓN DE NÓMINAS<BR>
@@ -135,10 +135,23 @@ switch($empleados['trimestre'])
                         </td>
                         <td>
                             <div class="datos">
-                            LOTE:<br>
+                            LOTE: 
+                            @switch($empleados['tipo_trabajador']['DEPTID'])
+                                @case(6)
+                                @case(11)
+                                    GOV0006
+                                @break
+                                @case(13)
+                                    CAR0006
+                                @break
+                                @case(12)
+                                    PEV0006
+                                @break
+                            @endswitch
+                            <br>
                             CÓDIGO MOVIMIENTO:<br>
                             VIGENCIA:<br>
-                            QNA. DE CAPTURA:<br>
+                            QNA. DE CAPTURA: 06/20<br>
                             <br>
                             ESTIMULO TRIMESTRAL  {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}
                             </div>
@@ -148,7 +161,7 @@ switch($empleados['trimestre'])
                         </td>
                     </tr>
                    <tr>
-                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: UNIDAD ADMINISTRATIVA ESTATAL</td>
+                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: OFICINA CENTRAL</td>
                     <td colspan='2' class='datos'>TIPO DE TRABAJADOR: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</td>
                    </tr>
                 </tbody>
@@ -158,20 +171,23 @@ switch($empleados['trimestre'])
     <table width="100%" class='firmantes footer'>
         <tr>
             <td class="centrado tamano">
-            DIRECTOR(A) DEL HOSPITAL O JEFE JURISDICCIIONAL
-            <br><br><br><br>
+            JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
+            <br><br><br>
+            ING. JAVIER MORALES SOLÍS
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            SUBDIRECTOR DE RECURSOS HUMANOS
-            <br><br><br><br>
+            <br>SUBDIRECTOR DE RECURSOS HUMANOS
+            <br><br><br>
+            L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            DIRECTOR(A) DE ADMINISTRACIÓN Y FINANZAS
-            <br><br><br><br>
+            <br>DIRECTOR DE ADMINISTRACIÓN Y FINANZAS
+            <br><br><br>
+            L.A. SAMUEL SILVAN OLAN
             <HR>
             NOMBRE Y FIRMA
             </td>
@@ -219,7 +235,7 @@ switch($empleados['trimestre'])
     if (isset($pdf))
     {
         $fecha = date("Y-m-d H:i:s");
-        $pdf->page_text(700, 590, " Tuxtla Gutiérrez, Chiapas, $fecha - Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
+        $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }
     </script>       
 </body>
