@@ -26,6 +26,7 @@ $(document).ready(function(){
 
 function cargar_dato(dato, urlrh)
 {
+      
       jQuery.ajax({
             data: {'buscar': dato},
             type: "GET",
@@ -98,7 +99,7 @@ function cargar_datos_checadas(urlchecadas)
 
 function cargar_blade_credencializacion()
 { 
-
+      //
       $("#Nombre").text(datos_credencializacion.Nombre);
       $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);  
       $("#codigo").text(datos_credencializacion.codTab);
