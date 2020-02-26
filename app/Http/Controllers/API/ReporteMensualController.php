@@ -122,7 +122,8 @@ class ReporteMensualController extends Controller
         ->WHERE("FPHONE", "=", 'CSSSA017213')
         ->Where(function($query2)use($parametros){
             $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
-                    ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%');
+                    ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
+                    ->orWhere('Badgenumber', $parametros['nombre']);
         })
         ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
         ->orderBy("carType", "DESC")

@@ -68,7 +68,7 @@ function cargar_dato(dato)
                 
                 var linea = $("<tr  ></tr>");
                 
-                var campo1 = $("<td rowspan='2' style='border-bottom:1px solid black;'>"+value.Name+"<br>"+value.TITLE+"</td>");
+                var campo1 = $("<td rowspan='2' style='border-bottom:1px solid black;'>"+ value.Badgenumber +' - '+value.Name+"<br>"+value.TITLE+"</td>");
                 //linea.append(campo1);
                 //lista.append(linea);
                 
