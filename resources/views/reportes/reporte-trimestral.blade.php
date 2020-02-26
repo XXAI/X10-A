@@ -50,7 +50,7 @@
         }
 
         @page {
-            margin: 100px 25px 0px 25px;
+            margin: 100px 35px 0px 50px;
         
         }
 
@@ -61,7 +61,7 @@
         }
 
         body{
-            margin: 50px 0px;
+            margin: 50px 0px 140px 5px;
         }
 
         header {
@@ -75,18 +75,14 @@
             
         }
 
-        footer {
+        .footer {
             position: fixed; 
-            bottom: -60px; 
+            bottom: 90px; 
             left: 0px; 
             right: 0px;
             height: 50px; 
 
-            /** Extra personal styles **/
-            background-color: #03a9f4;
-            color: white;
-            text-align: center;
-            line-height: 35px;
+         
         }
     </style>
 </head>
@@ -152,24 +148,46 @@ switch($empleados['trimestre'])
                         </td>
                     </tr>
                    <tr>
-                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: </td>
+                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: UNIDAD ADMINISTRATIVA ESTATAL</td>
                     <td colspan='2' class='datos'>TIPO DE TRABAJADOR: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</td>
                    </tr>
                 </tbody>
             </table>
         </div>
-    </header>    
+    </header>  
+    <table width="100%" class='firmantes footer'>
+        <tr>
+            <td class="centrado tamano">
+            DIRECTOR(A) DEL HOSPITAL O JEFE JURISDICCIIONAL
+            <br><br><br><br>
+            <HR>
+            NOMBRE Y FIRMA
+            </td>
+            <td class="centrado tamano">
+            SUBDIRECTOR DE RECURSOS HUMANOS
+            <br><br><br><br>
+            <HR>
+            NOMBRE Y FIRMA
+            </td>
+            <td class="centrado tamano">
+            DIRECTOR(A) DE ADMINISTRACIÓN Y FINANZAS
+            <br><br><br><br>
+            <HR>
+            NOMBRE Y FIRMA
+            </td>
+        </tr>
+    </table>   
     <table width="100%"  cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
-                <th  class='encabezados' width="90px"># DOCUMENTO</th>
-                <th  class='encabezados' width="90px">RFC</th>
-                <th  class='encabezados' width="60px">CÓDIGO</th>
+                <th  class='encabezados' width="120px"># DOCUMENTO</th>
+                <th  class='encabezados' width="120px">RFC</th>
+                <th  class='encabezados' width="80px">CÓDIGO</th>
                 <th  class='encabezados' width="120px">CR</th>
                 <th  class='encabezados' width="90px">JORNADA LABORAL</th>
                 <th  class='encabezados' width="90px">ID</th>
                 <th  class='encabezados' width="300px">NOMBRE DEL TRABAJADOR</th>
-                <th  class='encabezados' width="90px">NÚMERO DE DÍAS</th>
+                <th  class='encabezados' width="90px">NÚM. DE DÍAS</th>
                 <th  class='encabezados' width="90px">LETRAS</th>   
             </tr>   
         </thead>
@@ -195,29 +213,7 @@ switch($empleados['trimestre'])
             
         </tbody>
     </table>
-    <br><br>
-    <table width="100%" class='firmantes'>
-        <tr>
-            <td class="centrado tamano">
-            DIRECTOR(A) DEL HOSPITAL O JEFE JURISDICCIIONAL
-            <br><br><br>
-            <HR>
-            NOMBRE Y FIRMA
-            </td>
-            <td class="centrado tamano">
-            SUBDIRECTOR DE RECURSOS HUMANOS
-            <br><br><br>
-            <HR>
-            NOMBRE Y FIRMA
-            </td>
-            <td class="centrado tamano">
-            DIRECTOR(A) DE ADMINISTRACIÓN Y FINANZAS
-            <br><br><br>
-            <HR>
-            NOMBRE Y FIRMA
-            </td>
-        </tr>
-    </table> 
+
 
     <script type="text/php">
     if (isset($pdf))

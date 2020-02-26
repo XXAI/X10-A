@@ -33,7 +33,7 @@ class ReporteMensualController extends Controller
         $pdf->setOptions(['isPhpEnabled' => true]);
         //return make::view('reportes\\reporte-mensual', ['empleados' => $asistencia]);
         //return View::make('reportes\\reporte-mensual', ['empleados' => $asistencia]);
-        return $pdf->download('Reporte-Mensual.pdf');
+        return $pdf->stream('Reporte-Mensual.pdf');
     }
 
     function claseAsistencia(Request $request)
@@ -64,7 +64,8 @@ class ReporteMensualController extends Controller
                 $anio = $parametros['anio'];
                 $mes = $parametros['mes'];
                 $tipo_trabajador = $parametros['tipo_trabajador'];
-                $quincena = $parametros['quincena'];
+                $nombre = $parametros['nombre'];
+                //$quincena = $parametros['quincena'];
             }
         }
 
@@ -76,7 +77,7 @@ class ReporteMensualController extends Controller
         $fecha_actual->month = $mes;
         
         
-        if($quincena == 1)
+        /*if($quincena == 1)
         {
             $fecha_inicio   = $anio."-".$mes."-01";
             $fecha_fin      = $anio."-".$mes."-15";
@@ -87,7 +88,10 @@ class ReporteMensualController extends Controller
             $dias_mes = $fecha_actual->daysInMonth;
             $fecha_fin      = $anio."-".$mes."-".$dias_mes;
             
-        }
+        }*/
+        $fecha_inicio = $anio."-".$mes."-01";
+        $dias_mes = $fecha_actual->daysInMonth;
+        $fecha_fin    = $anio."-".$mes."-".$dias_mes;
         
         
         //Obtenemos los dias Festivos
@@ -105,19 +109,24 @@ class ReporteMensualController extends Controller
         
         
         
-        $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
+        $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00');//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
         }])
         ->whereNull("state")
+        ->WHERE("FPHONE", "=", 'CSSSA017213')
+        ->Where(function($query2)use($parametros){
+            $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
+                    ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%');
+        })
         ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+        ->orderBy("carType", "DESC")
         ->get();
-        
         
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
@@ -132,16 +141,16 @@ class ReporteMensualController extends Controller
             $omisiones          = $this->omisiones($data_empleado->omisiones);
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
             //return response()->json(["usuarios" => $dias_otorgados]);
-            if($quincena == 1)
+            /*if($quincena == 1)
             {
                 $i = 1;
             }else if($quincena == 2)
             {
                 $i = 16;
-            }    
+            } */   
 
             //return response()->json(["usuarios" => $i]);
-
+            $i = 1;
             for($i; $i<=$dias_mes; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
@@ -249,7 +258,7 @@ class ReporteMensualController extends Controller
                                                 $arreglo_consulta[$i] = "A";
                                                 $resumen['ASISTENCIA']++;
                                             }else if($checada_entrada == 2 and $checada_salida == 1){
-                                                $arreglo_consulta[$i] = "RM";
+                                                $arreglo_consulta[$i] = "R1";
                                                 $resumen['RETARDOS']++;
                                                 if($fecha_evaluar->day <= 15)
                                                 {
@@ -267,7 +276,7 @@ class ReporteMensualController extends Controller
                                                         $arreglo_consulta[$i] = "A";
                                                         $resumen['ASISTENCIA']++;
                                                     }else if($checada_entrada == 2 ){
-                                                        $arreglo_consulta[$i] = "RM";
+                                                        $arreglo_consulta[$i] = "R1";
                                                         $resumen['RETARDOS']++;
                                                         if($fecha_evaluar->day <= 15)
                                                         {
@@ -302,7 +311,10 @@ class ReporteMensualController extends Controller
                                     }
                                     //unset($dias_otorgados[$fecha_evaluar->format('Y-m-d')]);
                                 }else{
-                                    $arreglo_consulta[$i] = "DO";
+                                    //array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados)
+                                    $obj = $dias_otorgados[$fecha_evaluar->format('Y-m-d')];
+                                    //return array("datos" => $obj[0]['siglas']['ReportSymbol']);
+                                    $arreglo_consulta[$i] =  $obj[0]['siglas']['ReportSymbol'];
                                     $resumen['JUSTIFICADOS']++;
                                 }    
                             }else

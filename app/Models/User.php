@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     protected $table = "users";
+    protected $fillable = ['username', 'password', 'email', 'nombre', 'apellido_paterno', 'apellido_materno', 'alias', 'is_superuser'];
+    protected $dateFormat = 'Y-d-m H:i:s.v';
 }

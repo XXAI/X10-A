@@ -66,7 +66,7 @@ class reporteController extends Controller
                 ,DB::RAW("count(leaveclass.LeaveId) as total")                               
                 )           
                 ->get();
-
+                
             $vac19_1=0;
             $vac19_2=0;
             $vac18_1=0;

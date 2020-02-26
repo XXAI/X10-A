@@ -16,9 +16,12 @@ function cargar_catalogo()
             dataType: "json",
             url: './api/catalogo',
       }).done(function( data, textStatus, jqXHR ) {
-           $.each(data.catalogo, function(index, valor)
+            $.each(data.catalogo, function(index, valor)
            {
-                  select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                 if(valor.DEPTID!=1)
+                 {
+                        select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                 }
            });
             
       }).fail(function( jqXHR, textStatus, errorThrown ) {

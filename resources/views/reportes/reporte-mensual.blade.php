@@ -61,7 +61,7 @@
         }
 
         body{
-            margin: 30px 0px;
+            margin: 30px 0px 120px 10px;
         }
 
         header {
@@ -71,22 +71,17 @@
             left: 0px;
             right: 0px;
             height: 50px;
-
-            
         }
 
-        footer {
+        .footer {
+            
             position: fixed; 
-            bottom: -60px; 
+            bottom: 70px; 
             left: 0px; 
             right: 0px;
             height: 50px; 
 
-            /** Extra personal styles **/
-            background-color: #03a9f4;
-            color: white;
-            text-align: center;
-            line-height: 35px;
+            
         }
     </style>
 </head>
@@ -122,7 +117,7 @@
                         </td>
                         <td  style='font-size:9pt'>
                             MES: {{ $empleados['nombre_mes'] }}<br>
-                            QUINCENA: {{ $empleados['filtros']['quincena'] }}<br>
+                            
                             AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             
                         </td>
@@ -130,55 +125,8 @@
                 </tbody>
             </table>
         </div>
-    </header>    
-    <table width="100%"  cellspacing="0" class="fuente">
-        <thead class='cabecera'>
-            <tr>
-                <th rowspan="2" class='encabezados'># DOCUMENTO</th>
-                <th rowspan="2" class='encabezados' width="300px">NOMBRE DEL EMPLEADO</th>
-                <th rowspan="2" class='encabezados' width="90px">RFC</th>
-                <th rowspan="2" class='encabezados' width="60px">CODIGO</th>
-                
-                
-                <th colspan='2' class='encabezados'>RESUMEN</th>
-                <th colspan='16' class='encabezados' rowspan="2">ASISTENCIA</th>
-            </tr>   
-            <tr>
-                <!--<th class='encabezados'>A</th>-->
-                <th class='encabezados'>F</th>
-                <th class='encabezados'>RM</th>
-                <!--<th class='encabezados'>RQ1</th>
-                <th class='encabezados'>RQ2</th>-->
-            </tr> 
-        </thead>
-        <tbody class='datos'>
-            <?php $numero = 0; ?>
-            @foreach ($empleados['datos'] as $index_empleado => $empleado )
-                <tr>
-                    <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
-                    <td class='linea'>{{ $empleado->Name}} </td>
-                    <td class='linea'>{{ $empleado->TITLE}} </td>
-                    <td class='linea'>{{ $empleado->PAGER }} </td>
-                    <!--<td class='linea centrado'>{{ $empleado->resumen['ASISTENCIA'] }}</td>-->
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS'] }}</td>
-                    <!--<td class='linea centrado'>{{ $empleado->resumen['RETARDOS_1'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS_2'] }}</td>-->
-                    @foreach ($empleado->asistencia as $indice => $asistencias )
-                        @if ($asistencias == 'F' || $asistencias == 'FE' || $asistencias == 'FS' )
-                            <td class='linea centrado' style='background-color:#EFEFEF;'>{{ $indice }}<br> {{ $asistencias }}</td>  
-                        @else  
-                            <td class='linea centrado'>{{ $indice }}<br> {{ $asistencias }}</td>  
-                        @endif
-                        
-                    @endforeach
-                </tr>    
-                <?php $numero++; ?>
-            @endforeach
-        </tbody>
-    </table>
-    <br><br>
-    <table width="100%" class='firmantes'>
+    </header>   
+    <table width="100%" class='firmantes footer'>
         <tr>
             <td class="centrado tamano">
             DIRECTOR(A) DEL HOSPITAL O JEFE JURISDICCIIONAL
@@ -200,6 +148,58 @@
             </td>
         </tr>
     </table> 
+    <table width="100%"  cellspacing="0" class="fuente">
+        <thead class='cabecera'>
+            <tr>
+                <th rowspan="2" class='encabezados'># DOCUMENTO</th>
+                <th rowspan="2" class='encabezados' width="300px">NOMBRE DEL EMPLEADO</th>
+                <th rowspan="2" class='encabezados' width="90px">RFC</th>
+                <th rowspan="2" class='encabezados' width="60px">CODIGO</th>
+                
+                
+                <th colspan='2' class='encabezados'>RESUMEN</th>
+                <th colspan='31' class='encabezados' rowspan="2">ASISTENCIA</th>
+            </tr>   
+            <tr>
+                <!--<th class='encabezados'>A</th>-->
+                <th class='encabezados'>F</th>
+                <th class='encabezados'>R1</th>
+                <!--<th class='encabezados'>RQ1</th>
+                <th class='encabezados'>RQ2</th>-->
+            </tr> 
+        </thead>
+        <tbody class='datos'>
+            <?php $numero = 0; ?>
+            @foreach ($empleados['datos'] as $index_empleado => $empleado )
+                <tr>
+                    <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                    <td class='linea'>{{ $empleado->Name}} </td>
+                    <td class='linea'>{{ $empleado->TITLE}} </td>
+                    <td class='linea'>{{ $empleado->PAGER }} </td>
+                    <!--<td class='linea centrado'>{{ $empleado->resumen['ASISTENCIA'] }}</td>-->
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS'] }}</td>
+                    <!--<td class='linea centrado'>{{ $empleado->resumen['RETARDOS_1'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS_2'] }}</td>-->
+                    @foreach ($empleado->asistencia as $indice => $asistencias )
+                        @if ($asistencias == 'F' || $asistencias == 'FE' || $asistencias == 'FS' )
+                            <td class='linea centrado' style='background-color:#993e3e; color:white;'>{{ $indice }}<br> {{ $asistencias }}</td>  
+                        @elseif ($asistencias == 'R1')
+                            <td class='linea centrado' style='background-color:#6a6969; color:white;'>{{ $indice }}<br> {{ $asistencias }}</td>  
+                        @elseif ($asistencias == 'N/A')
+                            <td class='linea centrado' style='background-color:#EFEFEF;'>{{ $indice }}<br></td>  
+                        @else    
+                            <td class='linea centrado'>{{ $indice }}<br> {{ $asistencias }}</td>  
+                        @endif
+                        
+                    @endforeach
+                </tr>    
+                <?php $numero++; ?>
+            @endforeach
+        </tbody>
+    </table>
+    
+     
 
     <script type="text/php">
     if (isset($pdf))
