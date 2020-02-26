@@ -123,7 +123,7 @@ class ReporteTrimestralController extends Controller
             ->WHERE("PAGER", "NOT LIKE", 'CF%')
             ->WHERE("FPHONE", "=", 'CSSSA017213')
             ->WHERE("OPHONE", "!=", 3)
-            //->where("TITLE","=", 'VIDM870128TJA')
+            //->where("TITLE","=", 'MAAS740817K2A')
             ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
             //->limit(200)
             ->orderBy("carType", "DESC")
@@ -137,6 +137,7 @@ class ReporteTrimestralController extends Controller
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE] = $empleados[$index_empleado];
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 1;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = 0;
                 }
                 
 
@@ -166,16 +167,21 @@ class ReporteTrimestralController extends Controller
                         {
                             if($indice_horario_seleccionado < count($horarios_periodo))
                             {
+                                //return array("datos" => $horarios_periodo[$indice_horario_seleccionado]);
                                 //verificador de horas de jornada
-                            if($jornada_laboral == 0)
-                            {
-                                    $inicio_jornada = $horarios_periodo[0]['detalleHorario'][0]['STARTTIME'];
-                                    $fin_jornada    = $horarios_periodo[0]['detalleHorario'][0]['ENDTIME'];
-                                    $jornada_inicio =new Carbon($inicio_jornada);
-                                    $jornada_fin    =new Carbon($fin_jornada);
-                                    $jornada_fin->addMinutes(30);
-                                    $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
-                            }
+                                if($jornada_laboral == 0)
+                                {
+                                        $inicio_jornada = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['STARTTIME'];
+                                       
+                                        $fin_jornada    = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['ENDTIME'];
+                                        $jornada_inicio =new Carbon($inicio_jornada);
+                                        $jornada_fin    =new Carbon($fin_jornada);
+                                        $jornada_fin->addMinutes(30);
+                                        $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
+                                        //$jornada_laboral =1;
+                                        $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_fin->diffInHours($jornada_inicio);
+                                        //return array("datos" => $jornada_laboral);
+                                }
                                 //fin veririficador
                                 $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
                                 $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
@@ -345,7 +351,7 @@ class ReporteTrimestralController extends Controller
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] += 1;
                 }
                 
-                $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_laboral;
+                //$empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_laboral;
             }
             $lista_empleados_trimestral = [];
             foreach ($empleados_trimestral as $index_trimestral => $data_trimestral) {

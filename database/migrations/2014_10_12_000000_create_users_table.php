@@ -23,8 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('apellido_materno')->nullable();
             $table->string('alias');
             $table->boolean('is_superuser')->default(0)->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            //$table->timestamp('email_verified_at')->nullable();
+            //$table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

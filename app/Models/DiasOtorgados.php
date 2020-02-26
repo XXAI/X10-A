@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class DiasOtorgados extends Model
 {
     protected $table = "USER_SPEDAY";
+
+    public function siglas(){
+        return $this->hasOne('App\Models\Siglas', 'LeaveId', "DATEID");
+    }
 }

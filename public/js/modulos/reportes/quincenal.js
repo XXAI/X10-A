@@ -14,9 +14,12 @@ function cargar_catalogo()
             dataType: "json",
             url: './api/catalogo',
       }).done(function( data, textStatus, jqXHR ) {
-           $.each(data.catalogo, function(index, valor)
+            $.each(data.catalogo, function(index, valor)
            {
-                  select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                 if(valor.DEPTID!=1)
+                 {
+                        select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                 }
            });
             
       }).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -30,9 +33,10 @@ function btn_filtrar()
       var anio = $("#anio").val();
       var mes = $("#mes").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
-      var quincena = $("#quincena").val();
+      //var quincena = $("#quincena").val();
+      var nombre = $("#nombre").val();
 
-      obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };
+      obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'nombre': nombre };
       cargar_dato(obj_filtro);
 }
 
@@ -62,48 +66,62 @@ function cargar_dato(dato)
             $.each(data.usuarios, function(index, value)
             {
                 
-                var linea = $("<tr ></tr>");
-                var campo1 = $("<td>"+value.Name+"<br>"+value.TITLE+"</td>");
+                var linea = $("<tr  ></tr>");
+                
+                var campo1 = $("<td rowspan='2' style='border-bottom:1px solid black;'>"+value.Name+"<br>"+value.TITLE+"</td>");
                 //linea.append(campo1);
                 //lista.append(linea);
                 
-                campo2 =  $("<td style='text-align:center'>A<br>" + value.resumen.ASISTENCIA + "</td>");
-                campo3 =  $("<td  style='text-align:center'>RM<br>" + value.resumen.RETARDOS + "</td>");
-                campo4 =  $("<td style='text-align:center'>F<br>" + value.resumen.FALTAS + "</td>");
+                campo2 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>A<br>" + value.resumen.ASISTENCIA + "</td>");
+                campo3 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>R1Q1<br>" + value.resumen.RETARDOS_1 + "</td>");
+                campo4 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>R1Q2<br>" + value.resumen.RETARDOS_2 + "</td>");
+                campo5 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;; border-right:2px solid black;'>F<br>" + value.resumen.FALTAS + "</td>");
                 //campo5 =  $("<td style='text-align:center'>RQ1<br>" + value.resumen.RETARDOS_1 + "</td>");
                 //campo6 =  $("<td style='text-align:center'>RQ2<br>" + value.resumen.RETARDOS_2 + "</td>");
-                linea.append(campo1, campo2, campo3, campo4);
+                linea.append(campo1, campo2, campo3, campo4, campo5);
                 lista.append(linea);
 
-                //var i = 1;
-                //var linea2 = $("<tr></tr>");
-                //var tamano = Object.keys(value.asistencia).length;
+                var i = 1;
+                var linea2 = $("<tr></tr>");
+                var tamano = Object.keys(value.asistencia).length;
                 $.each(value.asistencia, function(index_asistencia, value_asistencia)
                 {
+                      var stilo_linea = "";
+                      if(i>=16)
+                      {
+                        stilo_linea = "border-bottom:1px solid black;";
+                      }
                       if(value_asistencia == "F" || value_asistencia == "FE" || value_asistencia == "FS")
                       {
-                        campo =  $("<td style='text-align:center; background-color:#EFEFEF' >" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                        campo =  $("<td style='text-align:center; background-color:#993e3e; color:white; padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                      }else if(value_asistencia == "R1")
+                      {
+                        campo =  $("<td style='text-align:center; background-color:#6a6969; color:white;padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                      }
+                      else if(value_asistencia == "N/A")
+                      {
+                        campo =  $("<td style='text-align:center;font-weight:bold; background-color: #EFEFEF; padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "</td>");
                       }else
                       {
-                        campo =  $("<td style='text-align:center'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                        campo =  $("<td style='text-align:center;padding: 0rem !important;"+stilo_linea+"'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                       }
                       //console.log(tamano);
-                      /*if(tamano == 31 && i == 16)
+                      if(tamano == 31 && i == 16)
                       {
-                        linea.append($("<td style='text-align:center'></td>"));
+                        linea.append($("<td style='text-align:center;padding: 0rem !important;'></td>"));
                         lista.append(linea);
                       }
                       if( i < 16 )
-                      {*/
+                      {
                         linea.append(campo);
                         lista.append(linea);
-                      /*}else
+                      }else
                       {
                         linea2.append(campo);
                         lista.append(linea2);
                       }
                       
-                      i++;*/
+                      i++;
                 });
             
             });
@@ -118,10 +136,10 @@ function generar_reporte()
       var anio = $("#anio").val();
       var mes = $("#mes").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
-      var quincena = $("#quincena").val();
+      var nombre = $("#nombre").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
       
-      win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&quincena="+quincena, '_blank');
+      win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
 }

@@ -25,5 +25,6 @@ class UsersTableSeeder extends Seeder
             'alias' => 'Admin',
             'is_superuser' => 1
         ]);
+       
     }
 }

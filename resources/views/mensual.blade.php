@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'REPORTE - CHECK EXACT')
+@section('title', 'REPORTE - Faltas')
 
 @section('content')
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Reporte de Faltas Quincenales</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Reporte de Faltas Mensuales</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -19,7 +19,7 @@
                     <tr>
                         <th>Año</th>
                         <th>Mes</th>
-                        <th>Quincena</th>
+                        <th>RFC o Nombre</th>
                         <th>Tipo Empleado</th>
                         <th></th>
                     </tr>
@@ -49,11 +49,12 @@
                             </select>
                         </td>
                         <td>
-                        <select class='select form-control' id = 'quincena'>
+                        <input type='text' class='form-control' name='nombre' id='nombre'>
+                        <!--<select class='select form-control' id = 'quincena'>
                                 <option value='1'>QUINCENA 1</option>
                                 <option value='2'>QUINCENA 2</option>
                             </select>
-                        </td>
+                        </td>-->
                         <td>
                             <select id='tipo_trabajador' class='select form-control'>
                             </select>
@@ -65,12 +66,12 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-faltas">
                 <thead>
                     <tr>
                         <th>Nombre / RFC</th>
                         
-                        <th colspan='3' style='text-align:center'>Resumen</th>
+                        <th colspan='4' style='text-align:center'>Resumen</th>
                         <th colspan='17' style='text-align:center'>Asistencias</th>
                         
                     </tr>
