@@ -444,7 +444,7 @@ class reporteController extends Controller
                             
                         
                         
-                        if(($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
+                        if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
                            { 
                                
                                $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
