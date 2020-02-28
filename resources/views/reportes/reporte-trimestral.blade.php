@@ -140,6 +140,7 @@ switch($empleados['trimestre'])
                                 @case(6)
                                 @case(11)
                                     GOV0006
+                                    
                                 @break
                                 @case(13)
                                     CAR0006
@@ -149,11 +150,11 @@ switch($empleados['trimestre'])
                                 @break
                             @endswitch
                             <br>
-                            CÓDIGO MOVIMIENTO:<br>
-                            VIGENCIA:<br>
+                            CÓDIGO MOVIMIENTO: 9204<br>
+                            VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
                             QNA. DE CAPTURA: 06/20<br>
                             <br>
-                            ESTIMULO TRIMESTRAL  {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}
+                            ESTIMULO TRIMESTRAL  
                             </div>
                         </td>
                         <td width="100px">
@@ -234,7 +235,20 @@ switch($empleados['trimestre'])
     <script type="text/php">
     if (isset($pdf))
     {
-        $fecha = date("Y-m-d H:i:s");
+        $iniciales = "";
+        @switch($empleados['tipo_trabajador']['DEPTID'])
+            @case(6)
+            @case(11)
+                GOV0006
+            @break
+            @case(13)
+                CAR0006
+            @break
+            @case(12)
+            $iniciales = "PEV";
+            @break
+        @endswitch
+        $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }
     </script>       
