@@ -22,6 +22,7 @@ class CreateCatalogoCr extends Migration
             $table->softDeletes();
 
             $table->foreign('clues')->references('clues')->on('catalogo_clues');
+            
         });
     }
 

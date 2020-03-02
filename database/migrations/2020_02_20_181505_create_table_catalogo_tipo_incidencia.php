@@ -15,7 +15,9 @@ class CreateTableCatalogoTipoIncidencia extends Migration
     {
         Schema::create('catalogo_tipo_incidencia', function (Blueprint $table) {
             $table->SmallIncrements('id')->unsigned();
+            $table->string('descripcion', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,16 +14,17 @@ class CreateTableEmpleados extends Migration
     public function up()
     {
         Schema::create('empleados', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->increments('id');
+            
             $table->string("num_empleado", 10);
-            $table->string("nombre", 100)->index();
-            $table->string("apellido_paterno", 50)->index()->nullable();
-            $table->string("apellido_materno", 50)->index()->nullable();
-            $table->string("rfc", 14)->index();
-            $table->string("codigo_id", 10)->index();
-            $table->string("ur_id", 10)->index();
-            $table->string("cr_id", 11)->index();
-            $table->smallInteger("calculable")->default(0)->comments("0 = si, 1= no, si entra en el proceso de calculo de asistencia");
+            $table->string("nombre", 100);
+            $table->string("apellido_paterno", 50)->nullable();
+            $table->string("apellido_materno", 50)->nullable();
+            $table->string("rfc", 14);
+            $table->string("codigo_id", 10);
+            $table->smallInteger("ur_id", 11);
+            $table->string("cr_id", 11);
+            $table->smallInteger("calculable");//->comments("0 = si, 1= no, si entra en el proceso de calculo de asistencia");
             $table->timestamps();
             $table->softDeletes();
             
