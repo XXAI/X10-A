@@ -140,13 +140,12 @@ switch($empleados['trimestre'])
                                 @case(6)
                                 @case(11)
                                     GOV0006
-                                    
                                 @break
                                 @case(13)
                                     CAR0006
                                 @break
                                 @case(12)
-                                    PEV0006
+                                    PEV0025
                                 @break
                             @endswitch
                             <br>
@@ -239,13 +238,13 @@ switch($empleados['trimestre'])
         @switch($empleados['tipo_trabajador']['DEPTID'])
             @case(6)
             @case(11)
-                GOV0006
+                $iniciales = "GOV";
             @break
             @case(13)
-                CAR0006
+                $iniciales = "CAR";
             @break
             @case(12)
-            $iniciales = "PEV";
+                $iniciales = "PEV";
             @break
         @endswitch
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
