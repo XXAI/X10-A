@@ -142,7 +142,9 @@ class reporteController extends Controller
                             ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime1, 108) as InicioChecarSalida")
                             ,DB::RAW("CONVERT(nvarchar(5), schclass.CheckOutTime2, 108) as FinChecarSalida")
                             ,"schclass.CheckOutTime2 as prueba"
-                            ,"schclass.schClassId as idH")                                                             
+                            ,"schclass.schClassId as idH"
+                            ,"num_run_deil.SDAYS as diaEnt"
+                            ,"num_run_deil.EDAYS as diaSal")                                                             
                             ->where("user_of_run.USERID", "=",  $validacion->USERID)
                             ->where("USER_OF_RUN.NUM_OF_RUN_ID","=",$horario->NUM_OF_RUN_ID)
                             
@@ -221,6 +223,7 @@ class reporteController extends Controller
                         
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
                         $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
+                        
                         if(substr($var_reglas[$fecha_evaluar->dayOfWeekIso]->horario,0,2)<>"HT")
                             $htra=$jorFin->diffInRealHours($jorIni);
                         else
@@ -229,16 +232,34 @@ class reporteController extends Controller
                         
 
                         $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
+                        
                         $fecha_eval = $asistencia[$indice]['fecha'];
 
                         $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
                         $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
+                       $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
+                       $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
+                       $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
+                        if ($diatrab>=1)
+                            {
+                                $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
+                                $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
+                                $modif=$inicio_sal;
+                                $modif=$modif->subDays($diatrab);
+                                $inicio_sal->addDays($diatrab);
+                                $final_sal->addDays($diatrab);
+                                $inicio_sal= str_replace(" ", "T", $inicio_sal);
+                                $final_sal= str_replace(" ", "T", $final_sal);
+
+                               
+                            }
+                           
                        
-
-                        $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
-                        $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";                  
-
+                                     
+                       
+                       
                         $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+                         
                         
 
 
@@ -249,10 +270,10 @@ class reporteController extends Controller
                         $final_entra_fuera->subMinute();
                         $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                         $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
-                        //echo  "INICIO: ".$final_entra_fuera."SALIDA: ".$final_sal_fuera;
+                       
                                                
                         
-                      
+                       // return $inicio_entra."   InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$fin_sal;
                     $asistencia[$indice]['horario'] = $inicio;
 
                         $checada_entrada = DB::table("checkinout")
@@ -275,13 +296,13 @@ class reporteController extends Controller
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
-                        
+                        //return $checada_salida;
                         $checada_sal_fuera = DB::table("checkinout")
-                        ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
-                        ->where("TITLE", "=",  $desc)
-                        ->whereBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
-                        ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
-                        ->first();
+                                ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                                ->where("TITLE", "=",  $desc)
+                                ->whereBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                                ->first();
 
                             
                         $checada_extra = DB::table("user_speday")
@@ -306,8 +327,14 @@ class reporteController extends Controller
                                 else{
                                     switch($checada_extra->TIPO){
                                     case 1:                                
-                                        $impr=$checada_extra->HORA." "."(Pase de Salida)";
-                                        $ps=$ps+$checada_extra->DIFHORA;
+                                        $impr=$checada_extra->HORA." "."(Pase de Salida)";                                  
+                                        
+                                         $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
+                                         $hps=$modif->diffInMinutes($hps);                                       
+                                        if ($diatrab>=1)
+                                            $ps=$hps;
+                                        else
+                                            $ps=$ps+$checada_extra->DIFHORA;
                                         break;
                                     case 2:
                                         $impr= "Vacaciones 2019 Primavera-Verano";
