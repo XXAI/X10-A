@@ -245,18 +245,21 @@ class reporteController extends Controller
                                 $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
                                 $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
                                 $modif=$inicio_sal;
-                                $modif=$modif->subDays($diatrab);
+                                //$modif=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
+                                
+                                
                                 $inicio_sal->addDays($diatrab);
                                 $final_sal->addDays($diatrab);
                                 $inicio_sal= str_replace(" ", "T", $inicio_sal);
                                 $final_sal= str_replace(" ", "T", $final_sal);
+                                $modif=$modif->subDays($diatrab);
 
-                               
+                                
                             }
                            
                        
-                                     
-                       
+                           // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
+                            
                        
                         $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
                          
@@ -273,7 +276,7 @@ class reporteController extends Controller
                        
                                                
                         
-                       // return $inicio_entra."   InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$fin_sal;
+                        
                     $asistencia[$indice]['horario'] = $inicio;
 
                         $checada_entrada = DB::table("checkinout")
