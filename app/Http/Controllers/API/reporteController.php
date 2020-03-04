@@ -244,17 +244,13 @@ class reporteController extends Controller
                             {
                                 $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
                                 $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
-                                $modif=$inicio_sal;
-                                //$modif=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                
-                                
+                                $modif=$inicio_sal;                                                             
                                 $inicio_sal->addDays($diatrab);
                                 $final_sal->addDays($diatrab);
                                 $inicio_sal= str_replace(" ", "T", $inicio_sal);
                                 $final_sal= str_replace(" ", "T", $final_sal);
                                 $modif=$modif->subDays($diatrab);
 
-                                
                             }
                            
                        
