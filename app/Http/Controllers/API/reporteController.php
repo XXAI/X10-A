@@ -326,12 +326,15 @@ class reporteController extends Controller
                                 else{
                                     switch($checada_extra->TIPO){
                                     case 1:                                
-                                        $impr=$checada_extra->HORA." "."(Pase de Salida)";                                  
+                                        $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
                                         
-                                         $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
-                                         $hps=$modif->diffInMinutes($hps);                                       
+                                                                                
                                         if ($diatrab>=1)
-                                            $ps=$hps;
+                                            {
+                                                $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
+                                                $hps=$modif->diffInMinutes($hps);
+                                                $ps=$hps;
+                                            }                                                    
                                         else
                                             $ps=$ps+$checada_extra->DIFHORA;
                                         break;
