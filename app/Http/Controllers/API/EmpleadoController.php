@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
-use App\Models\Usuarios;
+use App\Models\Empleados;
 class EmpleadoController extends Controller
 {
     /**
@@ -16,7 +16,7 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->get('buscar');
+       /*  $name = $request->get('buscar');
         //$name = 'VIDM870128TJA';
         $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
         if($name !='')
@@ -25,7 +25,7 @@ class EmpleadoController extends Controller
         $usuarios = $usuarios->paginate(15);
 
         
-        return response()->json(["usuarios" => $usuarios]);
+        return response()->json(["usuarios" => $usuarios]); */
         //return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
 
@@ -47,7 +47,9 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datosEmpleado=request()->all();        
+        Empleados::insert($datosEmpleado);
+        return response()->json($datosEmpleado);
     }
 
     /**
@@ -58,7 +60,7 @@ class EmpleadoController extends Controller
      */
     public function show()
     {
-        return "glltrltrltlrk";
+      //
     }
 
     /**

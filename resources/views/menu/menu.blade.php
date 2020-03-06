@@ -31,7 +31,19 @@
       <div class="sidebar-heading">
         RH
       </div>
-
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_rh" aria-expanded="true" aria-controls="menu_rh">
+          <i  class="fas fa-users"></i>
+          <span>RH</span>
+        </a>
+        <div id="menu_rh" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="./empleado">EMPLEADOS</a>
+            
+            <!--<a class="collapse-item" href="">ANUAL</a>-->
+          </div>
+        </div>
+      </li>
       <!-- Nav Item - Pages Collapse Menu -->
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_empleados" aria-expanded="true" aria-controls="menu_empleados">

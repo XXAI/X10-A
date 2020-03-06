@@ -46,3 +46,19 @@ function btn_filtrar()
       var buscar = $("#buscar").val();      
       cargar_dato(buscar);
 }
+
+function btn_agregar()
+{     
+      document.getElementById('empleado').click();
+}
+
+function btn_guardar()
+{     
+      alert("Hola JUancarlos Puto");
+}
+
+$( "#nombre" ).blur(function() {
+      //alert( "Hola "+$( "#nombre" ).val() );
+      
+    });
+
