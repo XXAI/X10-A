@@ -1,32 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Carbon\Carbon, DB;
-
-use App\Models\Empleados;
-class EmpleadoController extends Controller
+use App\Models\Urs;
+class UrController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-       /*  $name = $request->get('buscar');
-        //$name = 'VIDM870128TJA';
-        $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
-        if($name !='')
-            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%');
-
-        $usuarios = $usuarios->paginate(15);
-
-        
-        return response()->json(["usuarios" => $usuarios]); */
-        //return view("reportes.kardex" , ['empleados' => $userinfo]);
+        $urs=Urs::all();
+        return response()->json(["urs" => $urs]);
     }
 
     /**
@@ -47,17 +35,7 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        $empleados=new Empleados;        
-        $empleados->nombre= $request->nombre;
-        $empleados->apellido_paterno= $request->apaterno;
-        $empleados->apellido_materno= $request->amaterno;
-        $empleados->rfc= $request->rfc;
-        $empleados->codigo_id= $request->codigo;
-        $empleados->ur_id= $request->tipo;
-        $empleados->cr_id= $request->tipo;
-        $empleados->calculable= $request->tipo;
-        $empleados->save();
-        return response()->json($empleados);
+        //
     }
 
     /**
@@ -66,9 +44,9 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-      //
+        //
     }
 
     /**

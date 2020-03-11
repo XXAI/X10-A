@@ -1,6 +1,7 @@
 $(document).ready(function(){
   
     cargar_dato('');
+    cargar_ur();
 });
 
 function cargar_dato(dato, urlrh)
@@ -41,6 +42,25 @@ function cargar_datos_empleado(datos)
     });
 }
 
+
+function cargar_ur()
+{
+   
+     jQuery.ajax({
+            type: "GET",
+            url: './api/ur', 
+            dataType: "json",
+            success: function(data){                  
+            $.each(data.urs,function(key, value) {            
+            $("#tipo").append('<option value='+value.id+'>'+value.descripcion+'</option>');
+            });        
+            },
+            error: function(data) {
+            alert('error');
+            }
+      });
+}
+
 function btn_filtrar()
 {     
       var buscar = $("#buscar").val();      
@@ -54,11 +74,19 @@ function btn_agregar()
 
 function btn_guardar()
 {     
-      alert("Hola JUancarlos Puto");
+      
 }
 
 $( "#nombre" ).blur(function() {
       //alert( "Hola "+$( "#nombre" ).val() );
       
-    });
+});
+$( "#tipo" ).change(function() {
+      alert( "Hola "+$( "#tipo" ).val() );
+      
+});
 
+    $("#checa").click(function () {	 
+      alert($('input:checkbox[name=colorfavorito]:checked').val());
+      $("#formulario").submit();
+});

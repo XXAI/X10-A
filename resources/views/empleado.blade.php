@@ -79,13 +79,23 @@
                             <input type="text" class="form-control" id="codigo" placeholder="codigo" required>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="tipo">Tipo</label>
-                            <input type="text" class="form-control" id="tipo" placeholder="Tipo" required>
+                           
+                            <div class="form-group">
+                                <label for="tipo">Tipo</label>
+                                <select id="tipo" class="custom-select" name="">
+                                    
+                                </select>
+                            </div>
                         </div>
+                        
                     </div>
                     <div class="form-group">
+                        <div class="col-md-3 mb-3">
+                            <label for="cr">Tipo</label>
+                            <input type="text" class="form-control" id="cr" placeholder="cr" required>
+                        </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checa" checked >
+                            <input class="form-check-input" type="checkbox" value="rojo" id="checa" checked >
                             <label class="form-check-label" for="checa">
                                 Checa?
                             </label>
