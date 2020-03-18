@@ -89,21 +89,21 @@ function cargar_dato(dato)
                       var stilo_linea = "";
                       if(i>=16)
                       {
-                        stilo_linea = "border-bottom:1px solid black;";
+                        //stilo_linea = "border-bottom:1px solid black;";
                       }
                       if(value_asistencia == "F" || value_asistencia == "FE" || value_asistencia == "FS")
                       {
-                        campo =  $("<td style='text-align:center; background-color:#993e3e; color:white; padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                        campo =  $("<td style='"+stilo_linea+"' class='faltas color_rojo'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                       }else if(value_asistencia == "R1")
                       {
-                        campo =  $("<td style='text-align:center; background-color:#6a6969; color:white;padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                        campo =  $("<td style='"+stilo_linea+"'  class='faltas color_gris'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                       }
                       else if(value_asistencia == "N/A")
                       {
-                        campo =  $("<td style='text-align:center;font-weight:bold; background-color: #EFEFEF; padding: 0rem !important;"+stilo_linea+"' >" + index_asistencia + "</td>");
+                        campo =  $("<td style='background-color: #EFEFEF;"+stilo_linea+"'  class='faltas'>" + index_asistencia + "</td>");
                       }else
                       {
-                        campo =  $("<td style='text-align:center;padding: 0rem !important;"+stilo_linea+"'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
+                        campo =  $("<td style='"+stilo_linea+"' class='faltas_default color_verde'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                       }
                       //console.log(tamano);
                       if(tamano == 31 && i == 16)

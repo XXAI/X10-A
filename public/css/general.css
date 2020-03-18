@@ -1,0 +1,31 @@
+
+.faltas
+{
+    text-align:center; 
+    /*color:white; */
+    padding: 0rem !important;
+    font-size: 9pt;
+}
+
+.faltas_default
+{
+    text-align:center; 
+    /*color:white; */
+    padding: 0rem !important;
+    font-size: 9pt;
+}
+
+.color_rojo
+{
+    border-bottom: 3px solid red !important;
+}
+
+.color_gris
+{
+    border-bottom: 3px solid #6a6969 !important;
+}
+
+.color_verde
+{
+    border-bottom: 3px solid green !important;
+}

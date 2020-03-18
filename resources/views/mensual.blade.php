@@ -2,6 +2,11 @@
 
 @section('title', 'REPORTE - Faltas')
 
+@section('estilos')
+    @parent
+    <link href="{{ asset('css/general.css') }}" rel="stylesheet">
+@stop
+
 @section('content')
 
 <div class="card shadow mb-4">
