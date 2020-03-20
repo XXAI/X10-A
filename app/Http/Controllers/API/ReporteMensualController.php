@@ -376,20 +376,21 @@ class ReporteMensualController extends Controller
         return $arreglo_salidas;
     }
 
-    function omisiones($arreglo)
+    function omisiones($arreglo, $checadas)
     {
         $arreglo_omisiones = array();
         foreach ($arreglo as $key => $value) {
             //$arreglo_omisiones[substr($value->CHECKTIME, 0,10)][] = $value;
-            if($value->CHECKTYPE == "I")
+            $checadas[substr($value->CHECKTIME, 0,10)][] = $value;
+            /*if($value->CHECKTYPE == "I")
             {
                 $arreglo_omisiones['entradas'][substr($value->CHECKTIME, 0,10)][] = $value;
             }else if($value->CHECKTYPE == "O")
             {
                 $arreglo_omisiones['salidas'][substr($value->CHECKTIME, 0,10)][] = $value;
-            }
+            }*/
         }
-        return $arreglo_omisiones;
+        return $checadas;
     }
 
     function dias_otorgados($arreglo)
@@ -457,7 +458,7 @@ class ReporteMensualController extends Controller
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
         ->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
-        ->where("USERID", "=","509")
+        //->where("USERID", "=","509")
         ->orderBy("carType", "DESC")
         ->get();
         return $empleados;
@@ -495,7 +496,7 @@ class ReporteMensualController extends Controller
         }
     }
 
-    function VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $omisiones, $dias_otorgados)
+    function VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $dias_otorgados, $arreglo_salidas)
     {
         $dia = $fecha_evaluar->dayOfWeekIso;
         $dia_inicio = intval($validacion_horario['habiles'][$dia]->SDAYS);
@@ -582,6 +583,11 @@ class ReporteMensualController extends Controller
             }
         }
 
+        if($checada_entrada == 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
+        {
+            $checada_salida = 1;
+        }
+
         if($diferencia_dias != 0)
         {
             $fecha_evaluar->addDays($diferencia);
@@ -592,17 +598,23 @@ class ReporteMensualController extends Controller
             if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
             if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5){ $calcular_salida = 1; $inicio_salida->subMinutes(120); }
 
-            
-            foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
-                $checada = new Carbon($dato_checada->CHECKTIME);
-                if($checada_salida == 0 )
-                {
-                    if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
+            if($checada_entrada == 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
+            {
+                $checada_salida = 1;
+            }
+            if($checada_salida == 0)
+            {
+                foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                    $checada = new Carbon($dato_checada->CHECKTIME);
+                    if($checada_salida == 0 )
                     {
-                        $checada_salida = 1;
-                        if($calcular_salida == 1)
+                        if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                         {
-                            $minutos_salida = $checada->diffInMinutes($inicio_salida_fija->addMinutes(1));
+                            $checada_salida = 1;
+                            if($calcular_salida == 1)
+                            {
+                                $minutos_salida = $checada->diffInMinutes($inicio_salida_fija->addMinutes(1));
+                            }
                         }
                     }
                 }
@@ -680,10 +692,11 @@ class ReporteMensualController extends Controller
             $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0, "MINUTOS_PASES" => 0];
             
             $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
-            $omisiones          = $this->omisiones($data_empleado->omisiones);
+            //return $checadas_empleado;
+            $checadas_empleado  = $this->omisiones($data_empleado->omisiones, $checadas_empleado);
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
             
-            //return $dias_otorgados;
+            
             $i = 1;
             for($i; $i<=$fecha_inicio->daysInMonth; $i++)
             {
@@ -718,13 +731,13 @@ class ReporteMensualController extends Controller
                     $fecha_inicio_periodo = $validacion_horario["inicio_periodo" ]; 
                     $fecha_fin_periodo = $validacion_horario["fin_periodo" ]; 
                     $dias_habiles = $validacion_horario["habiles" ]; 
-                    
+                    //return $dias_otorgados;
                     if(!array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles)){  $arreglo_consulta[$i] = "N/A"; continue; } //No es día habil para su horario
-                    if(array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados['festivos'])){ $arreglo_consulta[$i] = "DF"; $resumen['OMISIONES']++; /**/ continue; }//Se Valida el dia completo con justificante
+                    if(isset($dias_otorgados['festivos']) && array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados['festivos'])){ $arreglo_consulta[$i] = $dias_otorgados['festivos'][$fecha_evaluar->format('Y-m-d')][0]->siglas->ReportSymbol; $resumen['OMISIONES']++; /**/ continue; }//Se Valida el dia completo con justificante
                     if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos)){ $arreglo_consulta[$i] = "DF"; continue; }//Se Valida el dia completo festivo
                     if(array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles) && !array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado)){ $arreglo_consulta[$i] = "F"; continue; }// Tiene horario y no checadas es falta directa, habiendo justificado dias
                     
-                    $resultado = $this->VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $omisiones, $dias_otorgados);
+                    $resultado = $this->VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $dias_otorgados, $arreglo_salidas);
                     //return $resultado;
                     $arreglo_consulta[$i] = $resultado['simbolo'];  
                     $i = $i + $resultado['diferencia'];
@@ -744,7 +757,7 @@ class ReporteMensualController extends Controller
         }
 ///Aqui termina
 
-        return array("datos" => $empleados, "omisiones"=> $omisiones);
+        return array("datos" => $empleados);
         
         return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }
