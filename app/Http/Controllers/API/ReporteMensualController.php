@@ -22,7 +22,8 @@ class ReporteMensualController extends Controller
     public function index(Request $request)
     {
         //return Input::all();
-        $empleados = $this->claseAsistencia($request);
+        //$empleados = $this->claseAsistencia($request);
+        $empleados = $this->claseFaltas($request);
         
         return response()->json(["usuarios" => $empleados['datos']]);
     }
@@ -30,7 +31,8 @@ class ReporteMensualController extends Controller
     public function reporteMensual(Request $request)
     {
 
-        $asistencia = $this->claseAsistencia($request);
+        #$asistencia = $this->claseAsistencia($request);
+        $asistencia = $this->claseFaltas($request);
         $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
@@ -445,9 +447,9 @@ class ReporteMensualController extends Controller
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTDATE", "<=", $fecha_inicio);//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
-        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+        }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
-        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+        }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
         }])
         ->whereNull("state")
@@ -504,7 +506,8 @@ class ReporteMensualController extends Controller
         $diferencia_dias = $dia_final - $dia_inicio;
         
         $dia_seleccionado = $validacion_horario['habiles'][$fecha_evaluar->dayOfWeekIso]->reglaAsistencia;
-                                
+                  
+        $num_dia_jornada = floatval($dia_seleccionado->WorkDay);
         $inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
         $fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
         if($diferencia_dias == 0)
@@ -650,7 +653,7 @@ class ReporteMensualController extends Controller
         {
             $diferencia_dias = 0;
         }
-        return array("simbolo"=>$simbolo_turno, "asistencia"=>$contador_asistencia, "retardos_menores"=>$contador_retardo, "faltas"=>$contador_faltas, 'contador_pases'=>$calcular_salida, "diferencia" => $diferencia_dias, "minutos_entrada"=>$minutos_entrada, "minutos_salida"=>$minutos_salida);
+        return array("simbolo"=>$simbolo_turno, "asistencia"=>$contador_asistencia, "turno_dias"=> $num_dia_jornada, "retardos_menores"=>$contador_retardo, "faltas"=>$contador_faltas, 'contador_pases'=>$calcular_salida, "diferencia" => $diferencia_dias, "minutos_entrada"=>$minutos_entrada, "minutos_salida"=>$minutos_salida);
         
     }
 
@@ -661,6 +664,7 @@ class ReporteMensualController extends Controller
         $fecha_limite_actual = Carbon::now();
         $anio = $fecha_limite_actual->year;
         $mes  = $fecha_limite_actual->month;
+        $arreglo_resultado = Array();
         if(count($parametros) > 0)
         {
             if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
@@ -679,7 +683,6 @@ class ReporteMensualController extends Controller
         $arreglo_salidas = $this->salidas_autorizadas($fecha_inicio, $fecha_fin);
         $empleados = $this->empleados_checadas($fecha_inicio, $fecha_fin, $parametros);
         
-///Aqui empieza
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
@@ -689,13 +692,11 @@ class ReporteMensualController extends Controller
             $dias_habiles = array();
             $banderaHorarios = false;
 
-            $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0, "MINUTOS_PASES" => 0];
+            $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "FALTAS_TOTALES" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0, "MINUTOS_PASES" => 0];
             
             $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
             //return $checadas_empleado;
-            $checadas_empleado  = $this->omisiones($data_empleado->omisiones, $checadas_empleado);
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
-            
             
             $i = 1;
             for($i; $i<=$fecha_inicio->daysInMonth; $i++)
@@ -742,11 +743,14 @@ class ReporteMensualController extends Controller
                     $arreglo_consulta[$i] = $resultado['simbolo'];  
                     $i = $i + $resultado['diferencia'];
                     $resumen['ASISTENCIA'] += $resultado['asistencia']; 
-                    $resumen['FALTAS'] += $resultado['faltas']; 
+                    $resumen['FALTAS'] += $resultado['faltas'];  
+                    $resumen['FALTAS_TOTALES'] += ($resultado['faltas'] * $resultado['turno_dias']);  
                     $resumen['RETARDOS_1'] += $resultado['retardos_menores']; 
                     $resumen['MINUTOS_PASES'] += $resultado['minutos_salida']; 
                     if($resultado['faltas']){ $dia_falta[] = $i; }
 
+                    $resumen['FALTAS'] += intval($resumen['RETARDOS_1'] / 7);
+                    $resumen['FALTAS_TOTALES'] += intval($resumen['RETARDOS_1'] / 7);
                     //Falta ver que pex con los retardos mayores
                 }
             }
@@ -754,12 +758,14 @@ class ReporteMensualController extends Controller
             $empleados[$index_empleado]['resumen'] = $resumen;
             $empleados[$index_empleado]['asistencia'] = $arreglo_consulta;
             $empleados[$index_empleado]['dia_falta'] = $dia_falta;
-        }
-///Aqui termina
 
-        return array("datos" => $empleados);
-        
-        return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
+            if($resumen['FALTAS'] >= 1)
+            {
+                $arreglo_resultado[] = $empleados[$index_empleado];
+            }
+        }
+        $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
+        return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }
     
 }

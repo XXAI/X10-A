@@ -68,22 +68,24 @@ function cargar_dato(dato)
                 
                 var linea = $("<tr  ></tr>");
                 
-                var campo1 = $("<td rowspan='2' style='border-bottom:1px solid black;'>"+ value.Badgenumber +' - '+value.Name+"<br>"+value.TITLE+"</td>");
+                var campo1 = $("<td style='border-bottom:1px solid black;'>"+ value.Badgenumber +' - '+value.TITLE+" - "+value.Name+"</td>");
                 //linea.append(campo1);
                 //lista.append(linea);
                 
-                campo2 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>A<br>" + value.resumen.ASISTENCIA + "</td>");
-                campo3 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>R1Q1<br>" + value.resumen.RETARDOS_1 + "</td>");
-                campo4 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;'>R1Q2<br>" + value.resumen.RETARDOS_2 + "</td>");
-                campo5 =  $("<td rowspan='2' style='text-align:center;border-bottom:1px solid black;; border-right:2px solid black;'>F<br>" + value.resumen.FALTAS + "</td>");
+                campo2 =  $("<td style='text-align:center;border-bottom:1px solid black;'>A<br>" + value.resumen.ASISTENCIA + "</td>");
+                campo3 =  $("<td style='text-align:center;border-bottom:1px solid black;'>R1<br>" + value.resumen.RETARDOS_1 + "</td>");
+                //campo4 =  $("<td style='text-align:center;border-bottom:1px solid black;'>R1Q2<br>" + value.resumen.RETARDOS_2 + "</td>");
+                
+                campo5 =  $("<td style='text-align:center;border-bottom:1px solid black;; border-right:2px solid black;'>F<br>" + value.resumen.FALTAS + "</td>");
+                campo6 =  $("<td style='text-align:center;border-bottom:1px solid black;'>FT<br>" + value.resumen.FALTAS_TOTALES + "</td>");
                 //campo5 =  $("<td style='text-align:center'>RQ1<br>" + value.resumen.RETARDOS_1 + "</td>");
                 //campo6 =  $("<td style='text-align:center'>RQ2<br>" + value.resumen.RETARDOS_2 + "</td>");
-                linea.append(campo1, campo2, campo3, campo4, campo5);
+                linea.append(campo1, campo2, campo3, campo5, campo6);
                 lista.append(linea);
 
                 var i = 1;
-                var linea2 = $("<tr></tr>");
-                var tamano = Object.keys(value.asistencia).length;
+                //var linea2 = $("<tr></tr>");
+                //var tamano = Object.keys(value.asistencia).length;
                 $.each(value.asistencia, function(index_asistencia, value_asistencia)
                 {
                       var stilo_linea = "";
@@ -106,7 +108,7 @@ function cargar_dato(dato)
                         campo =  $("<td style='"+stilo_linea+"' class='faltas_default color_verde'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                       }
                       //console.log(tamano);
-                      if(tamano == 31 && i == 16)
+                      /*if(tamano == 31 && i == 16)
                       {
                         linea.append($("<td style='text-align:center;padding: 0rem !important;'></td>"));
                         lista.append(linea);
@@ -119,7 +121,9 @@ function cargar_dato(dato)
                       {
                         linea2.append(campo);
                         lista.append(linea2);
-                      }
+                      }*/
+                      linea.append(campo);
+                  lista.append(linea);
                       
                       i++;
                 });

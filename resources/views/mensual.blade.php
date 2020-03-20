@@ -66,7 +66,7 @@
                         </td>
                         <td>
                             <button name='filtrar' type='button' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()" >FILTRAR</button>
-                            <button type='button' class='btn btn-info' onclick="generar_reporte()" ><i class='fa fa-print'></i> GENERAR REPORTE</button>
+                            <button type='button' class='btn btn-info' onclick="generar_reporte()" ><i class='fa fa-print'></i>8001</button>
                         </td>
                     </tr>
                 </tbody>
@@ -82,7 +82,7 @@
                     </tr>
                     
                 </thead>
-                <tbody id='lista_personal'>
+                <tbody id='lista_personal' style="font-size:9pt">
                 </tbody>
             </table>
         </div>

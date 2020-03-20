@@ -11,7 +11,6 @@
             font-size: 10pt;
             background-color:#CFCFCF;
             border: 0px;
-            
         }
 
         .fuente
@@ -61,7 +60,7 @@
         }
 
         body{
-            margin: 30px 0px 120px 10px;
+            margin: 100px 0px 120px 10px;
         }
 
         header {
@@ -99,25 +98,48 @@
                         </td>
                         <td>
                             <div class="centrado datos">
-                            DESCUENTOS POR FALTAS INJUSTIFICADAS<br>
+                            <b>DESCUENTOS POR FALTAS INJUSTIFICADAS<br>
                             8001<br>
-                            <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
-                            </div>
+                            UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> OFICINA CENTRAL</b>
+                            <br><br>
+                            <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
+                            <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                            </div>-->
                            
                         </td>
                         <td width="100px">
                             <img src='images/chiapas.png' width="100px">
                         </td>
                     </tr>
+                    
+                </tbody>
+            </table>
+            <table width="100%">
+                <tbody>
+                    
                     <tr>
-                        <td style='font-size:9pt' colspan='2'>
-                            NO. LOTE:<br>
-                            QNA. APLICACIÓN:<br>
-                            
+                        <td style='font-size:9pt; width: 1000px;' colspan='2'>
+                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                           
                         </td>
-                        <td  style='font-size:9pt'>
+                        <td  style='font-size:9pt;text-align:left'>
+                            NO. LOTE:
+                            @switch($empleados['tipo_trabajador']['DEPTID'])
+                                @case(6)
+                                @case(11)
+                                    GOV0006
+                                @break
+                                @case(13)
+                                    CAR0006
+                                @break
+                                @case(12)
+                                    PEV0025
+                                @break
+                            @endswitch
+                            <br>
+                            QNA. APLICACIÓN:<br>
                             MES: {{ $empleados['nombre_mes'] }}<br>
-                            
+                            <table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center"></td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">x</td></tr></tbody></table>
                             AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             
                         </td>
@@ -148,24 +170,26 @@
             </td>
         </tr>
     </table> 
-    <table width="100%"  cellspacing="0" class="fuente">
+    <table width="100%" cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
-                <th rowspan="2" class='encabezados'># DOCUMENTO</th>
-                <th rowspan="2" class='encabezados' width="300px">NOMBRE DEL EMPLEADO</th>
-                <th rowspan="2" class='encabezados' width="90px">RFC</th>
-                <th rowspan="2" class='encabezados' width="60px">CODIGO</th>
+                <th rowspan="2" class='encabezados' width="100px"># DOCUMENTO</th>
+                <th rowspan="2" class='encabezados' width="100px">RFC</th>
+                <th rowspan="2" class='encabezados' width="70px">CODIGO</th>
+                <th rowspan="2" class='encabezados' width="100px">JORNADA</th>
+                <th rowspan="2" class='encabezados' width="100px">NO. PUESTO</th>
+                <th rowspan="2" class='encabezados'>NOMBRE DEL EMPLEADO</th>
+                <th colspan="6" class='encabezados' >DÍAS A DESCONTAR</th>
                 
-                
-                <th colspan='2' class='encabezados'>RESUMEN</th>
-                <th colspan='31' class='encabezados' rowspan="2">ASISTENCIA</th>
             </tr>   
             <tr>
-                <!--<th class='encabezados'>A</th>-->
-                <th class='encabezados'>F</th>
-                <th class='encabezados'>R1</th>
-                <!--<th class='encabezados'>RQ1</th>
-                <th class='encabezados'>RQ2</th>-->
+                <th width="80px">No. DÍAS</th>
+                <tH width="80px">LETRA</th>
+                <tH width="80px">DÍA</th>
+                <tH width="80px">DÍA</th>
+                <tH width="80px">DÍA</th>
+                <tH width="80px">DÍA</th>
+                
             </tr> 
         </thead>
         <tbody class='datos'>
@@ -173,26 +197,25 @@
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
                 <tr>
                     <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
-                    <td class='linea'>{{ $empleado->Name}} </td>
                     <td class='linea'>{{ $empleado->TITLE}} </td>
                     <td class='linea'>{{ $empleado->PAGER }} </td>
+                    <td class='linea'> </td>
+                    <td class='linea'> </td>
+                    <td class='linea'>{{ $empleado->Name}} </td>
+                    
+                    
                     <!--<td class='linea centrado'>{{ $empleado->resumen['ASISTENCIA'] }}</td>-->
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
+                    
                     <!--<td class='linea centrado'>{{ $empleado->resumen['RETARDOS_1'] }}</td>
                     <td class='linea centrado'>{{ $empleado->resumen['RETARDOS_2'] }}</td>-->
-                    @foreach ($empleado->asistencia as $indice => $asistencias )
-                        @if ($asistencias == 'F' || $asistencias == 'FE' || $asistencias == 'FS' )
-                            <td class='linea centrado' style='background-color:#993e3e; color:white;'>{{ $indice }}<br> {{ $asistencias }}</td>  
-                        @elseif ($asistencias == 'R1')
-                            <td class='linea centrado' style='background-color:#6a6969; color:white;'>{{ $indice }}<br> {{ $asistencias }}</td>  
-                        @elseif ($asistencias == 'N/A')
-                            <td class='linea centrado' style='background-color:#EFEFEF;'>{{ $indice }}<br></td>  
-                        @else    
-                            <td class='linea centrado'>{{ $indice }}<br> {{ $asistencias }}</td>  
-                        @endif
-                        
-                    @endforeach
+                    
+                    
                 </tr>    
                 <?php $numero++; ?>
             @endforeach

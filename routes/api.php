@@ -33,7 +33,7 @@ Route::get('/empleado','API\EmpleadoController@index');
 
 
 Route::get('/catalogo','API\ReporteMensualController@catalogo');
-Route::get('/reporte-mensual','API\ReporteMensualController@claseFaltas');
+Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
 Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
 
 Route::post('login', 'API\LoginController@login');
