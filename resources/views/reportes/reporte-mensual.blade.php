@@ -118,28 +118,28 @@
                 <tbody>
                     
                     <tr>
-                        <td style='font-size:9pt; width: 1000px;' colspan='2'>
+                        <td style='font-size:9pt;' colspan='2'>
                         <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
                            
                         </td>
-                        <td  style='font-size:9pt;text-align:left'>
+                        <td  style='font-size:9pt;text-align:left;' width="100px">
                             NO. LOTE:
                             @switch($empleados['tipo_trabajador']['DEPTID'])
                                 @case(6)
                                 @case(11)
-                                    GOV0006
+                                    GOV0008
                                 @break
                                 @case(13)
-                                    CAR0006
+                                    CAR0008
                                 @break
                                 @case(12)
-                                    PEV0025
+                                    PEV0008
                                 @break
                             @endswitch
                             <br>
                             QNA. APLICACIÓN:<br>
                             MES: {{ $empleados['nombre_mes'] }}<br>
-                            <table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
+                            <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
                             AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             
                         </td>
@@ -158,7 +158,7 @@
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>SUBDIRECTOR DE RECURSOS HUMANOS
+            <br>SUBDIRECTORA DE RECURSOS HUMANOS
             <br><br><br>
             L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
             <HR>
@@ -201,7 +201,7 @@
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -219,12 +219,13 @@
                                 @endif   
                             @endfor  
                         </tr>
+                        <?php $numero++; ?>
                     @endif
                 @endif    
                 @if($empleados['filtros']['quincena'] == 2)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -242,9 +243,10 @@
                                 @endif    
                             @endfor  
                         </tr>
+                        <?php $numero++; ?>
                     @endif
                 @endif            
-                <?php $numero++; ?>
+                
             @endforeach
         </tbody>
     </table>

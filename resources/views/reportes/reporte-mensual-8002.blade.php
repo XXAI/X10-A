@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"); ?>
+<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE", "DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS"); ?>
 <?php //print_r($empleados['datos']); ?>
 <body>
     <header>
@@ -127,19 +127,19 @@
                             @switch($empleados['tipo_trabajador']['DEPTID'])
                                 @case(6)
                                 @case(11)
-                                    GOV0006
+                                    GOV0008
                                 @break
                                 @case(13)
-                                    CAR0006
+                                    CAR0008
                                 @break
                                 @case(12)
-                                    PEV0025
+                                    PEV0008
                                 @break
                             @endswitch
                             <br>
                             QNA. APLICACIÓN:<br>
                             MES: {{ $empleados['nombre_mes'] }}<br>
-                            <table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
+                            <!--table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table-->
                             AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             
                         </td>
@@ -158,7 +158,7 @@
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>SUBDIRECTOR DE RECURSOS HUMANOS
+            <br>SUBDIRECTORA DE RECURSOS HUMANOS
             <br><br><br>
             L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
             <HR>
@@ -197,7 +197,7 @@
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 4)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "100000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -218,7 +218,7 @@
                 @if($empleados['filtros']['quincena'] == 2)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 4)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -228,13 +228,11 @@
                             <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) }}</td>
                             <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q2'])] }}</td>
                             
-                            @for ($i = 0; $i < 4 ; $i++)
-                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i]))
-                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i] }} </td>
-                                @else
-                                    <td class='linea centrado'></td>
-                                @endif    
-                            @endfor  
+                            <td class='linea centrado'>
+                            @for ($i = 0; $i < count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) ; $i++)
+                                {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i] }},  
+                            @endfor 
+                            </td>
                         </tr>
                         <?php $numero++; ?>
                     @endif
