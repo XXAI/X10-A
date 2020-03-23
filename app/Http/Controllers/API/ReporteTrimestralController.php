@@ -30,11 +30,8 @@ class ReporteTrimestralController extends Controller
 
         $asistencia = $this->claseAsistencia($request);
         $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia]);
-        //$pdf = PDF::loadView('reportes\\reporte-trimestral');
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
-        //return make::view('reportes\\reporte-mensual', ['empleados' => $asistencia]);
-        //return View::make('reportes\\reporte-mensual', ['empleados' => $asistencia]);
         return $pdf->stream('Reporte-Trimestral.pdf');
     }
 
@@ -66,6 +63,7 @@ class ReporteTrimestralController extends Controller
                 $anio = $parametros['anio'];
                 $trimestre = $parametros['trimestre'];
                 $tipo_trabajador = $parametros['tipo_trabajador'];
+                $nombre = $parametros['nombre'];
             }
         }
 
@@ -126,6 +124,11 @@ class ReporteTrimestralController extends Controller
             ->WHERE("PAGER", "NOT LIKE", 'CF%')
             ->WHERE("FPHONE", "=", 'CSSSA017213')
             ->WHERE("OPHONE", "!=", 3)
+            ->Where(function($query2)use($parametros){
+                $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
+                        ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
+                        ->orWhere('Badgenumber', $parametros['nombre']);
+            })
             //->where("TITLE","=", 'AESS770416PJ4')
             ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
             //->limit(200)

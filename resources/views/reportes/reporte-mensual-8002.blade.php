@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO"); ?>
+<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"); ?>
 <?php //print_r($empleados['datos']); ?>
 <body>
     <header>
@@ -99,7 +99,7 @@
                         <td>
                             <div class="centrado datos">
                             <b>DESCUENTOS POR FALTAS INJUSTIFICADAS<br>
-                            8001<br>
+                            8002<br>
                             UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> OFICINA CENTRAL</b>
                             <br><br>
                             <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
@@ -176,30 +176,26 @@
     <table width="100%" cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
-                <th rowspan="2" class='encabezados' width="100px"># DOCUMENTO</th>
-                <th rowspan="2" class='encabezados' width="100px">RFC</th>
-                <th rowspan="2" class='encabezados' width="70px">CODIGO</th>
-                <th rowspan="2" class='encabezados' width="100px">JORNADA</th>
-                <th rowspan="2" class='encabezados' width="100px">NO. PUESTO</th>
+                <th rowspan="2" class='encabezados'># DOCUMENTO</th>
+                <th rowspan="2" class='encabezados'>RFC</th>
+                <th rowspan="2" class='encabezados'>CODIGO</th>
+                <th rowspan="2" class='encabezados'>JORNADA</th>
+                <th rowspan="2" class='encabezados'>NO. PUESTO</th>
                 <th rowspan="2" class='encabezados'>NOMBRE DEL EMPLEADO</th>
-                <th colspan="6" class='encabezados' >DÍAS A DESCONTAR</th>
+                <th colspan="3" class='encabezados'>DÍAS A DESCONTAR</th>
                 
             </tr>   
             <tr>
-                <th width="80px" class="centrado">No. DÍAS</th>
-                <tH width="80px" class="centrado">LETRA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                
+                <th class="centrado">No. DÍAS</th>
+                <tH class="centrado">LETRA</th>
+                <tH class="centrado">DÍAS</th> 
             </tr> 
         </thead>
         <tbody class='datos'>
             <?php $numero = 0; ?>
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
                 @if($empleados['filtros']['quincena'] == 1)
-                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
+                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 4)
                         <tr>
                             <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
@@ -210,19 +206,17 @@
                             
                             <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) }}</td>
                             <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q1'])] }}</td>
-                            
-                            @for ($i = 0; $i < 4 ; $i++)
-                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i]))
-                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i] }} </td>
-                                @else
-                                    <td class='linea centrado'></td>
-                                @endif   
+                            <td class='linea centrado'>
+                            @for ($i = 0; $i < count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) ; $i++)
+                                {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i] }},  
                             @endfor  
+                            </td>
                         </tr>
+                        <?php $numero++; ?>
                     @endif
                 @endif    
                 @if($empleados['filtros']['quincena'] == 2)
-                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
+                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 4)
                         <tr>
                             <td class='linea'>{{ str_pad(($numero+1), 7, "1253000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
@@ -242,9 +236,10 @@
                                 @endif    
                             @endfor  
                         </tr>
+                        <?php $numero++; ?>
                     @endif
                 @endif            
-                <?php $numero++; ?>
+               
             @endforeach
         </tbody>
     </table>

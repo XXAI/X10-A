@@ -148,3 +148,17 @@ function generar_reporte()
       
       win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&quincena="+quincena, '_blank');
 }
+
+function generar_reporte_juridico()
+{
+      var anio = $("#anio").val();
+      var mes = $("#mes").val();
+      var tipo_trabajador = $("#tipo_trabajador").val();
+      var nombre = $("#nombre").val();
+      var quincena = $("#quincena").val();
+
+      /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
+
+      
+      win = window.open( './api/reporte-mensual-8002?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&quincena="+quincena, '_blank');
+}

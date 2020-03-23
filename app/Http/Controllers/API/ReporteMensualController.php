@@ -40,6 +40,16 @@ class ReporteMensualController extends Controller
         return $pdf->stream('Reporte-Mensual.pdf');
     }
 
+    public function reporteMensual_8002(Request $request)
+    {
+
+        $asistencia = $this->claseFaltas($request);
+        $pdf = PDF::loadView('reportes//reporte-mensual-8002', ['empleados' => $asistencia]);
+        $pdf->setPaper('LEGAL', 'landscape');
+        $pdf->setOptions(['isPhpEnabled' => true]);
+        return $pdf->stream('Reporte-Mensual-8002.pdf');
+    }
+
     function claseAsistencia(Request $request)
     {
         
@@ -116,6 +126,7 @@ class ReporteMensualController extends Controller
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
         ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+        ->orWhereNull("DEFAULTDEPTID")
         ->orderBy("carType", "DESC")
         ->get();
         

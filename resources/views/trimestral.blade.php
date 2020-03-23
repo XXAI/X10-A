@@ -11,7 +11,50 @@
     <div class="card-body">
         <div class="table-responsive">
            
-            <table class="table" id="dataTable" width="100%" cellspacing="0">
+        <div class="row" style='width:99%'>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Año</label>
+                        <select class='select form-control' id = 'anio'>
+                            <option value = '2020'>2020</option>
+                            <option value = '2019'>2019</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Trimestre</label>
+                        <select class='select form-control' id = 'trimestre'>
+                            <option value='1'>1 - ENERO - MARZO</option>
+                            <option value='2'>2 - ABRIL - JUNIO</option>
+                            <option value='3'>3 - JULIO - SEPTIEMBRE</option>
+                            <option value='4'>4 - OCTUBRE - DICIEMBRE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">ID, Nombre, RFC</label>
+                        <input type='text' class='form-control' name='nombre' id='nombre'>
+                    </div>    
+                </div>
+                
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tipo Trabajador</label>
+                        <select id='tipo_trabajador' class='select form-control'>
+                        </select>
+                    </div>    
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">            
+                        <button class="btn btn-success" type='button' onclick="btn_filtrar()" ><i class="fa fa-search fa-3x" ></i></button>
+                        <button class="btn btn-info" type='button' onclick="generar_reporte()"><i class="fa fa-print "></i> <br>REPORTE</button>
+                        
+                    </div>    
+                </div>
+           </div>
+            <!--<table class="table" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th colspan='20'>Filtro</th>
@@ -33,12 +76,7 @@
                         </td>
                         
                         <td>
-                        <select class='select form-control' id = 'trimestre'>
-                                <option value='1'>1 - ENERO - MARZO</option>
-                                <option value='2'>2 - ABRIL - JUNIO</option>
-                                <option value='3'>3 - JULIO - SEPTIEMBRE</option>
-                                <option value='4'>4 - OCTUBRE - DICIEMBRE</option>
-                            </select>
+                        
                         </td>
                         <td>
                             <select id='tipo_trabajador' class='select form-control'>
@@ -50,7 +88,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table>-->
             <table class="table table-bordered">
                 <thead>
                     <tr>

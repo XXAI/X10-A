@@ -35,9 +35,10 @@ function btn_filtrar()
       var anio = $("#anio").val();
       var trimestre = $("#trimestre").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
+      var nombre = $("#nombre").val();
       var quincena = $("#quincena").val();
 
-      obj_filtro = { 'anio': anio, 'trimestre': trimestre, 'tipo_trabajador': tipo_trabajador };
+      obj_filtro = { 'anio': anio, 'trimestre': trimestre, 'tipo_trabajador': tipo_trabajador, 'nombre': nombre };
       cargar_dato(obj_filtro);
 }
 
@@ -96,9 +97,10 @@ function generar_reporte()
       var anio = $("#anio").val();
       var trimestre = $("#trimestre").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
+      var nombre = $("#nombre").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
       
-      win = window.open( './api/reporte-trimestral?anio='+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador, '_blank');
+      win = window.open( './api/reporte-trimestral?anio='+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
 }
