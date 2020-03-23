@@ -76,8 +76,8 @@ function cargar_dato(dato)
                 campo3 =  $("<td style='text-align:center;border-bottom:1px solid black;'>R1<br>" + value.resumen.RETARDOS_1 + "</td>");
                 //campo4 =  $("<td style='text-align:center;border-bottom:1px solid black;'>R1Q2<br>" + value.resumen.RETARDOS_2 + "</td>");
                 
-                campo5 =  $("<td style='text-align:center;border-bottom:1px solid black;; border-right:2px solid black;'>F<br>" + value.resumen.FALTAS + "</td>");
-                campo6 =  $("<td style='text-align:center;border-bottom:1px solid black;'>FT<br>" + value.resumen.FALTAS_TOTALES + "</td>");
+                campo5 =  $("<td style='text-align:center;border-bottom:1px solid black;;'>F<br>" + value.resumen.FALTAS + "</td>");
+                campo6 =  $("<td style='text-align:center;border-bottom:1px solid black; border-right:2px solid black'>FT<br>" + value.resumen.FALTAS_TOTALES + "</td>");
                 //campo5 =  $("<td style='text-align:center'>RQ1<br>" + value.resumen.RETARDOS_1 + "</td>");
                 //campo6 =  $("<td style='text-align:center'>RQ2<br>" + value.resumen.RETARDOS_2 + "</td>");
                 linea.append(campo1, campo2, campo3, campo5, campo6);
@@ -141,9 +141,10 @@ function generar_reporte()
       var mes = $("#mes").val();
       var tipo_trabajador = $("#tipo_trabajador").val();
       var nombre = $("#nombre").val();
+      var quincena = $("#quincena").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
       
-      win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
+      win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&quincena="+quincena, '_blank');
 }

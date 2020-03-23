@@ -60,7 +60,7 @@
         }
 
         body{
-            margin: 100px 0px 120px 10px;
+            margin: 100px 0px 140px 10px;
         }
 
         header {
@@ -75,7 +75,7 @@
         .footer {
             
             position: fixed; 
-            bottom: 70px; 
+            bottom: 90px; 
             left: 0px; 
             right: 0px;
             height: 50px; 
@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-
+<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO"); ?>
 <?php //print_r($empleados['datos']); ?>
 <body>
     <header>
@@ -139,7 +139,7 @@
                             <br>
                             QNA. APLICACIÓN:<br>
                             MES: {{ $empleados['nombre_mes'] }}<br>
-                            <table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center"></td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">x</td></tr></tbody></table>
+                            <table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
                             AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             
                         </td>
@@ -150,21 +150,24 @@
     </header>   
     <table width="100%" class='firmantes footer'>
         <tr>
-            <td class="centrado tamano">
-            DIRECTOR(A) DEL HOSPITAL O JEFE JURISDICCIIONAL
+        <td class="centrado tamano">
+            JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
             <br><br><br>
+            ING. JAVIER MORALES SOLÍS
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            SUBDIRECTOR DE RECURSOS HUMANOS
+            <br>SUBDIRECTOR DE RECURSOS HUMANOS
             <br><br><br>
+            L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            DIRECTOR(A) DE ADMINISTRACIÓN Y FINANZAS
+            <br>DIRECTOR DE ADMINISTRACIÓN Y FINANZAS
             <br><br><br>
+            L.A. SAMUEL SILVAN OLAN
             <HR>
             NOMBRE Y FIRMA
             </td>
@@ -183,40 +186,64 @@
                 
             </tr>   
             <tr>
-                <th width="80px">No. DÍAS</th>
-                <tH width="80px">LETRA</th>
-                <tH width="80px">DÍA</th>
-                <tH width="80px">DÍA</th>
-                <tH width="80px">DÍA</th>
-                <tH width="80px">DÍA</th>
+                <th width="80px" class="centrado">No. DÍAS</th>
+                <tH width="80px" class="centrado">LETRA</th>
+                <tH width="80px" class="centrado">DÍA</th>
+                <tH width="80px" class="centrado">DÍA</th>
+                <tH width="80px" class="centrado">DÍA</th>
+                <tH width="80px" class="centrado">DÍA</th>
                 
             </tr> 
         </thead>
         <tbody class='datos'>
             <?php $numero = 0; ?>
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
-                <tr>
-                    <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
-                    <td class='linea'>{{ $empleado->TITLE}} </td>
-                    <td class='linea'>{{ $empleado->PAGER }} </td>
-                    <td class='linea'> </td>
-                    <td class='linea'> </td>
-                    <td class='linea'>{{ $empleado->Name}} </td>
-                    
-                    
-                    <!--<td class='linea centrado'>{{ $empleado->resumen['ASISTENCIA'] }}</td>-->
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['FALTAS_TOTALES'] }}</td>
-                    
-                    <!--<td class='linea centrado'>{{ $empleado->resumen['RETARDOS_1'] }}</td>
-                    <td class='linea centrado'>{{ $empleado->resumen['RETARDOS_2'] }}</td>-->
-                    
-                    
-                </tr>    
+                @if($empleados['filtros']['quincena'] == 1)
+                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
+                        <tr>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $empleado->TITLE}} </td>
+                            <td class='linea'>{{ $empleado->PAGER }} </td>
+                            <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
+                            <td class='linea'> {{ $empleado->num_empleado }} </td>
+                            <td class='linea'>{{ $empleado->Name}} </td>
+                            
+                            <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) }}</td>
+                            <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q1'])] }}</td>
+                            
+                            @for ($i = 0; $i < 4 ; $i++)
+                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i]))
+                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i] }} </td>
+                                @else
+                                    <td class='linea centrado'></td>
+                                @endif   
+                            @endfor  
+                        </tr>
+                    @endif
+                @endif    
+                @if($empleados['filtros']['quincena'] == 2)
+                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
+                        <tr>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $empleado->TITLE}} </td>
+                            <td class='linea'>{{ $empleado->PAGER }} </td>
+                            <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
+                            <td class='linea'> {{ $empleado->num_empleado }} </td>
+                            <td class='linea'>{{ $empleado->Name}} </td>
+                            
+                            <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) }}</td>
+                            <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q2'])] }}</td>
+                            
+                            @for ($i = 0; $i < 4 ; $i++)
+                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i]))
+                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i] }} </td>
+                                @else
+                                    <td class='linea centrado'></td>
+                                @endif    
+                            @endfor  
+                        </tr>
+                    @endif
+                @endif            
                 <?php $numero++; ?>
             @endforeach
         </tbody>
@@ -227,8 +254,21 @@
     <script type="text/php">
     if (isset($pdf))
     {
-        $fecha = date("Y-m-d H:i:s");
-        $pdf->page_text(700, 590, " Tuxtla Gutiérrez, Chiapas, $fecha - Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
+        $iniciales = "";
+        @switch($empleados['tipo_trabajador']['DEPTID'])
+            @case(6)
+            @case(11)
+                $iniciales = "GOV";
+            @break
+            @case(13)
+                $iniciales = "CAR";
+            @break
+            @case(12)
+                $iniciales = "PEV";
+            @break
+        @endswitch
+        $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
+        $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }
     </script>       
 </body>
