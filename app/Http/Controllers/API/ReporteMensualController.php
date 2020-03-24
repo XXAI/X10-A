@@ -698,7 +698,7 @@ class ReporteMensualController extends Controller
             }
         }
         
-        $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,1);  
+        $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,0);  
         $fecha_fin = Carbon::create($anio, $mes, $fecha_inicio->daysInMonth, 23,59,59); 
         
         $arreglo_festivos = $this->dias_festivos($fecha_inicio, $fecha_fin);
