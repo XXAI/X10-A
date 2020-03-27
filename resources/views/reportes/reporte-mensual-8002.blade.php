@@ -197,7 +197,7 @@
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 4)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
