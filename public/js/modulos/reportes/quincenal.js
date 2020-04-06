@@ -42,6 +42,7 @@ function btn_filtrar()
 
 function cargar_dato(dato)
 {
+   
       var lista = $("#lista_personal");
       lista.html("");
       var linea_cargar = $("<tr><td colspan='22'>Cargando espere un momento, por favor. <i class='fa fa-spin fa-refresh'></i></td></tr>");
@@ -65,7 +66,7 @@ function cargar_dato(dato)
             }
             $.each(data.usuarios, function(index, value)
             {
-                
+                console.log(data.usuarios);
                 var linea = $("<tr  ></tr>");
                 
                 var campo1 = $("<td rowspan='2' style='border-bottom:1px solid black;'>"+ value.Badgenumber +' - '+value.Name+"<br>"+value.TITLE+"</td>");

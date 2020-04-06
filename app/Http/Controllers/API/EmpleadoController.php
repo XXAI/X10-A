@@ -20,10 +20,12 @@ class EmpleadoController extends Controller
         //$name = 'VIDM870128TJA';
         $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
         if($name !='')
-            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%');
+            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
+                    ->orWhere("Name",'LIKE','%'.$name.'%')
+                    ->orWhere("Badgenumber",'=',$name);
 
         $usuarios = $usuarios->paginate(15);
-
+ 
         
         return response()->json(["usuarios" => $usuarios]);
         //return view("reportes.kardex" , ['empleados' => $userinfo]);

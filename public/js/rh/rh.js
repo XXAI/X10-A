@@ -123,6 +123,7 @@ function cargar_blade_credencializacion()
 
 function cargar_blade_checadas()
 {
+      
       if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
             alert("Favor de Acudir al Área de Sistematización para verificar su horario");
       var table = $("#datos_filtros_checadas");
