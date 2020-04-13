@@ -37,6 +37,8 @@
                 <script src="libs/theme/js/demo/chart-bar-demo.js"></script> 
                 <script src="libs/theme/js/demo/chart-pie-demo.js"></script> --> 
                 
+                
+                
             @show
 
         @else
