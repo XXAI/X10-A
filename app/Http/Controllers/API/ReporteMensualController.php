@@ -398,15 +398,17 @@ class ReporteMensualController extends Controller
     {
         $arreglo_dias = array();
         foreach ($arreglo as $key => $value) {
-            
-            switch(intval($value->siglas->Classify))
+            if($value->siglas != null)
             {
-                case 1: $arreglo_dias['festivos'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
-                case 2: 
-                case 3: $arreglo_dias['entradas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
-                case 4: 
-                case 5: $arreglo_dias['salidas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
+                switch(intval($value->siglas->Classify))
+                {
+                    case 1: $arreglo_dias['festivos'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
+                    case 2: 
+                    case 3: $arreglo_dias['entradas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
+                    case 4: 
+                    case 5: $arreglo_dias['salidas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
 
+                }
             }
             //$arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
         }
@@ -462,6 +464,7 @@ class ReporteMensualController extends Controller
         ->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
         //->where("USERID", "=","509")
         ->orderBy("carType", "DESC")
+        //->limit(296)
         ->get();
         return $empleados;
     }
@@ -687,13 +690,14 @@ class ReporteMensualController extends Controller
             }
         }
         
-        $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,1);  
+        $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,0);  
         $fecha_fin = Carbon::create($anio, $mes, $fecha_inicio->daysInMonth, 23,59,59); 
         
         $arreglo_festivos = $this->dias_festivos($fecha_inicio, $fecha_fin);
         $arreglo_salidas = $this->salidas_autorizadas($fecha_inicio, $fecha_fin);
         $empleados = $this->empleados_checadas($fecha_inicio, $fecha_fin, $parametros);
         
+        //return array("datos" =>$arreglo_festivos);
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
