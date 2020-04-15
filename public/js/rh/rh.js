@@ -123,6 +123,7 @@ function cargar_blade_credencializacion()
 
 function cargar_blade_checadas()
 {
+      
       if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
             alert("Favor de Acudir al Área de Sistematización para verificar su horario");
       var table = $("#datos_filtros_checadas");
@@ -208,4 +209,27 @@ function getParameterByName() {
       var splits = ruta_completa.split("/");
       console.log(ruta_completa);
       return splits[(splits.length - 1)];
+}
+
+
+function guarda_incidencia()
+{
+
+      alert("holaaaaa");
+
+    var nombre = $("#nombre").val(); 
+    var especialidad = $("#especialidad").val(); 
+    var cedula = $("#cedula").val(); 
+    var telefono = $("#telefono").val(); 
+    var email = $("#especialidad").val(); 
+
+    $.ajax({   
+        type: 'POST',
+        url:  "api/registro",
+        data: {nombre:nombre, especialidad:especialidad,cedula:cedula,telefono:telefono,email:email},
+        success: function(data){
+            mostrarMensaje(data.mensaje);
+            limpiarCampos();
+        }
+    }) 
 }

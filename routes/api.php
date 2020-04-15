@@ -24,8 +24,8 @@ Route::get('/consulta-asistencia','API\reporteController@consulta_checadas');
 Route::get('reporte','API\reporteController@index');
 
 Route::get('repgral','API\reporteGralController@index');
-Route::get('kardex','API\kardexController@index');#->name('kardex');
-Route::get('/kardex2','API\kardexController@show')->name('repkardex');
+
+Route::get('/kardex','API\KardexController@index');
 
 Route::get('/mensual','API\ReporteMensualController@index');
 Route::get('/trimestral','API\ReporteTrimestralController@index');

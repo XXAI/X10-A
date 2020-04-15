@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 use Carbon\Carbon, DB;
 
@@ -12,6 +13,7 @@ class reporteController extends Controller
 
     public function consulta_checadas(Request $request)
     {
+        $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
         $anio_actual = $fecha_actual->year;
@@ -23,10 +25,13 @@ class reporteController extends Controller
         $fin = $request->fecha_fin;
       
         $Rfc = str_replace("(", "/", $Rfc);
-       $Rfc = str_replace(" ", "+", $Rfc);
-        
-        $desc = $this->decrypt($Rfc);
-        //return $Rfc;
+        $Rfc = str_replace(" ", "+", $Rfc);
+        if (!isset($parametros['id']))
+            $desc = $this->decrypt($Rfc);
+        else
+            $desc =$parametros['id'];
+
+        //return $desc;
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
 

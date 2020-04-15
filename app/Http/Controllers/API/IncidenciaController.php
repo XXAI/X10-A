@@ -2,33 +2,26 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\DiasOtorgados;
+use App\Models\Usuarios;
+use App\Models\ReglasHorarios;
+use App\Models\Festivos;
+use App\Models\SalidaAutorizada;
+use App\Models\Departamentos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
-use App\Models\Usuarios;
-class EmpleadoController extends Controller
+class IncidenciaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $name = $request->get('buscar');
-        //$name = 'VIDM870128TJA';
-        $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
-        if($name !='')
-            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
-                    ->orWhere("Name",'LIKE','%'.$name.'%')
-                    ->orWhere("Badgenumber",'=',$name);
-
-        $usuarios = $usuarios->paginate(15);
- 
-        
-        return response()->json(["usuarios" => $usuarios]);
-        //return view("reportes.kardex" , ['empleados' => $userinfo]);
+        //
     }
 
     /**
@@ -58,9 +51,9 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        return "glltrltrltlrk";
+        //
     }
 
     /**
