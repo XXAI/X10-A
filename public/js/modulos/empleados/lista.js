@@ -1,5 +1,6 @@
 var urlchecadas = "./api/consulta-asistencia";
 var dato;
+var date = new Date();
 var inicio;
 var fin;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
@@ -37,7 +38,8 @@ function cargar_datos_empleado(datos)
           var campo1 = $("<td>"+value.Badgenumber+"</td>");
           var campo2 = $("<td>"+value.Name+"</td>");
           var campo3 = $("<td>"+value.TITLE+"</td>");
-          var campo5 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
+          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.TITLE+"\")'>Incidencia</button></td>");
+          var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
           
           var campo4 = $("<td>Sin Horario</td>");
           if(value.horarios.length > 0)
@@ -61,13 +63,39 @@ function kardex_empleado(rfc)
       dato=rfc;
       inicio = $("#inicio").val();
       fin = $("#fin").val();    
-     //cargar_tabla(dato);
+   
      cargar_dato(rfc)
       
 }
 
+function incidencia(rfc)
+{     
+      var mes = date.getMonth()+1; //obteniendo mes
+      var dia = date.getDate(); //obteniendo dia
+      var ano = date.getFullYear(); //obteniendo año
+      if(dia<10)
+            dia='0'+dia; 
+      if(mes<10)
+            mes='0'+mes;
+      document.getElementById('checadas_modal').click();
+      dato=rfc;
+      inicio = $("#inicio").val="01-"+mes+"-"+ano;
+     
+      fin = $("#fin").val=dia+"-"+mes+"-"+ano;    
+      cargar_datos_checadas(urlchecadas)
+    
+      
+}
 
-/*  function cargar_datos_checadas(urlchecadas)
+
+function generar_inci(rfc)
+{     
+   
+    //alert(rfc);
+      
+}
+
+function cargar_datos_checadas(urlchecadas)
 {
       
       $("#datos_filtros_checadas").html("<tr><td colspan='5'><i class='fa fa-refresh fa-spin'></i> Cargando, Espere un momento por favor</td></tr>");
@@ -116,32 +144,32 @@ function kardex_empleado(rfc)
 }
 
 
+
 function cargar_blade_checadas()
 {
       
+      
       var table = $("#datos_filtros_checadas");
-      table.html("");      
+      table.html("");
       $.each(datos_checadas_mes, function(index, value){
-            var i = 1;
-            var linea = $("<tr></tr>");
-           // var tamano = Object.keys(value.data).length;
-           // console.log("valor:      "+tamano);
+            icono = "<i class='fa fa-check' style='color:green'></i>";
+            if(value.validacion == 0)
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' onclick='generar_inci(\""+value.fecha+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
+            else
+            icono = "<i class='fa fa-check' style='color:green'></i>";
 
-           console.log(value.data.resumen);
-            
+            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
             
       })
 
-//      for(x=1;x<=30;x++)
-     
-
+        
       $('#datos_filtros_checadas tr').hover(function() {
             $(this).addClass('hover');
         }, function() {
             $(this).removeClass('hover');
         });
       
-} */ 
+}
 function cargar_kardex(){
 
       document.getElementById('kardex').click();
@@ -150,7 +178,7 @@ function cargar_kardex(){
 function cargar_dato(dato)
 {
    
-      var lista = $("#checadas");
+      var lista = $("#kardex");
       lista.html("");
       var linea_cargar = $("<tr><td colspan='22'>Cargando espere un momento, por favor. <i class='fa fa-spin fa-refresh'></i></td></tr>");
       lista.append(linea_cargar);
@@ -225,4 +253,14 @@ function cargar_dato(dato)
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             
       });
+}
+
+function filtrar_checadas()
+{
+      inicio = $("#inicio").val();
+      fin = $("#fin").val();
+      cargar_datos_checadas(urlchecadas);
+      //cargar_blade_checadas();
+      
+
 }

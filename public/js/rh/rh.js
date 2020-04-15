@@ -210,3 +210,26 @@ function getParameterByName() {
       console.log(ruta_completa);
       return splits[(splits.length - 1)];
 }
+
+
+function guarda_incidencia()
+{
+
+      alert("holaaaaa");
+
+    var nombre = $("#nombre").val(); 
+    var especialidad = $("#especialidad").val(); 
+    var cedula = $("#cedula").val(); 
+    var telefono = $("#telefono").val(); 
+    var email = $("#especialidad").val(); 
+
+    $.ajax({   
+        type: 'POST',
+        url:  "api/registro",
+        data: {nombre:nombre, especialidad:especialidad,cedula:cedula,telefono:telefono,email:email},
+        success: function(data){
+            mostrarMensaje(data.mensaje);
+            limpiarCampos();
+        }
+    }) 
+}
