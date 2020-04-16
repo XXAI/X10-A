@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
 use App\Models\Usuarios;
+use App\Models\TiposIncidencia;
 class EmpleadoController extends Controller
 {
     /**
@@ -25,11 +26,21 @@ class EmpleadoController extends Controller
                     ->orWhere("Badgenumber",'=',$name);
 
         $usuarios = $usuarios->paginate(15);
- 
+        $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->get();  
         
-        return response()->json(["usuarios" => $usuarios]);
+        //orderBy('LeaveName','DESC')->
+        return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias]);
         //return view("reportes.kardex" , ['empleados' => $userinfo]);
     }
+
+
+    public function llenarSelect()
+    {
+        $incidencias = TiposIncidencia::all();         
+        return \View::make('incidenciaform',compact('incidencias'));
+        //return $incidencias;
+    }
+
 
     /**
      * Show the form for creating a new resource.

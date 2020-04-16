@@ -30,6 +30,7 @@ Route::get('/kardex','API\KardexController@index');
 Route::get('/mensual','API\ReporteMensualController@index');
 Route::get('/trimestral','API\ReporteTrimestralController@index');
 Route::get('/empleado','API\EmpleadoController@index');
+//Route::post('/empleado','API\EmpleadoController@llenarSelect');
 
 
 Route::get('/catalogo','API\ReporteMensualController@catalogo');

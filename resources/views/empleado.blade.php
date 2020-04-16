@@ -85,15 +85,15 @@
                                         <div >
                                             <div >
                                                 <div class="row">
-                                                    <div class="col-sm-5" >
+                                                    <div class="col-md-4" >
                                                         <label for="fecha_inicio">Fecha Inicio:</label>
                                                         <input type="date" class="form-control" id="inicio" min='2019-10-01' name="fecha_inicio" value="">
                                                     </div>                                             
-                                                   <div class="col-sm-5" >
+                                                   <div class="col-md-4" >
                                                         <label for="fecha_inicio">Fecha Fin:</label>  
                                                         <input type="date" class="form-control" id="fin" name="fecha_fin"  value="" max= "{{date('Y-m-d')}}">
                                                    </div>
-                                                   <div class="col-md-2" > 
+                                                   <div class="col-md-4" > 
                                                     <br>
                                                        <label for="fecha_inicio"><br></label>
                                                         <button onclick="filtrar_checadas()" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
@@ -139,7 +139,25 @@
             </div>
         </div>
     </div>
-  
+    <div class="modal" id="agregar_incidencia" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agregar Incidencia</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                @include('incidenciaform')
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 @endsection
 

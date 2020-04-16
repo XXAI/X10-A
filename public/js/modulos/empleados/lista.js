@@ -3,12 +3,15 @@ var dato;
 var date = new Date();
 var inicio;
 var fin;
+var jor_Ini;
+
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "NOVIEMBRE","DICIEMBRE")
 
 $(document).ready(function(){
   
     cargar_empleados('');
+   
 });
 
 function cargar_empleados(dato)
@@ -20,15 +23,34 @@ function cargar_empleados(dato)
           type: "GET",
           dataType: "json",
           url:  './api/empleado',
-    }).done(function( data, textStatus, jqXHR ) {
-         // console.log(data);
+    }).done(function( data, textStatus, jqXHR ) {         
           cargar_datos_empleado(data.usuarios.data);
-          
+         
           }).fail(function( jqXHR, textStatus, errorThrown ) {
           
     });
 }
+function cargar_select(){
 
+      $.ajax({
+            type: "GET",
+            url: './api/empleado', 
+            dataType: "json",
+            success: function(data){
+                  console.log(data.incidencias);
+              $.each(data.incidencias,function(key, registro) {
+                  $("#incidencia_tipo").append("<option value="+registro.LeaveId+">"+registro.LeaveName+"</option>");
+              });        
+            },
+            error: function(data) {
+              alert('error');
+            }
+          });
+
+           
+     
+          
+}
 function cargar_datos_empleado(datos)
 {
     var table = $("#empleados");
@@ -90,8 +112,8 @@ function incidencia(rfc)
 
 function generar_inci(rfc)
 {     
-   
-    //alert(rfc);
+      cargar_select();
+    //alert(jor_Ini);
       
 }
 
@@ -113,7 +135,7 @@ function cargar_datos_checadas(urlchecadas)
             
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
-            console.log(data);
+            //console.log(data);
             datos_checadas_mes = data.data;
             
             validacion = data.validacion;
@@ -154,10 +176,10 @@ function cargar_blade_checadas()
       $.each(datos_checadas_mes, function(index, value){
             icono = "<i class='fa fa-check' style='color:green'></i>";
             if(value.validacion == 0)
-            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' onclick='generar_inci(\""+value.fecha+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.fecha+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
             else
             icono = "<i class='fa fa-check' style='color:green'></i>";
-
+            jor_Ini=value.jorini;
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
             
       })
