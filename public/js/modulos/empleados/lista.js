@@ -3,7 +3,8 @@ var dato;
 var date = new Date();
 var inicio;
 var fin;
-var jor_Ini;
+
+
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "NOVIEMBRE","DICIEMBRE")
@@ -31,13 +32,16 @@ function cargar_empleados(dato)
     });
 }
 function cargar_select(){
-
+      $("#incidencia_tipo").empty();
+      $("#incidencia_tipo").append("<option disabled selected value=''>Elegir tipo de Incidencia</option>");
       $.ajax({
             type: "GET",
             url: './api/empleado', 
             dataType: "json",
             success: function(data){
-                  console.log(data.incidencias);
+                  //console.log(data.incidencias);
+            
+            
               $.each(data.incidencias,function(key, registro) {
                   $("#incidencia_tipo").append("<option value="+registro.LeaveId+">"+registro.LeaveName+"</option>");
               });        
@@ -60,7 +64,7 @@ function cargar_datos_empleado(datos)
           var campo1 = $("<td>"+value.Badgenumber+"</td>");
           var campo2 = $("<td>"+value.Name+"</td>");
           var campo3 = $("<td>"+value.TITLE+"</td>");
-          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.TITLE+"\")'>Incidencia</button></td>");
+          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\")'>Incidencia</button></td>");
           var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
           
           var campo4 = $("<td>Sin Horario</td>");
@@ -70,7 +74,9 @@ function cargar_datos_empleado(datos)
           //console.log(value);
           linea.append(campo1, campo2, campo3, campo4, campo5);
           table.append(linea);
+          
     });
+      
 }
 
 function btn_filtrar()
@@ -90,7 +96,7 @@ function kardex_empleado(rfc)
       
 }
 
-function incidencia(rfc)
+function incidencia(iduser,nombre,rfc)
 {     
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
@@ -101,19 +107,23 @@ function incidencia(rfc)
             mes='0'+mes;
       document.getElementById('checadas_modal').click();
       dato=rfc;
-      inicio = $("#inicio").val="01-"+mes+"-"+ano;
-     
+      inicio = $("#inicio").val="01-"+mes+"-"+ano;     
       fin = $("#fin").val=dia+"-"+mes+"-"+ano;    
       cargar_datos_checadas(urlchecadas)
-    
+     
+      $("#iduser").html(iduser);
+      $("#nombre").html(nombre);
       
 }
 
 
-function generar_inci(rfc)
+function generar_inci(jini,jfin)
 {     
+      //alert(jfin);
       cargar_select();
-    //alert(jor_Ini);
+      $("#f_ini").val(jini);
+      $("#f_fin").val(jfin);
+    //  alert(jor_Ini);
       
 }
 
@@ -135,7 +145,7 @@ function cargar_datos_checadas(urlchecadas)
             
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
-            //console.log(data);
+            console.log(data);
             datos_checadas_mes = data.data;
             
             validacion = data.validacion;
@@ -176,10 +186,10 @@ function cargar_blade_checadas()
       $.each(datos_checadas_mes, function(index, value){
             icono = "<i class='fa fa-check' style='color:green'></i>";
             if(value.validacion == 0)
-            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.fecha+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
             else
             icono = "<i class='fa fa-check' style='color:green'></i>";
-            jor_Ini=value.jorini;
+           
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
             
       })
@@ -196,6 +206,18 @@ function cargar_kardex(){
 
       document.getElementById('kardex').click();
 }
+
+
+function filtrar_checadas()
+{
+      inicio = $("#inicio").val();
+      fin = $("#fin").val();
+      cargar_datos_checadas(urlchecadas);
+      //cargar_blade_checadas();
+      
+
+}
+
 
 function cargar_dato(dato)
 {
@@ -275,14 +297,4 @@ function cargar_dato(dato)
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             
       });
-}
-
-function filtrar_checadas()
-{
-      inicio = $("#inicio").val();
-      fin = $("#fin").val();
-      cargar_datos_checadas(urlchecadas);
-      //cargar_blade_checadas();
-      
-
 }
