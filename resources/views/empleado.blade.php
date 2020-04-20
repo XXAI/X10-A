@@ -8,9 +8,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Kardex de Empleado</h6>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-           
-            <table class="table" id="dataTable" width="100%" cellspacing="0">
+        <div class="table-responsive">           
+            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <td>
@@ -25,12 +24,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th >R.F.C.</th>
-                        <th >Estatus</th>
-                        <th >--</th>
-                        <th >--</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">R.F.C.</th>
+                        <th scope="col">Estatus</th>
+                        <th scope="col">--</th>
+                        <th scope="col">--</th>
                     </tr>
                 </thead>
                 <tbody id='empleados'>
@@ -96,14 +95,19 @@
                                                    
                                                 </div>
                                                 <div class="col-md-6" >
-                                                    <label for="nombre">Nombre:</label>  
-                                                    <span id="nombre" name="nombre"></span>
+                                                    <label for="hentra">Hora Entrada:</label>  
+                                                    <span id="hentra" name="hentra"></span>
                                                 </div>
                                              </div>
                                             <div class="row">
                                                 <div class="col-md-6" >
-                                                    <label for="hentra">Hora Entrada:</label>  
-                                                    <span id="hentra" name="hentra"></span>
+                                                    
+                                                    <label for="nombre">Nombre:</label>  
+                                                    <span id="nombre" name="nombre"></span>
+                                                </div>
+                                                <div class="col-md-6" >
+                                                    <label for="hsal">Hora Salida:</label>  
+                                                    <span id="hsal" name="hsal"></span>
                                                 </div>
                                              </div>
                                              <br>
@@ -143,7 +147,7 @@
                     <!--<h4 class="card-title" style="color:red">En la leyenda <strong>SIN REGISTRO</strong> probablemente <strong>no registro ó no ha comprobado una incidencia</strong></h4>-->
                 
                     <table id="tabla_checadas" class="table table-striped">
-                        <thead class="black white-text">
+                        <thead >
                             <tr>
                                 <th>Día</th>
                                 <th>Fecha</th>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
 use App\Models\Usuarios;
+use App\Models\UsuarioHorario;
 use App\Models\TiposIncidencia;
 class EmpleadoController extends Controller
 {
@@ -18,8 +19,8 @@ class EmpleadoController extends Controller
     public function index(Request $request)
     {
         $name = $request->get('buscar');
-        //$name = 'VIDM870128TJA';
-        $usuarios = Usuarios::with("horarios")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
+       
+        $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
         if($name !='')
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
@@ -28,9 +29,9 @@ class EmpleadoController extends Controller
         $usuarios = $usuarios->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->get();  
         
-        //orderBy('LeaveName','DESC')->
+        
         return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias]);
-        //return view("reportes.kardex" , ['empleados' => $userinfo]);
+       
     }
 
 

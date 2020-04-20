@@ -64,14 +64,18 @@ function cargar_datos_empleado(datos)
           var campo1 = $("<td>"+value.Badgenumber+"</td>");
           var campo2 = $("<td>"+value.Name+"</td>");
           var campo3 = $("<td>"+value.TITLE+"</td>");
-          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\")'>Incidencia</button></td>");
+          var hentrada =value.horarios[0].detalle_horario[0].STARTTIME;
+          var hsalida =value.horarios[0].detalle_horario[0].ENDTIME;
+          hentrada = hentrada.substring(16,11);
+          hsalida = hsalida.substring(16,11);
+          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
           var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
           
           var campo4 = $("<td>Sin Horario</td>");
           if(value.horarios.length > 0)
                 var campo4 = $("<td>Horario Activo</td>");
-
-          //console.log(value);
+            
+         // console.log(value.horarios[0].detalle_horario);
           linea.append(campo1, campo2, campo3, campo4, campo5);
           table.append(linea);
           
@@ -96,7 +100,7 @@ function kardex_empleado(rfc)
       
 }
 
-function incidencia(iduser,nombre,rfc)
+function incidencia(iduser,nombre,rfc,jini,jfin)
 {     
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
@@ -110,12 +114,32 @@ function incidencia(iduser,nombre,rfc)
       inicio = $("#inicio").val="01-"+mes+"-"+ano;     
       fin = $("#fin").val=dia+"-"+mes+"-"+ano;    
       cargar_datos_checadas(urlchecadas)
-     
+      $("#hentra").html(jini);
+      $("#hsal").html(jfin);
       $("#iduser").html(iduser);
       $("#nombre").html(nombre);
       
 }
+function guardar_incidencia(){
 
+  
+      var date_1 = new Date($("#f_ini").val());
+      var date_2 = new Date($("#f_fin").val());      
+      var day_as_milliseconds = 86400000;
+      var diff_in_millisenconds = date_2 - date_1;
+      var diff_in_days = diff_in_millisenconds / day_as_milliseconds;      
+     // alert(parseInt((diff_in_days+1),10));
+      for (var i = 0; i < parseInt((diff_in_days+1),10); i++) {
+
+           var fecha_pri = new Date(date_1.setDate(date_1.getDate()+i));
+           var fec_sal = fecha_pri.toString("yyyy-MM-dd HH:mm:ss");
+
+            alert("num: "+i+"fecha: "+fecha_pri);
+         }
+         //alert(date_1.setDate(date_1.getDate() + 1));
+      //alert($("#f_ini").val());
+      
+}
 
 function generar_inci(jini,jfin)
 {     
