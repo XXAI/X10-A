@@ -134,13 +134,28 @@ function guardar_incidencia(){
            var fecha_pri = new Date(date_1.setDate(date_1.getDate()+i));
            var fec_sal = fecha_pri.toString("yyyy-MM-dd HH:mm:ss");
 
-            alert("num: "+i+"fecha: "+fecha_pri);
+           // alert("num: "+i+"fecha: "+fecha_pri);
          }
-         //alert(date_1.setDate(date_1.getDate() + 1));
-      //alert($("#f_ini").val());
+         alert(moment());
       
 }
+function sel_inci(valor){
 
+      
+      switch (parseInt(valor)) {
+            case 1:
+                  alert("a selecionado pase de salida");
+                  break;
+            case 4:
+                  alert("a selecionado omision de salida");
+                  break;         
+            case 5:
+                  alert("a selecionado omision de entrada");
+                  break;
+            default:
+                  alert("otro");
+       }
+}
 function generar_inci(jini,jfin)
 {     
       //alert(jfin);
