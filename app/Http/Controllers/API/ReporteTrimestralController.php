@@ -67,7 +67,7 @@ class ReporteTrimestralController extends Controller
             }
         }
 
-        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [11,12]];
+        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [10,11,12]];
         //print_r($catalogo_trimestre);
         //return response()->json(["data" => $catalogo_trimestre]);
 
@@ -142,7 +142,7 @@ class ReporteTrimestralController extends Controller
                 if(!array_key_exists($empleados[$index_empleado]->TITLE, $empleados_trimestral))
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE] = $empleados[$index_empleado];
-                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 1;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 0;
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = 0;
                 }
                 
