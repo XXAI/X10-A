@@ -123,20 +123,18 @@ function incidencia(iduser,nombre,rfc,jini,jfin)
 function guardar_incidencia(){
 
   
-      var date_1 = new Date($("#f_ini").val());
-      var date_2 = new Date($("#f_fin").val());      
-      var day_as_milliseconds = 86400000;
-      var diff_in_millisenconds = date_2 - date_1;
-      var diff_in_days = diff_in_millisenconds / day_as_milliseconds;      
-     // alert(parseInt((diff_in_days+1),10));
-      for (var i = 0; i < parseInt((diff_in_days+1),10); i++) {
+      var date_1 = moment($("#f_ini").val());
+      var date_2 = moment($("#f_fin").val());      
+      
+      var diff_in_days = date_2.diff(date_1, 'days');      
+    /*  i=0;
+     while  */
+      for (var i = 0; i < parseInt(diff_in_days+1); i++) {           
 
-           var fecha_pri = new Date(date_1.setDate(date_1.getDate()+i));
-           var fec_sal = fecha_pri.toString("yyyy-MM-dd HH:mm:ss");
-
-           // alert("num: "+i+"fecha: "+fecha_pri);
-         }
-         alert(moment());
+           alert(date_1.add(i, 'd'));
+         } 
+         
+         //alert(moment(date_1, "YYYY-MM-DD HH:mm"));
       
 }
 function sel_inci(valor){
