@@ -91,6 +91,7 @@
                                              <div class="row">
                                                 <div class="col-md-6" >
                                                     <label for="id">ID:</label> 
+                                                    
                                                     <span id="iduser" name="iduser"></span>
                                                    
                                                 </div>

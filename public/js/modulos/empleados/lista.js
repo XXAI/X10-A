@@ -116,6 +116,7 @@ function incidencia(iduser,nombre,rfc,jini,jfin)
       cargar_datos_checadas(urlchecadas)
       $("#hentra").html(jini);
       $("#hsal").html(jfin);
+      
       $("#iduser").html(iduser);
       $("#nombre").html(nombre);
       
@@ -156,8 +157,9 @@ function sel_inci(valor){
 }
 function generar_inci(jini,jfin)
 {     
-      //alert(jfin);
+      //alert($("#iduser").text());
       cargar_select();
+      $("#id").val($("#iduser").text());
       $("#f_ini").val(jini);
       $("#f_fin").val(jfin);
     //  alert(jor_Ini);
