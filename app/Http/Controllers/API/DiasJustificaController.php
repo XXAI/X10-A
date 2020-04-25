@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\DiasJustifica;
 use Illuminate\Http\Request;
 use App\Models\Usuarios;
-
+use \Validator, \Hash, \Response;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
@@ -39,15 +39,42 @@ class DiasJustificaController extends Controller
      */
     public function store(Request $request)
     {
-        $registro = new DiasJustifica;
-        $registro->USERID = $request->id;
-        $registro->STARTSPECDAY = $request->fini;
-        $registro->ENDSPECDAY = $request->ffin;
-        $registro->DATEID = $request->tipo_incidencia;        
-        $registro->YUANYING = $request->razon;
-        $registro->DATE = now();
-        $registro->save();
-        return response()->json(['mensaje'=>'Registrado Correctamente']);
+        
+        /* $mensajes = [
+            'required'           => "required",
+        ];
+
+        $reglas = [
+            'DATEID'            => 'required',
+            'YUANYING'             => 'required',            
+        ];     
+      
+
+        $inputs = Input::all();
+       
+        
+        $v = Validator::make($inputs, $reglas, $mensajes);
+
+        if ($v->fails()) {
+            return response()->json(['error' => "No se encuentra el recurso que esta buscando."], HttpResponse::HTTP_NOT_FOUND);
+        }
+        */
+       
+       
+        try {
+                $registro = new DiasJustifica;
+                $registro->USERID = $request->id;
+                $registro->STARTSPECDAY = $request->fini;
+                $registro->ENDSPECDAY = $request->ffin;
+                $registro->DATEID = $request->tipo_incidencia;        
+                $registro->YUANYING = $request->razon;
+                $registro->DATE = now();
+                $registro->save();
+                return response()->json(['mensaje'=>'Registrado Correctamente']);
+        } catch (\Exception $e) {
+            
+            return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+        }
     }
 
     /**

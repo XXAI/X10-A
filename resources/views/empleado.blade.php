@@ -4,8 +4,10 @@
 
 @section('content')
 <div class="card shadow mb-4">
+    <div id="divmsg" style="display:none" class="alert-primary" role="alert">
+    </div>
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Kardex de Empleado</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Empleados</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">           
@@ -18,7 +20,7 @@
                                     <button name='filtrar' type='button' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()" >FILTRAR</button>
                                 </div>
                                 <div class="col">
-                                 <input class="form-control" type="text" name="buscar" id="buscar" >
+                                 <input class="form-control" type="text" onKeypress="btn_filtrar()" name="buscar" id="buscar" >
                                 </div>
                             </div>                                                     
                         </td>
@@ -47,38 +49,19 @@
     </div>
 </div>   
 
-<a id="kardex" data-toggle="modal" data-target="#modal_kardex"></a> 
-  
-    <div class="modal fade" id="modal_kardex" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <table class="table table-bordered table-faltas">
-                <thead>
-                    <tr>
-                        
-                        <th colspan='17' style='text-align:center'>Asistencias</th>
-                        
-                    </tr>
-                    
-                </thead>
-                <div id='kardex'>
-                </div>
-            </table>
-            </div>
-        </div>
-    </div>
+ 
 
-    <a id="checadas_modal" data-toggle="modal" data-target="#modal_checadas"></a> 
+     <a id="checadas_modal" data-toggle="modal" data-target="#modal_checadas"></a>  
   
-    <div class="modal fade" id="modal_checadas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_checadas" style="overflow-y: scroll;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
+                   <div class="modal-header">
                     <h5 class="modal-title">Lista de Checadas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                  </div>
+                   </div>
                   <div class="modal-body">
                 <table class="table table-bordered table-faltas">
                 <thead>
@@ -144,9 +127,7 @@
 					</tr>	
                     
                 </thead>
-                <section id="checadas" class="card">
-                    <!--<h4 class="card-title" style="color:red">En la leyenda <strong>SIN REGISTRO</strong> probablemente <strong>no registro ó no ha comprobado una incidencia</strong></h4>-->
-                
+                <section id="checadas" class="card">                  
                     <table id="tabla_checadas" class="table table-striped">
                         <thead >
                             <tr>
@@ -157,14 +138,13 @@
                                 <th>Justificado</th>
                             </tr>
                         </thead>
-                        <tbody id="datos_filtros_checadas">
-                            
+                        <tbody id="datos_filtros_checadas">                            
                         </tbody>
                     </table>
                 </section>
-              </table>
+                </table>
                   </div>
-            <div class="modal-footer">
+             <div class="modal-footer">
                 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               </div>
@@ -184,7 +164,7 @@
                 @include('incidenciaform')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" onclick="guardar_incidencia()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

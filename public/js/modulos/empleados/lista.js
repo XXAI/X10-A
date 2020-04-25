@@ -4,7 +4,7 @@ var date = new Date();
 var inicio;
 var fin;
 
-
+var id_x;
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "NOVIEMBRE","DICIEMBRE")
@@ -68,7 +68,7 @@ function cargar_datos_empleado(datos)
           var hsalida =value.horarios[0].detalle_horario[0].ENDTIME;
           hentrada = hentrada.substring(16,11);
           hsalida = hsalida.substring(16,11);
-          var campo5 = $("<td><button type='button' class='btn btn-warning' onclick='incidencia(\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
+          var campo5 = $("<td><button type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
           var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
           
           var campo4 = $("<td>Sin Horario</td>");
@@ -100,8 +100,9 @@ function kardex_empleado(rfc)
       
 }
 
-function incidencia(iduser,nombre,rfc,jini,jfin)
+function incidencia(id,iduser,nombre,rfc,jini,jfin)
 {     
+     
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
       var ano = date.getFullYear(); //obteniendo año
@@ -116,7 +117,7 @@ function incidencia(iduser,nombre,rfc,jini,jfin)
       cargar_datos_checadas(urlchecadas)
       $("#hentra").html(jini);
       $("#hsal").html(jfin);
-      
+      id_x=id;
       $("#iduser").html(iduser);
       $("#nombre").html(nombre);
       
@@ -125,11 +126,7 @@ function guardar_incidencia(){
 
       var id = $("#id").val();
       var date_1 = moment($("#f_ini").val());
-      var date_2 = moment($("#f_fin").val());  
-      var horasale=moment($("#f_fin").val()).format('LT'); 
-      
-
-      var date_prue = $("#f_fin").val();
+      var date_2 = moment($("#f_fin").val());       
       var tipo_incidencia = $("#incidencia_tipo").val();     
       var razon = $("#razon").val();  
       var diff_in_days = date_2.diff(date_1, 'days');      
@@ -139,42 +136,33 @@ function guardar_incidencia(){
                   
             fini= moment(date_1.add(x, 'd')).format();
             ffin= moment(date_2.add(x, 'd')).format();
-
-           fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
-           ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";
-           // fini=fini.substr(11,6)+".00";
-            alert("ini=  "+fini+"fin=  "+ffin);
-            
-
-
-
+            fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
+            ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";
+          
             $.ajax({   
                   type: 'POST',
                   url:  "api/guarda-justificante",
                   data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon},
-                  success: function(data){
-                       //incidencia(iduser,nombre,rfc,jini,jfin);
-                      $('#agregar_incidencia').modal('toggle');
-                      //mostrarMensaje(data.mensaje);
-                      //limpiarCampos();
+                  success: function(data){                   
                   }
               })  
 
-           //alert("id= "+id+" fecha_ini= "+fini+" fecha_fin= "+ffin+" incidencia= "+tipo_incidencia);
            x=1;
            
        }    
+         
+    
+    
+    $('#agregar_incidencia').modal('toggle'); 
+    $('#checadas_modal').modal('toggle');
+    incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
+    mostrarMensaje(data.mensaje);
         
-       
-  
-
-      
-      
 }
 function sel_inci(valor){
 
       
-      switch (parseInt(valor)) {
+     /*  switch (parseInt(valor)) {
             case 1:
                   alert("a selecionado pase de salida");
                   break;
@@ -186,13 +174,13 @@ function sel_inci(valor){
                   break;
             default:
                   alert("otro");
-       }
+       } */
 }
 function generar_inci(jini,jfin)
 {     
       //alert($("#iduser").text());
       cargar_select();
-      $("#id").val($("#iduser").text());
+      $("#id").val(id_x);
       $("#f_ini").val(jini);
       $("#f_fin").val(jfin);
     //  alert(jor_Ini);
@@ -217,7 +205,7 @@ function cargar_datos_checadas(urlchecadas)
             
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
-            console.log(data);
+           // console.log(data);
             datos_checadas_mes = data.data;
             
             validacion = data.validacion;

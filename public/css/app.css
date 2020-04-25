@@ -5926,7 +5926,8 @@ a.close.disabled {
 }
 
 .modal-open {
-  overflow: hidden;
+/*   overflow: hidden; */
+  overflow: scroll;
 }
 
 .modal-open .modal {
