@@ -30,7 +30,21 @@
                 </div>
                 
             </div>
-            
+            <div class="row">
+                <div class="col-md-6" >
+                    <div class="form-group">
+                        <label for="razon" class="col-sm-3 col-form-label">Razon</label>
+                        <input type="text" class="form-control" id="razon" name="razon" >
+                    </div>
+                </div>
+                <div class="col-md-6" >
+                    <div class="form-group">
+                        <label for="f_fin" class="col-sm-3 col-form-label">Hasta</label>
+                        <input type="datetime-local" class="form-control" id="fprue2" name="fprue2" >
+                    </div>
+                </div>
+                
+            </div>
         </div>
         <div class="card-footer text-muted">
           

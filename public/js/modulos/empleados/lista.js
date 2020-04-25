@@ -123,19 +123,52 @@ function incidencia(iduser,nombre,rfc,jini,jfin)
 }
 function guardar_incidencia(){
 
-  
+      var id = $("#id").val();
       var date_1 = moment($("#f_ini").val());
-      var date_2 = moment($("#f_fin").val());      
+      var date_2 = moment($("#f_fin").val());  
+      var horasale=moment($("#f_fin").val()).format('LT'); 
       
-      var diff_in_days = date_2.diff(date_1, 'days');      
-    /*  i=0;
-     while  */
-      for (var i = 0; i < parseInt(diff_in_days+1); i++) {           
 
-           alert(date_1.add(i, 'd'));
-         } 
-         
-         //alert(moment(date_1, "YYYY-MM-DD HH:mm"));
+      var date_prue = $("#f_fin").val();
+      var tipo_incidencia = $("#incidencia_tipo").val();     
+      var razon = $("#razon").val();  
+      var diff_in_days = date_2.diff(date_1, 'days');      
+  
+      var x=0;
+      for (var i = 0; i < parseInt(diff_in_days+1); i++) {     
+                  
+            fini= moment(date_1.add(x, 'd')).format();
+            ffin= moment(date_2.add(x, 'd')).format();
+
+           fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
+           ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";
+           // fini=fini.substr(11,6)+".00";
+            alert("ini=  "+fini+"fin=  "+ffin);
+            
+
+
+
+            $.ajax({   
+                  type: 'POST',
+                  url:  "api/guarda-justificante",
+                  data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon},
+                  success: function(data){
+                       //incidencia(iduser,nombre,rfc,jini,jfin);
+                      $('#agregar_incidencia').modal('toggle');
+                      //mostrarMensaje(data.mensaje);
+                      //limpiarCampos();
+                  }
+              })  
+
+           //alert("id= "+id+" fecha_ini= "+fini+" fecha_fin= "+ffin+" incidencia= "+tipo_incidencia);
+           x=1;
+           
+       }    
+        
+       
+  
+
+      
       
 }
 function sel_inci(valor){
