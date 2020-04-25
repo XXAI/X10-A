@@ -16,6 +16,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         <link href="{{ asset('libs/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ asset('libs/theme/css/sb-admin-2.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
     @show
     
     
@@ -34,6 +35,8 @@
                 <script src="libs/theme/vendor/jquery-easing/jquery.easing.min.js"></script> 
                 <script src="libs/theme/js/sb-admin-2.min.js"></script> 
                 <script src="libs/moment/moment.min.js"></script> 
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
                 <!--<script src="libs/theme/js/demo/chart-area-demo.js"></script> 
                 <script src="libs/theme/js/demo/chart-bar-demo.js"></script> 
                 <script src="libs/theme/js/demo/chart-pie-demo.js"></script> --> 

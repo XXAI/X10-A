@@ -4,10 +4,12 @@
 
 @section('content')
 <div class="card shadow mb-4">
-    <div id="divmsg" style="display:none" class="alert-primary" role="alert">
-    </div>
+    
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Lista de Empleados</h6>
+    </div>
+    
+    <div id="divmsg" style="display:none" class="alert-primary" role="alert">
     </div>
     <div class="card-body">
         <div class="table-responsive">           

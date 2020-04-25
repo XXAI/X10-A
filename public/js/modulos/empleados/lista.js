@@ -68,7 +68,7 @@ function cargar_datos_empleado(datos)
           var hsalida =value.horarios[0].detalle_horario[0].ENDTIME;
           hentrada = hentrada.substring(16,11);
           hsalida = hsalida.substring(16,11);
-          var campo5 = $("<td><button type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
+          var campo5 = $("<td><button id='pruebaclic' type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
           var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
           
           var campo4 = $("<td>Sin Horario</td>");
@@ -88,6 +88,11 @@ function btn_filtrar()
       var buscar = $("#buscar").val();      
       cargar_empleados(buscar);
 }
+function btn_r()
+{     
+       
+      alert('evento automatico');
+}
 function kardex_empleado(rfc)
 {     
       
@@ -102,7 +107,7 @@ function kardex_empleado(rfc)
 
 function incidencia(id,iduser,nombre,rfc,jini,jfin)
 {     
-     
+    
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
       var ano = date.getFullYear(); //obteniendo año
@@ -143,22 +148,38 @@ function guardar_incidencia(){
                   type: 'POST',
                   url:  "api/guarda-justificante",
                   data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon},
-                  success: function(data){                   
+                  success: function(data){ 
+                        swal("Exito!", "El registro se ha guardado!", "success");                 
+                  },
+                  error: function(data) {
+                        swal("Error","No se registro ningun dato","Warning)");
                   }
               })  
 
            x=1;
            
-       }    
+       }     
          
     
     
     $('#agregar_incidencia').modal('toggle'); 
     $('#checadas_modal').modal('toggle');
+    
     incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
-    mostrarMensaje(data.mensaje);
-        
+    
+    
+
+    
+    
 }
+
+function mostrarMensaje(mensaje){
+      $("#divmsg").empty();
+      $("#divmsg").append("<p>"+mensaje+"</p>");
+      $("#divmsg").show(500);
+      $("#divmsg").hide(3000);
+  
+     }
 function sel_inci(valor){
 
       
