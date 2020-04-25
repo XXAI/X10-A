@@ -403,6 +403,13 @@ class reporteController extends Controller
                                     case 20:
                                         $impr="Licencia Sin Goce";                                    
                                         break;
+                                    case 30:
+                                        $impr="Vacaciones 2020 Primavera-Verano";                                    
+                                        break;
+                                    case 31:
+                                        $impr="CONTINGENCIA COVID19";                                    
+                                        break;
+                                    
                                     default:
                                         $impr="";
                                         break;

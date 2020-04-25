@@ -40,11 +40,12 @@ class DiasJustificaController extends Controller
     public function store(Request $request)
     {
         $registro = new DiasJustifica;
-        $registro->nombre = $request->nombre;
-        $registro->especialidad = $request->especialidad;
-        $registro->cedula = $request->cedula;
-        $registro->telefono = $request->telefono;
-        $registro->email = $request->email;
+        $registro->USERID = $request->id;
+        $registro->STARTSPECDAY = $request->fini;
+        $registro->ENDSPECDAY = $request->ffin;
+        $registro->DATEID = $request->tipo_incidencia;        
+        $registro->YUANYING = $request->razon;
+        $registro->DATE = now();
         $registro->save();
         return response()->json(['mensaje'=>'Registrado Correctamente']);
     }
