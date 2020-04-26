@@ -130,12 +130,13 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
 function guardar_incidencia(){
 
       var id = $("#id").val();
+      var idcap = $("#id_user").val();
       var date_1 = moment($("#f_ini").val());
       var date_2 = moment($("#f_fin").val());       
       var tipo_incidencia = $("#incidencia_tipo").val();     
       var razon = $("#razon").val();  
       var diff_in_days = date_2.diff(date_1, 'days');      
-  
+      alert(idcap);
       var x=0;
       for (var i = 0; i < parseInt(diff_in_days+1); i++) {     
                   
@@ -147,12 +148,12 @@ function guardar_incidencia(){
             $.ajax({   
                   type: 'POST',
                   url:  "api/guarda-justificante",
-                  data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon},
+                  data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon,idcap:idcap},
                   success: function(data){ 
                         swal("Exito!", "El registro se ha guardado!", "success");                 
                   },
                   error: function(data) {
-                        swal("Error","No se registro ningun dato","Warning)");
+                        swal("Error!","No se registro ningun dato!", "Warning");
                   }
               })  
 
@@ -165,7 +166,7 @@ function guardar_incidencia(){
     $('#agregar_incidencia').modal('toggle'); 
     $('#checadas_modal').modal('toggle');
     
-    incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
+    //incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
     
     
 

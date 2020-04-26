@@ -1,7 +1,7 @@
 <form>
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}"></input>
     <input type="hidden" id="id" name="id">
-    <input type="hidden" id="id_user" name="id_user">
+    <input type="hidden" id="id_user" name="id_user" value="{{ auth()->user()->id }}">
     <div class="card">
         
         <div class="card-body">

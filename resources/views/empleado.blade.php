@@ -9,8 +9,10 @@
         <h6 class="m-0 font-weight-bold text-primary">Lista de Empleados</h6>
     </div>
     
-    <div id="divmsg" style="display:none" class="alert-primary" role="alert">
-    </div>
+    <div class="card-body">
+
+     <h4>Bienvenido .  </h4>
+  </div>
     <div class="card-body">
         <div class="table-responsive">           
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">

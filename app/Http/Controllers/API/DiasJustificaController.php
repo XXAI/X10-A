@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\DiasJustifica;
 use Illuminate\Http\Request;
 use App\Models\Usuarios;
+use App\Models\User;
 use \Validator, \Hash, \Response;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
@@ -69,6 +70,7 @@ class DiasJustificaController extends Controller
                 $registro->DATEID = $request->tipo_incidencia;        
                 $registro->YUANYING = $request->razon;
                 $registro->DATE = now();
+                $registro->captura_id=$request->idcap;
                 $registro->save();
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
         } catch (\Exception $e) {
