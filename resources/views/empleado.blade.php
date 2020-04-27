@@ -27,7 +27,7 @@
                                     <button name='filtrar' type='button' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()" >FILTRAR</button>
                                 </div>
                                 <div class="col">
-                                 <input class="form-control" type="text" onKeypress="btn_filtrar()" name="buscar" id="buscar" >
+                                 <input class="form-control" type="text"  name="buscar" id="buscar" >
                                 </div>
                             </div>                                                     
                         </td>
