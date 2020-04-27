@@ -3,7 +3,7 @@ var dato;
 var date = new Date();
 var inicio;
 var fin;
-
+var id, idcap;
 var id_x;
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
@@ -88,11 +88,7 @@ function btn_filtrar()
       var buscar = $("#buscar").val();      
       cargar_empleados(buscar);
 }
-function btn_r()
-{     
-       
-      alert('evento automatico');
-}
+
 function kardex_empleado(rfc)
 {     
       
@@ -129,14 +125,14 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
 }
 function guardar_incidencia(){
 
-      var id = $("#id").val();
-      var idcap = $("#id_user").val();
+      id = $("#id").val();
+      idcap = $("#id_user").val();
       var date_1 = moment($("#f_ini").val());
       var date_2 = moment($("#f_fin").val());       
       var tipo_incidencia = $("#incidencia_tipo").val();     
       var razon = $("#razon").val();  
       var diff_in_days = date_2.diff(date_1, 'days');      
-      alert(idcap);
+      
       var x=0;
       for (var i = 0; i < parseInt(diff_in_days+1); i++) {     
                   
@@ -159,14 +155,14 @@ function guardar_incidencia(){
 
            x=1;
            
-       }     
-         
+       }  
+       
     
     
     $('#agregar_incidencia').modal('toggle'); 
     $('#checadas_modal').modal('toggle');
     
-    //incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
+    incidencia(id_x,$("#iduser").text(),$("#nombre").text(),dato,$("#hentra").text(),$("#hsal").text());
     
     
 
@@ -174,13 +170,42 @@ function guardar_incidencia(){
     
 }
 
-function mostrarMensaje(mensaje){
-      $("#divmsg").empty();
-      $("#divmsg").append("<p>"+mensaje+"</p>");
-      $("#divmsg").show(500);
-      $("#divmsg").hide(3000);
-  
-     }
+function guardar_entrasal(){
+
+      
+
+      id = $("#id").val();
+      idcap = $("#id_user").val();
+      var fecha_ing = moment($("#fecha_reg").val());
+      var tipo_registro = $("#tipo_es").val();    
+      var razon = $("#refe").val();      
+      
+      //alert("userid: "+id+" Captura:  "+ idcap + "  fecha:  "+fecha+"  tipo: "+tipo_registro+ " razon:  "+razon);   
+      var fing= moment(fecha_ing).format();            
+      fing = fing.substr(0,10)+" "+ fing.substr(11,8)+".00";   
+      
+      
+      
+             $.ajax({   
+                  type: 'POST',
+                  url:  "api/guarda-entrasal",
+                  data: {id:id, fing:fing,tipo_registro:tipo_registro,razon:razon,idcap:idcap},
+                  success: function(data){ 
+                        swal("Exito!", "El registro se ha guardado!", "success");                 
+                  },
+                  error: function(data) {
+                        swal("Error!","No se registro ningun dato!", "Warning");
+                  }
+              })  
+
+         
+    $('#agregar_entrasal').modal('toggle'); 
+    $('#checadas_modal').modal('toggle');  
+
+    
+}
+
+
 function sel_inci(valor){
 
       
@@ -209,6 +234,13 @@ function generar_inci(jini,jfin)
       
 }
 
+function agregar_entrasal(jini)
+{     
+   $("#id").val(id_x);
+   $("#fecha_reg").val(jini);
+         
+}
+
 function cargar_datos_checadas(urlchecadas)
 {
       
@@ -234,17 +266,11 @@ function cargar_datos_checadas(urlchecadas)
             if(validacion != null){
                   cargar_blade_checadas();
                  
-            }else{
-
-                  
-                  var checadas = $("#checadas");
-                  
+            }else{                  
+                  var checadas = $("#checadas");                  
                   checadas.html("");
                   $("#resumen").append("<div class=card-body> <h1 class=card-title align=center>Acudir a Sistematización</h1> <hr> <div class=row> <div class='col-md-6 col-sm-6' style='text-align:left'><img src=../images/salud.png class=img-fluid flex alt=Responsive image width=50%></div> <div class='col-md-6 col-sm-6' style='text-align:right' ><img src=../images/chiapas.png class=img-fluid flex alt=Responsive image width=50%></div></div> </div>");
-
                   document.getElementById('modal').click();
-
-
             }
 
             
@@ -268,7 +294,7 @@ function cargar_blade_checadas()
       $.each(datos_checadas_mes, function(index, value){
             icono = "<i class='fa fa-check' style='color:green'></i>";
             if(value.validacion == 0)
-            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a></i>";
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entrasal(\""+value.jorini+"\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
             else
             icono = "<i class='fa fa-check' style='color:green'></i>";
            
@@ -379,4 +405,11 @@ function cargar_dato(dato)
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             
       });
+}
+
+
+function sel_tiporeg(tiporeg){
+
+
+
 }

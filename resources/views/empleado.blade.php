@@ -14,6 +14,9 @@
      <h4>Bienvenido .  </h4>
   </div>
     <div class="card-body">
+    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+    <input type="hidden" id="id" name="id">
+    <input type="hidden" id="id_user" name="id_user" value="{{ auth()->user()->id }}">
         <div class="table-responsive">           
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -169,6 +172,28 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" onclick="guardar_incidencia()">Guardar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade bd-example-modal-lg" id="agregar_entrasal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agregar Entrada o Salida</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                @include('entrasalform')
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" onclick="guardar_entrasal()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

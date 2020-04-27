@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Omisiones extends Model
 {
     protected $table = "CHECKEXACT";
+    public $timestamps = false;
 }

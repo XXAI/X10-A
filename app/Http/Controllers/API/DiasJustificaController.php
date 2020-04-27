@@ -39,29 +39,7 @@ class DiasJustificaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
-        /* $mensajes = [
-            'required'           => "required",
-        ];
-
-        $reglas = [
-            'DATEID'            => 'required',
-            'YUANYING'             => 'required',            
-        ];     
-      
-
-        $inputs = Input::all();
-       
-        
-        $v = Validator::make($inputs, $reglas, $mensajes);
-
-        if ($v->fails()) {
-            return response()->json(['error' => "No se encuentra el recurso que esta buscando."], HttpResponse::HTTP_NOT_FOUND);
-        }
-        */
-       
-       
+    {           
         try {
                 $registro = new DiasJustifica;
                 $registro->USERID = $request->id;
@@ -73,10 +51,11 @@ class DiasJustificaController extends Controller
                 $registro->captura_id=$request->idcap;
                 $registro->save();
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
-        } catch (\Exception $e) {
+            } 
+        catch (\Exception $e) {
             
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
-        }
+            }
     }
 
     /**
