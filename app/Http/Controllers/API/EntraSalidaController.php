@@ -27,27 +27,30 @@ class EntraSalidaController extends Controller
                 $registro->CHECKTYPE = $request->tipo_registro;
                 $registro->VERIFYCODE = $request->idcap;        
                 $registro->SENSORID = $request->idcap; 
-                $registro->LOGID=  "1";    
+               //$registro->LOGID=  "1";    
                 $registro->MachineId=  "0"; 
                 $registro->UserExtFmt=    "0";  
                 $registro->WorkCode=  "0";
                 $registro->Memoinfo=$request->razon;
-                $registro->sn=   "0"; 
-
+                $registro->sn=   "0";
                 $registro->save();
 
-                /* $registro2 = new Omisiones;
+                $registro2 = new Omisiones;
                 $registro2->USERID = $request->id;
-                $registro2->CHECKTIME = $request->fecha;
+                $registro2->CHECKTIME = $request->fing;
                 $registro2->CHECKTYPE = $request->tipo_registro;
                 $registro2->MODIFYBY = $request->idcap;     
                 $registro2->DATE = now();
+                $registro2->ISADD=  "1";
                 $registro2->YUYIN=$request->razon;
-                $registro2->save(); */
+                $registro2->INCOUNT=  "0";
+                $registro2->ISMODIFY=  "0";
+                $registro2->ISDELETE=  "0";
+                $registro2->ISCOUNT=  "0";
+                $registro2->save(); 
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
             } 
-        catch (\Exception $e) {
-            
+        catch (\Exception $e) {            
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
             }
     }

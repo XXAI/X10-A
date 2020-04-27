@@ -114,7 +114,7 @@
                                                 <div class="col-md-4" > 
                                                 <br>
                                                     <label for="fecha_inicio"><br></label>
-                                                    <button onclick="filtrar_checadas()" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
+                                                    <button onclick="filtrar_checadas()" id="filtro_check" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
                                                 
                                                 </div>
                                             </div>
@@ -193,7 +193,7 @@
                 @include('entrasalform')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" onclick="guardar_entrasal()">Guardar</button>
+              <button type="button" class="btn btn-primary"   onclick="guardar_entrasal()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

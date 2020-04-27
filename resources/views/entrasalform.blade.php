@@ -7,7 +7,7 @@
                 <div class="col-md-12" >
                     <div class="form-group">
                         <label for="tipo_registro"  class="col-sm-12 col-form-label">Elegir Tipo de Checada</label>                                         
-                            <select class="form-control" id="tipo_es" name="tipo_es" required>
+                            <select class="form-control" id="tipo_es" name="tipo_es" onchange="sel_tiporeg(this.value)" required>
                                 <option value="">Seleccione el tipo de Registro</option>
                                 <option value="I">Entrada</option>
                                 <option value="O">Salida</option>                                
