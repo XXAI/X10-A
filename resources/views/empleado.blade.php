@@ -10,28 +10,20 @@
     </div>
     
     <div class="card-body">
-
-     <h4>Bienvenido .  </h4>
-  </div>
-    <div class="card-body">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <input type="hidden" id="id" name="id">
     <input type="hidden" id="id_user" name="id_user" value="{{ auth()->user()->id }}">
         <div class="table-responsive">           
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <td>
-                            <div class="row">
-                                <div class="col">
-                                    <button name='filtrar' type='button' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()" >FILTRAR</button>
-                                </div>
-                                <div class="col">
-                                 <input class="form-control" type="text"  name="buscar" id="buscar" >
-                                </div>
-                            </div>                                                     
-                        </td>
-                    </tr>
+                <thead>                  
+                     <div class="col-md-10" >
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="ID,RFC,NOMBRE"  name="buscar" id="buscar"aria-label="BUSCAR" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                            <button name='filtrar' type='button' data-toggle='tooltip' data-placement='top' title='Buscar Empleado' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button class="btn btn-primary" type="button" data-toggle='modal' data-target='#agregar_empleado' onclick="cargar_departamentos()" disabled><i class="fa fa-plus-circle" aria-hidden="true" data-toggle='tooltip' data-placement='top' title='Agregar Empleado' ></i></button>
+                        </div>
+                    </div>         
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
@@ -44,13 +36,7 @@
                 <tbody id='empleados'>
                 </tbody>
             </table>
-                           
-               
-           
-        
-	</table>
-
-	
+        </table>                 
 
         </div>
     </div>
@@ -194,6 +180,27 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary"   onclick="guardar_entrasal()">Guardar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade bd-example-modal-xl" id="agregar_empleado" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agregar Empleado</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                @include('agregarEmpleado')
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary"  data-dismiss="modal" data-backdrop="false" onclick="guardar_empleado()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

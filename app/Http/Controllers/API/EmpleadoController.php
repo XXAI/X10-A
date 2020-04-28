@@ -7,8 +7,13 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
 
 use App\Models\Usuarios;
+use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
 use App\Models\TiposIncidencia;
+
+use App\Models\User;
+use \Validator, \Hash, \Response;
+
 class EmpleadoController extends Controller
 {
     /**
@@ -18,9 +23,8 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->get('buscar');
-       
-        $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);//->paginate(15);//->where("Badgenumber", "=", 921)->paginate(15);
+        $name = $request->get('buscar');       
+        $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
         if($name !='')
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
@@ -28,9 +32,10 @@ class EmpleadoController extends Controller
 
         $usuarios = $usuarios->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->get();  
+        $departamentos = Departamentos::where("DEPTID","<>",1)->get();
         
         
-        return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias]);
+        return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos]);
        
     }
 
@@ -61,7 +66,37 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            $maxid=Usuarios::max('Badgenumber');
+            $maxid=$maxid+1;
+            $registro = new Usuarios;
+            $registro->Badgenumber= $maxid;
+            $registro->Name = $request->name;
+            $registro->Gender = $request->sexo;
+            $registro->TITLE = $request->rf;        
+            $registro->PAGER = $request->codigo;
+            $registro->BIRTHDAY = $request->fecnac;
+            $registro->HIREDDAY=$request->fechaing;
+            $registro->street=$request->street;
+            $registro->CITY=$request->city;
+            $registro->STATE=0;
+            $registro->ZIP= 1;
+            $registro->FPHONE=$request->clues;
+            $registro->DEFAULTDEPTID=$request->tipotra;            
+            $registro->MINZU=$request->area;      
+            
+          
+           
+
+            $registro->save();
+            return response()->json(['mensaje'=>'Registrado Correctamente ID:  '.$maxid]);
+        } 
+    catch (\Exception $e) {
+        
+        return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+       //return Response::json(['error' => $registro]);
+        }
     }
 
     /**

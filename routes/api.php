@@ -39,4 +39,5 @@ Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_
 Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
 Route::post('/guarda-justificante','API\DiasJustificaController@store');
 Route::post('/guarda-entrasal','API\EntraSalidaController@store');
+Route::post('/guarda-empleado','API\EmpleadoController@store');
 Route::post('login', 'API\LoginController@login');

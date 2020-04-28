@@ -13,6 +13,7 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function(){
   
     cargar_empleados('');
+    
    
 });
 
@@ -40,9 +41,7 @@ function cargar_select(){
             url: './api/empleado', 
             dataType: "json",
             success: function(data){
-                  //console.log(data.incidencias);
-            
-            
+                
               $.each(data.incidencias,function(key, registro) {
                   $("#incidencia_tipo").append("<option value="+registro.LeaveId+">"+registro.LeaveName+"</option>");
               });        
@@ -50,12 +49,34 @@ function cargar_select(){
             error: function(data) {
               alert('error');
             }
-          });
-
-           
-     
+          });        
+    
           
 }
+
+function cargar_departamentos(){
+      $("#tipotra").empty();
+      $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
+      $.ajax({
+            type: "GET",
+            url: './api/empleado', 
+            dataType: "json",
+            success: function(data){
+                  console.log(data.departamentos);
+            
+            
+              $.each(data.departamentos,function(key, registro) {
+                  $("#tipotra").append("<option value="+registro.DEPTID+">"+registro.DEPTNAME+"</option>");
+              });        
+            },
+            error: function(data) {
+              alert('error');
+            }
+          });        
+    
+          
+}
+
 function cargar_datos_empleado(datos)
 {
     var table = $("#empleados");
@@ -150,7 +171,7 @@ function guardar_incidencia(){
                         swal("Exito!", "El registro se ha guardado!", "success");                 
                   },
                   error: function(data) {
-                        swal("Error!","No se registro ningun dato!", "Warning");
+                        swal("Error!","No se registro ningun dato!", "error");
                   }
               })  
 
@@ -199,7 +220,7 @@ function guardar_entrasal(){
 
                   },
                   error: function(data) {
-                        swal("Error!","No se registro ningun dato!", "Warning");
+                        swal("Error!","No se registro ningun dato!", "error");
                         
 
                   }
@@ -210,7 +231,67 @@ function guardar_entrasal(){
 
     
 }
+function guardar_empleado(){
 
+      
+
+     
+      var name = $("#name").val();
+      var rf = $("#rfc").val();    
+      var sexo = $("#sexo").val();   
+      var codigo = $("#codigo").val();    
+      var clues = $("#clues").val();  
+      var area= $("#area").val();    
+      var tipotra= $("#tipotra").val(); 
+      var street=$('select[name="tipotra"] option:selected').text();
+      var city;
+       if (tipotra==6)
+            city="416";
+      else
+            city=street.substr(0,3);
+
+       
+    
+           var fecnac= rf.substr(4,6);
+            if (fecnac.substr(0,2)>=20)
+                  fecnac="19"+fecnac.substr(0,2)+"-"+fecnac.substr(2,2)+"-"+fecnac.substr(4,2)+" 00:00:00.00";  
+            else
+                  fecnac="20"+fecnac.substr(0,2)+"-"+fecnac.substr(2,2)+"-"+fecnac.substr(4,2)+" 00:00:00.00";
+      
+      var fechaing= moment(fechaing).format();            
+      fechaing = fechaing.substr(0,10)+" 00:00:00.00";       
+      console.log(fecnac);
+      
+              $.ajax({   
+                  type: 'POST',
+                  url:  "api/guarda-empleado",
+                  data: {name:name,rf:rf,sexo:sexo,fechaing:fechaing,fecnac:fecnac,codigo:codigo,clues:clues,area:area,tipotra:tipotra,street:street,city:city},
+                  success: function(data){ 
+                        swal("Exito!", data.mensaje, "success"); 
+                        $("#name").val('');
+                        $("#rfc").val('');    
+                        $("#sexo").val('');   
+                        $("#codigo").val('');    
+                        $("#clues").val('');  
+                        $("#area").val('');        
+                        $('#agregar_empleado').modal('toggle');  
+                        cargar_empleados('');                 
+                       
+                         
+
+                  },
+                  error: function(data) {
+                        swal("Error!","No se registro ningun dato!", "error");
+                        
+
+                  }
+              })    
+
+         
+     
+
+    
+}
 
 function sel_inci(valor){
 
@@ -301,7 +382,7 @@ function cargar_blade_checadas()
       table.html("");
       $.each(datos_checadas_mes, function(index, value){
             icono = "<i class='fa fa-check' style='color:green'></i>";
-            if(value.validacion == 0)
+            if(value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
             else
             icono = "<i class='fa fa-check' style='color:green'></i>";
