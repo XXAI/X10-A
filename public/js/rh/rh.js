@@ -67,7 +67,7 @@ function cargar_datos_checadas(urlchecadas)
       }).done(function( data, textStatus, jqXHR ) {
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
-            console.log(data);
+           // console.log(data);
             datos_checadas_mes = data.data;
             resumen_checadas = data.resumen[0];
             validacion = data.validacion;

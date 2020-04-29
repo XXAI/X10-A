@@ -16,7 +16,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         <link href="{{ asset('libs/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ asset('libs/theme/css/sb-admin-2.css') }}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+        <!-- <link rel="stylesheet" type="text/css" href="dist/sweetalert.css"> -->
     @show
     
     

@@ -1,11 +1,17 @@
 var urlchecadas = "./api/consulta-asistencia";
 var dato;
 var date = new Date();
+var resumen_checadas;
+var diaslab;
+var diaeco;
+var onomastico;
+var pasesal;
 var inicio;
 var fin;
 var xini,xfin;
 var id, idcap;
 var id_x;
+var rfc_x;
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "NOVIEMBRE","DICIEMBRE")
@@ -13,6 +19,8 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function(){
   
     cargar_empleados('');
+
+   // console.log(arreglo_dias[1];)
     
    
 });
@@ -54,6 +62,14 @@ function cargar_select(){
           
 }
 
+function obten_fecnac(rfc_x)
+{    
+         
+            onomastico= rfc_x.substr(4,6);      
+            onomastico=onomastico.substr(2,2)+"-"+onomastico.substr(4,2);  
+            //console.log(onomastico);
+}          
+
 function cargar_departamentos(){
       $("#tipotra").empty();
       $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
@@ -62,7 +78,7 @@ function cargar_departamentos(){
             url: './api/empleado', 
             dataType: "json",
             success: function(data){
-                  console.log(data.departamentos);
+                  
             
             
               $.each(data.departamentos,function(key, registro) {
@@ -90,6 +106,7 @@ function cargar_datos_empleado(datos)
           var hsalida =value.horarios[0].detalle_horario[0].ENDTIME;
           hentrada = hentrada.substring(16,11);
           hsalida = hsalida.substring(16,11);
+          diaslab=(value.horarios[0].detalle_horario);
           var campo5 = $("<td><button id='pruebaclic' type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
           var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
          
@@ -97,7 +114,7 @@ function cargar_datos_empleado(datos)
           if(value.horarios.length > 0)
                 var campo4 = $("<td>Horario Activo</td>");
             
-         // console.log(value.horarios[0].detalle_horario);
+        
           linea.append(campo1, campo2, campo3, campo4, campo5);
           table.append(linea);
           
@@ -112,20 +129,24 @@ function btn_filtrar()
 }
 
 function kardex_empleado(rfc)
-{     
-      
-      cargar_kardex();
+{  
+     cargar_kardex();
       dato=rfc;
       inicio = $("#inicio").val();
-      fin = $("#fin").val();    
-   
+      fin = $("#fin").val();   
      cargar_dato(rfc)
+      
+}
+
+function sacadias(){
+    
       
 }
 
 function incidencia(id,iduser,nombre,rfc,jini,jfin)
 {     
-    
+      sacadias();      
+      obten_fecnac(rfc);
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
       var ano = date.getFullYear(); //obteniendo año
@@ -144,6 +165,7 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
       $("#iduser").html(iduser);
       $("#nombre").html(nombre);
       
+      
 }
 function guardar_incidencia(){
 
@@ -153,36 +175,92 @@ function guardar_incidencia(){
       var date_2 = moment($("#f_fin").val());       
       var tipo_incidencia = $("#incidencia_tipo").val();     
       var razon = $("#razon").val();  
-      var diff_in_days = date_2.diff(date_1, 'days');      
-      
-      var x=0;
-      for (var i = 0; i < parseInt(diff_in_days+1); i++) {     
+      var diff_in_days = date_2.diff(date_1, 'days');  
+      var  diff=0;
+      diff=1+diff_in_days;
+      //console.log(diff);
+      var fec_com=moment(date_1).format();
+      fec_com=fec_com.substr(5,5);     
+      var bandera;
+      var msj;
+       switch (parseInt(tipo_incidencia)) {
+            /* case 1:
+                  if(diff_in_days==0 ){
+                        bandera=1;
+                  }                 
+                  break;
+                   */
+            case 6:          
+                                          
+                  if(resumen_checadas.Día_Económico<2)
+                   if((resumen_checadas.Día_Económico==0 && diff<=2)||(resumen_checadas.Día_Económico==1 && diff==1)) {                    
+                        bandera=1;                    
+                     
+                   }
                   
+                  else{
+                        bandera=0;                       
+                        msj="Solo puede tener maximo 2 dias económicos en el mes";
+                  }
+                  
+                  break;
+            case 10:                  
+                  if(diff_in_days==0 && fec_com==onomastico){
+                        bandera=1;
+                        
+                  }
+                  else{
+                        bandera=0;
+                        msj="La fecha no es la misma que su onomástico";
+                  }                 
+                  
+                  break;
+            default:
+            bandera=1;
+                  
+       }  
+       if (bandera==1){
+
+       var x=0;
+       var dia_eva;
+       for (var i = 0; i < parseInt(diff_in_days+1); i++) { 
             fini= moment(date_1.add(x, 'd')).format();
             ffin= moment(date_2.add(x, 'd')).format();
             fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
-            ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";
-          
-            $.ajax({   
-                  type: 'POST',
-                  url:  "api/guarda-justificante",
-                  data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon,idcap:idcap},
-                  success: function(data){ 
-                        swal("Exito!", "El registro se ha guardado!", "success");                 
-                  },
-                  error: function(data) {
-                        swal("Error!","No se registro ningun dato!", "error");
+            ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";                                   
+            for(var j =0; j < diaslab.length;j++){
+                  
+                  if (moment(fini).day()==0)
+                        dia_eva=7;
+                  else
+                        dia_eva=moment(fini).day();
+                  
+                  if( dia_eva == diaslab[j].EDAYS){
+                        $.ajax({   
+                              type: 'POST',
+                              url:  "api/guarda-justificante",
+                              data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon,idcap:idcap},
+                              success: function(data){ 
+                                    swal("Exito!", "El registro se ha guardado!", "success");                 
+                              },
+                              error: function(data) {
+                                    swal("Error!","No se registro ningun dato!", "error");
+                              }
+                        })  
+                      
                   }
-              })  
-
-           x=1;
+             }
+                  
+            x=1;
+            
+      } 
+            $('#agregar_incidencia').modal('toggle'); 
+            document.getElementById('filtro_check').click(); 
+      }
+      else{
+            swal("Error!",msj+"!", "error");
+      }
            
-       }  
-       
-    
-    
-    $('#agregar_incidencia').modal('toggle'); 
-    document.getElementById('filtro_check').click();
     
     
 
@@ -260,7 +338,7 @@ function guardar_empleado(){
       
       var fechaing= moment(fechaing).format();            
       fechaing = fechaing.substr(0,10)+" 00:00:00.00";       
-      console.log(fecnac);
+     
       
               $.ajax({   
                   type: 'POST',
@@ -296,20 +374,10 @@ function guardar_empleado(){
 function sel_inci(valor){
 
       
-     /*  switch (parseInt(valor)) {
-            case 1:
-                  alert("a selecionado pase de salida");
-                  break;
-            case 4:
-                  alert("a selecionado omision de salida");
-                  break;         
-            case 5:
-                  alert("a selecionado omision de entrada");
-                  break;
-            default:
-                  alert("otro");
-       } */
+       
 }
+
+
 function generar_inci(jini,jfin)
 {     
       //alert($("#iduser").text());
@@ -345,15 +413,18 @@ function cargar_datos_checadas(urlchecadas)
             url: urlchecadas,
            
       }).done(function( data, textStatus, jqXHR ) {
-            
+           //console.log(data);
             $("#inicio").val(data.fecha_inicial);
             $("#fin").val(data.fecha_final);
-            console.log(data);
-            datos_checadas_mes = data.data;
             
+            datos_checadas_mes = data.data;            
+            resumen_checadas = data.resumen[0];
             validacion = data.validacion;
             if(validacion != null){
+
+                  
                   cargar_blade_checadas();
+                  
                  
             }else{                  
                   var checadas = $("#checadas");                  
