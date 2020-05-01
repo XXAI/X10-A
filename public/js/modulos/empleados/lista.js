@@ -14,6 +14,7 @@ var id_x;
 var rfc_x;
 var msj;
 var mes_nac;
+var tipo_incidencia,date_1,date_2,razon,diff_in_days,diff_in_hours,diff,fec_com,bandera,msj;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE","NOVIEMBRE","DICIEMBRE")
 
@@ -186,157 +187,9 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
 
 
 
-function guardar_incidencia(){
 
-      id = $("#id").val();
-      idcap = $("#id_user").val();
-      var date_1 = moment($("#f_ini").val());
-      var date_2 = moment($("#f_fin").val());       
-      var tipo_incidencia = $("#incidencia_tipo").val();     
-      var razon = $("#razon").val();  
-      var diff_in_days = date_2.diff(date_1, 'days');  
-      var diff_in_hours = date_2.diff(date_1, 'hours',true);  
-      var  diff=0;
-      diff=1+diff_in_days;      
-      
-      
-      //console.log("disponible hora: "+pasesal +  " horas calcular : " +diff_in_hours +  " dias dife : " +diff_in_days);
-      var fec_com=moment(date_1).format();
-      fec_com=fec_com.substr(5,5);     
-      var bandera;
-      
-       switch (parseInt(tipo_incidencia)) {
-             case 1://Pase de Salida
-                  
-                  if(diaslab.length==5 && diff_in_days==0){ 
-                      
-                              if (pasesal>=diff_in_hours && diff_in_hours<=2){
-                                    bandera=1;
-                              }
-
-                              else{
-                                    bandera=0
-                                    msj="Verifique la solicitud";
-                              }
-                        
-                  }
-                  else{
-                              bandera=0
-                              msj="pase salida error 1";  
-                         
-                  }   
-
-                       
-                                  
-                  break;
-                 
-           
-            case 6:    //Dia Economico      
-                if(diaslab.length==5)  {                    
-                        if(resumen_checadas.Día_Económico<=diff)
-                        if((resumen_checadas.Día_Económico==0 && diff<=2)||(resumen_checadas.Día_Económico==1 && diff==1)) {                    
-                              bandera=1;                    
-                        
-                        }
-                        
-                        else{
-                              bandera=0;                       
-                              msj="Solo puede tener maximo 2 dias económicos en el mes";
-                      }
-
-                      
-                  }
-                   else{
-                        
-                        if((resumen_checadas.Día_Económico==0 && diff<=1)) {                    
-                              bandera=1;                    
-                        
-                        }
-                        
-                        else{
-                              bandera=0;                       
-                              msj="Solo puede tener 1 dia económico en el mes";
-                        }
-
-                        
-                  }                  
-                  
-                  break;
-            case 10:      //Onomastico            
-                  if(diff_in_days==0 && fec_com==onomastico){
-                        bandera=1;
-                        
-                  }
-                  else{
-                        bandera=0;
-                        msj="La fecha no es la misma que su onomástico";
-                  }                 
-                  
-                  break;
-            default:
-            bandera=0;
-            msj="otrooooooooo";
-                  
-       }  
-       if (bandera==1){
-            $('#save_in').prop('disabled',true);
-       var x=0;
-       var dia_eva;
-       for (var i = 0; i < parseInt(diff_in_days+1); i++) { 
-            fini= moment(date_1.add(x, 'd')).format();
-            ffin= moment(date_2.add(x, 'd')).format();
-            fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
-            ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";                                   
-            for(var j =0; j < diaslab.length;j++){                  
-                  if (moment(fini).day()==0)
-                        dia_eva=7;
-                  else
-                        dia_eva=moment(fini).day();
-                  
-                  if( dia_eva == diaslab[j].EDAYS){
-                        $.ajax({   
-                              type: 'POST',
-                              url:  "api/guarda-justificante",
-                              data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon,idcap:idcap},
-                              success: function(data){ 
-                                    swal("Exito!", "El registro se ha guardado!", "success");                 
-                              },
-                              error: function(data) {
-                                    swal("Error!","No se registro ningun dato!", "error");
-                              }
-                        })  
-                      
-                  }
-             }
-                  
-            x=1;
-            
-      } 
-            //('#agregar_incidencia').modal('toggle'); 
-            $("#agregar_incidencia").modal('hide');
-            $("#razon").val('');  
-            document.getElementById('filtro_check').click();  
-            swal("Exito!", "El registro se ha guardado!", "success"); 
-            
-
-      }
-      else{
-            
-           swal("Error!",msj+"!", "error");
-           //$('#agregar_incidencia').modal({ backdrop: 'static', keyboard: false });
-      }
-            
-  
-    
-    
-
-    
-    
-}
 
 function guardar_entrasal(){
-
-      
 
       id = $("#id").val();
       idcap = $("#id_user").val();
@@ -528,7 +381,7 @@ function sel_inci(valor){
             break;
             case 10:                  
                                    
-                  var mensaje="Su onómastico es el: "+onomastico.substr(3,2)+" de "+ arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
+                  var mensaje="Su onomástico es el: "+onomastico.substr(3,2)+" de "+ arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
                   mostrarMensaje(mensaje);
                  
             break;
@@ -678,3 +531,131 @@ function sel_tiporeg(tiporeg){
       }      
 
 }
+
+function validando_incidencia(){
+       
+      switch (parseInt(tipo_incidencia)) {
+            case 1://Pase de Salida                  
+                 if(diaslab.length==5 && diff_in_days==0){                       
+                       if (pasesal>=diff_in_hours && diff_in_hours<=2){
+                             bandera=1;
+                       }
+                       else{
+                             bandera=0
+                             msj="Verifique la solicitud";
+                       }                        
+                 }
+                 else{
+                       bandera=0
+                       msj="pase salida error 1";               
+                 }                              
+                 break;                 
+          
+           case 6:    //Dia Economico      
+               if(diaslab.length==5){                    
+                       if(resumen_checadas.Día_Económico<=diff)
+                       if((resumen_checadas.Día_Económico==0 && diff<=2)||(resumen_checadas.Día_Económico==1 && diff==1)) {                    
+                             bandera=1;                                    
+                       }                        
+                       else{
+                             bandera=0;                       
+                             msj="Solo puede tener maximo 2 dias económicos en el mes";
+                       }          
+                 }
+                  else{                        
+                       if((resumen_checadas.Día_Económico==0 && diff<=1)) {                    
+                             bandera=1;                 
+                       
+                       }                        
+                       else{
+                             bandera=0;                       
+                             msj="Solo puede tener 1 dia económico en el mes";
+                       }                        
+                 }                    
+                 break;
+           case 10:      //Onomastico            
+                 if(diff_in_days==0 && fec_com==onomastico){
+                       bandera=1;              
+                 }
+                 else{
+                       bandera=0;
+                       msj="La fecha no es la misma que su onomástico";
+                 }                    
+                 break;
+
+           // case 12:
+                              //resumen_checadas.Vacaciones_2018_Invierno
+             //    break;
+
+           default:
+           bandera=1;
+           //msj="otrooooooooo";
+                 
+      }  
+}
+function inserta_incidencia(){     
+            
+      var x=0;
+      var dia_eva;
+      for (var i = 0; i < parseInt(diff_in_days+1); i++) { 
+           fini= moment(date_1.add(x, 'd')).format();
+           ffin= moment(date_2.add(x, 'd')).format();
+           fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
+           ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";                                   
+           for(var j =0; j < diaslab.length;j++){                  
+                 if (moment(fini).day()==0)
+                       dia_eva=7;
+                 else
+                       dia_eva=moment(fini).day();
+                 
+                 if( dia_eva == diaslab[j].EDAYS){
+                       $.ajax({   
+                             type: 'POST',
+                             url:  "api/guarda-justificante",
+                             data: {id:id, fini:fini,ffin:ffin,tipo_incidencia:tipo_incidencia,razon:razon,idcap:idcap},
+                             success: function(data){ 
+                                   swal("Exito!", "El registro se ha guardado!", "success");                 
+                             },
+                             error: function(data) {
+                                   swal("Error!","No se registro ningun dato!", "error");
+                             }
+                       })  
+                     
+                 }
+            }
+                 
+           x=1;
+           
+     } 
+           //('#agregar_incidencia').modal('toggle'); 
+           $("#agregar_incidencia").modal('hide');
+           $("#razon").val('');  
+           document.getElementById('filtro_check').click();  
+           swal("Exito!", "El registro se ha guardado!", "success"); 
+}
+function guardar_incidencia(){
+
+      id = $("#id").val();
+      idcap = $("#id_user").val();
+      date_1 = moment($("#f_ini").val());
+      date_2 = moment($("#f_fin").val());       
+      tipo_incidencia = $("#incidencia_tipo").val();     
+      razon = $("#razon").val();  
+      diff_in_days = date_2.diff(date_1, 'days');  
+      diff_in_hours = date_2.diff(date_1, 'hours',true);  
+      diff=0;
+      diff=1+diff_in_days;   
+      //console.log("disponible hora: "+pasesal +  " horas calcular : " +diff_in_hours +  " dias dife : " +diff_in_days);
+      var fec_com=moment(date_1).format();
+      fec_com=fec_com.substr(5,5);
+      validando_incidencia();
+       if (bandera==1){
+            inserta_incidencia();
+      }
+      else{            
+           swal("Error!",msj+"!", "error");         
+      }
+    
+}
+
+
