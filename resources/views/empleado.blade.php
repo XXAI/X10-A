@@ -16,7 +16,7 @@
         <div class="table-responsive">           
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead>                  
-                     <div class="col-md-10" >
+                     <div class="col-md-12" >
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="ID,RFC,NOMBRE"  name="buscar" id="buscar"aria-label="BUSCAR" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
@@ -30,7 +30,7 @@
                         <th scope="col">R.F.C.</th>
                         <th scope="col">Estatus</th>
                         <th scope="col">--</th>
-                        <th scope="col">--</th>
+                        <!-- <th scope="col">--</th> -->
                     </tr>
                 </thead>
                 <tbody id='empleados'>
@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bd-example-modal-lg" id="agregar_incidencia" tabindex="-1" role="dialog">
+    <div class="modal fade bd-example-modal-lg" id="agregar_incidencia"  tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -157,7 +157,7 @@
                 @include('incidenciaform')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" onclick="guardar_incidencia()">Guardar</button>
+              <button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
@@ -179,6 +179,7 @@
                 @include('entrasalform')
             </div>
             <div class="modal-footer">
+           
               <button type="button" class="btn btn-primary"   onclick="guardar_entrasal()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>

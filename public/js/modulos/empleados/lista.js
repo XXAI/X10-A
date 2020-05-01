@@ -12,15 +12,22 @@ var xini,xfin;
 var id, idcap;
 var id_x;
 var rfc_x;
-
+var msj;
+var mes_nac;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
-arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "NOVIEMBRE","DICIEMBRE")
+arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE","NOVIEMBRE","DICIEMBRE")
 
 $(document).ready(function(){
   
     cargar_empleados('');
+    $("#buscar").keypress(function(e) {
+      if(e.which == 13) {
+       btn_filtrar();
+      }
+    });
 
-   // console.log(arreglo_dias[1];)
+   
+   
     
    
 });
@@ -67,7 +74,7 @@ function obten_fecnac(rfc_x)
          
             onomastico= rfc_x.substr(4,6);      
             onomastico=onomastico.substr(2,2)+"-"+onomastico.substr(4,2);  
-            //console.log(onomastico);
+           // console.log("   ono   "+onomastico);
 }          
 
 function cargar_departamentos(){
@@ -139,14 +146,19 @@ function kardex_empleado(rfc)
 }
 
 function sacadias(){
-    
+
+      mes_nac=onomastico.substr(0,2);
+      if(mes_nac<10)
+        mes_nac=mes_nac.substr(1,1);
+      console.log("mes : " +mes_nac+ "  "+ arreglo_mes[mes_nac]);
       
 }
 
 function incidencia(id,iduser,nombre,rfc,jini,jfin)
 {     
-      sacadias();      
+     
       obten_fecnac(rfc);
+      sacadias();    
       var mes = date.getMonth()+1; //obteniendo mes
       var dia = date.getDate(); //obteniendo dia
       var ano = date.getFullYear(); //obteniendo año
@@ -167,6 +179,13 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
       
       
 }
+
+
+
+
+
+
+
 function guardar_incidencia(){
 
       id = $("#id").val();
@@ -176,35 +195,74 @@ function guardar_incidencia(){
       var tipo_incidencia = $("#incidencia_tipo").val();     
       var razon = $("#razon").val();  
       var diff_in_days = date_2.diff(date_1, 'days');  
+      var diff_in_hours = date_2.diff(date_1, 'hours',true);  
       var  diff=0;
-      diff=1+diff_in_days;
-      //console.log(diff);
+      diff=1+diff_in_days;      
+      
+      
+      //console.log("disponible hora: "+pasesal +  " horas calcular : " +diff_in_hours +  " dias dife : " +diff_in_days);
       var fec_com=moment(date_1).format();
       fec_com=fec_com.substr(5,5);     
       var bandera;
-      var msj;
+      
        switch (parseInt(tipo_incidencia)) {
-            /* case 1:
-                  if(diff_in_days==0 ){
-                        bandera=1;
-                  }                 
-                  break;
-                   */
-            case 6:          
-                                          
-                  if(resumen_checadas.Día_Económico<2)
-                   if((resumen_checadas.Día_Económico==0 && diff<=2)||(resumen_checadas.Día_Económico==1 && diff==1)) {                    
-                        bandera=1;                    
-                     
-                   }
+             case 1://Pase de Salida
                   
-                  else{
-                        bandera=0;                       
-                        msj="Solo puede tener maximo 2 dias económicos en el mes";
+                  if(diaslab.length==5 && diff_in_days==0){ 
+                      
+                              if (pasesal>=diff_in_hours && diff_in_hours<=2){
+                                    bandera=1;
+                              }
+
+                              else{
+                                    bandera=0
+                                    msj="Verifique la solicitud";
+                              }
+                        
                   }
+                  else{
+                              bandera=0
+                              msj="pase salida error 1";  
+                         
+                  }   
+
+                       
+                                  
+                  break;
+                 
+           
+            case 6:    //Dia Economico      
+                if(diaslab.length==5)  {                    
+                        if(resumen_checadas.Día_Económico<=diff)
+                        if((resumen_checadas.Día_Económico==0 && diff<=2)||(resumen_checadas.Día_Económico==1 && diff==1)) {                    
+                              bandera=1;                    
+                        
+                        }
+                        
+                        else{
+                              bandera=0;                       
+                              msj="Solo puede tener maximo 2 dias económicos en el mes";
+                      }
+
+                      
+                  }
+                   else{
+                        
+                        if((resumen_checadas.Día_Económico==0 && diff<=1)) {                    
+                              bandera=1;                    
+                        
+                        }
+                        
+                        else{
+                              bandera=0;                       
+                              msj="Solo puede tener 1 dia económico en el mes";
+                        }
+
+                        
+                  }                  
                   
                   break;
-            case 10:                  
+            case 10:      //Onomastico            
                   if(diff_in_days==0 && fec_com==onomastico){
                         bandera=1;
                         
@@ -216,11 +274,12 @@ function guardar_incidencia(){
                   
                   break;
             default:
-            bandera=1;
+            bandera=0;
+            msj="otrooooooooo";
                   
        }  
        if (bandera==1){
-
+            $('#save_in').prop('disabled',true);
        var x=0;
        var dia_eva;
        for (var i = 0; i < parseInt(diff_in_days+1); i++) { 
@@ -228,8 +287,7 @@ function guardar_incidencia(){
             ffin= moment(date_2.add(x, 'd')).format();
             fini=fini.substr(0,10)+" "+ fini.substr(11,8)+".00";
             ffin=fini.substr(0,10)+" "+ ffin.substr(11,8)+".00";                                   
-            for(var j =0; j < diaslab.length;j++){
-                  
+            for(var j =0; j < diaslab.length;j++){                  
                   if (moment(fini).day()==0)
                         dia_eva=7;
                   else
@@ -254,13 +312,21 @@ function guardar_incidencia(){
             x=1;
             
       } 
-            $('#agregar_incidencia').modal('toggle'); 
-            document.getElementById('filtro_check').click(); 
+            //('#agregar_incidencia').modal('toggle'); 
+            $("#agregar_incidencia").modal('hide');
+            $("#razon").val('');  
+            document.getElementById('filtro_check').click();  
+            swal("Exito!", "El registro se ha guardado!", "success"); 
+            
+
       }
       else{
-            swal("Error!",msj+"!", "error");
+            
+           swal("Error!",msj+"!", "error");
+           //$('#agregar_incidencia').modal({ backdrop: 'static', keyboard: false });
       }
-           
+            
+  
     
     
 
@@ -370,13 +436,13 @@ function guardar_empleado(){
 
     
 }
-
-function sel_inci(valor){
-
-      
-       
+function mostrarMensaje(mensaje){
+      $("#divmsg").empty();
+      $("#divmsg").append("<p>"+mensaje+"</p>");
+    //  $("#divmsg").show(500);
+     // $("#divmsg").hide(30000);
+  
 }
-
 
 function generar_inci(jini,jfin)
 {     
@@ -385,6 +451,8 @@ function generar_inci(jini,jfin)
       $("#id").val(id_x);
       $("#f_ini").val(jini);
       $("#f_fin").val(jfin);
+      var mensaje="  ";
+      mostrarMensaje(mensaje);
     //  alert(jor_Ini);
       
 }
@@ -419,6 +487,7 @@ function cargar_datos_checadas(urlchecadas)
             
             datos_checadas_mes = data.data;            
             resumen_checadas = data.resumen[0];
+            //console.log(resumen_checadas.Pase_Salida);
             validacion = data.validacion;
             if(validacion != null){
 
@@ -443,7 +512,32 @@ function cargar_datos_checadas(urlchecadas)
       });
 }
 
+function sel_inci(valor){
+      switch (parseInt(valor)) {
+            case 1:
+                  pasesal=6-resumen_checadas.Pase_Salida;  
+                  var mensaje="Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
+                  mostrarMensaje(mensaje);
+                 //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
+            break;
+            case 6:
+                  diaeco=2-resumen_checadas.Día_Económico;   
+                  var mensaje="Tiene "+diaeco+ " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 2 al mes";
+                  mostrarMensaje(mensaje);
+                 
+            break;
+            case 10:                  
+                                   
+                  var mensaje="Su onómastico es el: "+onomastico.substr(3,2)+" de "+ arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
+                  mostrarMensaje(mensaje);
+                 
+            break;
+            default:
+                  var mensaje="  ";
+                  mostrarMensaje(mensaje);
+      }
 
+}
 
 function cargar_blade_checadas()
 {

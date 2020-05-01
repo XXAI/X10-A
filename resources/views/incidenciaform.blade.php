@@ -11,6 +11,8 @@
                         
                         </select>
                     </div>
+                    <div id="divmsg" style="display:visible" class="alert-primary" role="alert">
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -36,8 +38,14 @@
                     </div>
                 </div>
                 
-                
+               <!--  <div class="col-md-6" >
+                    <div class="form-group">
+                        <label for="razon" class="col-sm-3 col-form-label">diae</label>
+                        <input type="text" class="form-control" id="diae" name="diae">
+                    </div>
+                </div> -->
             </div>
+
         </div>
         <div class="card-footer text-muted">
           

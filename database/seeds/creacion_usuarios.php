@@ -12,7 +12,7 @@ class creacion_usuarios extends Seeder
      */
     public function run()
     {
-        User::create([ // create a new user
+        /*User::create([ // create a new user
             'email' => 'bersain',
             'password' => Hash::make('bersain2020'),
             'username' => 'Bersain',
@@ -75,6 +75,17 @@ class creacion_usuarios extends Seeder
             'apellido_paterno' => '',
             'apellido_materno' => '',
             'alias' => 'CON',
+            'is_superuser' => 0
+        ]);*/
+
+        User::create([ // create a new user
+            'email' => 'rubi',
+            'password' => Hash::make('rubi2020'),
+            'username' => 'rubi',
+            'nombre' => 'rubi',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'RUBI',
             'is_superuser' => 0
         ]);
     }
