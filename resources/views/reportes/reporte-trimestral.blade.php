@@ -139,19 +139,19 @@ switch($empleados['trimestre'])
                             @switch($empleados['tipo_trabajador']['DEPTID'])
                                 @case(6)
                                 @case(11)
-                                    GOV0006
+                                    GOV0011
                                 @break
                                 @case(13)
-                                    CAR0006
+                                    CAR0011
                                 @break
                                 @case(12)
-                                    PEV0025
+                                    PEV0049
                                 @break
                             @endswitch
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
                             VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
-                            QNA. DE CAPTURA: 06/20<br>
+                            QNA. DE CAPTURA: 11/20<br>
                             <br>
                             ESTIMULO TRIMESTRAL  
                             </div>
