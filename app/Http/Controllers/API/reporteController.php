@@ -115,6 +115,21 @@ class reporteController extends Controller
                     break;
             }                                                           
         }
+
+        $xy='FIN DE SEMANA';
+        $buscaFestivo=DB::table("USER_TEMP_SCH")                  
+                ->where("USERID", "=",  $validacion->USERID)                                 
+                
+                ->orderBy("LEAVETIME")   
+                ->select("USERID","SCHCLASSID",                        
+                        DB::RAW("CONVERT(nvarchar(10), COMETIME,120) as COMETIME"),
+                        DB::RAW("CONVERT(nvarchar(10), LEAVETIME,120) as LEAVETIME")
+                        
+                        ,DB::RAW("CONVERT(nvarchar(5), COMETIME,108) as HoraInicio")
+                        ,DB::RAW("CONVERT(nvarchar(5), LEAVETIME,108) as HoraFin")
+                        )                            
+                ->get();              
+
         $buscaHorario=DB::table("USER_OF_RUN")                  
                 ->where("USERID", "=",  $validacion->USERID)                                 
                 ->where("STARTDATE","<=",substr($ff_fin, 0, 10).'T23:59:59.000')
@@ -130,7 +145,8 @@ class reporteController extends Controller
                 $arreglo_reglas=array();  
                 $ind=0;
                 foreach($buscaHorario as $key => $horario){                        
-                    $empleado = DB::TABLE("user_of_run")                            
+                    $empleado = DB::TABLE("USER_OF_RUN") 
+                  //  ->join("USER_TEMP_SCH", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")                           
                     ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
                     ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
                     ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
@@ -187,6 +203,7 @@ class reporteController extends Controller
         $oS=0;
         $falta=0;
         $ps=0;
+        $festivo=0;
        
        
             $indice = 0;
@@ -206,8 +223,10 @@ class reporteController extends Controller
                     
                     if($fecha_evaluar->lessThan($fecha_regla)){
                         $var_reglas=($arreglo_reglas[$indice_reglas]['dias']);  
-                        
-                    
+                       /*  var_dump($var_reglas);
+                            if (is_null($var_reglas[1]) && is_null($var_reglas[2]) && is_null($var_reglas[3]) && is_null($var_reglas[4]) &&  is_null($var_reglas[5]))
+                                    $festivo=1;
+                               var_dump($buscaFestivo); */
                         $bandera=1;
                     } 
                     $indice_reglas++;
@@ -218,7 +237,8 @@ class reporteController extends Controller
                 if($var_reglas[$fecha_evaluar->dayOfWeekIso])
                 {
 
-                        /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
+                  //  var_dump($var_reglas[$fecha_evaluar->dayOfWeekIso]);    
+                    /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
                         $buscaFestivo=DB::TABLE("USER_TEMP_SCH")
                         ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
                         ->first();

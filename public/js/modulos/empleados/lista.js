@@ -410,7 +410,7 @@ function cargar_blade_checadas()
                   xs=value.checado_salida+"("+value.checado_salida_fuera+")";
           
            
-            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td></tr>");
+            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td><td>Editar</td></tr>");
             
       })
 

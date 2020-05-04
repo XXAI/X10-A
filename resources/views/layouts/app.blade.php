@@ -30,7 +30,7 @@
                 <script src="{{ asset('js/app.js') }}" defer></script> 
                 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
                 <script src="js/modulos/login/login.js"></script> 
-                <script src="libs/theme/vendor/chart.js/Chart.min.js"></script> 
+                <script src="libs/theme/vendor/chart.js/Chart.min.js"></script>  
                 <script src="libs/theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
                 <script src="libs/theme/vendor/jquery-easing/jquery.easing.min.js"></script> 
                 <script src="libs/theme/js/sb-admin-2.min.js"></script> 

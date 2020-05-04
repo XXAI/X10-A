@@ -154,7 +154,7 @@
               </button>
             </div>
             <div class="modal-body">
-                @include('incidenciaform')
+                @include('empleados/incidenciaform')
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
@@ -176,7 +176,7 @@
               </button>
             </div>
             <div class="modal-body">
-                @include('entrasalform')
+                @include('empleados/entrasalform')
             </div>
             <div class="modal-footer">
            
@@ -198,7 +198,7 @@
               </button>
             </div>
             <div class="modal-body">
-                @include('agregarEmpleado')
+                @include('empleados/agregarEmpleado')
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary"  data-dismiss="modal" data-backdrop="false" onclick="guardar_empleado()">Guardar</button>
