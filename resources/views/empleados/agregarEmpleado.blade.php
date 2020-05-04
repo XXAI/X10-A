@@ -50,7 +50,7 @@
                 <div class="col-md-4" >
                     <div class="form-group">
                         <label for="clues" class="col-sm-3 col-form-label">CLUES</label>
-                        <input type="text" class="form-control" id="clues" name="clues" required>
+                        <input type="text" class="form-control" id="clues" name="clues" maxlength="20" required>
                     </div>
                 </div>
                 <div class="col-md-4" >
@@ -64,7 +64,7 @@
                 <div class="col-md-4" >
                     <div class="form-group">
                         <label for="area" class="col-sm-3 col-form-label">Area</label>
-                        <input type="text" class="form-control" id="area" name="area" maxlength="30"required>
+                        <input type="text" class="form-control" id="area" name="area" maxlength="8"required>
                     </div>
                 </div>
                 

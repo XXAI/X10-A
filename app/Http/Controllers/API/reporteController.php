@@ -348,11 +348,12 @@ class reporteController extends Controller
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING')
                                 ->first();
                                 
-                            
+                                $ban_inci=0;
                                 if(is_null($checada_extra)){
                                     "checada_extra";
                                 }
                                 else{
+                                    $ban_inci=1;
                                     switch($checada_extra->TIPO){
                                     case 1:                                
                                         $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
@@ -493,7 +494,7 @@ class reporteController extends Controller
                         }
                      }
 
-
+                     $asistencia[$indice]['ban_inci'] = $ban_inci;
 
                     if(isset($checada_sal_fuera)){
                         $asistencia[$indice]['checado_salida_fuera'] =$checada_sal_fuera->HORA;

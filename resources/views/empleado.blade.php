@@ -21,7 +21,7 @@
                             <input type="text" class="form-control" placeholder="ID,RFC,NOMBRE"  name="buscar" id="buscar"aria-label="BUSCAR" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                             <button name='filtrar' type='button' data-toggle='tooltip' data-placement='top' title='Buscar Empleado' id='btn_filtrar' class='btn btn-success' onclick="btn_filtrar()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                            <button class="btn btn-primary" type="button" data-toggle='modal' data-target='#agregar_empleado' onclick="cargar_departamentos()" disabled><i class="fa fa-plus-circle" aria-hidden="true" data-toggle='tooltip' data-placement='top' title='Agregar Empleado' ></i></button>
+                            <button class="btn btn-primary" type="button" data-toggle='modal' data-target='#agregar_empleado' onclick="cargar_departamentos()" ><i class="fa fa-plus-circle" aria-hidden="true" data-toggle='tooltip' data-placement='top' title='Agregar Empleado' ></i></button>
                         </div>
                     </div>         
                     <tr>

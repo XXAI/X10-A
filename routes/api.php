@@ -40,4 +40,5 @@ Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimest
 Route::post('/guarda-justificante','API\DiasJustificaController@store');
 Route::post('/guarda-entrasal','API\EntraSalidaController@store');
 Route::post('/guarda-empleado','API\EmpleadoController@store');
+Route::delete('/deleteincidencia/{id}', 'DiasJustificaController@destroy');
 Route::post('login', 'API\LoginController@login');

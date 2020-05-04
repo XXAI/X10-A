@@ -181,14 +181,6 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
       
 }
 
-
-
-
-
-
-
-
-
 function guardar_entrasal(){
 
       id = $("#id").val();
@@ -395,7 +387,7 @@ function sel_inci(valor){
 function cargar_blade_checadas()
 {
       
-      
+     // console.log()
       var table = $("#datos_filtros_checadas");
       table.html("");
       $.each(datos_checadas_mes, function(index, value){
@@ -404,14 +396,22 @@ function cargar_blade_checadas()
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
             else
             icono = "<i class='fa fa-check' style='color:green'></i>";
-           if (value.checado_salida==value.checado_salida_fuera)
+            if (value.checado_salida==value.checado_salida_fuera)
                  xs=value.checado_salida;
             else
                   xs=value.checado_salida+"("+value.checado_salida_fuera+")";
-          
-           
-            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td><td>Editar</td></tr>");
             
+            if(value.ban_inci==1) 
+              icono2="<a type='button' class='btn btn-link' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
+            else
+                  icono2=" ";    
+           // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
+
+            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td><td>"+icono2+"</td></tr>");
+            
+           
+            
+
       })
 
         
@@ -659,3 +659,30 @@ function guardar_incidencia(){
 }
 
 
+function eliminar(id) {
+      $.ajax({
+        type: 'DELETE',
+        url: "api/registro/" + id + "/",
+        success: function (data) {
+         // if (data.success == 'true') {
+            cargar_lista('');           
+            mostrarMensaje(data.mensaje);
+         // }
+        }
+      }); 
+    }
+
+function preguntaelimina(){
+      swal({
+            title: "Deseas Eiminar la incidencia?",
+            text: "Your will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+          },
+          function(){
+            swal("Eliminado!", "La Incidencia se eliminó.", "success");
+          });
+}
