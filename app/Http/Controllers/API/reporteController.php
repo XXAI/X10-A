@@ -344,8 +344,9 @@ class reporteController extends Controller
                                     ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
                                     ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
                                     ,'user_speday.YUANYING AS REPO'
+                                    ,'user_speday.id as Ban_Inci'
                                     )
-                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING')
+                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.id')
                                 ->first();
                                 
                                 $ban_inci=0;
@@ -353,7 +354,7 @@ class reporteController extends Controller
                                     "checada_extra";
                                 }
                                 else{
-                                    $ban_inci=1;
+                                    $ban_inci=$checada_extra->Ban_Inci;
                                     switch($checada_extra->TIPO){
                                     case 1:                                
                                         $impr=$checada_extra->HORA." "."(Pase de Salida)";                                

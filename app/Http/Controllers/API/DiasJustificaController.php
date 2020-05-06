@@ -100,7 +100,7 @@ class DiasJustificaController extends Controller
      */
     public function destroy($id)
     {
-        $registro=Registro::FindOrFail($id);
+        $registro=DiasJustifica::FindOrFail($id);
         $result = $registro->delete();
 
         if($result){

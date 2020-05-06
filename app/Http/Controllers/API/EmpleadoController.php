@@ -68,8 +68,12 @@ class EmpleadoController extends Controller
     {
         try {
 
-            $maxid=Usuarios::max('Badgenumber');
-            $maxid=$maxid+1;
+            $max=Usuarios::max('USERID');
+            $maxid=Usuarios::select('Badgenumber as num_max')
+            ->where('USERID','=',$max)
+            ->get();         
+             
+            $maxid=($maxid[0]->num_max)+1;           
             $registro = new Usuarios;
             $registro->Badgenumber= $maxid;
             $registro->Name = $request->name;
@@ -84,13 +88,10 @@ class EmpleadoController extends Controller
             $registro->ZIP= 1;
             $registro->FPHONE=$request->clues;
             $registro->DEFAULTDEPTID=$request->tipotra;            
-            $registro->MINZU=$request->area;      
-            
-          
-           
+            $registro->MINZU=$request->area;        
 
             $registro->save();
-            return response()->json(['mensaje'=>'Registrado Correctamente ID:  '.$maxid]);
+            return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]);
         } 
     catch (\Exception $e) {
         

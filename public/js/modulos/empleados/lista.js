@@ -114,15 +114,16 @@ function cargar_datos_empleado(datos)
           var hsalida =value.horarios[0].detalle_horario[0].ENDTIME;
           hentrada = hentrada.substring(16,11);
           hsalida = hsalida.substring(16,11);
-          diaslab=(value.horarios[0].detalle_horario);
-          var campo5 = $("<td><button id='pruebaclic' type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
-          var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");
-         
+          diaslab=(value.horarios[0].detalle_horario);          
+          var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");         
           var campo4 = $("<td>Sin Horario</td>");
-          if(value.horarios.length > 0)
-                var campo4 = $("<td>Horario Activo</td>");
+            if(value.horarios.length > 0){
+                  var campo4 = $("<td>Horario Activo</td>");
+                  var campo5 = $("<td><button id='pruebaclic' type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\""+value.USERID+"\",\""+value.Badgenumber+"\",\""+value.Name+"\",\""+value.TITLE+"\",\""+hentrada+"\",\""+hsalida+"\")'>Incidencia</button></td>");
+            }
+            else
+                  var campo4 = $("<td>Sin Horario</td>");
             
-        
           linea.append(campo1, campo2, campo3, campo4, campo5);
           table.append(linea);
           
@@ -387,10 +388,11 @@ function sel_inci(valor){
 function cargar_blade_checadas()
 {
       
-     // console.log()
+    
       var table = $("#datos_filtros_checadas");
       table.html("");
       $.each(datos_checadas_mes, function(index, value){
+           // console.log(value);
             icono = "<i class='fa fa-check' style='color:green'></i>";
             if(value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\""+value.jorini+"\",\""+value.jorfin+"\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
@@ -401,10 +403,10 @@ function cargar_blade_checadas()
             else
                   xs=value.checado_salida+"("+value.checado_salida_fuera+")";
             
-            if(value.ban_inci==1) 
-              icono2="<a type='button' class='btn btn-link' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
+            if(value.ban_inci>=1) 
+              icono2="<a type='button' class='btn btn-link' onclick='eliminar("+value.ban_inci+")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
             else
-                  icono2=" ";    
+             icono2=" ";    
            // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
             table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>"+icono+"</td><td>"+icono2+"</td></tr>");
@@ -660,29 +662,37 @@ function guardar_incidencia(){
 
 
 function eliminar(id) {
-      $.ajax({
-        type: 'DELETE',
-        url: "api/registro/" + id + "/",
-        success: function (data) {
-         // if (data.success == 'true') {
-            cargar_lista('');           
-            mostrarMensaje(data.mensaje);
-         // }
-        }
-      }); 
+       /**/
+      swal({
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no podrá recuperar este archivo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                  $.ajax({
+                        type: 'DELETE',
+                        url: "api/deleteincidencia/" + id + "/",
+                        success: function (data) {    
+                              swal("¡La incidencia ha sido eliminada!", {
+                                    icon: "success",
+                                  });
+                              $("#agregar_incidencia").modal('hide');
+                              $("#razon").val('');  
+                              document.getElementById('filtro_check').click();                           
+                               
+                        }
+                  }); 
+                  
+                 
+              
+            } else {
+              swal("El registro no se a eliminado");
+            }
+          });
+
+      
     }
 
-function preguntaelimina(){
-      swal({
-            title: "Deseas Eiminar la incidencia?",
-            text: "Your will not be able to recover this imaginary file!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-          },
-          function(){
-            swal("Eliminado!", "La Incidencia se eliminó.", "success");
-          });
-}
