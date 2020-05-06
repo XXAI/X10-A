@@ -116,9 +116,10 @@ class reporteController extends Controller
             }                                                           
         }
 
-        $xy='FIN DE SEMANA';
+        //$xy='FIN DE SEMANA';
+        $arreglo_festivos = array();
         $buscaFestivo=DB::table("USER_TEMP_SCH")                  
-                ->where("USERID", "=",  $validacion->USERID)                                 
+                ->where("USERID", "=",  $validacion->USERID)                               
                 
                 ->orderBy("LEAVETIME")   
                 ->select("USERID","SCHCLASSID",                        
@@ -128,7 +129,13 @@ class reporteController extends Controller
                         ,DB::RAW("CONVERT(nvarchar(5), COMETIME,108) as HoraInicio")
                         ,DB::RAW("CONVERT(nvarchar(5), LEAVETIME,108) as HoraFin")
                         )                            
-                ->get();              
+                ->get(); 
+                         
+                
+              $df= count($buscaFestivo);
+             for($xy=0;$xy<$df;$xy++){
+              // echo ($arreglo_festivos[$xy]->COMETIME);
+           } 
 
         $buscaHorario=DB::table("USER_OF_RUN")                  
                 ->where("USERID", "=",  $validacion->USERID)                                 
@@ -178,7 +185,8 @@ class reporteController extends Controller
                         
                 }         
                        
-                       
+                
+                
         for($tot_hora=0;$tot_hora<=$ind; $tot_hora++){                       
             $arreglo_dias = array();
 
@@ -223,10 +231,10 @@ class reporteController extends Controller
                     
                     if($fecha_evaluar->lessThan($fecha_regla)){
                         $var_reglas=($arreglo_reglas[$indice_reglas]['dias']);  
-                       /*  var_dump($var_reglas);
+                
                             if (is_null($var_reglas[1]) && is_null($var_reglas[2]) && is_null($var_reglas[3]) && is_null($var_reglas[4]) &&  is_null($var_reglas[5]))
-                                    $festivo=1;
-                               var_dump($buscaFestivo); */
+                                    
+                                    
                         $bandera=1;
                     } 
                     $indice_reglas++;
@@ -237,23 +245,13 @@ class reporteController extends Controller
                 if($var_reglas[$fecha_evaluar->dayOfWeekIso])
                 {
 
-                  //  var_dump($var_reglas[$fecha_evaluar->dayOfWeekIso]);    
-                    /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
-                        $buscaFestivo=DB::TABLE("USER_TEMP_SCH")
-                        ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
-                        ->first();
-                        }*/
+                
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
                         
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
-                        $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
+                        $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);                       
                        
-                        /* if(substr($var_reglas[$fecha_evaluar->dayOfWeekIso]->horario,0,2)<>"HT")
-                            $htra=$jorFin->diffInRealHours($jorIni);
-                        else
-                            $htra=0;
-                        return "holaaaaa"; */
                         
 
                         $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
@@ -563,6 +561,7 @@ class reporteController extends Controller
         
           
                 }
+
 
 
             

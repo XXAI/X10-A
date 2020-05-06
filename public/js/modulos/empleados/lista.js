@@ -152,7 +152,7 @@ function sacadias(){
       mes_nac=onomastico.substr(0,2);
       if(mes_nac<10)
         mes_nac=mes_nac.substr(1,1);
-      console.log("mes : " +mes_nac+ "  "+ arreglo_mes[mes_nac]);
+      
       
 }
 
@@ -232,6 +232,7 @@ function guardar_empleado(){
       var codigo = $("#codigo").val();    
       var clues = $("#clues").val();  
       var area= $("#area").val();    
+      var fechaing=$("#fechaing").val(); 
       var tipotra= $("#tipotra").val(); 
       var street=$('select[name="tipotra"] option:selected').text();
       var city;
@@ -248,7 +249,7 @@ function guardar_empleado(){
             else
                   fecnac="20"+fecnac.substr(0,2)+"-"+fecnac.substr(2,2)+"-"+fecnac.substr(4,2)+" 00:00:00.00";
       
-      var fechaing= moment(fechaing).format();            
+      fechaing= moment(fechaing).format();            
       fechaing = fechaing.substr(0,10)+" 00:00:00.00";       
      
       
@@ -353,7 +354,7 @@ function cargar_datos_checadas(urlchecadas)
       }).fail(function( jqXHR, textStatus, errorThrown ) {
             if ( console && console.log ) {
                   
-                  alert( "No se cargo la lista de asistencia "+ dato +" "+ textStatus);
+                  alert( "No se cargo la lista de asistencia  "+ textStatus);
             }
       });
 }
