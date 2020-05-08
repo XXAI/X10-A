@@ -1,6 +1,5 @@
 <form>
 
-
     <div class="card">
         
         <div class="card-body">
@@ -10,6 +9,11 @@
                     <div class="form-group">
                         <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
                         <input type="text" class="form-control" id="name" name="name" maxlength="180" required>
+                       {{--   @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror  --}}
                     </div>
                 </div>
                 <div class="col-md-6" >

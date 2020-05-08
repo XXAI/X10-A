@@ -12,7 +12,8 @@ use App\Models\UsuarioHorario;
 use App\Models\TiposIncidencia;
 
 use App\Models\User;
-use \Validator, \Hash, \Response;
+use \Hash, \Response;
+use Illuminate\Support\Facades\Validator;
 
 class EmpleadoController extends Controller
 {
@@ -67,7 +68,7 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
 
-            /* $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'rf' => 'required',
                 'codigo'    => 'required',
@@ -77,7 +78,9 @@ class EmpleadoController extends Controller
                 'sexo' => 'required',
                 'tipotra' => 'required'
             ]);
-             */
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
                 
          
             try {

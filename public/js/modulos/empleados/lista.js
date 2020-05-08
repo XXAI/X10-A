@@ -534,9 +534,34 @@ function sel_tiporeg(tiporeg){
       }      
 
 }
+function guardar_incidencia(){
+
+      
+      validando_incidencia();      
+       if (bandera==1){
+            inserta_incidencia();
+      }
+      else{            
+           swal("Error!",msj+"!", "error");         
+      }
+    
+}
 
 function validando_incidencia(){
-       
+      id = $("#id").val();
+      idcap = $("#id_user").val();
+      date_1 = moment($("#f_ini").val());
+      date_2 = moment($("#f_fin").val());       
+      tipo_incidencia = $("#incidencia_tipo").val();     
+      razon = $("#razon").val();  
+      diff_in_days = date_2.diff(date_1, 'days');  
+      
+      diff_in_hours = date_2.diff(date_1, 'hours',true);  
+      diff=0;
+      diff=1+diff_in_days;        
+      var fec_com=moment(date_1).format();
+      fec_com=fec_com.substr(5,5);
+ 
       switch (parseInt(tipo_incidencia)) {
             case 1://Pase de Salida                  
                  if(diaslab.length==5 && diff_in_days==0){                       
@@ -576,7 +601,8 @@ function validando_incidencia(){
                        }                        
                  }                    
                  break;
-           case 10:      //Onomastico            
+           case 10:      //Onomastico   
+        
                  if(diff_in_days==0 && fec_com==onomastico){
                        bandera=1;              
                  }
@@ -635,30 +661,6 @@ function inserta_incidencia(){
            $("#razon").val('');  
            document.getElementById('filtro_check').click();  
            swal("Exito!", "El registro se ha guardado!", "success"); 
-}
-function guardar_incidencia(){
-
-      id = $("#id").val();
-      idcap = $("#id_user").val();
-      date_1 = moment($("#f_ini").val());
-      date_2 = moment($("#f_fin").val());       
-      tipo_incidencia = $("#incidencia_tipo").val();     
-      razon = $("#razon").val();  
-      diff_in_days = date_2.diff(date_1, 'days');  
-      diff_in_hours = date_2.diff(date_1, 'hours',true);  
-      diff=0;
-      diff=1+diff_in_days;   
-      //console.log("disponible hora: "+pasesal +  " horas calcular : " +diff_in_hours +  " dias dife : " +diff_in_days);
-      var fec_com=moment(date_1).format();
-      fec_com=fec_com.substr(5,5);
-      validando_incidencia();
-       if (bandera==1){
-            inserta_incidencia();
-      }
-      else{            
-           swal("Error!",msj+"!", "error");         
-      }
-    
 }
 
 
