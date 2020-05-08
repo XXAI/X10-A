@@ -13,32 +13,34 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+    /*return $request->user();
 });*/
 
-Route::get('/credencializacion','AsistenciaController@show');
+    Route::get('/credencializacion','AsistenciaController@show');
 
-Route::get('/consulta-asistencia','API\reporteController@consulta_checadas');
+    Route::get('/consulta-asistencia','API\reporteController@consulta_checadas');
 
-Route::get('reporte','API\reporteController@index');
+    Route::get('reporte','API\reporteController@index');
 
-Route::get('repgral','API\reporteGralController@index');
+    Route::get('repgral','API\reporteGralController@index');
 
-Route::get('/kardex','API\KardexController@index');
+    Route::get('/kardex','API\KardexController@index');
 
-Route::get('/mensual','API\ReporteMensualController@index');
-Route::get('/trimestral','API\ReporteTrimestralController@index');
-Route::get('/empleado','API\EmpleadoController@index');
-//Route::post('/empleado','API\EmpleadoController@llenarSelect');
+    Route::get('/mensual','API\ReporteMensualController@index');
+    Route::get('/trimestral','API\ReporteTrimestralController@index');
+    Route::get('/empleado','API\EmpleadoController@index');
+    //Route::post('/empleado','API\EmpleadoController@llenarSelect');
 
 
-Route::get('/catalogo','API\ReporteMensualController@catalogo');
-Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
-Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
-Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
-Route::post('/guarda-justificante','API\DiasJustificaController@store');
-Route::post('/guarda-entrasal','API\EntraSalidaController@store');
-Route::post('/guarda-empleado','API\EmpleadoController@store');
-Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
+    Route::get('/catalogo','API\ReporteMensualController@catalogo');
+    Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
+    Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
+    Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
+    Route::post('/guarda-justificante','API\DiasJustificaController@store');
+    Route::post('/guarda-entrasal','API\EntraSalidaController@store');
+    Route::post('/guarda-empleado','API\EmpleadoController@store');
+    Route::post('/guarda-configuracion-trimestral','API\ConfiguracionTrimestralController@store');
+    Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
+//});
 Route::post('login', 'API\LoginController@login');

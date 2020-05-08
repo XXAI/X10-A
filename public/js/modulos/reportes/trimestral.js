@@ -1,5 +1,11 @@
 var letras = ["", "UNO", "DOS", "TRES"];
 
+$.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+
 $(document).ready(function()
 {
     //cargar_dato("");
@@ -103,4 +109,22 @@ function generar_reporte()
 
       
       win = window.open( './api/reporte-trimestral?anio='+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
+}
+
+function ver_configuracion()
+{
+      $("#ver_config").modal("show");
+}
+function guardar_configuracion()
+{
+      jQuery.ajax({
+            data: '',
+            type: "GET",
+            dataType: "json",
+            url: './api/guarda-configuracion-trimestral',
+      }).done(function( data, textStatus, jqXHR ) {
+            $("#ver_config").modal("hide");
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
+      });
 }
