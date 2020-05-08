@@ -562,7 +562,9 @@ class reporteController extends Controller
           
                 }
 
-
+                if($df>0){
+                    echo "aqui estoy con dias festivosd";
+                }
 
             
            
