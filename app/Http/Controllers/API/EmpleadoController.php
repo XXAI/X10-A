@@ -66,34 +66,47 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        try {
 
-            $max=Usuarios::max('USERID');
-            $maxid=Usuarios::select('Badgenumber as num_max')
-            ->where('USERID','=',$max)
-            ->get();         
-             
-            $maxid=($maxid[0]->num_max)+1;           
-            $registro = new Usuarios;
-            $registro->Badgenumber= $maxid;
-            $registro->Name = $request->name;
-            $registro->Gender = $request->sexo;
-            $registro->TITLE = $request->rf;        
-            $registro->PAGER = $request->codigo;
-            $registro->BIRTHDAY = $request->fecnac;
-            $registro->HIREDDAY=$request->fechaing;
-            $registro->street=$request->street;
-            $registro->CITY=$request->city;
-            $registro->STATE=0;
-            $registro->ZIP= 1;
-            $registro->FPHONE=$request->clues;
-            $registro->DEFAULTDEPTID=$request->tipotra;            
-            $registro->MINZU=$request->area;        
+            /* $validatedData = $request->validate([
+                'name' => 'required',
+                'rf' => 'required',
+                'codigo'    => 'required',
+                'fechaing' => 'required',
+                'codigo' => 'required',
+                'clues' => 'required',
+                'sexo' => 'required',
+                'tipotra' => 'required'
+            ]);
+             */
+                
+         
+            try {
+                $max=Usuarios::max('USERID');
+                $maxid=Usuarios::select('Badgenumber as num_max')
+                
+                ->where('USERID','=',$max)
+                ->get();         
+                $maxid=($maxid[0]->num_max)+1;  
+                    $registro = new Usuarios;
+                    $registro->Badgenumber= $maxid;
+                    $registro->Name = $request->name;
+                    $registro->Gender = $request->sexo;
+                    $registro->TITLE = $request->rf;        
+                    $registro->PAGER = $request->codigo;
+                    $registro->BIRTHDAY = $request->fecnac;
+                    $registro->HIREDDAY=$request->fechaing;
+                    $registro->street=$request->street;
+                    $registro->CITY=$request->city;
+                    $registro->STATE=0;
+                    $registro->ZIP= 1;
+                    $registro->FPHONE=$request->clues;
+                    $registro->DEFAULTDEPTID=$request->tipotra;            
+                    $registro->MINZU=$request->area;        
 
-            $registro->save();
-            return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]);
-        } 
-    catch (\Exception $e) {
+                    $registro->save();
+                    return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]);
+                } 
+        catch (\Exception $e) {
         
         return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
        //return Response::json(['error' => $registro]);
