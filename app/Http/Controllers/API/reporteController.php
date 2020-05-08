@@ -115,35 +115,6 @@ class reporteController extends Controller
                     break;
             }                                                           
         }
-
-        //$xy='FIN DE SEMANA';
-        $arreglo_festivos = array();
-        $buscaFestivo=DB::table("USER_TEMP_SCH")                  
-                ->where("USERID", "=",  $validacion->USERID)                               
-                
-                ->orderBy("LEAVETIME")   
-                ->select("USERID","SCHCLASSID",                        
-                        DB::RAW("CONVERT(nvarchar(10), COMETIME,120) as COMETIME"),
-                        DB::RAW("CONVERT(nvarchar(10), LEAVETIME,120) as LEAVETIME")
-                        
-                        ,DB::RAW("CONVERT(nvarchar(5), COMETIME,108) as HoraInicio")
-                        ,DB::RAW("CONVERT(nvarchar(5), LEAVETIME,108) as HoraFin")
-                        )                            
-                ->get(); 
-                         
-                
-              $df= count($buscaFestivo);
-              
-             for($xy=0;$xy<$df;$xy++){   
-                
-                $arreglo_festivos=$buscaFestivo[$xy];
-              
-           } 
-           if($arreglo_festivos!=null){
-               $pr=1;
-           }else{
-               $pr=0;
-           } 
         $buscaHorario=DB::table("USER_OF_RUN")                  
                 ->where("USERID", "=",  $validacion->USERID)                                 
                 ->where("STARTDATE","<=",substr($ff_fin, 0, 10).'T23:59:59.000')
@@ -159,8 +130,7 @@ class reporteController extends Controller
                 $arreglo_reglas=array();  
                 $ind=0;
                 foreach($buscaHorario as $key => $horario){                        
-                    $empleado = DB::TABLE("USER_OF_RUN") 
-                  //  ->join("USER_TEMP_SCH", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")                           
+                    $empleado = DB::TABLE("user_of_run")                            
                     ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
                     ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
                     ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
@@ -192,8 +162,7 @@ class reporteController extends Controller
                         
                 }         
                        
-                
-                
+                       
         for($tot_hora=0;$tot_hora<=$ind; $tot_hora++){                       
             $arreglo_dias = array();
 
@@ -218,7 +187,6 @@ class reporteController extends Controller
         $oS=0;
         $falta=0;
         $ps=0;
-        $festivo=0;
        
        
             $indice = 0;
@@ -238,10 +206,8 @@ class reporteController extends Controller
                     
                     if($fecha_evaluar->lessThan($fecha_regla)){
                         $var_reglas=($arreglo_reglas[$indice_reglas]['dias']);  
-                
-                            if (is_null($var_reglas[1]) && is_null($var_reglas[2]) && is_null($var_reglas[3]) && is_null($var_reglas[4]) &&  is_null($var_reglas[5]))
-                                    
-                                    
+                        
+                    
                         $bandera=1;
                     } 
                     $indice_reglas++;
@@ -252,13 +218,22 @@ class reporteController extends Controller
                 if($var_reglas[$fecha_evaluar->dayOfWeekIso])
                 {
 
-                
+                        /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
+                        $buscaFestivo=DB::TABLE("USER_TEMP_SCH")
+                        ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
+                        ->first();
+                        }*/
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
                         
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
-                        $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);                       
+                        $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
                        
+                        if(substr($var_reglas[$fecha_evaluar->dayOfWeekIso]->horario,0,2)<>"HT")
+                            $htra=$jorFin->diffInRealHours($jorIni);
+                        else
+                            $htra=0;
+
                         
 
                         $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
@@ -430,13 +405,6 @@ class reporteController extends Controller
                                     case 20:
                                         $impr="Licencia Sin Goce";                                    
                                         break;
-                                    case 30:
-                                        $impr="Vacaciones 2020 Primavera-Verano";                                    
-                                        break;
-                                    case 31:
-                                        $impr="CONTINGENCIA COVID19";                                    
-                                        break;
-                                    
                                     default:
                                         $impr="";
                                         break;
@@ -499,8 +467,8 @@ class reporteController extends Controller
                         
                         }
                      }
-
                      $asistencia[$indice]['ban_inci'] = $ban_inci;
+
 
                     if(isset($checada_sal_fuera)){
                         $asistencia[$indice]['checado_salida_fuera'] =$checada_sal_fuera->HORA;
@@ -569,9 +537,6 @@ class reporteController extends Controller
           
                 }
 
-                if($df>0){
-                    echo "aqui estoy con dias festivosd";
-                }
 
             
            
@@ -581,8 +546,8 @@ class reporteController extends Controller
             }
         
         $ps=$ps/60;
-       //'horastra'=>$htra,
-        $resumen = array(['pr'=>$pr,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
+       
+        $resumen = array(['horastra'=>$htra,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
       
