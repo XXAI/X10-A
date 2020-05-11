@@ -122,7 +122,7 @@ class ReporteTrimestralController extends Controller
             }])
             ->whereNull("state")
             ->WHERE("PAGER", "NOT LIKE", 'CF%')
-            ->WHERE("FPHONE", "=", 'CSSSA017213')
+            ->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
             ->WHERE("OPHONE", "!=", 3)
             ->Where(function($query2)use($parametros){
                 $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')

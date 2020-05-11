@@ -466,7 +466,7 @@ class ReporteMensualController extends Controller
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
         ->whereNull("state")
-        ->where("FPHONE", "=", 'CSSSA017213')
+        ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
         ->where(function($query2)use($parametros){
             $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
