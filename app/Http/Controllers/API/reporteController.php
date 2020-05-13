@@ -405,6 +405,10 @@ class reporteController extends Controller
                                     case 20:
                                         $impr="Licencia Sin Goce";                                    
                                         break;
+
+                                    case 31:
+                                        $impr="Contingencia COVID19";                                    
+                                        break;
                                     default:
                                         $impr="";
                                         break;

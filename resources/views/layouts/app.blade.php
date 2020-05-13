@@ -37,6 +37,7 @@
                 <script src="libs/theme/js/sb-admin-2.min.js"></script> 
                 <script src="libs/moment/moment.min.js"></script> 
                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"> </script>
 
                 <!--<script src="libs/theme/js/demo/chart-area-demo.js"></script> 
                 <script src="libs/theme/js/demo/chart-bar-demo.js"></script> 

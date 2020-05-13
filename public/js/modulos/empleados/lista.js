@@ -191,8 +191,7 @@ function guardar_entrasal(){
       var razon = $("#refe").val();   
             
       var fing= moment(fecha_ing).format();            
-      fing = fing.substr(0,10)+" "+ fing.substr(11,8)+".00";   
-      
+      fing = fing.substr(0,10)+" "+ fing.substr(11,8)+".00";       
       
       
              $.ajax({   
@@ -239,10 +238,7 @@ function guardar_empleado(){
        if (tipotra==6)
             city="416";
       else
-            city=street.substr(0,3);
-
-       
-    
+           city=street.substr(0,3);
            var fecnac= rf.substr(4,6);
             if (fecnac.substr(0,2)>=20)
                   fecnac="19"+fecnac.substr(0,2)+"-"+fecnac.substr(2,2)+"-"+fecnac.substr(4,2)+" 00:00:00.00";  
@@ -250,7 +246,7 @@ function guardar_empleado(){
                   fecnac="20"+fecnac.substr(0,2)+"-"+fecnac.substr(2,2)+"-"+fecnac.substr(4,2)+" 00:00:00.00";
       
       fechaing= moment(fechaing).format();            
-      fechaing = fechaing.substr(0,10)+" 00:00:00.00";       
+      fechaing = fechaing.substr(0,10)+" 00:00:00.00";    
      
       
               $.ajax({   
@@ -258,6 +254,7 @@ function guardar_empleado(){
                   url:  "api/guarda-empleado",
                   data: {name:name,rf:rf,sexo:sexo,fechaing:fechaing,fecnac:fecnac,codigo:codigo,clues:clues,area:area,tipotra:tipotra,street:street,city:city},
                   success: function(data){ 
+                        
                         swal("Exito!", data.mensaje, "success"); 
                         $("#name").val('');
                         $("#rfc").val('');    
@@ -265,16 +262,29 @@ function guardar_empleado(){
                         $("#codigo").val('');    
                         $("#clues").val('');  
                         $("#area").val('');        
-                        $('#agregar_empleado').modal('toggle');  
+                        $('#agregar_empleado').modal('hide'); 
                         cargar_empleados('');                 
                        
                          
 
                   },
-                  error: function(data) {
-                        swal("Error!","No se registro ningun dato!", "error");
-                        
-
+                       error : function (xhr) {
+                        var qw='';
+                        var pinta="";
+                        var res = xhr.responseJSON;
+                        if ($.isEmptyObject(res) == false) {
+                            $.each(res.errors, function (key, value) {
+                             console.log($('#' + key))
+                              $('#' + key).css("border", "1px solid red");
+                                  
+                                    qw=value+"\n"+qw+"\n";
+                                    
+                                    
+                            });
+                            swal("Error",qw,"error");
+                            
+                            
+                        }
                   }
               })    
 

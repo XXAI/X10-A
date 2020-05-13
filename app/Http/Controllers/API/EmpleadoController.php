@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\EmpleadoRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
-
 use App\Models\Usuarios;
 use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
 use App\Models\TiposIncidencia;
 
+
 use App\Models\User;
-use \Hash, \Response;
-use Illuminate\Support\Facades\Validator;
+//use \Hash, \Response;
+//use Illuminate\Support\Facades\Validator;
 
 class EmpleadoController extends Controller
 {
@@ -32,7 +33,7 @@ class EmpleadoController extends Controller
                     ->orWhere("Badgenumber",'=',$name);
 
         $usuarios = $usuarios->paginate(15);
-        $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->get();  
+        $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();
         
         
@@ -65,25 +66,13 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpleadoRequest $request)
     {
 
-        $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'rf' => 'required',
-                'codigo'    => 'required',
-                'fechaing' => 'required',
-                'codigo' => 'required',
-                'clues' => 'required',
-                'sexo' => 'required',
-                'tipotra' => 'required'
-            ]);
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-                
-         
-            try {
+   
+       // if($request->ajax()){
+       
+           
                 $max=Usuarios::max('USERID');
                 $maxid=Usuarios::select('Badgenumber as num_max')
                 
@@ -107,13 +96,10 @@ class EmpleadoController extends Controller
                     $registro->MINZU=$request->area;        
 
                     $registro->save();
-                    return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]);
-                } 
-        catch (\Exception $e) {
+                    return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
+       // }
+           
         
-        return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
-       //return Response::json(['error' => $registro]);
-        }
     }
 
     /**
