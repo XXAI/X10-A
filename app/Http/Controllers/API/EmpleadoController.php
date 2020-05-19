@@ -9,6 +9,7 @@ use Carbon\Carbon, DB;
 use App\Models\Usuarios;
 use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
+use App\Models\Horario;
 use App\Models\TiposIncidencia;
 
 
@@ -25,23 +26,44 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $name = $request->get('buscar');       
+        $name = $request->get('buscar');  
+        
         $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
         if($name !='')
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
                     ->orWhere("Badgenumber",'=',$name);
 
-        $usuarios = $usuarios->paginate(15);
+        $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
-        $departamentos = Departamentos::where("DEPTID","<>",1)->get();
+        $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
         
         
         return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos]);
        
     }
 
-
+    public function fetch(Request $request)
+    {
+        
+        if($request->get('bh'))
+        {  
+        $bh = $request->get('bh');
+        $data = Horario::select('NUM_RUNID','NAME')->where("NAME",'LIKE','%'.$bh.'%')->get();        
+        
+        $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+      foreach($data as $row)
+      {
+       $output .= '
+       <li><a href="#">'.$row->NAME.'</a></li>
+       ';
+      }
+      $output .= '</ul>';
+      return  $output;
+     // return response()->json($data);  
+        
+        }
+    }
     public function llenarSelect()
     {
         $incidencias = TiposIncidencia::all();         

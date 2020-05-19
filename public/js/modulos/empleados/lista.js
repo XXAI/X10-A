@@ -26,6 +26,7 @@ $(document).ready(function(){
        btn_filtrar();
       }
     });
+    cargar_horarios();
 
    
    
@@ -44,11 +45,90 @@ function cargar_empleados(dato)
           url:  './api/empleado',
     }).done(function( data, textStatus, jqXHR ) {         
           cargar_datos_empleado(data.usuarios.data);
-         
+         //console.log(data);
           }).fail(function( jqXHR, textStatus, errorThrown ) {
           
     });
 }
+
+function cargar_horarios(){
+   
+           
+ /* $('#horario').keyup(function(){ 
+            var bh = $(this).val();
+            if (bh!='')
+            {
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                  data: {bh:bh,_token:_token },
+                  type: "POST",
+                  dataType: "json",
+                  url:  './api/empleado/fetch',                 
+                  success:function(data){
+                        console.log(data);
+                        
+                        $('#horarioList').fadeIn();  
+                       $('#horarioList').html(data);
+                         $.each(data, function(key, value)
+                        {
+                              $('#horarioList').fadeIn();  
+                              $('#horarioList').html(data);
+                        });  
+                        },
+                  error: function(data) {
+                        $('#horarioList').fadeIn();  
+                       $('#horarioList').html(data);
+                        
+                        }
+                  });
+            }
+            
+       });
+      
+          
+       $(document).on('click', 'li', function(){  
+            $('#horario').val($(this).text());  
+            $('#horarioList').fadeOut();  
+            }); 
+    */
+$("#horario").autocomplete({
+      source: function(request,cb){
+            $.ajax({
+                  data: {bh:bh,_token:_token },
+                  type: "POST",
+                  dataType: "json",
+                  url:  './api/empleado/fetch',                 
+                  success:function(res){
+                        var result;
+                        result =[
+                              {
+                                    label:'xxx '+request.term,
+                                    value: ''
+                              }
+                        ];
+                        console.log(res);
+                        if(res.length){
+                              result = $.map(res,function(obj){
+                                    return {
+                                          label:obj.id,
+                                          value:obj.id,
+                                          data:obj
+                                    };
+                              });
+                        }
+                        cb(result);
+                  }
+            });
+      },
+            select:function(e,selectedData){
+                 console.log(selectedData);
+            }
+
+});
+
+
+}
+
 function cargar_select(){
       $("#incidencia_tipo").empty();
       $("#incidencia_tipo").append("<option disabled selected value=''>Elegir tipo de Incidencia</option>");
@@ -100,6 +180,8 @@ function cargar_departamentos(){
     
           
 }
+
+
 
 function cargar_datos_empleado(datos)
 {
