@@ -53,79 +53,41 @@ function cargar_empleados(dato)
 
 function cargar_horarios(){
    
-           
- /* $('#horario').keyup(function(){ 
-            var bh = $(this).val();
-            if (bh!='')
-            {
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                  data: {bh:bh,_token:_token },
-                  type: "POST",
-                  dataType: "json",
-                  url:  './api/empleado/fetch',                 
-                  success:function(data){
-                        console.log(data);
-                        
-                        $('#horarioList').fadeIn();  
-                       $('#horarioList').html(data);
-                         $.each(data, function(key, value)
-                        {
-                              $('#horarioList').fadeIn();  
-                              $('#horarioList').html(data);
-                        });  
-                        },
-                  error: function(data) {
-                        $('#horarioList').fadeIn();  
-                       $('#horarioList').html(data);
-                        
-                        }
-                  });
-            }
-            
-       });
-      
-          
-       $(document).on('click', 'li', function(){  
-            $('#horario').val($(this).text());  
-            $('#horarioList').fadeOut();  
-            }); 
-    */
-$("#horario").autocomplete({
-      source: function(request,cb){
-            $.ajax({
-                  data: {bh:bh,_token:_token },
-                  type: "POST",
-                  dataType: "json",
-                  url:  './api/empleado/fetch',                 
-                  success:function(res){
-                        var result;
-                        result =[
-                              {
-                                    label:'xxx '+request.term,
-                                    value: ''
-                              }
-                        ];
-                        console.log(res);
-                        if(res.length){
-                              result = $.map(res,function(obj){
-                                    return {
-                                          label:obj.id,
-                                          value:obj.id,
-                                          data:obj
-                                    };
-                              });
-                        }
-                        cb(result);
-                  }
-            });
+     var options = {
+
+      url: function(bh) {
+        return "./api/empleado/fetch";
       },
-            select:function(e,selectedData){
-                 console.log(selectedData);
+    
+      getValue: function(element) {       
+        return element.NAME;
+        
+      },
+      list: {
+            onSelectItemEvent: function() {
+                var selectedItemValue = $("#horario").getSelectedItemData().NUM_RUNID;    
+                $("#code").val(selectedItemValue).trigger("change");              
             }
+      },
+      ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+          dataType: "json"
+        }
+      },
+    
+      preparePostData: function(data) {
+        data.bh = $("#horario").val();       
+        return data;
+      },
+     
 
-});
-
+      requestDelay: 400,
+      theme: "plate-dark"
+    };
+    
+    $("#horario").easyAutocomplete(options); 
 
 }
 

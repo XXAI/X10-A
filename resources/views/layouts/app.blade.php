@@ -11,17 +11,19 @@
 
     @section('estilos')
         <!-- Fonts -->
+       
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="{{ asset('libs/theme/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         <link href="{{ asset('libs/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('libs/theme/css/sb-admin-2.css') }}" rel="stylesheet">
-        
-        <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css">
+       
+        <link rel="stylesheet" href="{{ asset('libs/theme/css/sb-admin-2.css') }}" >
+        <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.css">  
+        <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.themes.css">
+        <!-- <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css"> -->
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-        <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.min.css">
-        <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.themes.min.css">
+      
         
 
         
@@ -36,11 +38,14 @@
             @section('scripts')
                 <!-- Scripts -->
                <!--  <script src="{{ asset('js/app.js') }}" defer></script>  -->
-                <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+               
+                <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+                
                 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-                <script src="easyautocomplete/jquery.easy-autocomplete.min.js"></script>
-                <script type="text/javascript" src="js/jquery-min.js"></script>
-                <script src="bootstrap4/js/bootstrap.min.js"></script>
+                
+                <script src="easyautocomplete/jquery.easy-autocomplete.js"></script>
+               
+               <!--  <script src="bootstrap4/js/bootstrap.min.js"></script> -->
                 <script src="js/modulos/login/login.js"></script> 
                 <script src="libs/theme/vendor/chart.js/Chart.min.js"></script>  
                 <script src="libs/theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 

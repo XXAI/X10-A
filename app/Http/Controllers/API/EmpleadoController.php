@@ -46,23 +46,15 @@ class EmpleadoController extends Controller
     public function fetch(Request $request)
     {
         
-        if($request->get('bh'))
-        {  
+       /*  if($request->get('bh'))
+        {  */ 
         $bh = $request->get('bh');
         $data = Horario::select('NUM_RUNID','NAME')->where("NAME",'LIKE','%'.$bh.'%')->get();        
         
-        $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
-      foreach($data as $row)
-      {
-       $output .= '
-       <li><a href="#">'.$row->NAME.'</a></li>
-       ';
-      }
-      $output .= '</ul>';
-      return  $output;
-     // return response()->json($data);  
+      
+      return response()->json($data);  
         
-        }
+        //}
     }
     public function llenarSelect()
     {
