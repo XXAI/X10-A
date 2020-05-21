@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
         <link href="{{ asset('libs/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
        
-        <link rel="stylesheet" href="{{ asset('libs/theme/css/sb-admin-2.css') }}" >
+       <link rel="stylesheet" href="{{ asset('libs/theme/css/sb-admin-2.css') }}" > 
         <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.css">  
         <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.themes.css">
         <!-- <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css"> -->

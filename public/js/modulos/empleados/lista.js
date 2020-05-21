@@ -277,6 +277,9 @@ function guardar_empleado(){
       var area= $("#area").val();    
       var fechaing=$("#fechaing").val(); 
       var tipotra= $("#tipotra").val(); 
+      var ini_fec= $("#ini_fec").val(); 
+      var code= $("#code").val(); 
+      var fin_fec= $("#fin_fec").val(); 
       var street=$('select[name="tipotra"] option:selected').text();
       var city;
        if (tipotra==6)
@@ -291,12 +294,15 @@ function guardar_empleado(){
       
       fechaing= moment(fechaing).format();            
       fechaing = fechaing.substr(0,10)+" 00:00:00.00";    
-     
+      ini_fec= moment(ini_fec).format();            
+      ini_fec = ini_fec.substr(0,10)+" 00:00:00.00";
+      fin_fec= moment(fin_fec).format();            
+      fin_fec= fin_fec.substr(0,10)+" 00:00:00.00"
       
               $.ajax({   
                   type: 'POST',
                   url:  "api/guarda-empleado",
-                  data: {name:name,rf:rf,sexo:sexo,fechaing:fechaing,fecnac:fecnac,codigo:codigo,clues:clues,area:area,tipotra:tipotra,street:street,city:city},
+                  data: {name:name,rf:rf,sexo:sexo,fechaing:fechaing,fecnac:fecnac,codigo:codigo,clues:clues,area:area,tipotra:tipotra,street:street,city:city,ini_fec:ini_fec,fin_fec:fin_fec,code:code},
                   success: function(data){ 
                         
                         swal("Exito!", data.mensaje, "success"); 

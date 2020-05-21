@@ -26,24 +26,27 @@ class EmpleadoRequest extends FormRequest
         return [
             //|after_or_equal:fechaInicial
                 'name' => 'required',
-                'rfc' => 'required',
+                'rf' => 'required',
                 'codigo'    => 'required',
                 'fechaing' => 'required|date',
                 'codigo' => 'required',
                 'clues' => 'required',
                 'sexo' => 'required',
                 'tipotra' => 'required',
-                'area' => 'required'
+                'area' => 'required',
+                'code' => 'required',
+                'fin_fec' => 'after_or_equal:ini_fec'
+
         ];
     }
 
     public function messages()
     {
         return [
-            'rfc.required'   => 'El campo RFC es obligatorio.',   
+            'rf.required'   => 'El campo RFC es obligatorio.',   
             'tipotra.required'   => 'El campo Tipo de Trabjador es obligatorio.',
             'fechaing.required'   => 'La fecha de ingreso es obligatorio.',  
-           
+            'code.required'   => 'El Horario es obligatorio.',
         ];
     }
 }

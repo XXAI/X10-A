@@ -1,5 +1,6 @@
-
+{{--  <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.css"> --}} 
 <form>
+   
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link active" data-toggle="tab" href="#home">Datos Empleado</a>
@@ -89,7 +90,7 @@
          <label for="horario" class="col-sm-3 col-form-label">Horario</label>
          <!-- <input id="horario">    --> 
          <input id="horario" type="text" style="outline: none;">
-         <input type="text" class="form-control" id="code" name="code" maxlength="8"required>  
+         <input type="hidden" id="code" name="code" required>  
             
       </div>
  </div> 
@@ -98,7 +99,7 @@
       <div class="col-md-4" >
          <div class="form-group">
             <label for="inicio" class="col-sm-3 col-form-label">Inicio </label>
-            <input type="date" class="form-control" id="ini_fec " name="inifec" value="{{date('Y-m-d')}}">
+            <input type="date" class="form-control" id="ini_fec " name="ini_fec" value="{{date('Y-m-d')}}">
          </div>
       </div>
    </div>

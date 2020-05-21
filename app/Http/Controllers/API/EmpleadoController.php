@@ -107,9 +107,19 @@ class EmpleadoController extends Controller
                     $registro->ZIP= 1;
                     $registro->FPHONE=$request->clues;
                     $registro->DEFAULTDEPTID=$request->tipotra;            
-                    $registro->MINZU=$request->area;        
+                    $registro->MINZU=$request->area;     
 
                     $registro->save();
+                    $id_user=Usuarios::max('USERID');
+                    
+                    $user_hora = new UsuarioHorario;
+                    $user_hora->USERID=$id_user;
+                    $user_hora->NUM_OF_RUN_ID=$request->code;
+                    $user_hora->STARTDATE=$request->ini_fec;
+                    $user_hora->ENDDATE=$request->fin_fec;
+                    $user_hora->ISNOTOF_RUN=0;
+                    $user_hora->ORDER_RUN=0;
+                    $user_hora->save();
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }
            
