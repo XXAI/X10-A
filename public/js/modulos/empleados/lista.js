@@ -27,6 +27,7 @@ $(document).ready(function(){
       }
     });
     cargar_horarios();
+    idcap = $("#id_user").val();
 
    
    
@@ -159,7 +160,8 @@ function cargar_datos_empleado(datos)
           hentrada = hentrada.substring(16,11);
           hsalida = hsalida.substring(16,11);
           diaslab=(value.horarios[0].detalle_horario);          
-          var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");         
+         /*  var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");      */
+          var campo6 = $("<td><button class='btn btn-primary' type='button' data-toggle='modal' data-target='#editar_emp' onclick='probamos()' ><i class='fas fa-user-edit'></i></button></td>");       
           var campo4 = $("<td>Sin Horario</td>");
             if(value.horarios.length > 0){
                   var campo4 = $("<td>Horario Activo</td>");
@@ -168,13 +170,16 @@ function cargar_datos_empleado(datos)
             else
                   var campo4 = $("<td>Sin Horario</td>");
             
-          linea.append(campo1, campo2, campo3, campo4, campo5);
+          linea.append(campo1, campo2, campo3, campo4, campo5,campo6);
           table.append(linea);
           
     });
       
 }
-
+function probamos(){
+      alert("holaalalalala");
+      
+}
 function btn_filtrar()
 {     
       var buscar = $("#buscar").val();      
@@ -229,7 +234,7 @@ function incidencia(id,iduser,nombre,rfc,jini,jfin)
 function guardar_entrasal(){
 
       id = $("#id").val();
-      idcap = $("#id_user").val();
+    
       var fecha_ing = moment($("#fecha_reg").val());
       var tipo_registro = $("#tipo_es").val();    
       var razon = $("#refe").val();   

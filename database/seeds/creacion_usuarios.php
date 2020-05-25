@@ -90,16 +90,16 @@ class creacion_usuarios extends Seeder
         ]);*/
 
         User::create([ // create a new user
-            'email' => 'rubi',
-            'password' => Hash::make('rubi2020'),
-            'username' => 'rubi',
-            'nombre' => 'Rubi',
+            'email' => 'berrio',
+            'password' => Hash::make('b12kamas_2020'),
+            'username' => 'berrio',
+            'nombre' => 'H.B.C. Berriozabal 12 camas',
             'apellido_paterno' => '',
             'apellido_materno' => '',
             'alias' => 'Rubi',
             'is_superuser' => 0,
-            'created_at' => '2020-03-27 17:31:51.565',
-            'updated_at' => '2020-03-27 17:31:51.565'
+            'created_at' => '2020-05-25 17:31:51.565',
+            'updated_at' => '2020-05-25 17:31:51.565'
         ]);
         
     }

@@ -1,4 +1,4 @@
-{{--  <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.css"> --}} 
+
 <form>
    
 <ul class="nav nav-tabs">

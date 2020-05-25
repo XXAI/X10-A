@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests\EmpleadoRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
@@ -15,7 +16,7 @@ use App\Models\TiposIncidencia;
 
 use App\Models\User;
 //use \Hash, \Response;
-//use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class EmpleadoController extends Controller
 {
@@ -27,13 +28,17 @@ class EmpleadoController extends Controller
     public function index(Request $request)
     {
         $name = $request->get('buscar');  
-        
+         $idcap = Auth::id();
+   
+     
         $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
         if($name !='')
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
                     ->orWhere("Badgenumber",'=',$name);
-
+        if ($idcap==15){
+           $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
+        } 
         $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
