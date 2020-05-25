@@ -24,6 +24,19 @@ class creacion_usuarios extends Seeder
         ]);
 
         User::create([ // create a new user
+            'email' => 'rubi',
+            'password' => Hash::make('rubi2020'),
+            'username' => 'Rubi',
+            'nombre' => 'Rubi',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'Rubi',
+            'is_superuser' => 0
+        ]);
+
+
+
+        User::create([ // create a new user
             'email' => 'salvador',
             'password' => Hash::make('salvador2020'),
             'username' => 'Salvador',
