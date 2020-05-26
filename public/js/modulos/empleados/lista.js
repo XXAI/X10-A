@@ -170,7 +170,7 @@ function cargar_datos_empleado(datos)
             else
                   var campo4 = $("<td>Sin Horario</td>");
             
-          linea.append(campo1, campo2, campo3, campo4, campo5,campo6);
+          linea.append(campo1, campo2, campo3, campo4, campo5);//,campo6);
           table.append(linea);
           
     });

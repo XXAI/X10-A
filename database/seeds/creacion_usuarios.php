@@ -87,8 +87,20 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2020-03-27 17:31:51.565',
             'updated_at' => '2020-03-27 17:31:51.565'
-        ]);*/
+        ]);
 
+        User::create([ // create a new user
+            'email' => 'rubi',
+            'password' => Hash::make('rubi2020'),
+            'username' => 'rubi',
+            'nombre' => 'Rubi',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'Rubi',
+            'is_superuser' => 0,
+            'created_at' => '2020-03-27 17:31:51.565',
+            'updated_at' => '2020-03-27 17:31:51.565'
+        ]);*/
         User::create([ // create a new user
             'email' => 'berrio',
             'password' => Hash::make('b12kamas_2020'),
