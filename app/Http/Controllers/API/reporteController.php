@@ -357,11 +357,11 @@ class reporteController extends Controller
                                         $impr= "Comisión";
                                         break;
                                     case 4:
-                                        $impr= "Omisión Salida";
+                                        $impr= "Omisión Salida (".$checada_extra->REPO." )" ;
                                         //$oS=$oS+1;
                                         break;
                                     case 5:
-                                        $impr="Omisión Entrada";
+                                        $impr="Omisión Entrada (".$checada_extra->REPO." )" ;
                                         //$oE=$oE+1;
                                         break;
                                     case 6:
@@ -400,14 +400,14 @@ class reporteController extends Controller
                                         $impr="Constancia de Entrada";                                    
                                         break;
                                     case 19:
-                                        $impr="Memorandum";                                    
+                                        $impr="Memorandum (".$checada_extra->REPO." )" ;                                    
                                         break;
                                     case 20:
-                                        $impr="Licencia Sin Goce";                                    
+                                        $impr="Licencia Sin Goce ";                                    
                                         break;
 
                                     case 31:
-                                        $impr="Contingencia COVID19";                                    
+                                        $impr="Contingencia COVID19 (".$checada_extra->REPO." )";                                    
                                         break;
                                     default:
                                         $impr="";

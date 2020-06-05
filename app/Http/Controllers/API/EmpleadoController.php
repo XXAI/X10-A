@@ -36,7 +36,7 @@ class EmpleadoController extends Controller
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
                     ->orWhere("Badgenumber",'=',$name);
-        if ($idcap==15){
+        if ($idcap==16){
            $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
         } 
         $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
