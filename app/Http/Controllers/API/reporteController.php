@@ -329,11 +329,19 @@ class reporteController extends Controller
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.id')
                                 ->first();
                                 
+                                
+
                                 $ban_inci=0;
                                 if(is_null($checada_extra)){
                                     "checada_extra";
                                 }
                                 else{
+
+                                    if (is_null ($checada_extra->REPO)){
+                                        $memo = "";
+                                    }else{
+                                        $memo =  " (".$checada_extra->REPO.")";
+                                    }
                                     $ban_inci=$checada_extra->Ban_Inci;
                                     switch($checada_extra->TIPO){
                                     case 1:                                
@@ -357,11 +365,11 @@ class reporteController extends Controller
                                         $impr= "Comisión";
                                         break;
                                     case 4:
-                                        $impr= "Omisión Salida (".$checada_extra->REPO." )" ;
+                                        $impr= "Omisión Salida".$memo;
                                         //$oS=$oS+1;
                                         break;
                                     case 5:
-                                        $impr="Omisión Entrada (".$checada_extra->REPO." )" ;
+                                        $impr="Omisión Entrada".$memo ;
                                         //$oE=$oE+1;
                                         break;
                                     case 6:
@@ -385,7 +393,7 @@ class reporteController extends Controller
                                         $impr="Vacaciones 2019 Invierno";                                    
                                         break;
                                     case 14:
-                                        $impr="Reposición ".$checada_extra->REPO; 
+                                        $impr="Reposición".$memo; 
                                         break;                                 
                                     case 15:                                
                                         $impr="Vacaciones Mediano Riesgo";                                
@@ -400,14 +408,14 @@ class reporteController extends Controller
                                         $impr="Constancia de Entrada";                                    
                                         break;
                                     case 19:
-                                        $impr="Memorandum (".$checada_extra->REPO." )" ;                                    
+                                        $impr="Memorandum".$memo;                                    
                                         break;
                                     case 20:
                                         $impr="Licencia Sin Goce ";                                    
                                         break;
 
                                     case 31:
-                                        $impr="Contingencia COVID19 (".$checada_extra->REPO." )";                                    
+                                        $impr="Contingencia COVID19".$memo;                                    
                                         break;
                                     default:
                                         $impr="";
