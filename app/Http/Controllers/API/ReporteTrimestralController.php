@@ -355,8 +355,10 @@ class ReporteTrimestralController extends Controller
                     }
                 }
                 
-                //echo $verificador.' - '.$dias_mes;
-                if($verificador == $dias_mes)
+                if($trimestre == 3)
+                {
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
+                }else if($verificador == $dias_mes)
                 {
                     
                     //$empleados[$index_empleado]->TRIMESTRAL += 1;
@@ -365,6 +367,8 @@ class ReporteTrimestralController extends Controller
                 
                 //$empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_laboral;
             }
+
+           
             $lista_empleados_trimestral = [];
             foreach ($empleados_trimestral as $index_trimestral => $data_trimestral) {
                 if($data_trimestral['TRIMESTRAL'] > 0)
