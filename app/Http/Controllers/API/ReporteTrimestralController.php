@@ -355,7 +355,7 @@ class ReporteTrimestralController extends Controller
                     }
                 }
                 
-                if($trimestre == 3)
+                if($trimestre == 2)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
                 }else if($verificador == $dias_mes)
