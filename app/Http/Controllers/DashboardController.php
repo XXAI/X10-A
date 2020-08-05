@@ -30,6 +30,11 @@ class DashboardController extends Controller
     {
         return view('empleado');
     }
+    
+    public function cardex()
+    {
+        return view('cardex');
+    }
 
     /**
      * Show the form for creating a new resource.

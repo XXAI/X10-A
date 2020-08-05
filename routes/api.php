@@ -37,6 +37,10 @@ use Illuminate\Http\Request;
     Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
     Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
+    /* Cardex */
+    Route::get('/cardex','API\CardexController@index');
+    Route::get('/reporte-cardex','API\CardexController@reporteCardex');
+    /* */
     Route::post('/guarda-justificante','API\DiasJustificaController@store');
     Route::post('/guarda-entrasal','API\EntraSalidaController@store');
     Route::post('/guarda-empleado','API\EmpleadoController@store');

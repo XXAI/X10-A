@@ -70,6 +70,7 @@
         </a>
         <div id="menu_reportes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="./cardex">CARDEX</a>
             <a class="collapse-item" href="./reporte-mensual">FALTAS</a>
             <a class="collapse-item" href="./reporte-trimestral">TRIMESTRAL</a>
             <!--<a class="collapse-item" href="">ANUAL</a>-->

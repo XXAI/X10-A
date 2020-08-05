@@ -50,7 +50,7 @@
                     <div class="form-group">            
                         <button class="btn btn-success" type='button' onclick="btn_filtrar()" ><i class="fa fa-search" ></i></button>
                         <button class="btn btn-info" type='button' onclick="generar_reporte()"><i class="fa fa-print "></i></button>
-                        <button class="btn btn-info" type='button' onclick="ver_configuracion()"><i class="fa fa-cog "></i></button>
+                        <!--<button class="btn btn-info" type='button' onclick="ver_configuracion()"><i class="fa fa-cog "></i></button>-->
                         
                     </div>    
                 </div>
