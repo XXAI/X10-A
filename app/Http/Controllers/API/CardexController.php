@@ -225,6 +225,8 @@ class CardexController extends Controller
                         }
                         //unset($dias_otorgados[$parametro_inicial->format('Y-m-d')]);
                     }else{
+
+                        
                         /*if($dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['DATEID'] == 6)
                         {
                             $dia_laboral = intval($dias_habiles[$parametro_inicial->dayOfWeekIso]['reglaAsistencia']['WorkDay']);//Revisar urgente

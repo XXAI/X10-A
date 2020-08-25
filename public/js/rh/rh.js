@@ -208,21 +208,21 @@ function getParameterByName() {
 
 function guarda_incidencia() {
 
-] // alert("holaaaaa");
+    // alert("holaaaaa");
 
-var nombre = $("#nombre").val();
-var especialidad = $("#especialidad").val();
-var cedula = $("#cedula").val();
-var telefono = $("#telefono").val();
-var email = $("#especialidad").val();
+    var nombre = $("#nombre").val();
+    var especialidad = $("#especialidad").val();
+    var cedula = $("#cedula").val();
+    var telefono = $("#telefono").val();
+    var email = $("#especialidad").val();
 
-$.ajax({
-    type: 'POST',
-    url: "api/registro",
-    data: { nombre: nombre, especialidad: especialidad, cedula: cedula, telefono: telefono, email: email },
-    success: function(data) {
-        mostrarMensaje(data.mensaje);
-        limpiarCampos();
-    }
-})
+    $.ajax({
+        type: 'POST',
+        url: "api/registro",
+        data: { nombre: nombre, especialidad: especialidad, cedula: cedula, telefono: telefono, email: email },
+        success: function(data) {
+            mostrarMensaje(data.mensaje);
+            limpiarCampos();
+        }
+    })
 }
