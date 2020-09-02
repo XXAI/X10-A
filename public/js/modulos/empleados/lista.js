@@ -502,6 +502,10 @@ function filtrar_checadas() {
 }
 
 
+
+
+
+
 function cargar_dato(dato) {
 
     var lista = $("#kardex");

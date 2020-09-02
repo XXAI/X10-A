@@ -36,9 +36,12 @@ class EmpleadoController extends Controller
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
                     ->orWhere("Badgenumber",'=',$name);
-        if ($idcap==16){
+        if ($idcap==2){
            $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
         } 
+        if ($idcap==11){
+            $usuarios=$usuarios->where('FPHONE','=','CSSSA017213'); 
+         } 
         $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
