@@ -14,8 +14,11 @@
 	<!--<script type="text/javascript" src="../js/mbd.js"></script>-->
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="../js/modulos/empleados/lista.js"></script> 
 	<script type="text/javascript" src="../js/rh/rh.js"></script>
-
+	
+	
 	<style>
 		.active a{
 			color: red;
@@ -51,6 +54,7 @@
 				</div>
 				<hr>
 				<div class="container">
+				
 
 					<div class="row">
 						<div class="col-md-5 col-5">
@@ -117,11 +121,11 @@
 									</button>
 								</div>
 
-								 {{-- <div class="col-md-6">
+								  <div class="col-md-6">
 									<button type="button" onclick="cargar_formato()" class="form-control btn btn-primary">
 											{{ __('Generar Justificante') }}
 									</button>
-								</div>  --}}
+								</div>  
 							</div>
 						</th>
 						
@@ -140,8 +144,17 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4"><strong>Resumen</strong></td>
+						<td colspan="4"><strong>Resumen </strong></td>
+						
+					
 					</tr>
+<!-- 
+					<tr>
+						<td ><strong>ID: <i id="Ident"></i></strong></td>
+						<td ><strong>Hora Entrada:<i id="jorini"></i></strong></td>
+						
+					</tr>	 -->	
+
 					<tr>
 						<td colspan="3">Día Economico</td>
 						<td id="Día_Económico"></td>
@@ -319,19 +332,34 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="motivo_justificante"><strong>Motivo del Justificante</strong></label>
-                        <select class="form-control" id="motivo_justificante">
-
-                            <option>DIA(S) ECONOMICOS</option>
-                            <option>LICENCIAS MÉDICAS</option>
-                            <option>COMISIÓN</option>
-                            <option>REANUDACIÓN DE LABORES</option>
-                            <option>ONOMÁSTICO</option>
-
-                        </select>
-                    </div>
+					<div class="row">	
+						<div class="col-md-12" >		
+							<div class="form-group">
+							<label for="incidencia_tipo"  ><strong>ELEGIR TIPO DE INCIDENCIA</strong></label>
+								<select class="form-control" onchange="sel_inci(this.value)" id="incidencia_tipo" required>                   
+								
+								</select>
+							</div>
+							<div id="divmsg" style="display:visible" class="alert-primary" role="alert">
+							</div>
+						</div>
+                	</div>
+            
+					<div class="row">
+						<div class="col-md-6" >
+							<div class="form-group">
+								<label for="f_ini" class="col-sm-3 col-form-label">Desde</label>
+								<input type="datetime-local" class="form-control" id="f_ini" name="f_ini" >
+							</div>
+						</div>
+						<div class="col-md-6" >
+							<div class="form-group">
+								<label for="f_fin" class="col-sm-3 col-form-label">Hasta</label>
+								<input type="datetime-local" class="form-control" id="f_fin" name="f_fin" >
+							</div>
+						</div>
+						
+					</div>
 
                     <div class="row">
                         <div class="col-md-6">

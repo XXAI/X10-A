@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 
 use Carbon\Carbon, DB;
+use App\Models\TiposIncidencia;
 
 class reporteController extends Controller
 {
