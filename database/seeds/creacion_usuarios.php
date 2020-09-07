@@ -100,7 +100,7 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2020-03-27 17:31:51.565',
             'updated_at' => '2020-03-27 17:31:51.565'
-        ]);*/
+        ]);
         User::create([ // create a new user
             'email' => 'berrio',
             'password' => Hash::make('b12kamas_2020'),
@@ -112,6 +112,32 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2020-05-25 17:31:51.565',
             'updated_at' => '2020-05-25 17:31:51.565'
+        ]);
+
+        User::create([ // create a new user
+            'email' => 'saul',
+            'password' => Hash::make('saul_2020'),
+            'username' => 'saul',
+            'nombre' => 'Saul Vazquez Nucamendi',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'Saul',
+            'is_superuser' => 0,
+            'created_at' => '2020-08-31 13:46:51.565',
+            'updated_at' => '2020-08-31 13:46:51.565'
+        ]);*/
+
+        User::create([ // create a new user
+            'email' => 'ofcentral',
+            'password' => Hash::make('oficentral*2020'),
+            'username' => 'ofcentral',
+            'nombre' => 'Oficina Central',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'of central',
+            'is_superuser' => 0,
+            'created_at' => '2020-08-31 13:46:51.565',
+            'updated_at' => '2020-08-31 13:46:51.565'
         ]);
         
     }
