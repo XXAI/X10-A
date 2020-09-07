@@ -7,8 +7,8 @@ Route::post('sign-in','Auth\LoginController@doLogin');
 Route::middleware('auth')->get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 
 Route::view('/asistencia/{rfc}','infoRh');
-Route::view('/kardex','reportes/kardex');
-Route::view('/kardex/{id}','reportes/kardexUsuario');
+/* Route::view('/kardex','reportes/kardex');
+Route::view('/kardex/{id}','reportes/kardexUsuario'); */
 
 Route::view('/prueba','prueba2');
 

@@ -1,4 +1,5 @@
 var datos_credencializacion;
+var iden;
 var datos_checadas_mes;
 var resumen_checadas;
 var validacion;
@@ -6,6 +7,9 @@ var urlchecadas = "../api/consulta-asistencia";
 var dato;
 var inicio;
 var fin;
+var jIni;
+var ban_url = 0;
+
 
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 
@@ -37,6 +41,7 @@ function cargar_dato(dato, urlrh) {
         // console.log(data);
         cargar_datos_checadas(urlchecadas);
 
+
     }).fail(function(jqXHR, textStatus, errorThrown) {
         if (console && console.log) {
 
@@ -65,14 +70,15 @@ function cargar_datos_checadas(urlchecadas) {
     }).done(function(data, textStatus, jqXHR) {
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
-
         datos_checadas_mes = data.data;
-
         resumen_checadas = data.resumen[0];
         validacion = data.validacion;
+        console.log(datos_checadas_mes);
+
         if (validacion != null) {
             cargar_blade_checadas();
             cargar_blade_resumen();
+
         } else {
 
             var resumen = $("#resumen");
@@ -98,6 +104,8 @@ function cargar_datos_checadas(urlchecadas) {
 
 function cargar_blade_credencializacion() {
     //
+
+
     $("#Nombre").text(datos_credencializacion.Nombre);
     $("#Adscripcion_Area").text(datos_credencializacion.DesPuesto);
     $("#codigo").text(datos_credencializacion.codTab);
@@ -147,6 +155,8 @@ function cargar_blade_checadas() {
 }
 
 function cargar_blade_resumen() {
+    //$("#jorini").text(datos_checadas_mes[0].jorini);
+    $("#Ident").text(validacion.Badgenumber);
     $("#Día_Económico").text(resumen_checadas.Día_Económico);
     $("#Falta").text(resumen_checadas.Falta);
     $("#Omisión_Entrada").text(resumen_checadas.Omisión_Entrada);
@@ -176,7 +186,9 @@ function filtrar_checadas() {
 function cargar_formato() {
 
     document.getElementById('justificante').click();
-
+    ban_url = 1;
+    cargar_select();
+    cargar_horarios();
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);

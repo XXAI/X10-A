@@ -7,7 +7,7 @@
                 <div class="col-md-12" >
                     <div class="form-group">
                         <label for="incidencia_tipo"  class="col-sm-12 col-form-label">Elegir Tipo de Incidencia</label>
-                        <select class="form-control" onchange="sel_inci(this.value)" id="incidencia_tipo" required>                   
+                        <select class="form-control" onchange="sel_inci(this.value)" id="incidencia_tipo" required>                 
                         
                         </select>
                     </div>

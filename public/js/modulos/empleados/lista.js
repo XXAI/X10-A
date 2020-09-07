@@ -33,7 +33,6 @@ $(document).ready(function() {
 
 
 
-
 });
 
 function cargar_empleados(dato) {
@@ -93,11 +92,21 @@ function cargar_horarios() {
 }
 
 function cargar_select() {
+
+
+    if (ban_url == 1) {
+        url_ = '../api/empleado';
+    } else {
+        url_ = './api/empleado'
+    }
+
+
     $("#incidencia_tipo").empty();
     $("#incidencia_tipo").append("<option disabled selected value=''>Elegir tipo de Incidencia</option>");
     $.ajax({
         type: "GET",
-        url: './api/empleado',
+        url: url_,
+
         dataType: "json",
         success: function(data) {
 
@@ -356,14 +365,15 @@ function mostrarMensaje(mensaje) {
 }
 
 function generar_inci(jini, jfin) {
-    //alert($("#iduser").text());
+
+    ban_url = 0;
     cargar_select();
     $("#id").val(id_x);
     $("#f_ini").val(jini);
     $("#f_fin").val(jfin);
     var mensaje = "  ";
     mostrarMensaje(mensaje);
-    //  alert(jor_Ini);
+
 
 }
 
@@ -422,6 +432,8 @@ function cargar_datos_checadas(urlchecadas) {
 }
 
 function sel_inci(valor) {
+
+
     switch (parseInt(valor)) {
         case 1:
             pasesal = 6 - resumen_checadas.Pase_Salida;
@@ -500,6 +512,10 @@ function filtrar_checadas() {
 
 
 }
+
+
+
+
 
 
 function cargar_dato(dato) {

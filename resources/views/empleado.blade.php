@@ -47,102 +47,107 @@
      <a id="checadas_modal" data-toggle="modal" data-target="#modal_checadas"></a>  
   
     <div class="modal fade" id="modal_checadas" style="overflow-y: scroll;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                   <div class="modal-header">
-                    <h5 class="modal-title">Lista de Checadas</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                   </div>
-                  <div class="modal-body">
-                <table class="table table-bordered table-faltas">
-                <thead>
-                    <tr>
-						<th colspan="5">
-                            <br>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-offset-2" >
-                                             <div class="row">
-                                                <div class="col-md-6" >
-                                                    <label for="id">ID:</label> 
+      
+          <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Lista de Checadas</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                  <table class="table table-bordered table-faltas">
+                  <thead>
+                      <tr>
+              <th colspan="5">
+                              <br>
+                              <div class="container">
+                                  <div class="row">
+                                      <div class="col-sm-12 col-md-offset-2" >
+                                              <div class="row">
+                                                  <div class="col-md-6" >
+                                                      <label for="id">ID:</label> 
+                                                      
+                                                      <span id="iduser" name="iduser"></span>
                                                     
-                                                    <span id="iduser" name="iduser"></span>
-                                                   
-                                                </div>
-                                                <div class="col-md-6" >
-                                                    <label for="hentra">Hora Entrada:</label>  
-                                                    <span id="hentra" name="hentra"></span>
-                                                </div>
-                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6" >
-                                                    
-                                                    <label for="nombre">Nombre:</label>  
-                                                    <span id="nombre" name="nombre"></span>
-                                                </div>
-                                                <div class="col-md-6" >
-                                                    <label for="hsal">Hora Salida:</label>  
-                                                    <span id="hsal" name="hsal"></span>
-                                                </div>
-                                             </div>
-                                             <br>
-                                            <div class="row">
-                                                <div class="col-md-4" >
-                                                    <label for="fecha_inicio">Fecha Inicio:</label>
-                                                    <input type="date" class="form-control" id="inicio" min='2019-10-01' name="fecha_inicio" value="">
-                                                </div>                                             
-                                                <div class="col-md-4" >
-                                                    <label for="fecha_inicio">Fecha Fin:</label>  
-                                                    <input type="date" class="form-control" id="fin" name="fecha_fin"  value="" max= "{{date('Y-m-d')}}">
-                                                </div>
-                                                <div class="col-md-4" > 
-                                                <br>
-                                                    <label for="fecha_inicio"><br></label>
-                                                    <button onclick="filtrar_checadas()" id="filtro_check" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
-                                                
-                                                </div>
-                                            </div>
-                                            <br>
-                                                
+                                                  </div>
+                                                  <div class="col-md-6" >
+                                                      <label for="hentra">Hora Entrada:</label>  
+                                                      <span id="hentra" name="hentra"></span>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-6" >
+                                                      
+                                                      <label for="nombre">Nombre:</label>  
+                                                      <span id="nombre" name="nombre"></span>
+                                                  </div>
+                                                  <div class="col-md-6" >
+                                                      <label for="hsal">Hora Salida:</label>  
+                                                      <span id="hsal" name="hsal"></span>
+                                                  </div>
+                                              </div>
+                                              <br>
+                                              <div class="row">
+                                                  <div class="col-md-4" >
+                                                      <label for="fecha_inicio">Fecha Inicio:</label>
+                                                      <input type="date" class="form-control" id="inicio" min='2019-10-01' name="fecha_inicio" value="">
+                                                  </div>                                             
+                                                  <div class="col-md-4" >
+                                                      <label for="fecha_inicio">Fecha Fin:</label>  
+                                                      <input type="date" class="form-control" id="fin" name="fecha_fin"  value="" max= "{{date('Y-m-d')}}">
+                                                  </div>
+                                                  <div class="col-md-4" > 
+                                                  <br>
+                                                      <label for="fecha_inicio"><br></label>
+                                                      <button onclick="filtrar_checadas()" id="filtro_check" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
+                                                  
+                                                  </div>
+                                              </div>
                                               
-                                    </div>
-                                </div>
-                                
-                                                       
-                                            
-                                            
-							<br>
-							
-						</th>
-						
-					</tr>	
-                    
-                </thead>
-                <section id="checadas" class="card">                  
-                    <table id="tabla_checadas" class="table table-striped">
-                        <thead >
-                            <tr>
-                                <th>Día</th>
-                                <th>Fecha</th>
-                                <th>Hora Entrada</th>
-                                <th>Hora Salida</th>
-                                <th>Justificado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="datos_filtros_checadas">                            
-                        </tbody>
-                    </table>
-                </section>
-                </table>
-                  </div>
-             <div class="modal-footer">
+                                                
+                                              <br>
+                                                  
+                                                
+                                      </div>
+                                  </div>
+                                  
+                                                        
+                                              
+                                              
+                <br>
                 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-        </div>
+              </th>
+              
+            </tr>	
+                      
+                  </thead>
+                  <section id="checadas" class="card">                  
+                      <table id="tabla_checadas" class="table table-striped">
+                          <thead >
+                              <tr>
+                                  <th>Día</th>
+                                  <th>Fecha</th>
+                                  <th>Hora Entrada</th>
+                                  <th>Hora Salida</th>
+                                  <th>Justificado</th>
+                              </tr>
+                          </thead>
+                          <tbody id="datos_filtros_checadas">                            
+                          </tbody>
+                      </table>
+                  </section>
+                  </table>
+                    </div>
+              <div class="modal-footer">
+                  
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                
+                </div>
+             
+          </div>
+      </div>
     </div>
 
     <div class="modal fade bd-example-modal-lg" id="agregar_incidencia"  tabindex="-1" role="dialog">
@@ -237,6 +242,7 @@
 @section('scripts')
     @parent
     <script src="js/modulos/empleados/lista.js"></script> 
+     
    
     
 @stop
