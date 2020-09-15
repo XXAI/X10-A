@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
     Route::get('/trimestral','API\ReporteTrimestralController@index');
     Route::get('/empleado','API\EmpleadoController@index');
     Route::post('/empleado/fetch','API\EmpleadoController@fetch');
+    Route::post('/empleado/tipoincidencia','API\EmpleadoController@tipoincidencia');
 
 
     Route::get('/catalogo','API\ReporteMensualController@catalogo');
@@ -42,9 +43,11 @@ use Illuminate\Http\Request;
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */
     Route::post('/guarda-justificante','API\DiasJustificaController@store');
+    Route::post('/guarda-just-emp','API\IncidenciaController@store');
     Route::post('/guarda-entrasal','API\EntraSalidaController@store');
     Route::post('/guarda-empleado','API\EmpleadoController@store');
     Route::post('/guarda-configuracion-trimestral','API\ConfiguracionTrimestralController@store');
     Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
+    Route::delete('/deleteinci-emp/{id}', 'API\IncidenciaController@destroy');
 //});
 Route::post('login', 'API\LoginController@login');

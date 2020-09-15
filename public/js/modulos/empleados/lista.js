@@ -28,6 +28,7 @@ $(document).ready(function() {
         }
     });
     cargar_horarios();
+    //cargar_incidencias()
     idcap = $("#id_user").val();
 
 
@@ -91,7 +92,54 @@ function cargar_horarios() {
 
 }
 
-function cargar_select() {
+
+function cargar_incidencias() {
+    
+    if (ban_url == 1) {
+        url_in = '../api/empleado/tipoincidencia';
+    } else {
+        url_in = './api/empleado/tipoincidencia'
+    }
+
+    var options = {
+
+        url: function(bi) {
+            return url_in;
+        },
+
+        getValue: function(element) {
+            return element.LeaveName;
+
+        },
+        list: {
+            onSelectItemEvent: function() {
+                var selectedItemValue = $("#incidencia").getSelectedItemData().LeaveId;
+                $("#code_in").val(selectedItemValue).trigger("change");
+            }
+        },
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+
+        preparePostData: function(data) {
+            data.bi = $("#incidencia").val();
+            return data;
+        },
+
+
+        requestDelay: 400,
+        theme: "plate-dark"
+    };
+
+    $("#incidencia").easyAutocomplete(options);
+
+}
+
+/* function cargar_select() {
 
 
     if (ban_url == 1) {
@@ -120,7 +168,7 @@ function cargar_select() {
     });
 
 
-}
+} */
 
 function obten_fecnac(rfc_x) {
 
@@ -161,19 +209,17 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-        var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
-        var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
-        hentrada = hentrada.substring(16, 11);
-        hsalida = hsalida.substring(16, 11);
-        diaslab = (value.horarios[0].detalle_horario);
-        /*  var campo6 = $("<td><button type='button' class='btn btn-success' onclick='kardex_empleado(\""+value.TITLE+"\")'>kardex</button></td>");      */
-        var campo6 = $("<td><button class='btn btn-primary' type='button' data-toggle='modal' data-target='#editar_emp' onclick='probamos()' ><i class='fas fa-user-edit'></i></button></td>");
-        var campo4 = $("<td>Sin Horario</td>");
+
         if (value.horarios.length > 0) {
-            var campo4 = $("<td>Horario Activo</td>");
-            var campo5 = $("<td><button id='pruebaclic' type='button' class='btn btn-warning' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'>Incidencia</button></td>");
+            var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
+            var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
+            hentrada = hentrada.substring(16, 11);
+            hsalida = hsalida.substring(16, 11);
+            diaslab = (value.horarios[0].detalle_horario);
+
+            var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos()'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
-            var campo4 = $("<td>Sin Horario</td>");
+            var campo4 = $("<td>Sin Horario</>");
 
         linea.append(campo1, campo2, campo3, campo4, campo5); //,campo6);
         table.append(linea);
@@ -182,10 +228,7 @@ function cargar_datos_empleado(datos) {
 
 }
 
-function probamos() {
-    //alert("holaalalalala");
 
-}
 
 function btn_filtrar() {
     var buscar = $("#buscar").val();
@@ -367,7 +410,8 @@ function mostrarMensaje(mensaje) {
 function generar_inci(jini, jfin) {
 
     ban_url = 0;
-    cargar_select();
+    
+    cargar_incidencias();
     $("#id").val(id_x);
     $("#f_ini").val(jini);
     $("#f_fin").val(jfin);
@@ -408,6 +452,7 @@ function cargar_datos_checadas(urlchecadas) {
         resumen_checadas = data.resumen[0];
         //console.log(resumen_checadas.Pase_Salida);
         validacion = data.validacion;
+
         if (validacion != null) {
 
 
@@ -438,6 +483,8 @@ function sel_inci(valor) {
         case 1:
             pasesal = 6 - resumen_checadas.Pase_Salida;
             var mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
+            mostrarMensaje(mensaje);
+
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         case 6:
@@ -465,12 +512,15 @@ function cargar_blade_checadas() {
     var table = $("#datos_filtros_checadas");
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        // console.log(value);
+        //console.log(datos_checadas_mes);
+        //console.log(value.ban_inci);
         icono = "<i class='fa fa-check' style='color:green'></i>";
+
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
-        else
+        else {
             icono = "<i class='fa fa-check' style='color:green'></i>";
+        }
         if (value.checado_salida == value.checado_salida_fuera)
             xs = value.checado_salida;
         else
@@ -498,10 +548,7 @@ function cargar_blade_checadas() {
 
 }
 
-function cargar_kardex() {
 
-    document.getElementById('kardex').click();
-}
 
 
 function filtrar_checadas() {
@@ -602,9 +649,18 @@ function sel_tiporeg(tiporeg) {
 function guardar_incidencia() {
 
 
+
     validando_incidencia();
+    
     if (bandera == 1) {
-        inserta_incidencia();
+        
+        if (ban_url == 1) {
+            inserta_incidencia_emp();
+        }
+        else{
+            inserta_incidencia();
+
+        }
     } else {
         swal("Error!", msj + "!", "error");
     }
@@ -612,12 +668,22 @@ function guardar_incidencia() {
 }
 
 function validando_incidencia() {
-    id = $("#id").val();
-    idcap = $("#id_user").val();
+    if (ban_url == 1) {
+        id = $("#userid").val();
+        documentos = $("#documentos").val();
+        observaciones = $("#observaciones").val();
+        autorizo = $("#autorizo").val();
+
+    } else {
+        id = $("#id").val();
+        idcap = $("#id_user").val();
+        razon = $("#razon").val();
+    }
+
     date_1 = moment($("#f_ini").val());
     date_2 = moment($("#f_fin").val());
-    tipo_incidencia = $("#incidencia_tipo").val();
-    razon = $("#razon").val();
+    tipo_incidencia = $("#code_in").val();
+
     diff_in_days = date_2.diff(date_1, 'days');
 
     diff_in_hours = date_2.diff(date_1, 'hours', true);
@@ -723,8 +789,54 @@ function inserta_incidencia() {
 }
 
 
+function inserta_incidencia_emp() {
+
+    var x = 0;
+    var dia_eva;
+    for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
+        fini = moment(date_1.add(x, 'd')).format();
+        ffin = moment(date_2.add(x, 'd')).format();
+        fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
+        ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+        for (var j = 0; j < diaslab.length; j++) {
+            if (moment(fini).day() == 0)
+                dia_eva = 7;
+            else
+                dia_eva = moment(fini).day();
+
+            if (dia_eva == diaslab[j].EDAYS) {
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: "../api/guarda-just-emp",
+                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
+                    success: function(data) {
+                        swal("Exito!", "El registro se ha guardado!", "success");
+                    },
+                    error: function(data) {
+                        swal("Error!", "No se registro ningun dato!", "error");
+                    }
+                })
+
+            }
+        }
+
+        x = 1;
+
+    }
+    //('#agregar_incidencia').modal('toggle'); 
+    $("#modal_justificante").modal('toggle');
+    $("#documentos").val('');
+    $("#autorizo").val('');
+    $("#observaciones").val('');
+    document.getElementById('buscar').click();
+    swal("Exito!", "El registro se ha guardado!", "success");
+}
+
 function eliminar(id) {
-    /**/
+
+
     swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrá recuperar este archivo!",
@@ -744,6 +856,42 @@ function eliminar(id) {
                         $("#agregar_incidencia").modal('hide');
                         $("#razon").val('');
                         document.getElementById('filtro_check').click();
+
+                    }
+                });
+
+
+
+            } else {
+                swal("El registro no se a eliminado");
+            }
+        });
+
+
+}
+
+
+function eliminar_in_emp(id) {
+
+
+    swal({
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no podrá recuperar este archivo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "../api/deleteinci-emp/" + id + "/",
+                    success: function(data) {
+                        swal("¡La incidencia ha sido eliminada!", {
+                            icon: "success",
+                        });
+
+                        document.getElementById('buscar').click();
 
                     }
                 });

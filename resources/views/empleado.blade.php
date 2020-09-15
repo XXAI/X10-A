@@ -214,6 +214,8 @@
         </div>
       </div>
 
+
+
       
       <div class="modal fade bd-example-modal-xl" id="editar_emp" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-xl" role="document">

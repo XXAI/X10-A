@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Input;
 
 use Carbon\Carbon, DB;
 use App\Models\TiposIncidencia;
+use App\Models\Usuarios;
+use App\Models\UsuarioHorario;
+use App\Models\Horario;
 
 class reporteController extends Controller
 {
@@ -21,14 +24,18 @@ class reporteController extends Controller
         $mes_actual = $fecha_actual->month;
         $dia_actual = $fecha_actual->day;
         $Rfc = $request->rfc;
+        $sol = $request->soli;
+//        return $sol;
 
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
       
         $Rfc = str_replace("(", "/", $Rfc);
         $Rfc = str_replace(" ", "+", $Rfc);
-        if (!isset($parametros['id']))
+        if (!isset($parametros['id'])){
             $desc = $this->decrypt($Rfc);
+            
+        }
         else
             $desc =$parametros['id'];
 
@@ -57,8 +64,11 @@ class reporteController extends Controller
 
            // DB::enableQueryLog()p;
           // dd($desc);
-             $validacion = DB::TABLE("userinfo")
-            ->where("userinfo.TITLE", "=",  $desc)
+
+          $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)
+            /*  $validacion = DB::TABLE("userinfo")
+             ->with("horarios.detalleHorario")
+            ->where("userinfo.TITLE", "=",  $desc) */
             ->first();
 
                 $checa_dias = DB::table("user_speday")
@@ -313,8 +323,10 @@ class reporteController extends Controller
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
 
-                            
-                        $checada_extra = DB::table("user_speday")
+                        
+                               
+                        if($sol<>1){
+                                $checada_extra = DB::table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->where("TITLE", "=",  $desc)
@@ -330,20 +342,43 @@ class reporteController extends Controller
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.id')
                                 ->first();
                                 
+                            }
+                            else{
+                                $checada_extra = DB::table("incidencias")
+                                ->join("USERINFO", "USERINFO.USERID", "=", "incidencias.USERID")
+                                ->join("leaveclass","leaveclass.LeaveId", "=", "incidencias.incidencias_tipo_id")
+                                ->where("TITLE", "=",  $desc)
+                                ->whereBetween("fecha_ini",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                        
+                                ->select("leaveclass.LeaveName as Exepcion"
+                                    ,DB::RAW("MIN(CONVERT(nvarchar(5), fecha_ini, 108)) AS HORA")
+                                    ,DB::RAW("datediff(MINUTE,fecha_ini, fecha_fin)AS DIFHORA")
+                                    ,DB::RAW("datediff(DAY,fecha_ini, fecha_fin) AS DIFDIA")
+                                    ,'fecha_ini AS INI','fecha_fin AS FIN','leaveclass.LeaveId AS TIPO'
+                                    ,'incidencias.documentos as REPO'
+                                    ,'incidencias.id as Ban_Inci'
+                                    )
+                                ->groupBy('leaveclass.LeaveName','incidencias.fecha_fin','incidencias.fecha_ini','leaveclass.LeaveId','incidencias.documentos','incidencias.id')
+                                ->first();
                                 
+                            }
+                                
+                          
 
                                 $ban_inci=0;
                                 if(is_null($checada_extra)){
                                     "checada_extra";
                                 }
                                 else{
-
+                                    
                                     if (is_null ($checada_extra->REPO)){
                                         $memo = "";
                                     }else{
                                         $memo =  " (".$checada_extra->REPO.")";
                                     }
-                                    $ban_inci=$checada_extra->Ban_Inci;
+                                   $ban_inci=$checada_extra->Ban_Inci;
+
+
+                                   //return $ban_inci;
                                     switch($checada_extra->TIPO){
                                     case 1:                                
                                         $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
@@ -480,7 +515,10 @@ class reporteController extends Controller
                         
                         }
                      }
+
+                     
                      $asistencia[$indice]['ban_inci'] = $ban_inci;
+                     $asistencia[$indice]['sol'] = $sol;
 
 
                     if(isset($checada_sal_fuera)){

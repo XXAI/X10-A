@@ -32,6 +32,7 @@ class EmpleadoController extends Controller
    
      
         $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
+        
         if($name !='')
             $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
                     ->orWhere("Name",'LIKE','%'.$name.'%')
@@ -42,7 +43,7 @@ class EmpleadoController extends Controller
         if ($idcap==11){
             $usuarios=$usuarios->where('FPHONE','=','CSSSA017213'); 
          } 
-        $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
+        $usuarios = $usuarios->orderBy('USERID','ASC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
         
@@ -61,6 +62,21 @@ class EmpleadoController extends Controller
         
       
       return response()->json($data);  
+        
+        //}
+    }
+
+
+    public function tipoincidencia(Request $request)
+    {
+        
+       /*  if($request->get('bh'))
+        {  */ 
+        $bi = $request->get('bi');
+        $data_in = TiposIncidencia::orderBy('LeaveName','ASC')->where("LeaveName",'LIKE','%'.$bi.'%')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();          
+        
+      
+      return response()->json($data_in);  
         
         //}
     }

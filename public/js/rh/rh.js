@@ -17,6 +17,7 @@ $(document).ready(function() {
 
     dato = getParameterByName();
 
+
     inicio = $("#inicio").val();
     fin = $("#fin").val();
 
@@ -38,7 +39,7 @@ function cargar_dato(dato, urlrh) {
     }).done(function(data, textStatus, jqXHR) {
         datos_credencializacion = data[0];
         cargar_blade_credencializacion();
-        // console.log(data);
+
         cargar_datos_checadas(urlchecadas);
 
 
@@ -62,7 +63,8 @@ function cargar_datos_checadas(urlchecadas) {
         data: {
             'rfc': dato,
             'fecha_inicio': inicio,
-            'fecha_fin': fin
+            'fecha_fin': fin,
+            'soli': '1'
         },
         type: "GET",
         dataType: "json",
@@ -73,7 +75,7 @@ function cargar_datos_checadas(urlchecadas) {
         datos_checadas_mes = data.data;
         resumen_checadas = data.resumen[0];
         validacion = data.validacion;
-        console.log(datos_checadas_mes);
+
 
         if (validacion != null) {
             cargar_blade_checadas();
@@ -133,19 +135,33 @@ function cargar_blade_checadas() {
     var table = $("#datos_filtros_checadas");
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
+
+        icono = "<i class='fa fa-check' style='color:green'></i>";
+        if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
+        // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-warning' style='color:blue' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato()'>Incidencia</a></i>";
+        else
+        if (value.sol == 1) {
+            icono = "<i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
+        } else {
             icono = "<i class='fa fa-check' style='color:green'></i>";
-            if (value.validacion == 0)
-                icono = "<i class='fa fa-close' style='color:red'></i>";
-            else
-                icono = "<i class='fa fa-check' style='color:green'></i>";
+        }
+        if (value.checado_salida == value.checado_salida_fuera)
+            xs = value.checado_salida;
+        else
+            xs = value.checado_salida + "(" + value.checado_salida_fuera + ")";
 
-            table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td></tr>");
+        if (value.ban_inci >= 1)
+            icono2 = "<a type='button' class='btn btn-link' onclick='eliminar_in_emp(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
+        else
+            icono2 = " ";
+        // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        })
-        //<td>" + value.horario + "</td>" + "</td>
-        /*     if(datos_credencializacion.CodTab.substring(0,2)=="CF" && resumen_checadas.horastra==6)
-            table.append("<tr><td colspan='5' style='color:red'><h1>Favor de Acudir al Área de Sistematización para verificar su horario </h1></td></tr>");
- */
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+
+    })
+
+
     $('#datos_filtros_checadas tr').hover(function() {
         $(this).addClass('hover');
     }, function() {
@@ -155,8 +171,11 @@ function cargar_blade_checadas() {
 }
 
 function cargar_blade_resumen() {
+
     //$("#jorini").text(datos_checadas_mes[0].jorini);
     $("#Ident").text(validacion.Badgenumber);
+
+    $
     $("#Día_Económico").text(resumen_checadas.Día_Económico);
     $("#Falta").text(resumen_checadas.Falta);
     $("#Omisión_Entrada").text(resumen_checadas.Omisión_Entrada);
@@ -183,12 +202,13 @@ function filtrar_checadas() {
 
 }
 
-function cargar_formato() {
+function cargar_formato(jini, jfin) {
 
     document.getElementById('justificante').click();
-    ban_url = 1;
-    cargar_select();
-    cargar_horarios();
+    ban_url = 1;  
+    diaslab = validacion.horarios[0].detalle_horario;   
+
+    cargar_incidencias();
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -204,8 +224,14 @@ function cargar_formato() {
     $("#nombre_empleado").val(datos_credencializacion.Nombre);
     $("#direccion_departamento").val(datos_credencializacion.Direccion);
     $("#departamento").val(datos_credencializacion.Adscripcion_Area);
+    $("#no_tarjeta").val(validacion.Badgenumber);
+    $("#userid").val(validacion.USERID);
     $("#fecha").val(today);
     $("#att").val(datos_credencializacion.Nombre);
+    $("#f_ini").val(jini);
+    $("#f_fin").val(jfin);
+
+    $("#horario_emp").val(jini.substring(16, 11) + '-' + jfin.substring(16, 11));
 
 
 }
@@ -213,28 +239,6 @@ function cargar_formato() {
 function getParameterByName() {
     var ruta_completa = location.pathname;
     var splits = ruta_completa.split("/");
-    console.log(ruta_completa);
+    //console.log(ruta_completa);
     return splits[(splits.length - 1)];
-}
-
-
-function guarda_incidencia() {
-
-    // alert("holaaaaa");
-
-    var nombre = $("#nombre").val();
-    var especialidad = $("#especialidad").val();
-    var cedula = $("#cedula").val();
-    var telefono = $("#telefono").val();
-    var email = $("#especialidad").val();
-
-    $.ajax({
-        type: 'POST',
-        url: "api/registro",
-        data: { nombre: nombre, especialidad: especialidad, cedula: cedula, telefono: telefono, email: email },
-        success: function(data) {
-            mostrarMensaje(data.mensaje);
-            limpiarCampos();
-        }
-    })
 }

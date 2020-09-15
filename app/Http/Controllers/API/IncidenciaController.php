@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Incidencias;
 use App\Models\DiasOtorgados;
 use App\Models\Usuarios;
 use App\Models\ReglasHorarios;
@@ -42,7 +43,24 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $registro = new Incidencias;
+            $registro->USERID = $request->id;
+            $registro->fecha_ini = $request->fini;
+            $registro->fecha_fin = $request->ffin;
+            $registro->incidencias_tipo_id = $request->tipo_incidencia;        
+            $registro->documentos = $request->documentos;
+            $registro->observaciones = $request->observaciones;
+            $registro->autoriza = $request->autorizo;
+            //$registro->DATE = now();
+            $registro->idvalida=0;
+            $registro->save();
+            return response()->json(['mensaje'=>'Registrado Correctamente']);
+        } 
+    catch (\Exception $e) {
+        
+        return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+        }
     }
 
     /**
@@ -87,6 +105,12 @@ class IncidenciaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $registro=Incidencias::FindOrFail($id);
+        $result = $registro->delete();
+
+        if($result){
+            return response()->json(['mensaje'=>'Registro Eliminado']);
+            
+        }
     }
 }
