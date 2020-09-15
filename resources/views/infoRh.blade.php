@@ -14,9 +14,16 @@
 	<!--<script type="text/javascript" src="../js/mbd.js"></script>-->
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="../easyautocomplete/jquery.easy-autocomplete.js"></script>
+
+	<link rel="stylesheet" href="../easyautocomplete/easy-autocomplete.css">  
+    <link rel="stylesheet" href="../easyautocomplete/easy-autocomplete.themes.css">
 	
-	<script type="text/javascript" src="../js/modulos/empleados/lista.js"></script> 
+	<script type="text/javascript" src="../js/modulos/empleados/lista.js"></script>  
 	<script type="text/javascript" src="../js/rh/rh.js"></script>
+
+	<script src="../libs/moment/moment.min.js"></script> 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 	
 	<style>
@@ -37,6 +44,7 @@
 			</div>
 		</div>
 	</div>	
+
 <div id="contenido" class="card-body contenido_blade">
 	<div class="row">
 		<div class="card testimonial-card col-xl-4 col-lg-5 col-md-12 ">
@@ -116,16 +124,16 @@
 							<br>
 							<div class="row">
 								<div class="col-md-6">
-									<button type="button" onclick="filtrar_checadas()" class="form-control btn btn-primary">
+									<button type="button" onclick="filtrar_checadas()" id="buscar" class="form-control btn btn-primary">
 										{{ __('Buscar') }}
 									</button>
 								</div>
 
-								  <div class="col-md-6">
+								  <!-- <div class="col-md-6">
 									<button type="button" onclick="cargar_formato()" class="form-control btn btn-primary">
 											{{ __('Generar Justificante') }}
 									</button>
-								</div>  
+								</div>   -->
 							</div>
 						</th>
 						
@@ -148,12 +156,12 @@
 						
 					
 					</tr>
-<!-- 
+ 
 					<tr>
-						<td ><strong>ID: <i id="Ident"></i></strong></td>
-						<td ><strong>Hora Entrada:<i id="jorini"></i></strong></td>
+						<td ><strong>ID: <i id="Ident"></i></strong> </td>
 						
-					</tr>	 -->	
+						
+					</tr>	 	
 
 					<tr>
 						<td colspan="3">Día Economico</td>
@@ -282,21 +290,22 @@
                 <form>
                     <div class="form-group">
                         <label for="nombre_empleado" class="col-form-label"><strong>SE HACE DEL CONOCIMIENTO QUE  EL  ( LA )  C. :</strong></label>
-                        <input type="text" class="form-control" id="nombre_empleado">
+						<input type="text" class="form-control" id="nombre_empleado" readonly>
+						<input type="hidden" id="userid" name="userid">
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="funcion" class="col-form-label"><strong>FUNCIÓN:</strong></label>
-                                <input type="text" class="form-control" id="funcion">
+                                <input type="text" class="form-control" id="funcion" >
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="horario" class="col-form-label"><strong>HORARIO:</strong></label>
-                                <input type="text" class="form-control" id="horario">
+                                <label for="horario_emp" class="col-form-label"><strong>HORARIO:</strong></label>
+                                <input type="text" class="form-control" id="horario_emp" readonly>
                             </div>
                         </div>
                     </div>
@@ -320,41 +329,42 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="no_tarjeta" class="col-form-label"><strong>No. DE TARJETA DE CONTROL:</strong></label>
-                                <input type="text" class="form-control" id="no_tarjeta">
+                                <label for="no_tarjeta" class="col-form-label"><strong>ID DE CONTROL:</strong></label>
+                                <input type="text" class="form-control" id="no_tarjeta" readonly>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="incidencia" class="col-form-label"><strong>PRESENTA LA SIGUIENTE INCIDENCIA:</strong></label>
-                                <input type="text" class="form-control" id="incidencia">
-                            </div>
-                        </div>
-                    </div>
-					<div class="row">	
-						<div class="col-md-12" >		
+						</div> 
+						<div class="col-md-6" >
 							<div class="form-group">
-							<label for="incidencia_tipo"  ><strong>ELEGIR TIPO DE INCIDENCIA</strong></label>
-								<select class="form-control" onchange="sel_inci(this.value)" id="incidencia_tipo" required>                   
-								
-								</select>
+							<label for="incidencia" class="col-form-label"><strong>TIPO DE INCIDENCIA</strong></label>
+								<!-- <input id="horario">    --> 
+								<input id="incidencia"  type="text" style="outline: none;">
+								<input type="hidden" id="code_in" name="code_in" onchange="sel_inci(this.value)" required>  
 							</div>
 							<div id="divmsg" style="display:visible" class="alert-primary" role="alert">
 							</div>
 						</div>
-                	</div>
+
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="incidencia" class="col-form-label"><strong>PRESENTA LA SIGUIENTE INCIDENCIA:</strong></label>
+                                <input type="text" class="form-control" id="incide">
+                            </div>
+                        </div> -->
+                    </div>
+					<div class="row">
+						
+					</div>
             
 					<div class="row">
 						<div class="col-md-6" >
 							<div class="form-group">
-								<label for="f_ini" class="col-sm-3 col-form-label">Desde</label>
+								<label for="f_ini" class="col-sm-3 col-form-label"><strong>DESDE</strong></label>
 								<input type="datetime-local" class="form-control" id="f_ini" name="f_ini" >
 							</div>
 						</div>
 						<div class="col-md-6" >
 							<div class="form-group">
-								<label for="f_fin" class="col-sm-3 col-form-label">Hasta</label>
+								<label for="f_fin" class="col-sm-3 col-form-label"><strong>HASTA</strong></label>
 								<input type="datetime-local" class="form-control" id="f_fin" name="f_fin" >
 							</div>
 						</div>
@@ -405,8 +415,9 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" name="submit" onclick="guarda_incidencia()" value="Submit">Guardar</button>
+						<button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        
                     </div>
 
                 </form>
