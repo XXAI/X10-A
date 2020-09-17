@@ -325,7 +325,7 @@ class reporteController extends Controller
 
                         
                                
-                        if($sol<>1){
+                        /* if($sol<>1){ */
                                 $checada_extra = DB::table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
@@ -337,12 +337,13 @@ class reporteController extends Controller
                                     ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
                                     ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
                                     ,'user_speday.YUANYING AS REPO'
-                                    ,'user_speday.id as Ban_Inci'
+                                    ,'user_speday.incidencia_id as Ban_Inci'
+                                    ,'user_speday.captura_id as captura_id'
                                     )
-                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.id')
+                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id')
                                 ->first();
                                 
-                            }
+                   /*          }
                             else{
                                 $checada_extra = DB::table("incidencias")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "incidencias.USERID")
@@ -360,7 +361,7 @@ class reporteController extends Controller
                                 ->groupBy('leaveclass.LeaveName','incidencias.fecha_fin','incidencias.fecha_ini','leaveclass.LeaveId','incidencias.documentos','incidencias.id')
                                 ->first();
                                 
-                            }
+                            } */
                                 
                           
 
@@ -376,6 +377,7 @@ class reporteController extends Controller
                                         $memo =  " (".$checada_extra->REPO.")";
                                     }
                                    $ban_inci=$checada_extra->Ban_Inci;
+                                   $sol=$checada_extra->captura_id;
 
 
                                    //return $ban_inci;

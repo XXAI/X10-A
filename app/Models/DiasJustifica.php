@@ -8,4 +8,8 @@ class DiasJustifica extends Model
 {
     protected $table = "USER_SPEDAY";
     public $timestamps = false;
+
+    public function Incidencias(){
+        return $this->hasOne('App\Models\Incidencias',  'id',"incidencia_id");
+    }
 }

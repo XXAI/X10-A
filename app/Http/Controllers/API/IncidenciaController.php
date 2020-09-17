@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Incidencias;
+use App\Models\DiasJustifica;
 use App\Models\DiasOtorgados;
 use App\Models\Usuarios;
 use App\Models\ReglasHorarios;
@@ -51,11 +52,23 @@ class IncidenciaController extends Controller
             $registro->incidencias_tipo_id = $request->tipo_incidencia;        
             $registro->documentos = $request->documentos;
             $registro->observaciones = $request->observaciones;
-            $registro->autoriza = $request->autorizo;
-            //$registro->DATE = now();
+            $registro->autoriza = $request->autorizo;            
             $registro->idvalida=0;
             $registro->save();
-            return response()->json(['mensaje'=>'Registrado Correctamente']);
+
+           /* 
+            $speday = new DiasJustifica;
+            $speday->USERID = $request->id;
+            $speday->STARTSPECDAY = $request->fini;
+            $speday->ENDSPECDAY = $request->ffin;
+            $speday->DATEID = $request->tipo_incidencia;        
+            $speday->YUANYING = $request->documentos;
+            $speday->DATE = now();
+            $speday->captura_id=0;
+            $speday->incidencia_id = $registro->id;
+            $speday->save(); */
+                   
+            return response()->json(['id_inci'=>$registro->id]);
         } 
     catch (\Exception $e) {
         
@@ -106,6 +119,7 @@ class IncidenciaController extends Controller
     public function destroy($id)
     {
         $registro=Incidencias::FindOrFail($id);
+        DiasJustifica::where('incidencia_id','=',$id)->delete();
         $result = $registro->delete();
 
         if($result){

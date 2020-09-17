@@ -141,7 +141,7 @@ function cargar_blade_checadas() {
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
         // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-warning' style='color:blue' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato()'>Incidencia</a></i>";
         else
-        if (value.sol == 1) {
+        if (value.sol == 0) {
             icono = "<i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
         } else {
             icono = "<i class='fa fa-check' style='color:green'></i>";
@@ -205,8 +205,8 @@ function filtrar_checadas() {
 function cargar_formato(jini, jfin) {
 
     document.getElementById('justificante').click();
-    ban_url = 1;  
-    diaslab = validacion.horarios[0].detalle_horario;   
+    ban_url = 1;
+    diaslab = validacion.horarios[0].detalle_horario;
 
     cargar_incidencias();
     var now = new Date();

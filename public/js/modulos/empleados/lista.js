@@ -12,6 +12,7 @@ var xini, xfin;
 var id, idcap;
 var id_x;
 var rfc_x;
+var id_inci;
 var msj;
 var mes_nac;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj;
@@ -94,7 +95,7 @@ function cargar_horarios() {
 
 
 function cargar_incidencias() {
-    
+
     if (ban_url == 1) {
         url_in = '../api/empleado/tipoincidencia';
     } else {
@@ -410,7 +411,7 @@ function mostrarMensaje(mensaje) {
 function generar_inci(jini, jfin) {
 
     ban_url = 0;
-    
+
     cargar_incidencias();
     $("#id").val(id_x);
     $("#f_ini").val(jini);
@@ -651,13 +652,12 @@ function guardar_incidencia() {
 
 
     validando_incidencia();
-    
+
     if (bandera == 1) {
-        
+
         if (ban_url == 1) {
-            inserta_incidencia_emp();
-        }
-        else{
+            probandoooo();
+        } else {
             inserta_incidencia();
 
         }
@@ -673,11 +673,15 @@ function validando_incidencia() {
         documentos = $("#documentos").val();
         observaciones = $("#observaciones").val();
         autorizo = $("#autorizo").val();
+        razon = $("#documentos").val();
+        idcap = 0;
+        url_in = "../api/guarda-justificante";
 
     } else {
         id = $("#id").val();
         idcap = $("#id_user").val();
         razon = $("#razon").val();
+        url_in = "api/guarda-justificante";
     }
 
     date_1 = moment($("#f_ini").val());
@@ -765,8 +769,8 @@ function inserta_incidencia() {
             if (dia_eva == diaslab[j].EDAYS) {
                 $.ajax({
                     type: 'POST',
-                    url: "api/guarda-justificante",
-                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap },
+                    url: url_in,
+                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
                         swal("Exito!", "El registro se ha guardado!", "success");
                     },
@@ -791,6 +795,8 @@ function inserta_incidencia() {
 
 function inserta_incidencia_emp() {
 
+
+
     var x = 0;
     var dia_eva;
     for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
@@ -805,7 +811,6 @@ function inserta_incidencia_emp() {
                 dia_eva = moment(fini).day();
 
             if (dia_eva == diaslab[j].EDAYS) {
-
 
                 $.ajax({
                     type: 'POST',
@@ -832,6 +837,34 @@ function inserta_incidencia_emp() {
     $("#observaciones").val('');
     document.getElementById('buscar').click();
     swal("Exito!", "El registro se ha guardado!", "success");
+}
+
+
+
+function probandoooo() {
+
+    fini = moment(date_1.add(0, 'd')).format();
+    ffin = moment(date_2.add(0, 'd')).format();
+    fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
+    ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+    $.ajax({
+        type: 'POST',
+        url: "../api/guarda-just-emp",
+        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
+        success: function(data) {
+
+            id_inci = data.id_inci;
+            inserta_incidencia();
+
+            swal("Exito!", "El registro se ha guardado!", "success");
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
+        }
+    })
+
+
+
 }
 
 function eliminar(id) {

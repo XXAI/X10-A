@@ -49,6 +49,7 @@ class DiasJustificaController extends Controller
                 $registro->YUANYING = $request->razon;
                 $registro->DATE = now();
                 $registro->captura_id=$request->idcap;
+                $registro->incidencia_id = $request->id_inci;
                 $registro->save();
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
             } 
