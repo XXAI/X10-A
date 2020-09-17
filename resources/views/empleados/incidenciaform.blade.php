@@ -35,7 +35,7 @@
                 <div class="col-md-6" >
                     <div class="form-group">
                         <label for="razon" class="col-sm-3 col-form-label">Razon</label>
-                        <input type="text" class="form-control" id="razon" name="razon" required>
+                        <input type="text" class="form-control" id="razon" name="razon">
                     </div>
                 </div>
                 

@@ -15,7 +15,7 @@ var rfc_x;
 var id_inci;
 var msj;
 var mes_nac;
-var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj;
+var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj,val_in;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
@@ -520,7 +520,11 @@ function cargar_blade_checadas() {
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
         else {
-            icono = "<i class='fa fa-check' style='color:green'></i>";
+            if (value.sol == 0) {
+                icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
+            } else {
+                icono = "<i class='fa fa-check' style='color:green'></i>";
+            }
         }
         if (value.checado_salida == value.checado_salida_fuera)
             xs = value.checado_salida;
@@ -664,6 +668,33 @@ function guardar_incidencia() {
     } else {
         swal("Error!", msj + "!", "error");
     }
+
+}
+
+function validar(idinci){
+    var idinci=parseInt(idinci);
+    val_in=1;
+    console.log(idinci);
+    $.ajax({
+        type: "GET",
+        url: "./api/buscaincidencia/" + idinci,
+
+        dataType: "json",
+        success: function(data) {
+            $("#incidencia").val(data.data.tipos_incidencia.LeaveName);
+            //$("#incidencia").val(data.data.tipos_incidencia.LeaveName);
+          $("#razon").val(data.data.tipos);
+            console.log(data.data.documentos);
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+
+    
+
+
+
 
 }
 

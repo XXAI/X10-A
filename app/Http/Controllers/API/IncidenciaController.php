@@ -23,7 +23,8 @@ class IncidenciaController extends Controller
      */
     public function index()
     {
-        //
+         
+       
     }
 
     /**
@@ -84,7 +85,9 @@ class IncidenciaController extends Controller
      */
     public function show($id)
     {
-        //
+        $incidencias_empleado = Incidencias::with("TiposIncidencia")->find($id);  
+    
+        return response()->json(["data" => $incidencias_empleado]);
     }
 
     /**
@@ -118,7 +121,7 @@ class IncidenciaController extends Controller
      */
     public function destroy($id)
     {
-        $registro=Incidencias::FindOrFail($id);
+        $registro=Incidencias::FindOrFail($id);       
         DiasJustifica::where('incidencia_id','=',$id)->delete();
         $result = $registro->delete();
 
