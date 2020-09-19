@@ -40,6 +40,7 @@ use Illuminate\Http\Request;
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
 
     Route::get('/buscaincidencia/{id}', 'API\IncidenciaController@show');
+    Route::get('/validaincidencia/{id}', 'API\DiasJustificaController@update');
     /* Cardex */
     Route::get('/cardex','API\CardexController@index');
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');

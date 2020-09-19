@@ -163,7 +163,7 @@
                 @include('empleados/incidenciaform')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
+              <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="guardar_incidencia()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
@@ -216,26 +216,7 @@
 
 
 
-      
-      <div class="modal fade bd-example-modal-xl" id="editar_emp" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-xl" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar Empleado</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                @include('empleados/editarEmpleado')
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="guardar_empleado()">Guardar</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+     
 
 
 @endsection

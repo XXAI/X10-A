@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\DiasJustifica;
+use App\Models\Incidencias;
 use Illuminate\Http\Request;
 use App\Models\Usuarios;
 use App\Models\User;
@@ -88,9 +89,14 @@ class DiasJustificaController extends Controller
      * @param  \App\Models\DiasJustifica  $diasJustifica
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request,$incidencia_id)
     {
-        //
+        $registro= Incidencias::findOrFail($incidencia_id);
+        $registro->idvalida=$request->idcap;
+        $registro->save(); 
+        $reg2= DiasJustifica::findOrFail($incidencia_id);
+        $reg2 ->captura_id=$request->idcap;
+        $reg2->save();
     }
 
     /**

@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/hover-table.css">
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="../js/popper.min.js"></script>
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
@@ -275,7 +276,8 @@
 
 <a id="justificante" data-toggle="modal" data-target="#modal_justificante"></a>
 
-<div class="modal fade bd-example-modal-xl" id="modal_justificante" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="modal_justificante" tabindex="-1" role="dialog" >
+<!-- aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" -->
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
@@ -415,8 +417,8 @@
                     </div>
 
                     <div class="modal-footer">
-						<button type="button" class="btn btn-primary" onclick="guardar_incidencia()">Guardar</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-primary" id="save_in_emp" data-dismiss="modal" onclick="guardar_incidencia()">Guardar</button>
+						<button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
                         
                     </div>
 

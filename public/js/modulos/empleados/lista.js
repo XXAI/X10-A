@@ -13,9 +13,9 @@ var id, idcap;
 var id_x;
 var rfc_x;
 var id_inci;
-var msj;
+var msj, ban_url;
 var mes_nac;
-var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj,val_in;
+var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
@@ -411,11 +411,14 @@ function mostrarMensaje(mensaje) {
 function generar_inci(jini, jfin) {
 
     ban_url = 0;
-
+    val_in = 0;
+    document.getElementById('btn_save_inci').innerText = "Guardar";
     cargar_incidencias();
     $("#id").val(id_x);
     $("#f_ini").val(jini);
     $("#f_fin").val(jfin);
+    $("#razon").val('');
+    $("#incidencia").val('');
     var mensaje = "  ";
     mostrarMensaje(mensaje);
 
@@ -514,7 +517,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-        //console.log(value.ban_inci);
+        //console.log(value.jorfin);
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
@@ -651,30 +654,15 @@ function sel_tiporeg(tiporeg) {
 
 }
 
-function guardar_incidencia() {
+
+function validar(idinci) {
+    val_in = 1;
+    var idinci = parseInt(idinci);
+    cargar_incidencias()
+    document.getElementById('btn_save_inci').innerText = "Validar";
 
 
 
-    validando_incidencia();
-
-    if (bandera == 1) {
-
-        if (ban_url == 1) {
-            probandoooo();
-        } else {
-            inserta_incidencia();
-
-        }
-    } else {
-        swal("Error!", msj + "!", "error");
-    }
-
-}
-
-function validar(idinci){
-    var idinci=parseInt(idinci);
-    val_in=1;
-    console.log(idinci);
     $.ajax({
         type: "GET",
         url: "./api/buscaincidencia/" + idinci,
@@ -683,15 +671,20 @@ function validar(idinci){
         success: function(data) {
             $("#incidencia").val(data.data.tipos_incidencia.LeaveName);
             //$("#incidencia").val(data.data.tipos_incidencia.LeaveName);
-          $("#razon").val(data.data.tipos);
-            console.log(data.data.documentos);
+            $("#razon").val(data.data.documentos);
+            $("#f_ini").val((data.data.fecha_ini).replace(" ", "T"));
+            $("#f_fin").val((data.data.fecha_fin).replace(" ", "T"));
+            id_inci = data.data.id;
+            console.log(data.data);
+
+
         },
         error: function(data) {
             alert('error');
         }
     });
 
-    
+
 
 
 
@@ -803,7 +796,8 @@ function inserta_incidencia() {
                     url: url_in,
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
-                        swal("Exito!", "El registro se ha guardado!", "success");
+                        /* swal("Exito!", "El registro se ha guardado!", "success");
+                        document.getElementById('filtro_check').click(); */
                     },
                     error: function(data) {
                         swal("Error!", "No se registro ningun dato!", "error");
@@ -817,9 +811,7 @@ function inserta_incidencia() {
 
     }
     //('#agregar_incidencia').modal('toggle'); 
-    $("#agregar_incidencia").modal('hide');
-    $("#razon").val('');
-    document.getElementById('filtro_check').click();
+
     swal("Exito!", "El registro se ha guardado!", "success");
 }
 
@@ -848,7 +840,14 @@ function inserta_incidencia_emp() {
                     url: "../api/guarda-just-emp",
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
                     success: function(data) {
-                        swal("Exito!", "El registro se ha guardado!", "success");
+                        /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
+                          document.getElementById('save_in_emp').disabled = true;
+                          $("#modal_justificante").modal('toggle').hide;
+                          $("#documentos").val('');
+                          $("#autorizo").val('');
+                          $("#observaciones").val('');
+                          document.getElementById('buscar').click(); */
+
                     },
                     error: function(data) {
                         swal("Error!", "No se registro ningun dato!", "error");
@@ -862,17 +861,13 @@ function inserta_incidencia_emp() {
 
     }
     //('#agregar_incidencia').modal('toggle'); 
-    $("#modal_justificante").modal('toggle');
-    $("#documentos").val('');
-    $("#autorizo").val('');
-    $("#observaciones").val('');
-    document.getElementById('buscar').click();
-    swal("Exito!", "El registro se ha guardado!", "success");
+
+    //swal("Exito!", "El registro se ha guardado!", "success");
 }
 
 
 
-function probandoooo() {
+function save_justi_emp() {
 
     fini = moment(date_1.add(0, 'd')).format();
     ffin = moment(date_2.add(0, 'd')).format();
@@ -886,8 +881,9 @@ function probandoooo() {
 
             id_inci = data.id_inci;
             inserta_incidencia();
+            yy = 1;
 
-            swal("Exito!", "El registro se ha guardado!", "success");
+
         },
         error: function(data) {
             swal("Error!", "No se registro ningun dato!", "error");
@@ -896,6 +892,66 @@ function probandoooo() {
 
 
 
+}
+
+
+function guardar_incidencia() {
+
+    validando_incidencia();
+
+    if (bandera == 1) {
+
+        if (ban_url == 1) {
+            save_justi_emp();
+            //console.log(yy);
+            // if (xy == 1) {
+            swal("Exito!", "El registro se ha guardado_emp!", "success");
+            //document.getElementById('save_in_emp').disabled = true;
+            //$("#modal_justificante").modal('toggle');
+
+            document.getElementById("cerrar").click();
+            $("#documentos").val('');
+            $("#autorizo").val('');
+            $("#observaciones").val('');
+            document.getElementById('buscar').click();
+            // }
+        } else {
+            if (val_in == 0) {
+                inserta_incidencia();
+
+            } else {
+                acepta_incidencia();
+
+
+                // alert("Estoy aceptando tu incidencia " + id_inci);s
+            }
+
+        }
+
+
+    } else {
+        swal("Error!", msj + "!", "error");
+    }
+
+}
+
+function acepta_incidencia() {
+    $.ajax({
+        type: "GET",
+        url: "./api/validaincidencia/" + id_inci,
+        data: { idcap: idcap },
+        success: function(data) {
+
+            swal("Exito!", "La incidencia ha sido validada!", "success");
+
+            $("#agregar_incidencia").modal('hide');
+            document.getElementById('filtro_check').click();
+
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
+        }
+    })
 }
 
 function eliminar(id) {

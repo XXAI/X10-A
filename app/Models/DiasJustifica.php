@@ -12,4 +12,12 @@ class DiasJustifica extends Model
     public function Incidencias(){
         return $this->hasOne('App\Models\Incidencias',  'id',"incidencia_id");
     }
+
+
+  
+
+
+    public function getKeyName(){
+        return "incidencia_id";
+    }
 }
