@@ -85,7 +85,7 @@ class IncidenciaController extends Controller
      */
     public function show($id)
     {
-        $incidencias_empleado = Incidencias::with("TiposIncidencia")->find($id);  
+        $incidencias_empleado = Incidencias::with("TiposIncidencia","Usuarios")->find($id); 
     
         return response()->json(["data" => $incidencias_empleado]);
     }

@@ -12,5 +12,10 @@ class Incidencias extends Model
         return $this->hasOne('App\Models\TiposIncidencia','LeaveId',"incidencias_tipo_id");
     }
 
+
+    public function Usuarios(){
+        return $this->hasOne('App\Models\Usuarios',  'USERID',"USERID");
+    }
+
     
 }
