@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\DiasJustifica;
+use App\Models\Incidencias;
 use Illuminate\Http\Request;
 use App\Models\Usuarios;
 use App\Models\User;
 use \Validator, \Hash, \Response;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon, DB;
+use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;
+use Illuminate\Support\Facades\Input;
 
 class DiasJustificaController extends Controller
 {
@@ -51,7 +53,8 @@ class DiasJustificaController extends Controller
                 $registro->captura_id=$request->idcap;
                 $registro->incidencia_id = $request->id_inci;
                 $registro->save();
-                return response()->json(['mensaje'=>'Registrado Correctamente']);
+
+                return response()->json(['data'=>$registro, 'mensaje'=>'Registrado Correctamente']);
             } 
         catch (\Exception $e) {
             
@@ -108,5 +111,17 @@ class DiasJustificaController extends Controller
             return response()->json(['mensaje'=>'Registro Eliminado']);
             
         }
+    }
+    public function justificante($id){
+        //landscape, portrait
+
+        $pase_salida = Incidencias::with("TiposIncidencia")->find($id);
+
+        $pdf = PDF::loadView('justificantes//pase-salida', ['pase_salida' => $pase_salida]);
+        $pdf->setPaper('LETTER', 'portrait');
+        $pdf->setOptions(['isPhpEnabled' => true]);
+        //return View::make('justificante\\justificante', ['justificante' => $incidencias_empleado]);
+        return $pdf->stream('Pase-de-salida.pdf');
+
     }
 }

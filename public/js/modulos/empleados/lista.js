@@ -803,7 +803,13 @@ function inserta_incidencia() {
                     url: url_in,
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
-                        swal("Exito!", "El registro se ha guardado!", "success");
+                        swal(
+                            "Exito!", "El registro se ha guardado!", "success"
+                        ).then(function() {
+                            //win = window.open( getJustifica(data.data.USERID), '_blank' );
+                            win = window.open('../api/justificante/' + data.data.incidencia_id, '_blank');
+                            console.log("datos",data.data);
+                        });
                     },
                     error: function(data) {
                         swal("Error!", "No se registro ningun dato!", "error");
@@ -822,7 +828,6 @@ function inserta_incidencia() {
     document.getElementById('filtro_check').click();
     swal("Exito!", "El registro se ha guardado!", "success");
 }
-
 
 function inserta_incidencia_emp() {
 
