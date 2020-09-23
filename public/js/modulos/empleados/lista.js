@@ -700,12 +700,18 @@ function validando_incidencia() {
         razon = $("#documentos").val();
         idcap = 0;
         url_in = "../api/guarda-justificante";
+        yy="../api/guarda-just-emp";
 
     } else {
+
+        documentos = "-";
+        observaciones = "-";
+        autorizo ="-";
         id = $("#id").val();
         idcap = $("#id_user").val();
         razon = $("#razon").val();
         url_in = "api/guarda-justificante";
+        yy="api/guarda-just-emp";
     }
 
     date_1 = moment($("#f_ini").val());
@@ -796,13 +802,13 @@ function inserta_incidencia() {
                     url: url_in,
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
-                        swal(
+                        /*swal(
                             "Exito!", "El registro se ha guardado!", "success"
                         ).then(function() {
                             //win = window.open( getJustifica(data.data.USERID), '_blank' );
                             win = window.open('../api/justificante/' + data.data.incidencia_id, '_blank');
                             console.log("datos",data.data);
-                        });
+                        });*/
                     },
                     error: function(data) {
                         swal("Error!", "No se registro ningun dato!", "error");
@@ -879,13 +885,13 @@ function save_justi_emp() {
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
     $.ajax({
         type: 'POST',
-        url: "../api/guarda-just-emp",
+        url: yy,
         data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
         success: function(data) {
 
             id_inci = data.id_inci;
             inserta_incidencia();
-            yy = 1;
+         
 
 
         },
@@ -907,11 +913,9 @@ function guardar_incidencia() {
 
         if (ban_url == 1) {
             save_justi_emp();
-            //console.log(yy);
-            // if (xy == 1) {
-            swal("Exito!", "El registro se ha guardado_emp!", "success");
-            //document.getElementById('save_in_emp').disabled = true;
-            //$("#modal_justificante").modal('toggle');
+            
+          //  swal("Exito!", "El registro se ha guardado", "success");
+          
 
             document.getElementById("cerrar").click();
             $("#documentos").val('');
@@ -921,13 +925,13 @@ function guardar_incidencia() {
             // }
         } else {
             if (val_in == 0) {
-                inserta_incidencia();
+                save_justi_emp();
+             
+              
 
             } else {
                 acepta_incidencia();
 
-
-                // alert("Estoy aceptando tu incidencia " + id_inci);s
             }
 
         }
