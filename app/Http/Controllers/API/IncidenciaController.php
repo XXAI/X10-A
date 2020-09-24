@@ -12,7 +12,8 @@ use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon, DB;
+use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;
+use Illuminate\Support\Facades\Input;
 
 class IncidenciaController extends Controller
 {
@@ -69,7 +70,7 @@ class IncidenciaController extends Controller
             $speday->incidencia_id = $registro->id;
             $speday->save(); */
                    
-            return response()->json(['id_inci'=>$registro->id]);
+            return response()->json(['data'=>$registro, 'id_inci'=>$registro->id]);
         } 
     catch (\Exception $e) {
         
@@ -129,5 +130,20 @@ class IncidenciaController extends Controller
             return response()->json(['mensaje'=>'Registro Eliminado']);
             
         }
+    }
+    public function justificante($id){
+        //landscape, portrait
+
+        $pase_salida = Incidencias::with("TiposIncidencia","Usuarios")->find($id);
+
+        // $incidencia->created_at = Carbon::parse($pase_salida['created_at'])->format('d/MM/Y');
+
+
+        $pdf = PDF::loadView('justificantes//pase-salida', ['pase_salida' => $pase_salida]);
+        $pdf->setPaper('LETTER', 'portrait');
+        $pdf->setOptions(['isPhpEnabled' => true]);
+        //return View::make('justificante\\justificante', ['justificante' => $incidencias_empleado]);
+        return $pdf->stream('Pase-de-salida.pdf');
+
     }
 }

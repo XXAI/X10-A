@@ -117,16 +117,4 @@ class DiasJustificaController extends Controller
             
         }
     }
-    public function justificante($id){
-        //landscape, portrait
-
-        $pase_salida = Incidencias::with("TiposIncidencia")->find($id);
-
-        $pdf = PDF::loadView('justificantes//pase-salida', ['pase_salida' => $pase_salida]);
-        $pdf->setPaper('LETTER', 'portrait');
-        $pdf->setOptions(['isPhpEnabled' => true]);
-        //return View::make('justificante\\justificante', ['justificante' => $incidencias_empleado]);
-        return $pdf->stream('Pase-de-salida.pdf');
-
-    }
 }
