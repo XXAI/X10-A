@@ -29,4 +29,8 @@ class Usuarios extends Model
     public function dias_otorgados(){
         return $this->hasMany('App\Models\DiasOtorgados', 'USERID', "USERID");
     }
+
+    public function getKeyName(){
+        return "USERID";
+    }
 }

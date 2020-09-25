@@ -218,7 +218,7 @@ function cargar_datos_empleado(datos) {
             hsalida = hsalida.substring(16, 11);
             diaslab = (value.horarios[0].detalle_horario);
 
-            var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos()'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
+            var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
             var campo4 = $("<td>Sin Horario</>");
 
@@ -654,6 +654,31 @@ function sel_tiporeg(tiporeg) {
 
 }
 
+function probamos(idempleado){
+    $("#modal-empleado").html("Editar Empleado");
+    var idempleado = parseInt(idempleado);
+    $.ajax({
+        type: "GET",
+        url: "./api/buscaempleado/" + idempleado,
+
+        dataType: "json",
+        success: function(data) {
+             $("#name").val(data.data.Name);
+            $("#rfc").val(data.data.TITLE);
+            $("#sexo").val(data.data.Gender);
+           /* $("#f_ini").val((data.data.fecha_ini).replace(" ", "T"));
+            $("#f_fin").val((data.data.fecha_fin).replace(" ", "T"));
+            id_inci = data.data.id; */
+            console.log(data.data);
+
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+}
+
 
 function validar(idinci) {
     val_in = 1;
@@ -675,7 +700,7 @@ function validar(idinci) {
             $("#f_ini").val((data.data.fecha_ini).replace(" ", "T"));
             $("#f_fin").val((data.data.fecha_fin).replace(" ", "T"));
             id_inci = data.data.id;
-            console.log(data.data);
+           // console.log(data.data);
 
 
         },

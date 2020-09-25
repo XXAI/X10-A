@@ -36,13 +36,13 @@
                 <tbody id='empleados'>
                 </tbody>
             </table>
-        </table>                 
+                    
 
         </div>
     </div>
 </div>   
 
- 
+  
 
      <a id="checadas_modal" data-toggle="modal" data-target="#modal_checadas"></a>  
   
@@ -198,7 +198,7 @@
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Agregar Empleado</h5>
+              <h5 class="modal-title" id="modal-empleado">Agregar Empleado</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

@@ -156,9 +156,11 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        return "glltrltrltlrk";
+        $empleado = Usuarios::with("horarios.detalleHorario")->find($id); 
+    
+        return response()->json(["data" => $empleado]);
     }
 
     /**
