@@ -53,6 +53,7 @@ use Illuminate\Http\Request;
     Route::post('/guarda-just-emp','API\IncidenciaController@store');
     Route::post('/guarda-entrasal','API\EntraSalidaController@store');
     Route::post('/guarda-empleado','API\EmpleadoController@store');
+    Route::get('/edita-empleado/{id}', 'API\EmpleadoController@update');
     Route::post('/guarda-configuracion-trimestral','API\ConfiguracionTrimestralController@store');
     Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
     Route::delete('/deleteinci-emp/{id}', 'API\IncidenciaController@destroy');

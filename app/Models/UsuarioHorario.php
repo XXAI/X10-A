@@ -8,7 +8,19 @@ class UsuarioHorario extends Model
 {
     protected $table = "USER_OF_RUN";
     public $timestamps = false;
+   
+   
     public function detalleHorario(){
         return $this->hasMany('App\Models\DetalleHorario','NUM_RUNID', "NUM_OF_RUN_ID");
+
     }
+
+    public function nombre_horario(){
+        return $this->hasMany('App\Models\Horario', "NUM_RUNID",'NUM_OF_RUN_ID');
+
+    }
+
+
+  
+       
 }

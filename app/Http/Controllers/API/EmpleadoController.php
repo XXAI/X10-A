@@ -158,7 +158,8 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
-        $empleado = Usuarios::with("horarios.detalleHorario")->find($id); 
+        $empleado = Usuarios::with("horarios")->find($id);
+        //->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID"); 
     
         return response()->json(["data" => $empleado]);
     }
@@ -181,9 +182,34 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $USERID)
     {
-        //
+        
+            $registro= Usuarios::findOrFail($USERID);
+            
+            $registro->Name = $request->name;
+            $registro->Gender = $request->sexo;
+            $registro->TITLE = $request->rf;        
+            $registro->PAGER = $request->codigo;
+            $registro->BIRTHDAY = $request->fecnac;
+            $registro->HIREDDAY=$request->fechaing;
+            $registro->street=$request->street;
+            $registro->CITY=$request->city;
+          
+            $registro->FPHONE=$request->clues;
+            $registro->DEFAULTDEPTID=$request->tipotra;            
+            $registro->MINZU=$request->area;
+            $registro->save(); 
+            if ($request->code!=''){
+                $algo="vengo con valor";
+            }
+            else{
+                $algo="vengo sin valor";
+            }
+           /*  $reg2= Horario::findOrFail($USERID);
+            $reg2 ->captura_id=$request->idcap;
+            $reg2->save(); */
+            return response()->json(['mensaje'=>'Modificado Correctamente  '. $algo]); 
     }
 
     /**

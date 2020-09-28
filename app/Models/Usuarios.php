@@ -10,9 +10,12 @@ class Usuarios extends Model
     
     protected $fillable = [ 'Badgenumber','Name','Gender','TITLE','PAGER','BIRTHDAY','HIREDDAY','street','CITY','STATE','ZIP','FPHONE','DEFAULTDEPTID','MINZU'];//,'ATT','INLATE','OUTEARLY','OVERTIME','SEP','HOLIDAY','MINZU','status'];
     public $timestamps = false;
+
+
     public function horarios(){
-        return $this->hasMany('App\Models\UsuarioHorario', 'USERID', "USERID")->orderBy('ENDDATE','DESC');//  ->where("STARTDATE", "<=", date("Y-m-d").'T00:00:00')->where("ENDDATE", ">=", date("Y-m-d").'T00:00:00');
+        return $this->hasMany('App\Models\UsuarioHorario', 'USERID', "USERID")->orderBy('ENDDATE','DESC')->with("nombre_horario");//  ->where("STARTDATE", "<=", date("Y-m-d").'T00:00:00')->where("ENDDATE", ">=", date("Y-m-d").'T00:00:00');
     }
+    
 
     public function horario(){
         return $this->hasMany('App\Models\UsuarioHorario', 'USERID', "USERID");
@@ -29,6 +32,8 @@ class Usuarios extends Model
     public function dias_otorgados(){
         return $this->hasMany('App\Models\DiasOtorgados', 'USERID', "USERID");
     }
+
+  
 
     public function getKeyName(){
         return "USERID";

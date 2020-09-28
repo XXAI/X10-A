@@ -14,14 +14,14 @@ var id_x;
 var rfc_x;
 var id_inci;
 var msj, ban_url;
-var mes_nac;
-var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy;
+var mes_nac, idempleado;
+var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
 $(document).ready(function() {
 
-
+    limpia_empleados();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
         if (e.which == 13) {
@@ -178,16 +178,30 @@ function obten_fecnac(rfc_x) {
     // console.log("   ono   "+onomastico);
 }
 
+
+function limpia_empleados() {
+    $("#name").val('');
+    $("#rfc").val('');
+    $("#sexo").val('');
+    $("#fechaing").val('');
+    $("#codigo").val('');
+    $("#clues").val('');
+    $("#area").val('');
+    $("#tipotra").val('');
+}
+
 function cargar_departamentos() {
-    $("#tipotra").empty();
+    limpia_empleados();
+    if ($("#tipotra").val('')) {
+        // $("#tipotra").empty();
+    }
+
     $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
     $.ajax({
         type: "GET",
         url: './api/empleado',
         dataType: "json",
         success: function(data) {
-
-
 
             $.each(data.departamentos, function(key, registro) {
                 $("#tipotra").append("<option value=" + registro.DEPTID + ">" + registro.DEPTNAME + "</option>");
@@ -201,7 +215,24 @@ function cargar_departamentos() {
 
 }
 
+function cargar_horarios_empleado(horarios) {
+    var table = $("#empleado-hora").html('');
 
+    $.each(horarios, function(key, value) {
+
+        // console.log(value);
+        var linea = $("<tr></tr>");
+        var campo1 = $("<td>" + value.nombre_horario[0].NAME + "</td>");
+        var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
+        var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
+
+        // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
+        linea.append(campo1, campo2, campo3); //,campo6);
+        table.append(linea);
+
+    });
+
+}
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
@@ -322,9 +353,6 @@ function guardar_entrasal() {
 
 function guardar_empleado() {
 
-
-
-
     var name = $("#name").val();
     var rf = $("#rfc").val();
     var sexo = $("#sexo").val();
@@ -355,9 +383,18 @@ function guardar_empleado() {
     fin_fec = moment(fin_fec).format();
     fin_fec = fin_fec.substr(0, 10) + " 00:00:00.00"
 
+    var tipo;
+    if (banemp == 1) {
+        url_emp = "api/edita-empleado/" + idempleado;
+        tipo = 'GET';
+
+    } else {
+        url_emp = "api/guarda-empleado";
+        tipo = 'POST';
+    }
     $.ajax({
-        type: 'POST',
-        url: "api/guarda-empleado",
+        type: tipo,
+        url: url_emp,
         data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
         success: function(data) {
 
@@ -397,8 +434,9 @@ function guardar_empleado() {
 
 
 
-
 }
+
+
 
 function mostrarMensaje(mensaje) {
     $("#divmsg").empty();
@@ -654,22 +692,29 @@ function sel_tiporeg(tiporeg) {
 
 }
 
-function probamos(idempleado){
+function probamos(id) {
+    banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
-    var idempleado = parseInt(idempleado);
+    cargar_departamentos();
+    idempleado = parseInt(id);
     $.ajax({
         type: "GET",
         url: "./api/buscaempleado/" + idempleado,
 
         dataType: "json",
         success: function(data) {
-             $("#name").val(data.data.Name);
+            cargar_horarios_empleado(data.data.horarios);
+
+            $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
             $("#sexo").val(data.data.Gender);
-           /* $("#f_ini").val((data.data.fecha_ini).replace(" ", "T"));
-            $("#f_fin").val((data.data.fecha_fin).replace(" ", "T"));
-            id_inci = data.data.id; */
-            console.log(data.data);
+            $("#fechaing").val(moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
+            $("#codigo").val(data.data.PAGER);
+            $("#clues").val(data.data.FPHONE);
+            $("#area").val(data.data.MINZU);
+            $("#tipotra").val(data.data.DEFAULTDEPTID);
+
+            //console.log(data.data.horarios.length);
 
 
         },
@@ -700,7 +745,7 @@ function validar(idinci) {
             $("#f_ini").val((data.data.fecha_ini).replace(" ", "T"));
             $("#f_fin").val((data.data.fecha_fin).replace(" ", "T"));
             id_inci = data.data.id;
-           // console.log(data.data);
+            // console.log(data.data);
 
 
         },
@@ -725,18 +770,18 @@ function validando_incidencia() {
         razon = $("#documentos").val();
         idcap = 0;
         url_in = "../api/guarda-justificante";
-        yy="../api/guarda-just-emp";
+        yy = "../api/guarda-just-emp";
 
     } else {
 
         documentos = "-";
         observaciones = "-";
-        autorizo ="-";
+        autorizo = "-";
         id = $("#id").val();
         idcap = $("#id_user").val();
         razon = $("#razon").val();
         url_in = "api/guarda-justificante";
-        yy="api/guarda-just-emp";
+        yy = "api/guarda-just-emp";
     }
 
     date_1 = moment($("#f_ini").val());
@@ -910,10 +955,10 @@ function save_justi_emp() {
 
             id_inci = data.id_inci;
             inserta_incidencia();
-                            //win = window.open( getJustifica(data.data.USERID), '_blank' );
+            //win = window.open( getJustifica(data.data.USERID), '_blank' );
             win = window.open('../api/justificante/' + id_inci, '_blank');
-            console.log("datosss",data);
-         
+            console.log("datosss", data);
+
 
 
         },
@@ -935,8 +980,8 @@ function guardar_incidencia() {
 
         if (ban_url == 1) {
             save_justi_emp();
-          //  swal("Exito!", "El registro se ha guardado", "success");
-          
+            //  swal("Exito!", "El registro se ha guardado", "success");
+
 
             document.getElementById("cerrar").click();
             $("#documentos").val('');
@@ -947,7 +992,7 @@ function guardar_incidencia() {
         } else {
             if (val_in == 0) {
                 save_justi_emp();
-   
+
 
             } else {
                 acepta_incidencia();
@@ -981,6 +1026,25 @@ function acepta_incidencia() {
         }
     })
 }
+
+/* function edita_empleado() {
+    $.ajax({
+        type: "GET",
+        url: "./api/edita-empleado/" + idempleado,
+        data: { idcap: idcap },
+        success: function(data) {
+
+            swal("Exito!", "La incidencia ha sido validada!", "success");
+
+            $("#agregar_incidencia").modal('hide');
+            document.getElementById('filtro_check').click();
+
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
+        }
+    })
+} */
 
 function eliminar(id) {
 

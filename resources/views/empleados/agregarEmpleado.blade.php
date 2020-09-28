@@ -44,7 +44,7 @@
                   <div class="col-md-6" >
                      <div class="form-group">
                         <label for="fechaing" class="col-sm-3 col-form-label">Ingreso </label>
-                        <input type="date" class="form-control" id="fechaing " name="fechaing" >
+                        <input type="date" class="form-control" id="fechaing" name="fechaing">
                      </div>
                   </div>
                </div>

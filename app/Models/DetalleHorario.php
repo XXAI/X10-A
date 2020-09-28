@@ -11,5 +11,9 @@ class DetalleHorario extends Model
     public function reglaAsistencia(){
         return $this->hasOne('App\Models\ReglaAsistencia', "schClassid", 'SCHCLASSID');
     }
+
+
+
+   
    
 }
