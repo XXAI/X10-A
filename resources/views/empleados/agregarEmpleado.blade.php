@@ -97,13 +97,13 @@
             <div class="col-md-4" >
                <div class="form-group">
                   <label for="inicio" class="col-sm-3 col-form-label">Inicio </label>
-                  <input type="date" class="form-control" id="ini_fec " name="ini_fec" value="{{date('Y-m-d')}}">
+                  <input type="date" class="form-control" id="ini_fec" name="ini_fec" value="{{date('Y-m-d')}}">
                </div>
             </div>
-            <div class="col-md-4" >
+            <div class="col-md-4">
                <div class="form-group">
                   <label for="fin" class="col-sm-3 col-form-label">Hasta </label>
-                  <input type="date" value="2020-12-31"class="form-control" id="fin_fec " name="fin_fec" >
+                  <input type="date" value="2020-12-31"class="form-control" id="fin_fec" name="fin_fec">
                </div>
             </div>
          

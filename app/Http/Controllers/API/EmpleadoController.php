@@ -43,7 +43,7 @@ class EmpleadoController extends Controller
         if ($idcap==11){
             $usuarios=$usuarios->where('FPHONE','=','CSSSA017213'); 
          } 
-        $usuarios = $usuarios->orderBy('USERID','ASC')->paginate(15);
+        $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
         
@@ -194,22 +194,38 @@ class EmpleadoController extends Controller
             $registro->BIRTHDAY = $request->fecnac;
             $registro->HIREDDAY=$request->fechaing;
             $registro->street=$request->street;
-            $registro->CITY=$request->city;
-          
+            $registro->CITY=$request->city;          
             $registro->FPHONE=$request->clues;
             $registro->DEFAULTDEPTID=$request->tipotra;            
             $registro->MINZU=$request->area;
             $registro->save(); 
             if ($request->code!=''){
-                $algo="vengo con valor";
+
+                    $maxhora=UsuarioHorario::max('id');
+
+                    $modif_hora = UsuarioHorario::where('USERID','=',$USERID)->where('id','=', $maxhora)->first();
+                    
+                    //->orderBy('id','DESC')->first();
+                    //$modif_hora = UsuarioHorario::where('USERID','=',$USERID)->latest('id')->first();
+                    //where('ENDDATE','=','2020-12-31 00:00:00.000')->first();
+                    $inifec = new Carbon($request->ini_fec);                    
+                    $modif_hora->ENDDATE=$inifec->subDay();
+                    $modif_hora->save();
+
+                    $user_hora = new UsuarioHorario;
+                    $user_hora->USERID=$USERID;
+                    $user_hora->NUM_OF_RUN_ID=$request->code;
+                    $user_hora->STARTDATE=$request->ini_fec;
+                    $user_hora->ENDDATE=$request->fin_fec;
+                    $user_hora->ISNOTOF_RUN=0;
+                    $user_hora->ORDER_RUN=0;
+                    $user_hora->save();
             }
             else{
                 $algo="vengo sin valor";
             }
-           /*  $reg2= Horario::findOrFail($USERID);
-            $reg2 ->captura_id=$request->idcap;
-            $reg2->save(); */
-            return response()->json(['mensaje'=>'Modificado Correctamente  '. $algo]); 
+          
+            return response()->json(['mensaje'=>'Modificado Correctamente  '. $inifec]); 
     }
 
     /**
