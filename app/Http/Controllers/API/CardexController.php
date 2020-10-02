@@ -37,7 +37,7 @@ class CardexController extends Controller
     {
         $parametros = Input::all();
         $datos = $this->claseAsistencia($parametros['empleado']);
-        ##return response()->json(["usuarios" => $datos]);
+        //return response()->json(["usuarios" => $datos]);
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 ->whereNull("USERINFO.state")
                                 ->whereIn("USERINFO.FPHONE", ['CSSSA017213','CSSSA017324'])
@@ -46,7 +46,7 @@ class CardexController extends Controller
 
         $empleados->asistencia = $datos['datos'];    
         $empleados->jornada = $datos['horario'];    
-        //return response()->json(["usuarios" => $empleados]);                    
+        //return response()->json(["usuarios" => $datos]);                    
         $pdf = PDF::loadView('reportes//reporte-cardex', ['empleados' => $empleados]);
         $pdf->setPaper('LETTER', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
@@ -61,22 +61,76 @@ class CardexController extends Controller
         $arreglo_reglas = array();
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
-        $fecha_limite_actual = Carbon::now();
-        $anio_reporte = $fecha_limite_actual->year;
-        
-        $mes_reporte = 1;
-        $mes_actual = $fecha_limite_actual->month;
+        $fecha_limite_fin = Carbon::now();
+        $fecha_limite_inicio = Carbon::now();
+        $anio_reporte = $fecha_limite_fin->year;
+        /* Calculamos el periodo que nos dijeron en sistematizacion, pero yo lo calculare hacia un año atras, haber como nos va*/
+        $dias_mes = $fecha_limite_inicio->daysInMonth;
+        //$mes_fin = 0;
+        $parametro_inicial;
+        $parametro_final;
+        if($dias_mes == $fecha_limite_fin->day) /* Esto es para saber si calculamos el mes actual o el anterior */
+        {
+            //$mes_fin = $fecha_limite_actual->month;
+            $fecha_limite_inicio->subYear();
+            $fecha_limite_inicio->day = 1;
+            $fecha_limite_inicio->hour = 0;
+            $fecha_limite_inicio->minute = 0;
+            $fecha_limite_inicio->second = 1;
+            
+            $parametro_inicial = $fecha_limite_inicio;
+            
+            $fecha_limite_fin->hour = 23;
+            $fecha_limite_fin->minute = 59;
+            $fecha_limite_fin->second = 59;
+
+            $parametro_final = $fecha_limite_fin;
+
+        }else{ /* Con este procedimiento obtenemos el ultimo dia y mes completo para el calculo de la fecha final */
+            $fecha_limite_fin->subMonth();
+            $fecha_limite_inicio->subMonth();
+            
+            $dias_mes = $fecha_limite_fin->daysInMonth;
+            
+            $fecha_limite_fin->day = $dias_mes;
+            $fecha_limite_fin->hour = 23;
+            $fecha_limite_fin->minute = 59;
+            $fecha_limite_fin->second = 59;
+
+            $parametro_final = $fecha_limite_fin;
+
+            $fecha_limite_inicio->subYear();
+            $fecha_limite_inicio->addMonth();
+            $fecha_limite_inicio->day = 1;
+            $fecha_limite_inicio->hour = 0;
+            $fecha_limite_inicio->minute = 0;
+            $fecha_limite_inicio->second = 1;
+
+            $parametro_inicial = $fecha_limite_inicio;
+            //$fecha_limite_actual->day = $dias_mes; //Fecha Final
+        }
+        /* */
+        //$fecha_inicial = $fecha_limite_actual;
+        //$mes_reporte = 1;
+        //$mes_actual = $fecha_limite_actual->month;
         /*while($mes_reporte <= 1 && $mes_reporte <= $mes_actual)
         {*/
             //$resultado[$mes_reporte]['dias'] = [];
 
-            $parametro_inicial = Carbon::now();
-            $parametro_inicial->month = 1; 
-            $parametro_inicial->day = 1; 
-            $fecha_inicio = $parametro_inicial->format('Y-m-d')."T00:00:00";
+            //$parametro_inicial = Carbon::now();
+            //$parametro_inicial->month = 1; 
+            //$parametro_inicial->day = 1; 
             
-            $parametro_final = Carbon::now();
-            $fecha_fin = $parametro_final->format('Y-m-d').'T23:59:59';
+            /*$fecha_inicio = $fecha_inicial->subYear();
+            
+            $fecha_inicio->day = 1;
+            $parametro_inicial = $fecha_inicio;
+            $parametro_final = $fecha_limite_actual;*/
+            $fecha_inicio = $fecha_limite_inicio->format('Y-m-d')."T00:00:00";
+            
+            //$parametro_final = Carbon::now();
+            //$fecha_fin = $parametro_final->format('Y-m-d').'T23:59:59';
+            $fecha_fin = $fecha_limite_fin->format('Y-m-d').'T23:59:59';
             #Obtenemos los dias Festivos
             $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio)->where("STARTTIME", "<=", $fecha_fin)->get();
             $arreglo_festivos = array();
@@ -102,8 +156,9 @@ class CardexController extends Controller
             ->Where('Badgenumber', $empleado)->first();
             
             #Obtenemos los dias totales del reporte
+            //
             $dias_totales = $parametro_inicial->diffInDays($parametro_final);
-            
+            //return $dias_totales;
             #Parseamos los datos obtenidos en la consulta para generar indice de fecha
             $horarios_periodo = $empleados->horarios;
             $indice_horario_seleccionado = 0;
@@ -191,71 +246,53 @@ class CardexController extends Controller
                                 
                         
                                 if($checada_entrada == 1 and $checada_salida == 1){
-                                    $resultado[$parametro_inicial->month][$parametro_inicial->day] =  ""; #Revisar
+                                    $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  ""; #Revisar
                                 }else if($checada_entrada == 2 and $checada_salida == 1){
-                                    $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "R/1"; #Revisa
+                                    $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "R/1"; #Revisa
                                 }else if(($checada_entrada == 1 or $checada_entrada == 2) and $checada_salida == 0)
                                 { 
                                     if(array_key_exists($parametro_inicial->format('Y-m-d'), $arreglo_salidas))
                                     {
                                         if($checada_entrada == 1 )
                                         {
-                                            $resultado[$parametro_inicial->month][$parametro_inicial->day] =  ""; #Revisa
+                                            $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  ""; #Revisa
                                         }else if($checada_entrada == 2 ){
-                                            $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "R/1"; #Revisa
+                                            $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "R/1"; #Revisa
                                         }
                                     }else{
-                                        $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "F"; #Revisa
+                                        $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F"; #Revisa
                                     } 
                                     
                                 }else if($checada_entrada == 0 and $checada_salida == 1)  
                                 {
-                                    $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "F"; 
+                                    $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F"; 
                                 }else if($checada_entrada == 0 and $checada_salida == 0)  
                                 {
-                                    $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "F";
+                                    $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F";
                                 }
                                 
                             }else
                             {
-                                $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "F";
+                                $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F";
                             }
                         }else{
-                            $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "S";
+                            $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "S";
                         }
-                        //unset($dias_otorgados[$parametro_inicial->format('Y-m-d')]);
                     }else{
-
-                        
-                        /*if($dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['DATEID'] == 6)
-                        {
-                            $dia_laboral = intval($dias_habiles[$parametro_inicial->dayOfWeekIso]['reglaAsistencia']['WorkDay']);//Revisar urgente
-                            $dia_economico = $dia_economico + $dia_laboral;
-                        }
-                        if($dia_economico == 2)
-                        {
-                            break;
-                        }*/
-                        
                         # En caso de ser dia otorgado se pone las letras
-                        $resultado[$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
+                        $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
                     }    
                 }else
                 {   
                     # No hacemos nada en los dias no habiles
-                    $resultado[$parametro_inicial->month][$parametro_inicial->day] =  "";
+                    $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "";
                 }
                 ############## Hasta aqui
-                
                 #reseteamos contadores
                 $parametro_inicial->addDay();
                 $contador_horario--;
             }
         /*}*/
-        
-        
-        
-        
         return array("datos" => $resultado, "horario" => $jornada);
     }
 

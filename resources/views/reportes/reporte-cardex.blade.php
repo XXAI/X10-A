@@ -57,7 +57,6 @@
 
         @page {
             margin: 100px 35px 0px 50px;
-        
         }
 
         .encabezados
@@ -67,7 +66,8 @@
         }
 
         body{
-            margin: 10px 0px 140px 5px;
+            margin: 100px 0px 30px 5px;
+            /*border:1px solid #000;*/
         }
 
         header {
@@ -81,7 +81,7 @@
             
         }
 
-        .footer {
+        /*.footer {
             position: fixed; 
             bottom: 90px; 
             left: 0px; 
@@ -89,7 +89,7 @@
             height: 50px; 
 
          
-        }
+        }*/
     </style>
 </head>
 <?php
@@ -131,8 +131,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                 </tbody>
             </table>
         </div>
-    </header>  
-    <table width="100%"  cellspacing="0" class="fuente_datos">
+        <table width="100%"  cellspacing="0" class="fuente_datos">
         <tr>
             <td>NOMBRE</td><td> <b><?php echo $objeto['nombre'] ?></b></td>
             <td>DEPARTAMENTO</td><td><b><?php echo $objeto['cr_fisico'] ?></b></td>
@@ -153,52 +152,20 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
             <td>TIPO TRABAJADOR</td><td> <b><?php echo $catalogo_trabajador[$objeto['tipo_trabajador_id']]." 2019/2020" ?></b></td>
         </tr>
     </table> 
-    <br>       
-    <table width="100%" class='firmantes footer'>
-        <thead>
-            <tr>
-                <th>CLAVES</th>
-            </tr>    
-        </thead>
-        <tbody>
-            <tr>
-                <td>F: FALTAS</td>
-                <td>O: ONOMASTICO</td>
-                <td>P/E: PERMISO ECONÓMICO</td>
-            </tr>
-            <tr>
-                <td>P/S: LICENCIA S/GOSE DE SUELDO</td>
-                <td>V: VACACIONES</td>
-                <td>O/E: OMISIÓN ENTRADA</td>
-            </tr>
-            <tr>
-                <td>P/G: LICENCIA C/GOSE DE SUELDO</td>
-                <td>E: LICENCIA MÉDICA</td>
-                <td>O/S: OMISIÓN SALIDA</td>
-            </tr>
-            <tr>
-                <td>R/1:RETARDO MENOR</td>
-                <td>L/S: LICENCIA SINDICAL</td>
-                <td>S: SUSPENSIÓN</td>
-            </tr>
-            <tr>
-                <td>R/2:RETARDO MAYOR</td>
-                <td>C: COMISIÓN</td>
-                <td>P/H: PERMISO POR HORA</td>
-            </tr>
-            
-        </tbody>    
-    </table> 
-    <table width="100%"  class="fuente"><tr><td style='text-align:center'>OBSERVACIONES</td></tr></table>
+    </header>  
+    
+    
+    <!--<table width="100%"  class="fuente"><tr><td style='text-align:center'>OBSERVACIONES</td></tr></table>
     <br>
     <br>
-    <br>
+    <br>-->
     
     
     <table width="100%"  cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
-                <th  class='encabezados' width="120px">MES / ANIO</th>   
+                <th  class='encabezados' width="50px">AÑO</th>   
+                <th  class='encabezados' width="120px">MES</th>   
                 <th  class='encabezados'>1</th>   
                 <th  class='encabezados'>2</th>   
                 <th  class='encabezados'>3</th>   
@@ -235,24 +202,78 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
         </thead>
         <tbody class='datos'>
         <?php $numero = 0; ?>
-            @foreach ($objeto['asistencia'] as $index_asistencia => $asistencia )
-                <tr>
-                    <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_asistencia] }}</td>
-                    @for($i = 1; $i <= 31; $i++)
-                        @if(array_key_exists($i, $asistencia))
-                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $asistencia[$i] }}</td>
-                        @else    
-                            <td style='border: 1px solid #efefef'></td>
-                        @endif    
-                    @endfor
-                </tr>    
-                
+            @foreach ($objeto['asistencia'] as $index_anio => $anio )
+                @foreach ($anio as $index_mes => $mes )
+                    <tr>
+                        <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $index_anio }}</td>
+                        <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td>
+                        @for($i = 1; $i <= 31; $i++)
+                            @if(array_key_exists($i, $mes))
+                                <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $mes[$i] }}</td>
+                            @else    
+                                <td style='border: 1px solid #efefef'></td>
+                            @endif    
+                        @endfor
+                    </tr>    
+                @endforeach    
             @endforeach
             
         </tbody>
     </table>
-
-
+    <br>       
+    <table width="100%" class='firmantes'>
+        <thead>
+            <tr>
+                <th>CLAVES</th>
+            </tr>    
+        </thead>
+        <tbody>
+            <tr>
+                <td>F: FALTAS</td>
+                <td>O: ONOMASTICO</td>
+                <td>P/E: PERMISO ECONÓMICO</td>
+                <td>P/A: PAGO DE GUARDIA</td>
+            </tr>
+            <tr>
+                <td>P/S: LICENCIA S/GOSE DE SUELDO</td>
+                <td>V: VACACIONES</td>
+                <td>O/E: OMISIÓN ENTRADA</td>
+            </tr>
+            <tr>
+                <td>P/G: LICENCIA C/GOSE DE SUELDO</td>
+                <td>E: LICENCIA MÉDICA</td>
+                <td>O/S: OMISIÓN SALIDA</td>
+            </tr>
+            <tr>
+                <td>R/1:RETARDO MENOR</td>
+                <td>L/S: LICENCIA SINDICAL</td>
+                <td>S: SUSPENSIÓN</td>
+            </tr>
+            <tr>
+                <td>R/2:RETARDO MAYOR</td>
+                <td>C: COMISIÓN</td>
+                <td>P/H: PERMISO POR HORA</td>
+            </tr>
+            
+        </tbody>    
+    </table> 
+    <br>
+ <table width="100%"  class="fuente">
+    <tr><td style='text-align:center'>OBSERVACIONES</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+    <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
+ </table>
     
+
+ <script type="text/php">
+        $pdf->page_text(680, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
+</script>      
 </body>
 </html>
