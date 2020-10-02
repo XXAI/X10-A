@@ -138,8 +138,9 @@ function cargar_blade_checadas() {
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
-            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
-        // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-warning' style='color:blue' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato()'>Incidencia</a></i>";
+            icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
+            //icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
+        // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-warning' style='color:blue' data-toggle='modal' data-target='#modal_justificante'>Incidencia</a></i>";
         else
         if (value.sol == 0) {
             icono = "<i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
@@ -175,7 +176,7 @@ function cargar_blade_resumen() {
     //$("#jorini").text(datos_checadas_mes[0].jorini);
     $("#Ident").text(validacion.Badgenumber);
 
-    $
+    
     $("#Día_Económico").text(resumen_checadas.Día_Económico);
     $("#Falta").text(resumen_checadas.Falta);
     $("#Omisión_Entrada").text(resumen_checadas.Omisión_Entrada);
