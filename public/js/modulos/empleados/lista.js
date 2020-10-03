@@ -956,8 +956,8 @@ function save_justi_emp() {
             id_inci = data.id_inci;
             inserta_incidencia();
             //win = window.open( getJustifica(data.data.USERID), '_blank' );
-            win = window.open('../api/justificante/' + id_inci, '_blank');
-            console.log("datosss", data);
+            /*   win = window.open('../api/justificante/' + id_inci, '_blank');
+              console.log("datosss", data); */
 
 
 

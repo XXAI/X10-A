@@ -185,8 +185,7 @@ class EmpleadoController extends Controller
     public function update(Request $request, $USERID)
     {
         
-            $registro= Usuarios::findOrFail($USERID);
-            
+            $registro= Usuarios::findOrFail($USERID);            
             $registro->Name = $request->name;
             $registro->Gender = $request->sexo;
             $registro->TITLE = $request->rf;        
@@ -201,31 +200,50 @@ class EmpleadoController extends Controller
             $registro->save(); 
             if ($request->code!=''){
 
-                    $maxhora=UsuarioHorario::max('id');
-
-                    $modif_hora = UsuarioHorario::where('USERID','=',$USERID)->where('id','=', $maxhora)->first();
                     
-                    //->orderBy('id','DESC')->first();
-                    //$modif_hora = UsuarioHorario::where('USERID','=',$USERID)->latest('id')->first();
-                    //where('ENDDATE','=','2020-12-31 00:00:00.000')->first();
-                    $inifec = new Carbon($request->ini_fec);                    
-                    $modif_hora->ENDDATE=$inifec->subDay();
-                    $modif_hora->save();
 
-                    $user_hora = new UsuarioHorario;
-                    $user_hora->USERID=$USERID;
-                    $user_hora->NUM_OF_RUN_ID=$request->code;
-                    $user_hora->STARTDATE=$request->ini_fec;
-                    $user_hora->ENDDATE=$request->fin_fec;
-                    $user_hora->ISNOTOF_RUN=0;
-                    $user_hora->ORDER_RUN=0;
-                    $user_hora->save();
+                   $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');
+                  // dd($maxhora);
+                   //$modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();//->where('id','=', $maxhora)->first();
+                   /* $maxhora = DB::table("USER_OF_RUN")
+                   ->select('USERID','STARTDATE',DB::RAW('max(ENDDATE) as ENDDATE'))
+                   ->groupBy('USERID','STARTDATE')
+                   ->where('USERID','=',$USERID)
+                   ->first(); */
+                    $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();                  
+                    $inifec = new Carbon($request->ini_fec);
+                    
+                        if ($modif_hora->ENDDATE>=$inifec){
+                            $inifec->subDay();    
+                           // dd(substr($inifec, 0).".000"); 
+                            $modif_hora->ENDDATE=substr($inifec, 0).".000"; // devuelve "abcde");
+                            $modif_hora->save();
+                        }
+                      
+                       // 2020-11-29 00:00:00.0 UTC (+00:00)
+                        
+                       // dd( $modif_hora);
+                
+                
+                   $user_hora = new UsuarioHorario;
+                   $user_hora->USERID=$USERID;
+                   $user_hora->NUM_OF_RUN_ID=$request->code;
+                   $user_hora->STARTDATE=$request->ini_fec;
+                   $user_hora->ENDDATE=$request->fin_fec;
+                   $user_hora->ISNOTOF_RUN=0;
+                   $user_hora->ORDER_RUN=0;
+                   $user_hora->save();      
+                    
+
+                    $ss="Exitoo!! Los Datos se han Modificado  correctamente!!!";
+
+             
+               
+                    
             }
-            else{
-                $algo="vengo sin valor";
-            }
+           
           
-            return response()->json(['mensaje'=>'Modificado Correctamente  '. $inifec]); 
+            return response()->json(['mensaje'=>'$ss']); 
     }
 
     /**

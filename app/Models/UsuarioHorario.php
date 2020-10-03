@@ -16,7 +16,7 @@ class UsuarioHorario extends Model
     }
 
     public function nombre_horario(){
-        return $this->hasMany('App\Models\Horario', "NUM_RUNID",'NUM_OF_RUN_ID');
+        return $this->hasMany('App\Models\Horario', "NUM_RUNID",'NUM_OF_RUN_ID')->orderBy('STARTDATE','DESC');
 
     }
 
