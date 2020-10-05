@@ -184,7 +184,7 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $USERID)
     {
-        
+       
             $registro= Usuarios::findOrFail($USERID);            
             $registro->Name = $request->name;
             $registro->Gender = $request->sexo;
@@ -197,27 +197,36 @@ class EmpleadoController extends Controller
             $registro->FPHONE=$request->clues;
             $registro->DEFAULTDEPTID=$request->tipotra;            
             $registro->MINZU=$request->area;
+
+            
             $registro->save(); 
             if ($request->code!=''){
 
+               
+
+                    $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');    
+                          
+                    $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();    
+                        
+                //   
+                    
                     
 
-                   $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');
-                  // dd($maxhora);
-                   //$modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();//->where('id','=', $maxhora)->first();
-                   /* $maxhora = DB::table("USER_OF_RUN")
-                   ->select('USERID','STARTDATE',DB::RAW('max(ENDDATE) as ENDDATE'))
-                   ->groupBy('USERID','STARTDATE')
-                   ->where('USERID','=',$USERID)
-                   ->first(); */
-                    $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();                  
                     $inifec = new Carbon($request->ini_fec);
                     
                         if ($modif_hora->ENDDATE>=$inifec){
+                             //DB::enableQueryLog(); 
                             $inifec->subDay();    
                            // dd(substr($inifec, 0).".000"); 
-                            $modif_hora->ENDDATE=substr($inifec, 0).".000"; // devuelve "abcde");
-                            $modif_hora->save();
+                            $modif_hora->ENDDATE=substr($inifec, 0).".000"; 
+
+                            DB::table('USER_OF_RUN')                            
+                            ->where('USERID','=',$USERID)
+                            ->where('ENDDATE','=',$maxhora)
+                            ->update(['ENDDATE' => substr($inifec, 0).".000" ]);
+
+                           // dd(DB::getQueryLog()); 
+                            
                         }
                       
                        // 2020-11-29 00:00:00.0 UTC (+00:00)
@@ -243,7 +252,7 @@ class EmpleadoController extends Controller
             }
            
           
-            return response()->json(['mensaje'=>'$ss']); 
+            return response()->json(['mensaje'=>$ss]); 
     }
 
     /**
