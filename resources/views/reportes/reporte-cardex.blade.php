@@ -90,6 +90,11 @@
 
          
         }*/
+        .contenido
+        {
+            height:410px;
+        }
+        .page_break { page-break-before: always; }
     </style>
 </head>
 <?php
@@ -160,68 +165,68 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
     <br>
     <br>-->
     
-    
-    <table width="100%"  cellspacing="0" class="fuente">
-        <thead class='cabecera'>
-            <tr>
-                <th  class='encabezados' width="50px">AÑO</th>   
-                <th  class='encabezados' width="120px">MES</th>   
-                <th  class='encabezados'>1</th>   
-                <th  class='encabezados'>2</th>   
-                <th  class='encabezados'>3</th>   
-                <th  class='encabezados'>4</th>   
-                <th  class='encabezados'>5</th>   
-                <th  class='encabezados'>6</th>   
-                <th  class='encabezados'>7</th>   
-                <th  class='encabezados'>8</th>   
-                <th  class='encabezados'>9</th>   
-                <th  class='encabezados'>10</th>   
-                <th  class='encabezados'>11</th>   
-                <th  class='encabezados'>12</th>   
-                <th  class='encabezados'>13</th>   
-                <th  class='encabezados'>14</th>   
-                <th  class='encabezados'>15</th>   
-                <th  class='encabezados'>16</th>   
-                <th  class='encabezados'>17</th>   
-                <th  class='encabezados'>18</th>   
-                <th  class='encabezados'>19</th>   
-                <th  class='encabezados'>20</th>   
-                <th  class='encabezados'>21</th>   
-                <th  class='encabezados'>22</th>   
-                <th  class='encabezados'>23</th>   
-                <th  class='encabezados'>24</th>   
-                <th  class='encabezados'>25</th>   
-                <th  class='encabezados'>26</th>   
-                <th  class='encabezados'>27</th>   
-                <th  class='encabezados'>28</th>   
-                <th  class='encabezados'>29</th>   
-                <th  class='encabezados'>30</th>   
-                <th  class='encabezados'>31</th>   
-            </tr>  
-             
-        </thead>
-        <tbody class='datos'>
-        <?php $numero = 0; ?>
-            @foreach ($objeto['asistencia'] as $index_anio => $anio )
-                @foreach ($anio as $index_mes => $mes )
-                    <tr>
-                        <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $index_anio }}</td>
-                        <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td>
-                        @for($i = 1; $i <= 31; $i++)
-                            @if(array_key_exists($i, $mes))
-                                <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $mes[$i] }}</td>
-                            @else    
-                                <td style='border: 1px solid #efefef'></td>
-                            @endif    
-                        @endfor
-                    </tr>    
-                @endforeach    
-            @endforeach
-            
-        </tbody>
-    </table>
-    <br>       
-    <table width="100%" class='firmantes'>
+    <div class="contenido">
+        <table width="100%"  cellspacing="0" class="fuente" style='margin-top:10px'>
+            <thead class='cabecera'>
+                <tr>
+                    <th  class='encabezados' width="50px">AÑO</th>   
+                    <th  class='encabezados' width="120px">MES</th>   
+                    <th  class='encabezados'>1</th>   
+                    <th  class='encabezados'>2</th>   
+                    <th  class='encabezados'>3</th>   
+                    <th  class='encabezados'>4</th>   
+                    <th  class='encabezados'>5</th>   
+                    <th  class='encabezados'>6</th>   
+                    <th  class='encabezados'>7</th>   
+                    <th  class='encabezados'>8</th>   
+                    <th  class='encabezados'>9</th>   
+                    <th  class='encabezados'>10</th>   
+                    <th  class='encabezados'>11</th>   
+                    <th  class='encabezados'>12</th>   
+                    <th  class='encabezados'>13</th>   
+                    <th  class='encabezados'>14</th>   
+                    <th  class='encabezados'>15</th>   
+                    <th  class='encabezados'>16</th>   
+                    <th  class='encabezados'>17</th>   
+                    <th  class='encabezados'>18</th>   
+                    <th  class='encabezados'>19</th>   
+                    <th  class='encabezados'>20</th>   
+                    <th  class='encabezados'>21</th>   
+                    <th  class='encabezados'>22</th>   
+                    <th  class='encabezados'>23</th>   
+                    <th  class='encabezados'>24</th>   
+                    <th  class='encabezados'>25</th>   
+                    <th  class='encabezados'>26</th>   
+                    <th  class='encabezados'>27</th>   
+                    <th  class='encabezados'>28</th>   
+                    <th  class='encabezados'>29</th>   
+                    <th  class='encabezados'>30</th>   
+                    <th  class='encabezados'>31</th>   
+                </tr>  
+                
+            </thead>
+            <tbody class='datos'>
+            <?php $numero = 0; ?>
+                @foreach ($objeto['asistencia'] as $index_anio => $anio )
+                    @foreach ($anio as $index_mes => $mes )
+                        <tr>
+                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $index_anio }}</td>
+                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td>
+                            @for($i = 1; $i <= 31; $i++)
+                                @if(array_key_exists($i, $mes))
+                                    <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $mes[$i] }}</td>
+                                @else    
+                                    <td style='border: 1px solid #efefef; text-align:center'>-</td>
+                                @endif    
+                            @endfor
+                        </tr>    
+                    @endforeach    
+                @endforeach
+                
+            </tbody>
+        </table>
+    </div>         
+    <table width="100%" class='firmantes' style='margin-top:7px'>
         <thead>
             <tr>
                 <th>CLAVES</th>
@@ -257,7 +262,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
             
         </tbody>    
     </table> 
-    <br>
+    <div class="page_break"></div>
  <table width="100%"  class="fuente">
     <tr><td style='text-align:center'>OBSERVACIONES</td></tr>
     <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
@@ -272,8 +277,8 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
  </table>
     
 
- <script type="text/php">
+ <!--<script type="text/php">
         $pdf->page_text(680, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
-</script>      
+</script>-->      
 </body>
 </html>

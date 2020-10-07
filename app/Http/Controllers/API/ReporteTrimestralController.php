@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;;
+use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;
 
 use App\Models\Usuarios;
 use App\Models\ReglasHorarios;
@@ -29,6 +29,7 @@ class ReporteTrimestralController extends Controller
     {
 
         $asistencia = $this->claseAsistencia($request);
+        //return $asistencia;
         $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
@@ -99,6 +100,7 @@ class ReporteTrimestralController extends Controller
                 $arreglo_festivos = $this->festivos($festivos);
             }
 
+            
             //Obtenemos salidas autorizadas
             $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
             $arreglo_salidas = array();
@@ -107,6 +109,7 @@ class ReporteTrimestralController extends Controller
                 $arreglo_salidas = $this->salidas($salidas);
             }
 
+            
             //return array("datos" => $trimestre);
 
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -134,7 +137,7 @@ class ReporteTrimestralController extends Controller
             //->limit(200)
             ->orderBy("carType", "DESC")
             ->get();
-            //return array("datos" => $empleados);
+            
 
             foreach ($empleados as $index_empleado => $data_empleado) {
                 $empleado_seleccionado = $empleados[$index_empleado];
