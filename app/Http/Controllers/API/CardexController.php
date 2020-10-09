@@ -189,7 +189,7 @@ class CardexController extends Controller
                 if($contador_horario == 0 && $diferencia_dias_sin_horario == 0)
                 {
                     $horario_evaluar = $this->validar_horario($horarios_periodo, $indice_horario_seleccionado, $parametro_inicial, $bandera );
-
+                    //return $horario_evaluar;
                     if($horario_evaluar['dias_sin_horario'] > 0)
                     {
                         $diferencia_dias_sin_horario = $horario_evaluar['dias_sin_horario'];
@@ -200,11 +200,11 @@ class CardexController extends Controller
                         $indice_horario_seleccionado = $horario_evaluar['indice'];
                         $jornada = $horario_evaluar['horario'];
                         $bandera++;
+                        
                     }  
                 }
+               
                 
-                
-                //return $contador_horario;
                 if($diferencia_dias_sin_horario == 0)
                 {
                     
@@ -377,9 +377,11 @@ class CardexController extends Controller
             //$diferencia_dias = $fecha_validacion->diffInDays($fecha_fin_periodo);
             //return ($fecha_validacion->equalTo($fecha_inicio_periodo));
             $horario = "";
-            if($fecha_validacion->equalTo($fecha_inicio_periodo))
+            //return $fecha_validacion." - ".$fecha_inicio_periodo." = ".$diferencia_dias_sin_horario." - ".$fecha_fin_periodo;
+            if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion))
             {
                 //$indice++;
+
                 $fecha_inicio_periodo =  new Carbon($horarios[$indice_pivote]->STARTDATE);
                 $fecha_fin_periodo =  new Carbon(substr($horarios[$indice_pivote]->ENDDATE, 0,10)."T23:59:59");
                 $dias_habiles = $this->dias_horario($horarios[$indice_pivote]->detalleHorario);
@@ -390,6 +392,7 @@ class CardexController extends Controller
             }else{
                 
                 $diferencia_dias_sin_horario = $fecha_validacion->diffInDays($fecha_inicio_periodo);
+                //return $fecha_validacion." - ".$fecha_inicio_periodo." = ".$diferencia_dias_sin_horario;
             }
             
             
