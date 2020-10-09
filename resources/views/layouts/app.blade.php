@@ -53,14 +53,6 @@
                 <script src="libs/theme/js/sb-admin-2.min.js"></script> 
                 <script src="libs/moment/moment.min.js"></script> 
                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-            
-                
-                
-                
-
-                <!--<script src="libs/theme/js/demo/chart-area-demo.js"></script> 
-                <script src="libs/theme/js/demo/chart-bar-demo.js"></script> 
-                <script src="libs/theme/js/demo/chart-pie-demo.js"></script> --> 
                 
                 
                 

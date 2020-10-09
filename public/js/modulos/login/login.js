@@ -12,8 +12,6 @@ function ingresar()
   }).fail(function( jqXHR, textStatus, errorThrown ) {
         if ( console && console.log ) {
             console.log(jqXHR);
-           //alert( "Error en la carga de Datos, acuda a Sistematización y Credencialización: " + " " +  textStatus);
-           //window.location.replace("./login");
         }
   });
 }
