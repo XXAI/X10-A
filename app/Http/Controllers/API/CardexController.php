@@ -21,7 +21,7 @@ class CardexController extends Controller
         $parametros = Input::all();
         
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
-                                ->whereNull("USERINFO.state")
+                                //->whereNull("USERINFO.state")
                                 ->whereIn("USERINFO.FPHONE", ['CSSSA017213','CSSSA017324'])
                                 ->Where(function($query2)use($parametros){
                                     $query2->where('Name','LIKE','%'.$parametros['filtro'].'%')
@@ -39,7 +39,7 @@ class CardexController extends Controller
         $datos = $this->claseAsistencia($parametros['empleado']);
         //return response()->json(["usuarios" => $datos]);
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
-                                ->whereNull("USERINFO.state")
+                                //->whereNull("USERINFO.state")
                                 ->whereIn("USERINFO.FPHONE", ['CSSSA017213','CSSSA017324'])
                                 ->Where('Badgenumber', $parametros['empleado'])
                                 ->first();

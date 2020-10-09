@@ -151,7 +151,7 @@ switch($empleados['trimestre'])
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
                             VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
-                            QNA. DE CAPTURA: 20/21<br>
+                            QNA. DE CAPTURA: 21/20<br>
                             <br>
                             ESTIMULO TRIMESTRAL  
                             </div>
