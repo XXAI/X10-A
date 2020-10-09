@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;
+use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;    
 
 use App\Models\Usuarios;
 use App\Models\ReglasHorarios;
