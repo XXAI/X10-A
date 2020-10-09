@@ -139,19 +139,19 @@ switch($empleados['trimestre'])
                             @switch($empleados['tipo_trabajador']['DEPTID'])
                                 @case(6)
                                 @case(11)
-                                    GOV0015
+                                    GOV0021
                                 @break
                                 @case(13)
                                     CAR0011
                                 @break
                                 @case(12)
-                                    PEV0075
+                                    PEV0105
                                 @break
                             @endswitch
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
                             VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
-                            QNA. DE CAPTURA: 15/20<br>
+                            QNA. DE CAPTURA: 20/21<br>
                             <br>
                             ESTIMULO TRIMESTRAL  
                             </div>
@@ -193,6 +193,31 @@ switch($empleados['trimestre'])
             </td>
         </tr>
     </table>   
+        <?php 
+            $numero = 0;
+            $relleno = "1100000";
+            switch ($empleados['tipo_trabajador']['DEPTID']) {
+                case 6:
+                    $numero = 273;
+                    $relleno = "1100000";
+                break;
+                case 11:
+                    $numero = 259;
+                    $relleno = "1100000";
+                break;
+                case 13:
+                    $numero = 0;
+                    $relleno = "1100000";
+                break;
+                case 12:
+                    $numero = 352;
+                    $relleno = "3300000";
+                break;
+                
+            }
+        ?>
+            
+        
     <table width="100%"  cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
@@ -208,10 +233,10 @@ switch($empleados['trimestre'])
             </tr>   
         </thead>
         <tbody class='datos'>
-        <?php $numero = 0; ?>
+        
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
                 <tr>
-                    <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                    <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
                     <td class='linea'>{{ $empleado->TITLE}} </td>
                     <td class='linea'>{{ $empleado->PAGER}} </td>
                     <td class='linea'> {{ $empleado->carType}}</td>
