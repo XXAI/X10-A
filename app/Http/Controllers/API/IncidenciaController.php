@@ -56,7 +56,7 @@ class IncidenciaController extends Controller
             $registro->observaciones = $request->observaciones;
             $registro->autoriza = $request->autorizo;            
             $registro->idvalida=0;
-           // $registro->save();
+            $registro->save();
 
            /* 
             $speday = new DiasJustifica;
