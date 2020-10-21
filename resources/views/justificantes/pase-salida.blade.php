@@ -177,7 +177,7 @@ $incidencia = $pase['tipos_incidencia'];
 			<p class="parrafo">EN ATENCIÓN A LA SOLICITUD DE (EL) (LA) C. <strong><?php echo $empleado['Name'] ?></strong>Y DE CONFORMIDAD<br>
                 CON LO DISPUESTO POR EL ARTÍCULO 96 DE LAS CONDICIONES GENERALES DE TRABAJO
                 DE LA SECRETARÍA DE SALUD, SE LE AUTORIZA LA SALIDA DE LAS
-                <strong>{{ Carbon\Carbon::parse($pase['fecha_ini'])->format('h:m A') }}</strong>&nbsp;A LAS&nbsp;<strong>{{ Carbon\Carbon::parse($pase['fecha_fin'])->format('h:m A') }}</strong>.
+                <strong>{{ Carbon\Carbon::parse($pase['fecha_ini'])->toTimeString() }}</strong>&nbsp;A LAS&nbsp;<strong>{{ Carbon\Carbon::parse($pase['fecha_fin'])->toTimeString() }}</strong>.
 			</p>
 		</tr>
 
@@ -262,7 +262,7 @@ $incidencia = $pase['tipos_incidencia'];
 			<p class="parrafo">EN ATENCIÓN A LA SOLICITUD DE (EL) (LA) C. <strong><?php echo $empleado['Name'] ?></strong>Y DE CONFORMIDAD<br>
                 CON LO DISPUESTO POR EL ARTÍCULO 96 DE LAS CONDICIONES GENERALES DE TRABAJO
                 DE LA SECRETARÍA DE SALUD, SE LE AUTORIZA LA SALIDA DE LAS
-                <strong>{{ Carbon\Carbon::parse($pase['fecha_ini'])->format('h:m A') }}</strong>&nbsp;A LAS&nbsp;<strong>{{ Carbon\Carbon::parse($pase['fecha_fin'])->format('h:m A') }}</strong>.
+                <strong>{{ Carbon\Carbon::parse($pase['fecha_ini'])->toTimeString() }}</strong>&nbsp;A LAS&nbsp;<strong>{{ Carbon\Carbon::parse($pase['fecha_fin'])->toTimeString() }}</strong>.
 			</p>
 		</tr>
 

@@ -52,7 +52,7 @@ class DiasJustificaController extends Controller
                 $registro->DATE = now();
                 $registro->captura_id=$request->idcap;
                 $registro->incidencia_id = $request->id_inci;
-                $registro->save();
+             //   $registro->save();
 
                 return response()->json(['data'=>$registro, 'mensaje'=>'Registrado Correctamente']);
             } 

@@ -248,6 +248,7 @@ function cargar_datos_empleado(datos) {
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
             diaslab = (value.horarios[0].detalle_horario);
+           
 
             var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
@@ -852,6 +853,7 @@ function validando_incidencia() {
 }
 
 function inserta_incidencia() {
+   
 
     var x = 0;
     var dia_eva;
@@ -861,6 +863,8 @@ function inserta_incidencia() {
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
         for (var j = 0; j < diaslab.length; j++) {
+
+            console.log("DIA ENTRADA: "+diaslab[j].SDAYS+ "     DIA SALIDA: "+diaslab[j].EDAYS);
             if (moment(fini).day() == 0)
                 dia_eva = 7;
             else
@@ -956,8 +960,8 @@ function save_justi_emp() {
             id_inci = data.id_inci;
             inserta_incidencia();
             //win = window.open( getJustifica(data.data.USERID), '_blank' );
-            /*   win = window.open('../api/justificante/' + id_inci, '_blank');
-              console.log("datosss", data); */
+         //      win = window.open('../api/justificante/' + id_inci, '_blank');
+           //   console.log("datosss", data); 
 
 
 

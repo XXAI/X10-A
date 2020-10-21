@@ -139,7 +139,7 @@ function cargar_blade_checadas() {
         icono = "<i class='fa fa-check' style='color:green'></i>";
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
-            //icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
+           // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#modal_justificante' onclick='cargar_formato(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:yellow' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'></i></a></i>";
         // icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-warning' style='color:blue' data-toggle='modal' data-target='#modal_justificante'>Incidencia</a></i>";
         else
         if (value.sol == 0) {
@@ -158,7 +158,8 @@ function cargar_blade_checadas() {
             icono2 = " ";
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td></tr>");
+        //<td>" + icono2 + "</td>
 
     })
 
