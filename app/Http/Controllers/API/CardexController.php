@@ -172,7 +172,6 @@ class CardexController extends Controller
             $checadas_empleado  = $this->checadas_empleado($empleados->checadas);
             $omisiones          = $this->omisiones($empleados->omisiones);
             $dias_otorgados     = $this->dias_otorgados($empleados->dias_otorgados);
-            
             #Empieza lo bueno, revision de checadas
             #por default ponemos los dias del pimer periodo, ya que sale de la consulta, pero validamos
             
@@ -459,18 +458,18 @@ class CardexController extends Controller
         $bandera = 0;
         $licencia_medica = 0;
         foreach ($arreglo as $key => $value) {
-            if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
-            if($value->DATEID == 8){ $licencia_medica++; }
-
+            /*if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
+            if($value->DATEID == 8){ $licencia_medica++;  }
+*/
             $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
         }
-        if($bandera == 1 || $licencia_medica >= 10)
+        /*if($bandera == 1 || $licencia_medica >= 10)
         {
             return -1;
         }else
-        {
+        {*/
             return $arreglo_dias;
-        }
+        //}
         
     }
 
