@@ -88,7 +88,7 @@ class CardexController extends Controller
 
         }else{ /* Con este procedimiento obtenemos el ultimo dia y mes completo para el calculo de la fecha final */
             $fecha_limite_fin->subMonth();
-            $fecha_limite_inicio->subMonth();
+            $fecha_limite_inicio->subMonth(2);
             
             $dias_mes = $fecha_limite_fin->daysInMonth;
             
