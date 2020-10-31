@@ -61,7 +61,7 @@ class CardexController extends Controller
         $arreglo_reglas = array();
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
-        $fecha_limite_fin = Carbon::now();
+        $fecha_limite_fin = Carbon::now()->subDays(15);
         $fecha_limite_inicio = Carbon::now();
         $anio_reporte = $fecha_limite_fin->year;
         /* Calculamos el periodo que nos dijeron en sistematizacion, pero yo lo calculare hacia un año atras, haber como nos va*/
