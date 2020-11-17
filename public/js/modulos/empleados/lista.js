@@ -220,7 +220,7 @@ function cargar_horarios_empleado(horarios) {
 
     $.each(horarios, function(key, value) {
 
-        // console.log(value);
+        //console.log(value);
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.nombre_horario[0].NAME + "</td>");
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
@@ -241,7 +241,7 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-
+        //console.log(value.horarios);
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
