@@ -92,7 +92,7 @@ function cargar_horarios() {
     $("#horario").easyAutocomplete(options);
 
 }
-
+  
 
 function cargar_incidencias() {
 
@@ -562,12 +562,12 @@ function cargar_blade_checadas() {
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
         else {
-            if (value.sol == 0) {
+           /*  if (value.sol == 0) {
                 icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
-            } else {
+             } else { */
                 icono = "<i class='fa fa-check' style='color:green'></i>";
             }
-        }
+        //}
         if (value.checado_salida == value.checado_salida_fuera)
             xs = value.checado_salida;
         else
