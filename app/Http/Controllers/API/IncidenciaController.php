@@ -58,7 +58,7 @@ class IncidenciaController extends Controller
             $registro->idvalida=0;
             $registro->save();
 
-           /* 
+           
             $speday = new DiasJustifica;
             $speday->USERID = $request->id;
             $speday->STARTSPECDAY = $request->fini;
@@ -68,7 +68,7 @@ class IncidenciaController extends Controller
             $speday->DATE = now();
             $speday->captura_id=0;
             $speday->incidencia_id = $registro->id;
-            $speday->save(); */
+            $speday->save(); 
                    
             return response()->json(['data'=>$registro, 'id_inci'=>$registro->id]);
         } 

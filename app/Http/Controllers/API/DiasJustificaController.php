@@ -54,7 +54,7 @@ class DiasJustificaController extends Controller
                 $registro->incidencia_id = $request->id_inci;
                 $registro->save();
 
-                return response()->json(['data'=>$registro, 'mensaje'=>'Registrado Correctamente']);
+                return response()->json(['data'=>$registro, 'mensaje'=>'Registrado Correctamentehjhjjh']);
             } 
         catch (\Exception $e) {
             
