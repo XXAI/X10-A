@@ -457,6 +457,9 @@ class reporteController extends Controller
                                     case 31:
                                         $impr="Contingencia COVID19".$memo;                                    
                                         break;
+                                    case 32:
+                                        $impr="Vacaciones 2020 Invierno";                                   
+                                        break;
                                     default:
                                         $impr="";
                                         break;
