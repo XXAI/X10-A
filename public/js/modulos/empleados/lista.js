@@ -225,12 +225,18 @@ function cargar_horarios_empleado(horarios) {
         var campo1 = $("<td>" + value.nombre_horario[0].NAME + "</td>");
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
-
+        //]
+        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\")'></a> <i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
-        linea.append(campo1, campo2, campo3); //,campo6);
+        linea.append(campo1, campo2, campo3,campo4); //,campo6);
         table.append(linea);
 
     });
+
+}
+function modifica_horario(idho){
+
+    console.log(idho);
 
 }
 
