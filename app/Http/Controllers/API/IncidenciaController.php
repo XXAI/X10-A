@@ -68,7 +68,7 @@ class IncidenciaController extends Controller
             $speday->DATE = now();
             $speday->captura_id=0;
             $speday->incidencia_id = $registro->id;
-            $speday->save(); 
+           // $speday->save(); 
                    
             return response()->json(['data'=>$registro, 'id_inci'=>$registro->id]);
         } 

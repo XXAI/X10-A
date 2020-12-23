@@ -90,7 +90,7 @@
                   <label for="horario" class="col-sm-3 col-form-label">Horario</label>
                   <!-- <input id="horario">    --> 
                   <input id="horario" type="text" style="outline: none;">
-                  <input type="hidden" id="code" name="code" required>  
+                  <input type="text" id="code" name="code" required>  
                      
                </div>
             </div> 

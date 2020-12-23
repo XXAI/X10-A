@@ -69,6 +69,7 @@ function cargar_horarios() {
             onSelectItemEvent: function() {
                 var selectedItemValue = $("#horario").getSelectedItemData().NUM_RUNID;
                 $("#code").val(selectedItemValue).trigger("change");
+                
             }
         },
         ajaxSettings: {
@@ -226,17 +227,28 @@ function cargar_horarios_empleado(horarios) {
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
         //]
-        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\")'></a> <i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
+        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\",\"" + value.STARTDATE+ "\",\"" + value.ENDDATE+ "\",\"" + value.nombre_horario[0].NAME+ "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
-        linea.append(campo1, campo2, campo3,campo4); //,campo6);
+       
+        linea.append(campo1, campo2, campo3,campo4);
         table.append(linea);
 
     });
 
 }
-function modifica_horario(idho){
+function modifica_horario(idho,inifec,finfec,idh){
 
-    console.log(idho);
+    
+    ini_fec = moment(inifec).format('YYYY-MM-DD');
+    fec_fin = moment(finfec).format('YYYY-MM-DD');
+    $("#ini_fec").val(ini_fec);
+    $("#fin_fec").val(fec_fin);
+    $("#horario").val(idh);
+    cargar_horarios();
+    
+
+    //ini_fec = ini_fec.substr(0, 10) + " 00:00:00.00";
+ //   fin_fec = moment(fin_fec).format();
 
 }
 
@@ -247,7 +259,7 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-        //console.log(value.horarios);
+      //  console.log(value.horarios);
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
@@ -256,7 +268,7 @@ function cargar_datos_empleado(datos) {
             diaslab = (value.horarios[0].detalle_horario);
            
 
-            var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
+            var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + value.horarios.length + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='probamos(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
             var campo4 = $("<td>Sin Horario</>");
 
@@ -294,7 +306,7 @@ function sacadias() {
 
 }
 
-function incidencia(id, iduser, nombre, rfc, jini, jfin) {
+function incidencia(id, iduser, nombre, rfc, jini, jfin,diaslab) {
 
     obten_fecnac(rfc);
     sacadias();
@@ -315,6 +327,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin) {
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
+    console.log(diaslab);
 
 
 }
@@ -868,6 +881,7 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+       // console.log("hola: "+diaslab.length);
         for (var j = 0; j < diaslab.length; j++) {
 
             console.log("DIA ENTRADA: "+diaslab[j].SDAYS+ "     DIA SALIDA: "+diaslab[j].EDAYS);
