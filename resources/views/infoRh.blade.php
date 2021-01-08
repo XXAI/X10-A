@@ -213,6 +213,14 @@
 						<td id="Vacaciones_2019_Primavera_Verano"></td>
 					</tr>
 					<tr>
+						<td colspan="3">Vacaciones 2020 Invierno</td>
+						<td id="Vacaciones_2020_Invierno"></td>
+					</tr>
+					<tr>
+						<td colspan="3">Vacaciones 2020 Primavera-Verano</td>
+						<td id="Vacaciones_2020_Primavera_Verano"></td>
+					</tr>
+					<tr>
 						<td colspan="3">Vacaciones Extra Ordinarias</td>
 						<td id="Vacaciones_Extra_Ordinarias"></td>
 					</tr>

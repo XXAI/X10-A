@@ -190,6 +190,8 @@ function cargar_blade_resumen() {
     $("#Vacaciones_2018_Primavera_Verano").text(resumen_checadas.Vacaciones_2018_Primavera_Verano);
     $("#Vacaciones_2019_Invierno").text(resumen_checadas.Vacaciones_2019_Invierno);
     $("#Vacaciones_2019_Primavera_Verano").text(resumen_checadas.Vacaciones_2019_Primavera_Verano);
+    $("#Vacaciones_2020_Invierno").text(resumen_checadas.Vacaciones_2020_Invierno);
+    $("#Vacaciones_2020_Primavera_Verano").text(resumen_checadas.Vacaciones_2020_Primavera_Verano);
     $("#Vacaciones_Extra_Ordinarias").text(resumen_checadas.Vacaciones_Extra_Ordinarias);
     $("#Vacaciones_Mediano_Riesgo").text(resumen_checadas.Vacaciones_Mediano_Riesgo);
 
