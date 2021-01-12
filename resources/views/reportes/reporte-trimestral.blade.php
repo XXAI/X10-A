@@ -139,7 +139,7 @@ switch($empleados['trimestre'])
                             @switch($empleados['tipo_trabajador']['DEPTID'])
                                 @case(6)
                                 @case(11)
-                                    GOV0021
+                                    GOV0004
                                 @break
                                 @case(13)
                                     CAR0011
@@ -151,7 +151,7 @@ switch($empleados['trimestre'])
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
                             VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
-                            QNA. DE CAPTURA: 21/20<br>
+                            QNA. DE CAPTURA: 04/21<br>
                             <br>
                             ESTIMULO TRIMESTRAL  
                             </div>
@@ -173,7 +173,7 @@ switch($empleados['trimestre'])
             <td class="centrado tamano">
             JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
             <br><br><br>
-            ING. JAVIER MORALES SOLÍS
+            ING. GABRIEL DE LA GUARDIA NAGANO
             <HR>
             NOMBRE Y FIRMA
             </td>

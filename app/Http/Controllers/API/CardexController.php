@@ -62,6 +62,7 @@ class CardexController extends Controller
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
         $fecha_limite_fin = Carbon::now()->subDays(90);
+    
         //echo $fecha_limite_fin;
         //echo "holA MUNDO";
         $fecha_limite_inicio = Carbon::now()->subDays(60);//->addDays(30);
