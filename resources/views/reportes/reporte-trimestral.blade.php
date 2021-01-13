@@ -198,11 +198,11 @@ switch($empleados['trimestre'])
             $relleno = "1100000";
             switch ($empleados['tipo_trabajador']['DEPTID']) {
                 case 6:
-                    $numero = 273;
+                    $numero = 0;
                     $relleno = "1100000";
                 break;
                 case 11:
-                    $numero = 259;
+                    $numero = 269;
                     $relleno = "1100000";
                 break;
                 case 13:
