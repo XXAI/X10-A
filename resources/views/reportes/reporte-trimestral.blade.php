@@ -145,7 +145,7 @@ switch($empleados['trimestre'])
                                     CAR0004
                                 @break
                                 @case(12)
-                                    PEV0105
+                                    PEV0014
                                 @break
                             @endswitch
                             <br>
@@ -210,7 +210,7 @@ switch($empleados['trimestre'])
                     $relleno = "1100000";
                 break;
                 case 12:
-                    $numero = 352;
+                    $numero = 27;
                     $relleno = "3300000";
                 break;
                 
