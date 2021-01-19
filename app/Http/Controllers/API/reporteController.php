@@ -70,6 +70,7 @@ class reporteController extends Controller
              ->with("horarios.detalleHorario")
             ->where("userinfo.TITLE", "=",  $desc) */
             ->first();
+           // return $validacion;
 
                 $checa_dias = DB::table("user_speday")
                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")

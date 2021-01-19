@@ -512,7 +512,7 @@ function cargar_datos_checadas(urlchecadas) {
 
         datos_checadas_mes = data.data;
         resumen_checadas = data.resumen[0];
-        //console.log(resumen_checadas.Pase_Salida);
+        //console.log(datos_checadas_mes);
         validacion = data.validacion;
 
         if (validacion != null) {
@@ -979,6 +979,7 @@ function save_justi_emp() {
 
             id_inci = data.id_inci;
             inserta_incidencia();
+           
             //win = window.open( getJustifica(data.data.USERID), '_blank' );
          //      win = window.open('../api/justificante/' + id_inci, '_blank');
            //   console.log("datosss", data); 
@@ -1016,6 +1017,8 @@ function guardar_incidencia() {
         } else {
             if (val_in == 0) {
                 save_justi_emp();
+                $("#agregar_incidencia").modal('hide');
+                document.getElementById('filtro_check').click();
 
 
             } else {
