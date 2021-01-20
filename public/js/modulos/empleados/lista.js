@@ -2,7 +2,7 @@ var urlchecadas = "./api/consulta-asistencia";
 var dato;
 var date = new Date();
 var resumen_checadas;
-var diaslab;
+var diaslab,mike;
 var diaeco;
 var onomastico;
 var pasesal;
@@ -259,14 +259,16 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-      //  console.log(value.horarios);
+       // console.log(value.horarios);
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
             diaslab = (value.horarios[0].detalle_horario);
-            console.log(diaslab);
+            
+           // diaslab = (value.horarios);
+        // console.log(diaslab[mike]);
 
             var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
@@ -306,8 +308,22 @@ function sacadias() {
 
 }
 
+function obtenerDiasLab(idho){
+    jQuery.ajax({
+        data: { 'buscar': dato },
+        type: "GET",
+        dataType: "json",
+        url: './api/empleado',
+    }).done(function(data, textStatus, jqXHR) {
+        cargar_datos_empleado(data.usuarios.data);
+
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    });
+}
+
 function incidencia(id, iduser, nombre, rfc, jini, jfin,diaslab) {
-    console.log(diaslab)
+    console.log(diaslab);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
