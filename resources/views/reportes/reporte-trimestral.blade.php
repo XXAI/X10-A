@@ -8,7 +8,7 @@
     <style>
         .cabecera
         {
-            font-size: 10pt;
+            font-size: 12pt;
             background-color:#CFCFCF;
             border: 0px;
             
@@ -20,12 +20,12 @@
         }
         .datos
         {
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .firmantes
         {
-            font-size: 9pt;
+            font-size: 11pt;
             font-family: Helvetica;
         }
 
@@ -210,7 +210,7 @@ switch($empleados['trimestre'])
                     $relleno = "1100000";
                 break;
                 case 12:
-                    $numero = 27;
+                    $numero = 146;
                     $relleno = "3300000";
                 break;
                 

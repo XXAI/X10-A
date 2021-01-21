@@ -104,7 +104,7 @@
                <div class="form-group">
                   <label for="fin" class="col-sm-3 col-form-label">Hasta </label>
                   <input type="date" value="2020-12-31"class="form-control" id="fin_fec" name="fin_fec">
-                  <button type="button" id="btn-mod-hora">Modifica Horario</button>
+                  <button type="button" onclick="save_horario()" id="btn-mod-hora">Modifica Horario</button>
                </div>
             </div>
             <div class="col-md-3">

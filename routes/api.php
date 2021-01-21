@@ -49,11 +49,14 @@ use Illuminate\Http\Request;
     Route::get('/cardex','API\CardexController@index');
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */
+
+
     Route::post('/guarda-justificante','API\DiasJustificaController@store');
     Route::post('/guarda-just-emp','API\IncidenciaController@store');
     Route::post('/guarda-entrasal','API\EntraSalidaController@store');
     Route::post('/guarda-empleado','API\EmpleadoController@store');
     Route::get('/edita-empleado/{id}', 'API\EmpleadoController@update');
+    Route::get('/hora-empleado/{id}', 'API\EmpleadoController@modifica_horario_empleado');
     Route::post('/guarda-configuracion-trimestral','API\ConfiguracionTrimestralController@store');
     Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
     Route::delete('/deleteinci-emp/{id}', 'API\IncidenciaController@destroy');

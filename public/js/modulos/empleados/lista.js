@@ -14,7 +14,7 @@ var id_x;
 var rfc_x;
 var id_inci;
 var msj, ban_url;
-var mes_nac, idempleado;
+var mes_nac, idempleado,idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
@@ -222,13 +222,13 @@ function cargar_horarios_empleado(horarios) {
 
     $.each(horarios, function(key, value) {
 
-        //console.log(value);
+        console.log(value);
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.nombre_horario[0].NAME + "</td>");
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
         //]
-        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
+        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.NUM_OF_RUN_ID + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\", \"" + value.id + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
 
         linea.append(campo1, campo2, campo3, campo4);
@@ -237,9 +237,45 @@ function cargar_horarios_empleado(horarios) {
     });
 
 }
+function save_horario(){
+    
+    
 
-function modifica_horario(idho, inifec, finfec, idh) {
+    var ini_fec= $("#ini_fec").val();
+    var fin_fec= $("#fin_fec").val(); 
+    var code= $("#code").val();
 
+  
+console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
+    $.ajax({
+        type: 'GET',
+        //"./api/buscaempleado/" + idempleado
+        url: "./api/hora-empleado/" + idhorario,
+        data: {idhorario:idhorario, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
+        success: function(data) {
+            swal("Exito!", "El registro se ha modeficado!", "success");
+            $('#btn-mod-hora').hide();
+            document.getElementById('btn-save-emp').disabled = false;
+
+
+
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
+
+
+        }
+    })
+
+
+
+
+
+}
+
+function modifica_horario(idho, inifec, finfec, idh,id) {
+    
+    idhorario=id;
     $('#btn-mod-hora').show();
     document.getElementById('btn-save-emp').disabled = true;
     ini_fec = moment(inifec).format('YYYY-MM-DD');

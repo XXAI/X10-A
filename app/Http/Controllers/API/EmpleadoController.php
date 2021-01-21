@@ -195,22 +195,15 @@ class EmpleadoController extends Controller
             $registro->street=$request->street;
             $registro->CITY=$request->city;          
             $registro->FPHONE=$request->clues;
-            $registro->DEFAULTDEPTID=$request->tipotra;            
+           // $registro->DEFAULTDEPTID=$request->tipotra;            
             $registro->MINZU=$request->area;
 
             
             $registro->save(); 
-            if ($request->code!=''){
+            if ($request->code!=''){              
 
-               
-
-                    $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');    
-                          
-                    $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();    
-                        
-                //   
-                    
-                    
+                $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');                           
+                $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();    
 
                     $inifec = new Carbon($request->ini_fec);
                     
@@ -219,7 +212,6 @@ class EmpleadoController extends Controller
                             $inifec->subDay();    
                            // dd(substr($inifec, 0).".000"); 
                             $modif_hora->ENDDATE=substr($inifec, 0).".000"; 
-
                             DB::table('USER_OF_RUN')                            
                             ->where('USERID','=',$USERID)
                             ->where('ENDDATE','=',$maxhora)
@@ -241,10 +233,11 @@ class EmpleadoController extends Controller
                    $user_hora->ENDDATE=$request->fin_fec;
                    $user_hora->ISNOTOF_RUN=0;
                    $user_hora->ORDER_RUN=0;
-                   $user_hora->save();      
-                    
+                   $user_hora->save();                
 
                     $ss="Exitoo!! Los Datos se han Modificado  correctamente!!!";
+
+
 
              
                
@@ -264,5 +257,17 @@ class EmpleadoController extends Controller
     public function destroy($id)
     {
        
+    }
+
+
+    public function modifica_horario_empleado(Request $request, $idhorario)
+    {
+        $user_hora= UsuarioHorario::findOrFail($idhorario);        
+        $user_hora->NUM_OF_RUN_ID=$request->code;
+        $user_hora->STARTDATE=$request->ini_fec;
+        $user_hora->ENDDATE=$request->fin_fec;
+        
+        $user_hora->save();                
+
     }
 }
