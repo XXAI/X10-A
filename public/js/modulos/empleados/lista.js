@@ -2,7 +2,7 @@ var urlchecadas = "./api/consulta-asistencia";
 var dato;
 var date = new Date();
 var resumen_checadas;
-var diaslab,mike;
+var diaslab, mike;
 var diaeco;
 var onomastico;
 var pasesal;
@@ -29,6 +29,7 @@ $(document).ready(function() {
         }
     });
     cargar_horarios();
+    $('#btn-mod-hora').hide();
     //cargar_incidencias()
     idcap = $("#id_user").val();
 
@@ -69,7 +70,7 @@ function cargar_horarios() {
             onSelectItemEvent: function() {
                 var selectedItemValue = $("#horario").getSelectedItemData().NUM_RUNID;
                 $("#code").val(selectedItemValue).trigger("change");
-                
+
             }
         },
         ajaxSettings: {
@@ -93,7 +94,7 @@ function cargar_horarios() {
     $("#horario").easyAutocomplete(options);
 
 }
-  
+
 
 function cargar_incidencias() {
 
@@ -227,28 +228,31 @@ function cargar_horarios_empleado(horarios) {
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
         //]
-        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\",\"" + value.STARTDATE+ "\",\"" + value.ENDDATE+ "\",\"" + value.nombre_horario[0].NAME+ "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
+        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.id + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
-       
-        linea.append(campo1, campo2, campo3,campo4);
+
+        linea.append(campo1, campo2, campo3, campo4);
         table.append(linea);
 
     });
 
 }
-function modifica_horario(idho,inifec,finfec,idh){
 
-    
+function modifica_horario(idho, inifec, finfec, idh) {
+
+    $('#btn-mod-hora').show();
+    document.getElementById('btn-save-emp').disabled = true;
     ini_fec = moment(inifec).format('YYYY-MM-DD');
     fec_fin = moment(finfec).format('YYYY-MM-DD');
     $("#ini_fec").val(ini_fec);
     $("#fin_fec").val(fec_fin);
     $("#horario").val(idh);
+    $("#code").val(idho);
     cargar_horarios();
-    
+
 
     //ini_fec = ini_fec.substr(0, 10) + " 00:00:00.00";
- //   fin_fec = moment(fin_fec).format();
+    //   fin_fec = moment(fin_fec).format();
 
 }
 
@@ -259,16 +263,16 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-       // console.log(value.horarios);
+        // console.log(value.horarios);
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
             diaslab = (value.horarios[0].detalle_horario);
-            
-           // diaslab = (value.horarios);
-        // console.log(diaslab[mike]);
+
+            // diaslab = (value.horarios);
+            // console.log(diaslab[mike]);
 
             var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a> <a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
         } else
@@ -308,7 +312,7 @@ function sacadias() {
 
 }
 
-function obtenerDiasLab(idho){
+function obtenerDiasLab(idho) {
     jQuery.ajax({
         data: { 'buscar': dato },
         type: "GET",
@@ -322,7 +326,7 @@ function obtenerDiasLab(idho){
     });
 }
 
-function incidencia(id, iduser, nombre, rfc, jini, jfin,diaslab) {
+function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     console.log(diaslab);
     obten_fecnac(rfc);
     sacadias();
@@ -597,11 +601,11 @@ function cargar_blade_checadas() {
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
         else {
-           /*  if (value.sol == 0) {
-                icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
-             } else { */
-                icono = "<i class='fa fa-check' style='color:green'></i>";
-            }
+            /*  if (value.sol == 0) {
+                 icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
+              } else { */
+            icono = "<i class='fa fa-check' style='color:green'></i>";
+        }
         //}
         if (value.checado_salida == value.checado_salida_fuera)
             xs = value.checado_salida;
@@ -628,6 +632,38 @@ function cargar_blade_checadas() {
         $(this).removeClass('hover');
     });
 
+}
+
+function editEmpleado(id) {
+    banemp = 1;
+    $("#modal-empleado").html("Editar Empleado");
+    cargar_departamentos();
+    idempleado = parseInt(id);
+    $.ajax({
+        type: "GET",
+        url: "./api/buscaempleado/" + idempleado,
+
+        dataType: "json",
+        success: function(data) {
+            cargar_horarios_empleado(data.data.horarios);
+
+            $("#name").val(data.data.Name);
+            $("#rfc").val(data.data.TITLE);
+            $("#sexo").val(data.data.Gender);
+            $("#fechaing").val(moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
+            $("#codigo").val(data.data.PAGER);
+            $("#clues").val(data.data.FPHONE);
+            $("#area").val(data.data.MINZU);
+            $("#tipotra").val(data.data.DEFAULTDEPTID);
+
+            //console.log(data.data.horarios.length);
+
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
 }
 
 
@@ -728,37 +764,6 @@ function sel_tiporeg(tiporeg) {
 
 }
 
-function editEmpleado(id) {
-    banemp = 1;
-    $("#modal-empleado").html("Editar Empleado");
-    cargar_departamentos();
-    idempleado = parseInt(id);
-    $.ajax({
-        type: "GET",
-        url: "./api/buscaempleado/" + idempleado,
-
-        dataType: "json",
-        success: function(data) {
-            cargar_horarios_empleado(data.data.horarios);
-
-            $("#name").val(data.data.Name);
-            $("#rfc").val(data.data.TITLE);
-            $("#sexo").val(data.data.Gender);
-            $("#fechaing").val(moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
-            $("#codigo").val(data.data.PAGER);
-            $("#clues").val(data.data.FPHONE);
-            $("#area").val(data.data.MINZU);
-            $("#tipotra").val(data.data.DEFAULTDEPTID);
-
-            //console.log(data.data.horarios.length);
-
-
-        },
-        error: function(data) {
-            alert('error');
-        }
-    });
-}
 
 
 function validar(idinci) {
@@ -888,7 +893,7 @@ function validando_incidencia() {
 }
 
 function inserta_incidencia() {
-   
+
 
     var x = 0;
     var dia_eva;
@@ -900,7 +905,7 @@ function inserta_incidencia() {
         console.log(diaslab);
         for (var j = 0; j < diaslab.length; j++) {
 
-            console.log("DIA ENTRADA: "+diaslab[j].SDAYS+ "     DIA SALIDA: "+diaslab[j].EDAYS);
+            console.log("DIA ENTRADA: " + diaslab[j].SDAYS + "     DIA SALIDA: " + diaslab[j].EDAYS);
             if (moment(fini).day() == 0)
                 dia_eva = 7;
             else
@@ -995,10 +1000,10 @@ function save_justi_emp() {
 
             id_inci = data.id_inci;
             inserta_incidencia();
-           
+
             //win = window.open( getJustifica(data.data.USERID), '_blank' );
-         //      win = window.open('../api/justificante/' + id_inci, '_blank');
-           //   console.log("datosss", data); 
+            //      win = window.open('../api/justificante/' + id_inci, '_blank');
+            //   console.log("datosss", data); 
 
 
 

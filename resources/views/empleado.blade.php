@@ -207,7 +207,7 @@
                 @include('empleados/agregarEmpleado')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="guardar_empleado()">Guardar</button>
+              <button type="button" class="btn btn-primary" id="btn-save-emp" onclick="guardar_empleado()">Guardar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>

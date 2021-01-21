@@ -85,27 +85,35 @@
       </div>
       <div class="tab-pane container fade" id="menu1">
          <div class="row">
-            <div class="col-md-4" >
+            <div class="col-md-3" >
                <div class="form-group">
                   <label for="horario" class="col-sm-3 col-form-label">Horario</label>
                   <!-- <input id="horario">    --> 
                   <input id="horario" type="text" style="outline: none;">
-                  <input type="text" id="code" name="code" required>  
+                  <input type="hidden" id="code" name="code" required>  
                      
                </div>
             </div> 
-            <div class="col-md-4" >
+            <div class="col-md-3" >
                <div class="form-group">
                   <label for="inicio" class="col-sm-3 col-form-label">Inicio </label>
                   <input type="date" class="form-control" id="ini_fec" name="ini_fec" value="{{date('Y-m-d')}}">
                </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                <div class="form-group">
                   <label for="fin" class="col-sm-3 col-form-label">Hasta </label>
                   <input type="date" value="2020-12-31"class="form-control" id="fin_fec" name="fin_fec">
+                  <button type="button" id="btn-mod-hora">Modifica Horario</button>
                </div>
             </div>
+            <div class="col-md-3">
+               <div class="form-group">
+                  
+                  
+               </div>
+            </div>
+            
          
          </div> 
 
