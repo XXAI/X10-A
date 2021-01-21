@@ -222,7 +222,7 @@ function cargar_horarios_empleado(horarios) {
 
     $.each(horarios, function(key, value) {
 
-        console.log(value);
+        //console.log(value);
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.nombre_horario[0].NAME + "</td>");
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
@@ -250,14 +250,14 @@ console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin
     $.ajax({
         type: 'GET',
         //"./api/buscaempleado/" + idempleado
-        url: "./api/hora-empleado/" + idhorario,
+        url: "api/hora-empleado/" + idhorario,
         data: {idhorario:idhorario, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
         success: function(data) {
             swal("Exito!", "El registro se ha modeficado!", "success");
             $('#btn-mod-hora').hide();
             document.getElementById('btn-save-emp').disabled = false;
-
-
+            editEmpleado(idempleado)
+           
 
         },
         error: function(data) {
@@ -692,7 +692,7 @@ function editEmpleado(id) {
             $("#area").val(data.data.MINZU);
             $("#tipotra").val(data.data.DEFAULTDEPTID);
 
-            //console.log(data.data.horarios.length);
+            //console.log(url);
 
 
         },

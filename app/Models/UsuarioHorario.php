@@ -21,8 +21,8 @@ class UsuarioHorario extends Model
     }
 
 
-    public function getKeyName(){
+   /*   public function getKeyName(){
         return "USERID";
-    }
-       
+    } */
+        
 }

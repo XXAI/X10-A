@@ -200,7 +200,7 @@ class EmpleadoController extends Controller
 
             
             $registro->save(); 
-            if ($request->code!=''){              
+           /*  if ($request->code!=''){              
 
                 $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');                           
                 $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();    
@@ -235,7 +235,7 @@ class EmpleadoController extends Controller
                    $user_hora->ORDER_RUN=0;
                    $user_hora->save();                
 
-                    $ss="Exitoo!! Los Datos se han Modificado  correctamente!!!";
+                   // $ss="Exitoo!! Los Datos se han Modificado  correctamente!!!";
 
 
 
@@ -243,9 +243,9 @@ class EmpleadoController extends Controller
                
                     
             }
-           
+            */
           
-            return response()->json(['mensaje'=>$ss]); 
+            return response()->json(['mensaje'=>"Exitoo!! Los Datos se han Modificado  correctamente!!!"]); 
     }
 
     /**
@@ -262,12 +262,24 @@ class EmpleadoController extends Controller
 
     public function modifica_horario_empleado(Request $request, $idhorario)
     {
-        $user_hora= UsuarioHorario::findOrFail($idhorario);        
-        $user_hora->NUM_OF_RUN_ID=$request->code;
-        $user_hora->STARTDATE=$request->ini_fec;
-        $user_hora->ENDDATE=$request->fin_fec;
         
-        $user_hora->save();                
+        try {
+
+            //DB::enableQueryLog(); 
+            //$user_hora= UsuarioHorario::where('id','=',$idhorario);  
+            $user_hora= UsuarioHorario::findOrFail($idhorario);  
+            
+            $user_hora->NUM_OF_RUN_ID=$request->code;
+            $user_hora->STARTDATE=$request->ini_fec;
+            $user_hora->ENDDATE=$request->fin_fec;            
+            $user_hora->save();      
+            return response()->json(['data'=>$user_hora]);
+            //dd(DB::getQueryLog());
+        } 
+        catch (\Exception $e) {
+            
+            return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+            }
 
     }
 }
