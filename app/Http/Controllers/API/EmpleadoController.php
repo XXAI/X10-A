@@ -213,10 +213,18 @@ class EmpleadoController extends Controller
             $registro->CITY=$request->city;          
             $registro->FPHONE=$request->clues;
            // $registro->DEFAULTDEPTID=$request->tipotra;            
-            $registro->MINZU=$request->area;
-
-            
+            $registro->MINZU=$request->area;           
             $registro->save(); 
+
+
+            $user_hora = new UsuarioHorario;
+            $user_hora->USERID=$USERID;
+            $user_hora->NUM_OF_RUN_ID=$request->code;
+            $user_hora->STARTDATE=$request->ini_fec;
+            $user_hora->ENDDATE=$request->fin_fec;
+            $user_hora->ISNOTOF_RUN=0;
+            $user_hora->ORDER_RUN=0;
+            $user_hora->save();
            /*  if ($request->code!=''){              
 
                 $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');                           
