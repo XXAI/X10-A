@@ -29,27 +29,44 @@ class EmpleadoController extends Controller
     {
         $name = $request->get('buscar');  
          $idcap = Auth::id();
-   
+      
      
         $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
         
-        if($name !='')
-            $usuarios = $usuarios->where("TITLE",'LIKE','%'.$name.'%')
-                    ->orWhere("Name",'LIKE','%'.$name.'%')
-                    ->orWhere("Badgenumber",'=',$name);
+     
+        //berriozabal
         if ($idcap==2){
            $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
         } 
+
+        //
         if ($idcap==11){
             $usuarios=$usuarios->where('FPHONE','=','CSSSA017213'); 
          } 
-        $usuarios = $usuarios->orderBy('USERID','DESC')->paginate(15);
+         if ($idcap==14){
+            $usuarios=$usuarios->where('FPHONE','=','CSSSA009162'); 
+         }
+         if($name !='')
+         $usuarios=$usuarios->Where(function($query2)use($name){
+            $query2->where("Name",'LIKE','%'.$name.'%')
+                    ->orWhere("TITLE",'LIKE','%'.$name.'%')
+                    ->orWhere("Badgenumber",'=',$name);
+        });
+
+        
+       /*  $usuarios = $usuarios->where("Name",'LIKE','%'.$name.'%')
+                 ->orWhere("TITLE",'LIKE','%'.$name.'%')
+                 ->orWhere("Badgenumber",'=',$name);
+*/
+ //DB::enableQueryLog(); 
+         //CSSSA009162
+        $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate(15);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();  
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();     
         
-        
+        //print_r($usuarios);
         return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos]);
-       
+      // dd(DB::getQueryLog());
     }
 
     public function fetch(Request $request)

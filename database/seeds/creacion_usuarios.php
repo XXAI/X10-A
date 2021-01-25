@@ -138,7 +138,7 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2020-08-31 13:46:51.565',
             'updated_at' => '2020-08-31 13:46:51.565'
-        ]);*/
+        ]);
 
         User::create([ // create a new user
             'email' => 'edgarzarate',
@@ -151,6 +151,20 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2021-01-08 09:16:51.565',
             'updated_at' => '2021-01-08 09:16:51.565'
+        ]);*/
+
+
+        User::create([ // create a new user
+            'email' => 'sagustin',
+            'password' => Hash::make('sagustin2021*'),
+            'username' => 'sagustin',
+            'nombre' => 'San Agustin',
+            'apellido_paterno' => '',
+            'apellido_materno' => '',
+            'alias' => 'San Agustin',
+            'is_superuser' => 0,
+            'created_at' => '2021-01-25 09:44:51.565',
+            'updated_at' => '2021-01-25 09:44:51.565'
         ]);
         
     }
