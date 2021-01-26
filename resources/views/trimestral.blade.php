@@ -130,7 +130,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Año</label>
-                        <select class="select form-control" name="config_anio" id="config_anio">
+                        <select class="select form-control" name="config_anio" id="config_anio" onclick="ver_configuracion()">
                             <option value = '2021'>2021</option>
                             <option value = '2020'>2020</option>
                             <option value = '2019'>2019</option>
@@ -140,7 +140,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Trimestre</label>
-                        <select class="select form-control" name="config_trimestre" id="config_trimestre">
+                        <select class="select form-control" name="config_trimestre" id="config_trimestre" onclick="ver_configuracion()">
                             <option value='1'>1 - ENERO - MARZO</option>
                             <option value='2'>2 - ABRIL - JUNIO</option>
                             <option value='3'>3 - JULIO - SEPTIEMBRE</option>
@@ -151,7 +151,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tipo Trabajador</label>
-                        <select class="select form-control" name="config_tipo_trabajador" id="config_tipo_trabajador">
+                        <select class="select form-control" name="config_tipo_trabajador" id="config_tipo_trabajador"  onclick="ver_configuracion()">
 
                         </select>
                     </div>

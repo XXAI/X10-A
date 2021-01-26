@@ -72,7 +72,7 @@ class LoginController extends Controller
                     return response()->json(['mensaje' => 'Bleh', 'datos'=>$usuario], HttpResponse::HTTP_OK);
                     //return Redirect::to('dashboard');
                 } else {
-                    return response()->json(['mensaje' => 'mal', 'datos'=>$usuario], 500);
+                    return response()->json(['mensaje' => 'mal'], 500);
                     //return response()->json(['mensaje' => 'mal', 'datos'=>$usuario], 500)->withErrors($validator);
                     //return response()->json(['mensaje' => 'Bleh', 'error'=>'nel pastel', 'datos'=>$userdata, 'resultado'=>Auth::attempt($userdata)], HttpResponse::HTTP_OK);
                     /*return Redirect::to('login')

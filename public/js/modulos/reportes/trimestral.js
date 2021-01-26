@@ -108,9 +108,21 @@ function generar_reporte()
       var nombre = $("#nombre").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
-
-      
       win = window.open( './api/reporte-trimestral?anio='+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
+
+      /*user = localStorage.getItem('sw_id');
+      datos = "anio="+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&user="+user;
+      jQuery.ajax({
+            data: datos,
+            type: "GET",
+            dataType: "json",
+            url: './api/reporte-trimestral',
+      }).done(function( data, textStatus, jqXHR ) {
+            console.log(data);
+            
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
+      });*/
 }
 
 function ver_configuracion()
