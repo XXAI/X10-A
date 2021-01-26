@@ -20,6 +20,7 @@ class CreateConfiguracionTrimestral extends Migration
             $table->smallInteger('lote');
             $table->string('quincena',20);
             $table->smallInteger('no_documento');
+            $table->smallInteger('tipo_trabajador');
             $table->smallInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
