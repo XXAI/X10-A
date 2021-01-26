@@ -69,15 +69,15 @@ class LoginController extends Controller
     
                 if (Auth::attempt($userdata)) {
                     $usuario = Auth::user();
-                    return response()->json(['mensaje' => 'Bleh', 'datos'=>$usuario], HttpResponse::HTTP_OK);
-                    //return Redirect::to('dashboard');
+                    //return response()->json(['mensaje' => 'Bleh', 'datos'=>$usuario], HttpResponse::HTTP_OK);
+                    return Redirect::to('dashboard');
                 } else {
-                    return response()->json(['mensaje' => 'mal'], 500);
+                    //return response()->json(['mensaje' => 'mal'], 500);
                     //return response()->json(['mensaje' => 'mal', 'datos'=>$usuario], 500)->withErrors($validator);
                     //return response()->json(['mensaje' => 'Bleh', 'error'=>'nel pastel', 'datos'=>$userdata, 'resultado'=>Auth::attempt($userdata)], HttpResponse::HTTP_OK);
-                    /*return Redirect::to('login')
+                    return Redirect::to('login')
                         ->withErrors($validator) // send back all errors to the login form
-                        ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form*/
+                        ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
                 }
             }
         }catch(\Exception $e){
