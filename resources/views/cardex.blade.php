@@ -17,8 +17,7 @@
                         <label for="exampleInputEmail1">Año</label>
                         <select class='select form-control' id = 'anio'>
                             <option value = '2020'>2019 - 2020</option>
-                            <option value = '2021'>2020 - 2021</option>
-                           
+                            <option value = '2021'>2020 - 2021</option>                           
                         </select>
                     </div>
                 </div>

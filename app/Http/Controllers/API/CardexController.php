@@ -64,14 +64,14 @@ class CardexController extends Controller
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
         $fecha_limite_inicio=new Carbon($anio.'-10-01');
-        if($anio=='2020'){
-            $fecha_limite_fin=new Carbon($anio.'-10-01');
-        
+        if($anio==Carbon::now()->year){
+            $fecha_limite_fin = Carbon::now();
+            $fecha_limite_inicio=$fecha_limite_inicio->addMonth();
         }
-        else{
-            $fecha_limite_fin = Carbon::now();//->addDays(30);//->subDays(90);
-           // $fecha_limite_inicio = Carbon::now();//->subDays(60);//->addDays(30);
-     
+        else{          
+           
+           $fecha_limite_fin=new Carbon($anio.'-10-01');
+          
         }
         
         
