@@ -11,8 +11,8 @@ function cargar_grid(dato) {
         url: './api/cardex',
     }).done(function(data, textStatus, jqXHR) {
         lista.html("");
-        console.log(data.usuarios.length);
-        console.log(data.usuarios);
+        //console.log(data.usuarios.length);
+        //console.log(data.usuarios);
         if (data.usuarios.length == 0) {
             var linea = $("<tr ></tr>");
             var campo1 = $("<td colspan='5'>No se encontraron resultados</td>");
@@ -47,5 +47,7 @@ function btn_filtrar() {
 
 function generar_reporte() {
     var valor = $('input:checkbox[class=empleado]:checked').val();
-    win = window.open('./api/reporte-cardex?empleado=' + valor, '_blank');
+    var anio= $("#anio").val();
+    console.log(anio);
+    win = window.open('./api/reporte-cardex?empleado=' + valor +'&anio=' + anio, '_blank');
 }

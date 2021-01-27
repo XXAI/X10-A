@@ -190,6 +190,10 @@ function limpia_empleados() {
     $("#clues").val('');
     $("#area").val('');
     $("#tipotra").val('');
+ 
+    $("#horario").val('');
+    $("#code").val('');
+    
 }
 
 function cargar_departamentos() {
@@ -475,13 +479,9 @@ function guardar_empleado() {
         success: function(data) {
 
             swal("Exito!", data.mensaje, "success");
-            $("#name").val('');
-            $("#rfc").val('');
-            $("#sexo").val('');
-            $("#codigo").val('');
-            $("#clues").val('');
-            $("#area").val('');
+            limpia_empleados();
             $('#agregar_empleado').modal('hide');
+           
             cargar_empleados('');
 
 

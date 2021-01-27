@@ -36,7 +36,9 @@ class CardexController extends Controller
     public function reporteCardex(Request $request)
     {
         $parametros = Input::all();
-        $datos = $this->claseAsistencia($parametros['empleado']);
+
+       // dd($parametros['anio']);
+        $datos = $this->claseAsistencia($parametros['empleado'],$parametros['anio']);
         //return response()->json(["usuarios" => $datos]);
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 //->whereNull("USERINFO.state")
@@ -53,7 +55,7 @@ class CardexController extends Controller
         return $pdf->stream('Reporte-Cardex.pdf');
     }
 
-    function claseAsistencia($empleado)
+    function claseAsistencia($empleado,$anio)
     {
         $reglas     = ReglasHorarios::where("CheckIn", "=", 1)->get();
 
@@ -61,12 +63,26 @@ class CardexController extends Controller
         $arreglo_reglas = array();
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
-        $fecha_limite_fin = Carbon::now()->addDays(30);//->subDays(90);
-    
-        //echo $fecha_limite_fin;
-        //echo "holA MUNDO";
-        $fecha_limite_inicio = Carbon::now();//->subDays(60);//->addDays(30);
-        $anio_reporte = $fecha_limite_fin->year;
+        $fecha_limite_inicio=new Carbon($anio.'-10-01');
+        if($anio=='2020'){
+            $fecha_limite_fin=new Carbon($anio.'-10-01');
+        
+        }
+        else{
+            $fecha_limite_fin = Carbon::now();//->addDays(30);//->subDays(90);
+           // $fecha_limite_inicio = Carbon::now();//->subDays(60);//->addDays(30);
+     
+        }
+        
+        
+     //  dd($fecha_limite_inicio. 'fin: '.$fecha_limite_fin);
+       
+       
+
+       
+        $anio_reporte =$anio; //$fecha_limite_fin->year;
+
+       // dd($anio_reporte);
         /* Calculamos el periodo que nos dijeron en sistematizacion, pero yo lo calculare hacia un año atras, haber como nos va*/
         $dias_mes = $fecha_limite_inicio->daysInMonth;
         //$mes_fin = 0;

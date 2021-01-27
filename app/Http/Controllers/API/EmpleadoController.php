@@ -54,10 +54,7 @@ class EmpleadoController extends Controller
         });
 
         
-       /*  $usuarios = $usuarios->where("Name",'LIKE','%'.$name.'%')
-                 ->orWhere("TITLE",'LIKE','%'.$name.'%')
-                 ->orWhere("Badgenumber",'=',$name);
-*/
+
  //DB::enableQueryLog(); 
          //CSSSA009162
         $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate(15);
@@ -148,11 +145,10 @@ class EmpleadoController extends Controller
                     $registro->ZIP= 1;
                     $registro->FPHONE=$request->clues;
                     $registro->DEFAULTDEPTID=$request->tipotra;            
-                    $registro->MINZU=$request->area;     
-
+                    $registro->MINZU=$request->area;   
+                    if ($request->code!=''){
                     $registro->save();
-                    $id_user=Usuarios::max('USERID');
-                    
+                    $id_user=Usuarios::max('USERID');       
                     $user_hora = new UsuarioHorario;
                     $user_hora->USERID=$id_user;
                     $user_hora->NUM_OF_RUN_ID=$request->code;
@@ -161,6 +157,7 @@ class EmpleadoController extends Controller
                     $user_hora->ISNOTOF_RUN=0;
                     $user_hora->ORDER_RUN=0;
                     $user_hora->save();
+                    }
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }
            
