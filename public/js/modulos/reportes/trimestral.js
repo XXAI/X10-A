@@ -15,6 +15,7 @@ $(document).ready(function()
 function cargar_catalogo()
 {
       var select = $("#tipo_trabajador");
+      var select_config = $("#config_tipo_trabajador");
       select.html("");
       jQuery.ajax({
             data: {'buscar': ""},
@@ -27,6 +28,7 @@ function cargar_catalogo()
                  if(valor.DEPTID!=1)
                  {
                         select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                        select_config.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
                  }
            });
             
@@ -106,20 +108,57 @@ function generar_reporte()
       var nombre = $("#nombre").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
-
-      
       win = window.open( './api/reporte-trimestral?anio='+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre, '_blank');
+
+      /*user = localStorage.getItem('sw_id');
+      datos = "anio="+anio+"&trimestre="+trimestre+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&user="+user;
+      jQuery.ajax({
+            data: datos,
+            type: "GET",
+            dataType: "json",
+            url: './api/reporte-trimestral',
+      }).done(function( data, textStatus, jqXHR ) {
+            console.log(data);
+            
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
+      });*/
 }
 
 function ver_configuracion()
 {
-      $("#ver_config").modal("show");
+
+      datos = "anio="+$("#config_anio").val()+"&trimestre="+$("#config_trimestre").val()+"&tipo_trabajador="+$("#config_tipo_trabajador").val();
+      jQuery.ajax({
+            data: datos,
+            type: "GET",
+            dataType: "json",
+            url: './api/ver-configuracion-trimestral',
+      }).done(function( data, textStatus, jqXHR ) {
+            datos = data.data;
+            if(datos == null)
+            {
+                  $("#config_lote").val(0);
+                  $("#config_quincena").val(0);
+                  $("#config_documento").val(0);
+            }else
+            {
+                  $("#config_lote").val(datos.lote);
+                  $("#config_quincena").val(datos.quincena);
+                  $("#config_documento").val(datos.no_documento);
+            }
+            $("#ver_config").modal("show");
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
+      });
+      //$("#ver_config").modal("show");
 }
 function guardar_configuracion()
 {
+      datos = $("#form_filtro").serialize()+"&user_id="+localStorage.getItem('sw_id');
       jQuery.ajax({
-            data: '',
-            type: "GET",
+            data: datos,
+            type: "POST",
             dataType: "json",
             url: './api/guarda-configuracion-trimestral',
       }).done(function( data, textStatus, jqXHR ) {

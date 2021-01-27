@@ -5,13 +5,15 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;    
+use Carbon\Carbon, \Auth, DB, PDF, View, Dompdf\Dompdf;    
 
 use App\Models\Usuarios;
+use App\Models\User;
 use App\Models\ReglasHorarios;
 use App\Models\Festivos;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
+use App\Models\ConfiguracionTrimestral;
 use Illuminate\Support\Facades\Input;
 
 class ReporteTrimestralController extends Controller
@@ -27,10 +29,17 @@ class ReporteTrimestralController extends Controller
 
     public function reporteTrimestral(Request $request)
     {
-
+        $parametros = Input::all();
+        $usuario = Auth::user();
+       
+        $datos_configuracion = ConfiguracionTrimestral::where("trimestre", $parametros['trimestre'])
+                                                    ->where("anio", $parametros['anio'])
+                                                    ->where("tipo_trabajador", $parametros['tipo_trabajador'])
+                                                    ->first();
+        //return $usuario;
         $asistencia = $this->claseAsistencia($request);
         //return $asistencia;
-        $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia]);
+        $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         return $pdf->stream('Reporte-Trimestral.pdf');

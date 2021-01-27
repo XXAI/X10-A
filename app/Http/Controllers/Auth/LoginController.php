@@ -47,6 +47,7 @@ class LoginController extends Controller
 
     public function doLogin(){
         try{
+            
             $rules = array(
                 'email'     => 'required',
                 'password' => 'required|min:3'
@@ -59,6 +60,7 @@ class LoginController extends Controller
                 return Redirect::to('login')
                     ->withErrors($validator) // send back all errors to the login form
                     ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+                    return response()->json(['mensaje' => 'mal', 'datos'=>$usuario], 500);
             }else{
                 $userdata = array(
                     'email'     => Input::get('email'),
@@ -70,6 +72,8 @@ class LoginController extends Controller
                     //return response()->json(['mensaje' => 'Bleh', 'datos'=>$usuario], HttpResponse::HTTP_OK);
                     return Redirect::to('dashboard');
                 } else {
+                    //return response()->json(['mensaje' => 'mal'], 500);
+                    //return response()->json(['mensaje' => 'mal', 'datos'=>$usuario], 500)->withErrors($validator);
                     //return response()->json(['mensaje' => 'Bleh', 'error'=>'nel pastel', 'datos'=>$userdata, 'resultado'=>Auth::attempt($userdata)], HttpResponse::HTTP_OK);
                     return Redirect::to('login')
                         ->withErrors($validator) // send back all errors to the login form

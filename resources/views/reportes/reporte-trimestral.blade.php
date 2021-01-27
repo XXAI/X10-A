@@ -61,7 +61,7 @@
         }
 
         body{
-            margin: 50px 0px 140px 5px;
+            margin: 60px 0px 140px 5px;
         }
 
         header {
@@ -93,6 +93,8 @@
 $anio = $empleados['filtros']['anio'];
 $fecha_inicio ="";
 $fecha_fin ="";
+
+
 switch($empleados['trimestre'])
 {
     case 1:
@@ -135,23 +137,12 @@ switch($empleados['trimestre'])
                         </td>
                         <td>
                             <div class="datos">
-                            LOTE: 
-                            @switch($empleados['tipo_trabajador']['DEPTID'])
-                                @case(6)
-                                @case(11)
-                                    GOV0004
-                                @break
-                                @case(13)
-                                    CAR0004
-                                @break
-                                @case(12)
-                                    PEV0014
-                                @break
-                            @endswitch
+                            LOTE: {{ $usuario['alias'] }}{{ str_pad($config['lote'], 4, "0", STR_PAD_LEFT)}}
+                            
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
                             VIGENCIA: {{ $fecha_inicio.$anio }} AL {{ $fecha_fin.$anio }}<br>
-                            QNA. DE CAPTURA: 04/21<br>
+                            QNA. DE CAPTURA: {{ $config['quincena'] }}<br>
                             <br>
                             ESTIMULO TRIMESTRAL  
                             </div>
@@ -194,24 +185,19 @@ switch($empleados['trimestre'])
         </tr>
     </table>   
         <?php 
-            $numero = 0;
+            
             $relleno = "1100000";
+            $numero = $config['no_documento'];
             switch ($empleados['tipo_trabajador']['DEPTID']) {
-                case 6:
-                    $numero = 0;
-                    $relleno = "1100000";
-                break;
+                /*case 6:
                 case 11:
-                    $numero = 269;
-                    $relleno = "1100000";
-                break;
                 case 13:
-                    $numero = 0;
-                    $relleno = "1100000";
-                break;
+                break;*/
                 case 12:
-                    $numero = 146;
                     $relleno = "3300000";
+                break;
+                default:
+                    $relleno = "1100000";
                 break;
                 
             }
@@ -236,7 +222,7 @@ switch($empleados['trimestre'])
         
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
                 <tr>
-                    <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
+                    <td class='linea'>{{ str_pad(($numero++), 7, $relleno, STR_PAD_LEFT) }} </td>
                     <td class='linea'>{{ $empleado->TITLE}} </td>
                     <td class='linea'>{{ $empleado->PAGER}} </td>
                     <td class='linea'> {{ $empleado->carType}}</td>
@@ -259,19 +245,8 @@ switch($empleados['trimestre'])
     <script type="text/php">
     if (isset($pdf))
     {
-        $iniciales = "";
-        @switch($empleados['tipo_trabajador']['DEPTID'])
-            @case(6)
-            @case(11)
-                $iniciales = "GOV";
-            @break
-            @case(13)
-                $iniciales = "CAR";
-            @break
-            @case(12)
-                $iniciales = "PEV";
-            @break
-        @endswitch
+        $iniciales = '{{ $usuario['alias'] }}';
+        
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }
