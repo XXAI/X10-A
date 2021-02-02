@@ -172,7 +172,7 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
-        $empleado = Usuarios::with("horarios")->find($id);
+        $empleado = Usuarios::with("horarios.detalleHorario")->find($id);
         //->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID"); 
     
         return response()->json(["data" => $empleado]);

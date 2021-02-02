@@ -309,7 +309,7 @@ function cargar_datos_empleado(datos) {
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
-            diaslab = (value.horarios[0].detalle_horario);
+          //  diaslab = (value.horarios[0].detalle_horario);
 
             // diaslab = (value.horarios);
             // console.log(diaslab[mike]);
@@ -367,7 +367,11 @@ function obtenerDiasLab(idho) {
 }
 
 function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
-    console.log(diaslab);
+
+    editEmpleado(iduser);
+    
+
+  //  console.log(diaslab);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
@@ -692,8 +696,8 @@ function editEmpleado(id) {
             $("#area").val(data.data.MINZU);
             $("#tipotra").val(data.data.DEFAULTDEPTID);
 
-            //console.log(url);
-
+            //console.log(data.data.horarios[0].detalle_horario);
+           diaslab = (data.data.horarios[0].detalle_horario);
 
         },
         error: function(data) {
@@ -938,10 +942,10 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-        console.log(diaslab);
+       // console.log(diaslab);
         for (var j = 0; j < diaslab.length; j++) {
 
-            console.log("DIA ENTRADA: " + diaslab[j].SDAYS + "     DIA SALIDA: " + diaslab[j].EDAYS);
+       
             if (moment(fini).day() == 0)
                 dia_eva = 7;
             else
