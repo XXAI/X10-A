@@ -368,10 +368,10 @@ function obtenerDiasLab(idho) {
 
 function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
-    editEmpleado(iduser);
+    editEmpleado(id);
     
 
-  //  console.log(diaslab);
+  console.log(iduser+ '  hhh  '+diaslab);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
