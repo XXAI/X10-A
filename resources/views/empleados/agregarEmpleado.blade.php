@@ -84,7 +84,8 @@
          </div>
       </div>
       <div class="tab-pane container fade" id="menu1">
-         <div class="row">
+         <div class="row" id='form-hora'>
+            
             <div class="col-md-3" >
                <div class="form-group">
                   <label for="horario" class="col-sm-3 col-form-label">Horario</label>
@@ -102,17 +103,20 @@
             </div>
             <div class="col-md-3">
                <div class="form-group">
-                  <label for="fin" class="col-sm-3 col-form-label">Hasta </label>
-                  <input type="date" value="2020-12-31"class="form-control" id="fin_fec" name="fin_fec">
-                  <button type="button" onclick="save_horario()" id="btn-mod-hora">Modifica Horario</button>
+                  
+                     <label for="fin" class="col-sm-3 col-form-label">Hasta </label>
+                     <input type="date" value="2021-12-31"class="form-control" id="fin_fec" name="fin_fec">
+                     
+             
                </div>
             </div>
             <div class="col-md-3">
-               <div class="form-group">
-                  
-                  
-               </div>
+               
+                  <br/><br/>
+                  <button type="button" onclick="save_horario()" id="btn-mod-hora">Modifica Horario</button>
+               
             </div>
+       
             
          
          </div> 
@@ -126,7 +130,7 @@
                            <th scope="col">Horario</th>
                            <th scope="col">Desde</th>
                            <th scope="col">Hasta</th>
-                           
+                           <th scope="col"><button type="button"  class="btn btn-link" onclick="mostrar_form_hora()" id="btn-add-hora"><i class="fa fa-plus" aria-hidden="true" data-toggle='tooltip' data-placement='top' title='Agregar Horario'></i></button></th>
                        </tr>
                    </thead>
                    <tbody id='empleado-hora'>

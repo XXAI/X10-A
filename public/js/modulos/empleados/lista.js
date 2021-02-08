@@ -20,7 +20,8 @@ arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "S
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
 $(document).ready(function() {
-
+    
+    $("#form-hora").hide();
     limpia_empleados();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
@@ -37,6 +38,11 @@ $(document).ready(function() {
 
 
 });
+
+
+function mostrar_form_hora(){
+    $("#form-hora").show();
+}
 
 function cargar_empleados(dato) {
 
@@ -280,7 +286,10 @@ console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin
 function modifica_horario(idho, inifec, finfec, idh,id) {
     
     idhorario=id;
+    $("#form-hora").show();
     $('#btn-mod-hora').show();
+   
+
     document.getElementById('btn-save-emp').disabled = true;
     ini_fec = moment(inifec).format('YYYY-MM-DD');
     fec_fin = moment(finfec).format('YYYY-MM-DD');
