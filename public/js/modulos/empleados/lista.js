@@ -14,13 +14,13 @@ var id_x;
 var rfc_x;
 var id_inci;
 var msj, ban_url;
-var mes_nac, idempleado,idhorario;
+var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
 $(document).ready(function() {
-    
+
     $("#form-hora").hide();
     limpia_empleados();
     cargar_empleados('');
@@ -40,7 +40,7 @@ $(document).ready(function() {
 });
 
 
-function mostrar_form_hora(){
+function mostrar_form_hora() {
     $("#form-hora").show();
 }
 
@@ -196,10 +196,10 @@ function limpia_empleados() {
     $("#clues").val('');
     $("#area").val('');
     $("#tipotra").val('');
- 
+
     $("#horario").val('');
     $("#code").val('');
-    
+
 }
 
 function cargar_departamentos() {
@@ -247,27 +247,28 @@ function cargar_horarios_empleado(horarios) {
     });
 
 }
-function save_horario(){
-    
-    
 
-    var ini_fec= $("#ini_fec").val();
-    var fin_fec= $("#fin_fec").val(); 
-    var code= $("#code").val();
+function save_horario() {
 
-  
-console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
+
+
+    var ini_fec = $("#ini_fec").val();
+    var fin_fec = $("#fin_fec").val();
+    var code = $("#code").val();
+
+
+    console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
     $.ajax({
         type: 'GET',
         //"./api/buscaempleado/" + idempleado
         url: "api/hora-empleado/" + idhorario,
-        data: {idhorario:idhorario, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
+        data: { idhorario: idhorario, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
         success: function(data) {
             swal("Exito!", "El registro se ha modeficado!", "success");
             $('#btn-mod-hora').hide();
             document.getElementById('btn-save-emp').disabled = false;
             editEmpleado(idempleado)
-           
+
 
         },
         error: function(data) {
@@ -283,12 +284,12 @@ console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin
 
 }
 
-function modifica_horario(idho, inifec, finfec, idh,id) {
-    
-    idhorario=id;
+function modifica_horario(idho, inifec, finfec, idh, id) {
+
+    idhorario = id;
     $("#form-hora").show();
     $('#btn-mod-hora').show();
-   
+
 
     document.getElementById('btn-save-emp').disabled = true;
     ini_fec = moment(inifec).format('YYYY-MM-DD');
@@ -318,7 +319,7 @@ function cargar_datos_empleado(datos) {
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
-          //  diaslab = (value.horarios[0].detalle_horario);
+            //  diaslab = (value.horarios[0].detalle_horario);
 
             // diaslab = (value.horarios);
             // console.log(diaslab[mike]);
@@ -378,9 +379,9 @@ function obtenerDiasLab(idho) {
 function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
     editEmpleado(id);
-    
 
-  console.log(iduser+ '  hhh  '+diaslab);
+
+    // console.log(iduser + '  hhh  ' + diaslab);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
@@ -494,7 +495,7 @@ function guardar_empleado() {
             swal("Exito!", data.mensaje, "success");
             limpia_empleados();
             $('#agregar_empleado').modal('hide');
-           
+
             cargar_empleados('');
 
 
@@ -583,6 +584,7 @@ function cargar_datos_checadas(urlchecadas) {
         resumen_checadas = data.resumen[0];
         //console.log(datos_checadas_mes);
         validacion = data.validacion;
+        //  console.log(datos_checadas_mes);
 
         if (validacion != null) {
 
@@ -644,7 +646,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-        //console.log(value.jorfin);
+        console.log(value.checado_entrada);
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
@@ -656,10 +658,24 @@ function cargar_blade_checadas() {
             icono = "<i class='fa fa-check' style='color:green'></i>";
         }
         //}
-        if (value.checado_salida == value.checado_salida_fuera)
-            xs = value.checado_salida;
+
+        if (value.checado_entrada == "SIN REGISTRO")
+            if (value.checado_entrada_fuera != null) {
+                xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>";
+            } else {
+                xe = value.checado_entrada;
+            }
+
         else
-            xs = value.checado_salida + "(" + value.checado_salida_fuera + ")";
+            xe = value.checado_entrada;
+
+
+        if (value.checado_salida == "SIN REGISTRO")
+            if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
+
+        else
+            xs = value.checado_salida;
+
 
         if (value.ban_inci >= 1)
             icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
@@ -667,7 +683,7 @@ function cargar_blade_checadas() {
             icono2 = " ";
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + xs + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
 
 
 
@@ -706,7 +722,7 @@ function editEmpleado(id) {
             $("#tipotra").val(data.data.DEFAULTDEPTID);
 
             //console.log(data.data.horarios[0].detalle_horario);
-           diaslab = (data.data.horarios[0].detalle_horario);
+            diaslab = (data.data.horarios[0].detalle_horario);
 
         },
         error: function(data) {
@@ -951,10 +967,10 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-       // console.log(diaslab);
+        // console.log(diaslab);
         for (var j = 0; j < diaslab.length; j++) {
 
-       
+
             if (moment(fini).day() == 0)
                 dia_eva = 7;
             else
