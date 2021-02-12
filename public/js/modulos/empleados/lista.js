@@ -195,19 +195,23 @@ function limpia_empleados() {
     $("#codigo").val('');
     $("#clues").val('');
     $("#area").val('');
+<<<<<<< HEAD
     $("#tipotra").val('');
 
+=======
+   
+ 
+>>>>>>> ragucaru
     $("#horario").val('');
     $("#code").val('');
 
 }
 
 function cargar_departamentos() {
-    limpia_empleados();
-    if ($("#tipotra").val('')) {
-        // $("#tipotra").empty();
-    }
-
+  //limpia_empleados();
+  //alert($("#tipotra").val());
+ 
+  //$("#tipotra").empty();
     $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
     $.ajax({
         type: "GET",
@@ -257,7 +261,8 @@ function save_horario() {
     var code = $("#code").val();
 
 
-    console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
+  
+//console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
     $.ajax({
         type: 'GET',
         //"./api/buscaempleado/" + idempleado
@@ -268,7 +273,8 @@ function save_horario() {
             $('#btn-mod-hora').hide();
             document.getElementById('btn-save-emp').disabled = false;
             editEmpleado(idempleado)
-
+            $("#form-hora").hide();
+           
 
         },
         error: function(data) {
@@ -702,16 +708,21 @@ function cargar_blade_checadas() {
 function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
-    cargar_departamentos();
+    
     idempleado = parseInt(id);
+    cargar_departamentos();
+         
     $.ajax({
         type: "GET",
         url: "./api/buscaempleado/" + idempleado,
 
         dataType: "json",
         success: function(data) {
+            
             cargar_horarios_empleado(data.data.horarios);
-
+      
+            console.log(data.data.DEFAULTDEPTID);
+          
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
             $("#sexo").val(data.data.Gender);
@@ -720,7 +731,7 @@ function editEmpleado(id) {
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
             $("#tipotra").val(data.data.DEFAULTDEPTID);
-
+           
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
 
@@ -729,6 +740,7 @@ function editEmpleado(id) {
             alert('error');
         }
     });
+   // cargar_departamentos();
 }
 
 
