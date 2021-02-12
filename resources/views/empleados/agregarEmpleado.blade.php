@@ -113,7 +113,7 @@
             <div class="col-md-3">
                
                   <br/><br/>
-                  <button type="button" onclick="save_horario()" id="btn-mod-hora">Modifica Horario</button>
+                  <button type="button" class="btn btn-outline-secondary" onclick="save_horario()" id="btn-mod-hora">Modifica Horario</button>
                
             </div>
        

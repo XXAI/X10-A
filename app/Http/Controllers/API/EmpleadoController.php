@@ -146,18 +146,19 @@ class EmpleadoController extends Controller
                     $registro->FPHONE=$request->clues;
                     $registro->DEFAULTDEPTID=$request->tipotra;            
                     $registro->MINZU=$request->area;   
-                    if ($request->code!=''){
                     $registro->save();
-                    $id_user=Usuarios::max('USERID');       
-                    $user_hora = new UsuarioHorario;
-                    $user_hora->USERID=$id_user;
-                    $user_hora->NUM_OF_RUN_ID=$request->code;
-                    $user_hora->STARTDATE=$request->ini_fec;
-                    $user_hora->ENDDATE=$request->fin_fec;
-                    $user_hora->ISNOTOF_RUN=0;
-                    $user_hora->ORDER_RUN=0;
-                    $user_hora->save();
-                    }
+                    if ($request->code!=''){
+                        
+                        $id_user=Usuarios::max('USERID');       
+                        $user_hora = new UsuarioHorario;
+                        $user_hora->USERID=$id_user;
+                        $user_hora->NUM_OF_RUN_ID=$request->code;
+                        $user_hora->STARTDATE=$request->ini_fec;
+                        $user_hora->ENDDATE=$request->fin_fec;
+                        $user_hora->ISNOTOF_RUN=0;
+                        $user_hora->ORDER_RUN=0;
+                        $user_hora->save();
+                        }
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }
            
@@ -209,11 +210,11 @@ class EmpleadoController extends Controller
             $registro->street=$request->street;
             $registro->CITY=$request->city;          
             $registro->FPHONE=$request->clues;
-           // $registro->DEFAULTDEPTID=$request->tipotra;            
+           $registro->DEFAULTDEPTID=$request->tipotra;            
             $registro->MINZU=$request->area;           
             $registro->save(); 
 
-
+            if ($request->code!=''){
             $user_hora = new UsuarioHorario;
             $user_hora->USERID=$USERID;
             $user_hora->NUM_OF_RUN_ID=$request->code;
@@ -222,6 +223,7 @@ class EmpleadoController extends Controller
             $user_hora->ISNOTOF_RUN=0;
             $user_hora->ORDER_RUN=0;
             $user_hora->save();
+            }
            /*  if ($request->code!=''){              
 
                 $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');                           
