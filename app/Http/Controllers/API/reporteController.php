@@ -574,7 +574,7 @@ class reporteController extends Controller
                                 $asistencia[$indice]['validacion'] = 1;
                             }                        
                     }
-                
+                if($validacion->TITLE!='VIHL731206AC8' && $validacion->SSN!='700250009'){
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
                         $checa_inhabil = DB::TABLE("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
@@ -596,7 +596,7 @@ class reporteController extends Controller
                         }
         
                     }
-
+                }
 
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")||($asistencia[$indice]['checado_entrada']=="SIN REGISTRO"))
                       $falta = $falta+1;

@@ -195,13 +195,8 @@ function limpia_empleados() {
     $("#codigo").val('');
     $("#clues").val('');
     $("#area").val('');
-<<<<<<< HEAD
-    $("#tipotra").val('');
-
-=======
    
  
->>>>>>> ragucaru
     $("#horario").val('');
     $("#code").val('');
 
@@ -387,7 +382,8 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     editEmpleado(id);
 
 
-    // console.log(iduser + '  hhh  ' + diaslab);
+    
+    console.log(id);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
@@ -652,7 +648,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-        console.log(value.checado_entrada);
+       // console.log(value.checado_entrada);
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
@@ -721,7 +717,7 @@ function editEmpleado(id) {
             
             cargar_horarios_empleado(data.data.horarios);
       
-            console.log(data.data.DEFAULTDEPTID);
+        //    console.log(data.data.DEFAULTDEPTID);
           
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
