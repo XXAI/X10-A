@@ -574,7 +574,7 @@ class reporteController extends Controller
                                 $asistencia[$indice]['validacion'] = 1;
                             }                        
                     }
-                if($validacion->TITLE!='VIHL731206AC8' && $validacion->SSN!='700250009'){
+
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
                         $checa_inhabil = DB::TABLE("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
@@ -582,6 +582,30 @@ class reporteController extends Controller
                         if(isset($checa_inhabil)){
                             $asistencia[$indice]['checado_entrada']=$checa_inhabil->HOLIDAYNAME;
                             $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                            $asistencia[$indice]['validacion'] = 1;
+                        }
+        
+                    }
+                    if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']<>"SIN REGISTRO")){
+                        $checa_inhabil = DB::TABLE("SAL_AUTO")
+                        ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
+                        ->first();
+                        if(isset($checa_inhabil)){                           
+                            $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                            $asistencia[$indice]['validacion'] = 1;
+                        }
+        
+                    }
+
+                //checadas contingencia
+                if($validacion->SEP!=0 && $validacion->SSN!='700250009'){
+                    if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
+                        $checa_contingencia = DB::TABLE("contingencia")
+                        ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
+                        ->first();
+                        if(isset($checa_contingencia)){
+                            $asistencia[$indice]['checado_entrada']=$checa_contingencia->HOLIDAYNAME;
+                            $asistencia[$indice]['checado_salida']=$checa_contingencia->HOLIDAYNAME;
                             $asistencia[$indice]['validacion'] = 1;
                         }
         
