@@ -211,10 +211,12 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                     @foreach ($anio as $index_mes => $mes )
                         <tr>
                             <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $index_anio }}</td>
-                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td>
+                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td> //<i class="fa fa-check" aria-hidden="true"></i>
                             @for($i = 1; $i <= 31; $i++)
                                 @if(array_key_exists($i, $mes))
-                                    <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $mes[$i] }}</td>
+                                    <td>
+                                        <?php echo ($mes[$i] == "") ? '<img style="border: 1px solid #efefef; height:15px; text-align:center" src="images/check.png">' : $mes[$i]; ?>
+                                    </td>
                                 @else    
                                     <td style='border: 1px solid #efefef; text-align:center'>-</td>
                                 @endif    
