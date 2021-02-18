@@ -10,6 +10,7 @@ use Carbon\Carbon, DB;
 use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
+use App\Models\Festivos;
 use App\Models\Horario;
 
 class reporteController extends Controller

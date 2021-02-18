@@ -63,6 +63,7 @@
           </div>
         </div>
       </li> -->
+      @if(Auth::user()->id != 15 && Auth::user()->id != 13 && Auth::user()->id != 10) 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_reportes" aria-expanded="true" aria-controls="menu_reportes">
           <i class="fa fa-fw fa-print"></i>
@@ -76,8 +77,10 @@
             <!--<a class="collapse-item" href="">ANUAL</a>-->
           </div>
         </div>
-      </li>
-      
+       </li>
+       @endif
+       
+    
       <li class="nav-item">
         <a class="nav-link collapsed" href="./logout">
           <i class="fa fa-fw fa-close"></i>

@@ -286,7 +286,7 @@ class CardexController extends Controller
                                         }
                                     }
                                     
-                                    $myVariable = "<i class='fa fa-check' aria-hidden='true'></i>";
+                                    
                                     if($checada_entrada == 1 and $checada_salida == 1){
                                         $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] = "" ; #Revisar
                                     }else if($checada_entrada == 2 and $checada_salida == 1){
