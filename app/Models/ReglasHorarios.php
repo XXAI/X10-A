@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ReglasHorarios extends Model
 {
     protected $table = "SchClass";
+    
+   
 }

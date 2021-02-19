@@ -10,7 +10,7 @@ use Carbon\Carbon, DB;
 use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
-use App\Models\Festivos;
+use App\Models\FinSemanaFestivo;
 use App\Models\Horario;
 
 class reporteController extends Controller
@@ -65,7 +65,7 @@ class reporteController extends Controller
 
            // DB::enableQueryLog()p;
           // dd($desc);
-
+       
           $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)
             /*  $validacion = DB::TABLE("userinfo")
              ->with("horarios.detalleHorario")
@@ -175,7 +175,7 @@ class reporteController extends Controller
                             ->where("USER_OF_RUN.NUM_OF_RUN_ID","=",$horario->NUM_OF_RUN_ID)
                             
                             ->get();
-
+                           
                         $ind = count($arreglo_reglas);
                         $arreglo_reglas[$ind]['horario'] = $buscaHorario[$key];
                         $arreglo_reglas[$ind]['dias'] = $empleado; 
@@ -234,7 +234,8 @@ class reporteController extends Controller
                     $indice_reglas++;
                
                 }
-               
+                $diafest = FinSemanaFestivo::where("USERID","=",$validacion->USERID)->get();
+                           // dd($fecha_evaluar->format('Y-m-d'));
               
                 if($var_reglas[$fecha_evaluar->dayOfWeekIso])
                 {
@@ -244,6 +245,9 @@ class reporteController extends Controller
                         ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
                         ->first();
                         }*/
+
+                        dd($fecha_evaluar->format('Y-m-d'));
+              
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
                         
@@ -353,25 +357,7 @@ class reporteController extends Controller
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id')
                                 ->first();
                                 
-                   /*          }
-                            else{
-                                $checada_extra = DB::table("incidencias")
-                                ->join("USERINFO", "USERINFO.USERID", "=", "incidencias.USERID")
-                                ->join("leaveclass","leaveclass.LeaveId", "=", "incidencias.incidencias_tipo_id")
-                                ->where("TITLE", "=",  $desc)
-                                ->whereBetween("fecha_ini",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                        
-                                ->select("leaveclass.LeaveName as Exepcion"
-                                    ,DB::RAW("MIN(CONVERT(nvarchar(5), fecha_ini, 108)) AS HORA")
-                                    ,DB::RAW("datediff(MINUTE,fecha_ini, fecha_fin)AS DIFHORA")
-                                    ,DB::RAW("datediff(DAY,fecha_ini, fecha_fin) AS DIFDIA")
-                                    ,'fecha_ini AS INI','fecha_fin AS FIN','leaveclass.LeaveId AS TIPO'
-                                    ,'incidencias.documentos as REPO'
-                                    ,'incidencias.id as Ban_Inci'
-                                    )
-                                ->groupBy('leaveclass.LeaveName','incidencias.fecha_fin','incidencias.fecha_ini','leaveclass.LeaveId','incidencias.documentos','incidencias.id')
-                                ->first();
-                                
-                            } */
+          
                                 
                           
 
@@ -456,10 +442,13 @@ class reporteController extends Controller
                                         $impr="Constancia de Entrada";                                    
                                         break;
                                     case 19:
-                                        $impr="Memorandum".$memo;                                    
+                                        $impr="Memorandum ".$memo;                                    
                                         break;
                                     case 20:
                                         $impr="Licencia Sin Goce ";                                    
+                                        break;
+                                    case 27:
+                                        $impr="Lista de Asistencia segun Memoradúm ".$memo;                                    
                                         break;
                                     case 30:
                                         $impr="Vacaciones 2020 Primavera-Verano";                                    
