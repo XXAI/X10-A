@@ -10,6 +10,6 @@ class FinSemanaFestivo extends Model
 
 
     public function festivo_finsemana(){
-        return $this->hasOne('App\Models\ReglasHorario', 'schClassid', 'SCHCLASSID');
+        return $this->hasOne('App\Models\ReglasHorarios', 'schClassid', 'SCHCLASSID');
     }
 }

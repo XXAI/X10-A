@@ -11,6 +11,8 @@ use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
 use App\Models\FinSemanaFestivo;
+//use App\Models\ReglasHorario;
+use App\Models\Festivos;
 use App\Models\Horario;
 
 class reporteController extends Controller
@@ -234,23 +236,81 @@ class reporteController extends Controller
                     $indice_reglas++;
                
                 }
-                $diafest = FinSemanaFestivo::where("USERID","=",$validacion->USERID)->get();
-                           // dd($fecha_evaluar->format('Y-m-d'));
-              
-                if($var_reglas[$fecha_evaluar->dayOfWeekIso])
+                
+                    
+
+               $festivos   = Festivos::where("STARTTIME", "=", $fecha_evaluar)->get();
+               $diafest = FinSemanaFestivo::with("festivo_finsemana")->where("COMETIME","=",$fecha_evaluar)->where("USERID","=",$validacion->USERID)->first();
+
+               
+              //  $arreglo_festivos = array();
+                //if(count($festivos) > 0){ $arreglo_festivos = $this->festivos($festivos); }
+              //dd($festivos);
+                if($var_reglas[$fecha_evaluar->dayOfWeekIso] || $diafest != '' )
                 {
 
-                        /*if($var_reglas[$fecha_evaluar->dayOfWeekIso]->idH==12);{
-                        $buscaFestivo=DB::TABLE("USER_TEMP_SCH")
-                        ->where("USER_TEMP_SCH.TITLE", "=",  $desc)
-                        ->first();
-                        }*/
-
-                        dd($fecha_evaluar->format('Y-m-d'));
+          //dd($diafest->COMETIME);
               
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
+                       if ($diafest != ''){
+
+
+                                    $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['StartTime']]);
+                                    $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['EndTime']]);
+
+
+                                    $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                         
+                                    $fecha_eval = $asistencia[$indice]['fecha'];
+                                    $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckInTime1']].":00.000";                   
+                                    $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckInTime2']].":00.000";
+                                    //$diatrab=substr($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->COMETIME],0,10)-substr($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->LEAVTIME],0,10);
+                                    $diatrab=0;
+                                    $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000";                   
+                                    $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime2']].":00.000";
+
+                                    $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['StartTime']].":00.000";
+                                    $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['EndTime']].":00.000";
+
+
+                                    if ($diatrab>=1)
+                                    {
+                                        $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000");
+                                        $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime2']].":00.000");
+                                        $modif=$inicio_sal;                                                             
+                                        $inicio_sal->addDays($diatrab);
+                                        $final_sal->addDays($diatrab);
+                                        $inicio_sal= str_replace(" ", "T", $inicio_sal);
+                                        $final_sal= str_replace(" ", "T", $final_sal);
+                                        $modif=$modif->subDays($diatrab);
+
+                                    }
+                      
+                  
+                     
+                       
+                  
+                            $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+                                
+                            
+
+
+                            $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000"); 
+                            $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
+                            $inicio_sal_fuera->subHours(2);
+                            $final_entra_fuera=$inicio_sal_fuera->subHours(2);
+                            $final_entra_fuera->subMinute();
+                            $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
+                            $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                            
+                                                    
+                            
+                            
+                            $asistencia[$indice]['horario'] = $inicio;
+
+
+                       }else{
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
                         $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
                        
@@ -259,55 +319,57 @@ class reporteController extends Controller
                         else
                             $htra=0;
 
+                            $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                         
-
-                        $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
-                        
-                        $fecha_eval = $asistencia[$indice]['fecha'];
-
-                        $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
-                        $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
-                       $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
-                       $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
-                       $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
-
-                       $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000";
-                       $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin.":00.000";
-
-                        if ($diatrab>=1)
-                            {
-                                $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
-                                $modif=$inicio_sal;                                                             
-                                $inicio_sal->addDays($diatrab);
-                                $final_sal->addDays($diatrab);
-                                $inicio_sal= str_replace(" ", "T", $inicio_sal);
-                                $final_sal= str_replace(" ", "T", $final_sal);
-                                $modif=$modif->subDays($diatrab);
-
-                            }
+                            $fecha_eval = $asistencia[$indice]['fecha'];
+    
+                            $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
+                            $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
+                            $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
+                            $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
+                            $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
+    
+                           $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000";
+                           $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin.":00.000";
+    
+                            if ($diatrab>=1)
+                                {
+                                    $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
+                                    $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
+                                    $modif=$inicio_sal;                                                             
+                                    $inicio_sal->addDays($diatrab);
+                                    $final_sal->addDays($diatrab);
+                                    $inicio_sal= str_replace(" ", "T", $inicio_sal);
+                                    $final_sal= str_replace(" ", "T", $final_sal);
+                                    $modif=$modif->subDays($diatrab);
+    
+                                }
+                               
                            
-                       
-                           // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
+                               // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
+                                
+                           
+                            $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+                             
                             
-                       
-                        $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
-                         
-                        
+    
+    
+                            $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                            $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
+                            $inicio_sal_fuera->subHours(2);
+                            $final_entra_fuera=$inicio_sal_fuera->subHours(2);
+                            $final_entra_fuera->subMinute();
+                            $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
+                            $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                           
+                                                   
+                            
+                            
+                        $asistencia[$indice]['horario'] = $inicio;
 
+                       }
 
-                        $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
-                        $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
-                        $inicio_sal_fuera->subHours(2);
-                        $final_entra_fuera=$inicio_sal_fuera->subHours(2);
-                        $final_entra_fuera->subMinute();
-                        $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
-                        $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
-                       
-                                               
-                        
-                        
-                    $asistencia[$indice]['horario'] = $inicio;
+             
 
                         $checada_entrada = DB::table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
