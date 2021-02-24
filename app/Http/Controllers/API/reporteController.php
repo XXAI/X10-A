@@ -40,8 +40,9 @@ class reporteController extends Controller
             
         }
         else
+        {
             $desc =$parametros['id'];
-
+        }
         //return $desc;
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
@@ -62,30 +63,22 @@ class reporteController extends Controller
             $fecha_view_fin    = new Carbon($fin);
         }
         
-       // return substr($f_ini, 0, 10).'T00:00:00.000';
-    
-
-           // DB::enableQueryLog()p;
-          // dd($desc);
+        //Se sacaron variables de inicio para las consultas en la base de datos
        
           $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)
-            /*  $validacion = DB::TABLE("userinfo")
-             ->with("horarios.detalleHorario")
-            ->where("userinfo.TITLE", "=",  $desc) */
             ->first();
-           // return $validacion;
-
-                $checa_dias = DB::table("user_speday")
-                ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
-                ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")                            
-                ->where("TITLE", "=",  $desc)   
-                ->whereBetween(DB::RAW("DATEPART(DW,STARTSPECDAY)"),[2,6])
-                ->groupBy('leaveclass.LeaveId','leaveclass.LeaveName')           
-                ->select("leaveclass.LeaveName as Exepcion"                            
-                ,'leaveclass.LeaveId AS TIPO'
-                ,DB::RAW("count(leaveclass.LeaveId) as total")                               
-                )           
-                ->get();
+            
+        $checa_dias = DB::table("user_speday")
+        ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
+        ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")                            
+        ->where("TITLE", "=",  $desc)   
+        ->whereBetween(DB::RAW("DATEPART(DW,STARTSPECDAY)"),[2,6])
+        ->groupBy('leaveclass.LeaveId','leaveclass.LeaveName')           
+        ->select("leaveclass.LeaveName as Exepcion"                            
+        ,'leaveclass.LeaveId AS TIPO'
+        ,DB::RAW("count(leaveclass.LeaveId) as total")                               
+        )           
+        ->get();
                 
             $vac19_1=0;
             $vac20_1=0;
@@ -236,11 +229,24 @@ class reporteController extends Controller
                     $indice_reglas++;
                
                 }
-                
-                    
+
+                $diafest = FinSemanaFestivo::with("festivo_finsemana")->where("COMETIME","=",$fecha_evaluar)->where("USERID","=",$validacion->USERID)->first();
+
+                $regla_festivo_fin_Semana = "";
+                if($diafest != null)
+                {
+                    foreach ($var_reglas as $key => $value) {
+                        if($value != null)
+                        {
+                            //$regla_festivo_fin_Semana = $value;
+                            $var_reglas[$fecha_evaluar->dayOfWeekIso]  = $value;
+                        }
+                    }
+                }
+                //return response()->json(["data" => $var_reglas]);    
 
                $festivos   = Festivos::where("STARTTIME", "=", $fecha_evaluar)->get();
-               $diafest = FinSemanaFestivo::with("festivo_finsemana")->where("COMETIME","=",$fecha_evaluar)->where("USERID","=",$validacion->USERID)->first();
+               
 
                
               //  $arreglo_festivos = array();
@@ -253,7 +259,7 @@ class reporteController extends Controller
               
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
-                       if ($diafest != ''){
+                       /*if ($diafest != ''){
 
 
                                     $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['StartTime']]);
@@ -310,7 +316,7 @@ class reporteController extends Controller
                             $asistencia[$indice]['horario'] = $inicio;
 
 
-                       }else{
+                       }else{*/
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
                         $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
                        
@@ -367,7 +373,7 @@ class reporteController extends Controller
                             
                         $asistencia[$indice]['horario'] = $inicio;
 
-                       }
+                       //}
 
              
 
@@ -686,6 +692,17 @@ class reporteController extends Controller
 
             $indice++;
             $fecha_pivote->addDays(1);
+
+            if($diafest != null)
+                {
+                    foreach ($var_reglas as $key => $value) {
+                        if($value != null)
+                        {
+                            //$regla_festivo_fin_Semana = $value;
+                            unset($var_reglas[$fecha_evaluar->dayOfWeekIso]);
+                        }
+                    }
+                }
             }
         
         $ps=$ps/60;

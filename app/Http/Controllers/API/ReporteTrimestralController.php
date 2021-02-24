@@ -49,7 +49,6 @@ class ReporteTrimestralController extends Controller
     {
         
         $parametros = Input::all();
-        //return response()->json(["usuarios" => "hola"]);
         $reglas     = ReglasHorarios::where("CheckIn", "=", 1)->get();
         
         $arreglo_reglas = array();
@@ -61,11 +60,9 @@ class ReporteTrimestralController extends Controller
         $mes  = date("m");
         $tipo_trabajador = 1;
         $trimestre = 1;
-        //$parametros = Input::all();
-
+        
         $fecha_limite_actual = Carbon::now();
 
-        //return response()->json(["usuarios" => $parametros]);
         if(count($parametros) > 0)
         {
             if($parametros['anio'] != "" && $parametros['trimestre']!="" && $parametros['tipo_trabajador'] != "")
@@ -78,19 +75,9 @@ class ReporteTrimestralController extends Controller
         }
 
         $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [10,11,12]];
-        //print_r($catalogo_trimestre);
-        //return response()->json(["data" => $catalogo_trimestre]);
-
-        /*$fecha_actual = Carbon::now();
-        $fecha_actual->year = $anio;
-        $fecha_actual->month = $mes;*/
         
         $empleados_trimestral = [];
 
-        //$fecha_inicio = "2019-11-01";
-        //$fecha_fin = "2019-11-30";
-      
-        
         foreach ($catalogo_trimestre[$trimestre] as $index_trimestre => $data_trimestre) {
 
             $fecha_ejercicio = Carbon::now();
@@ -117,10 +104,8 @@ class ReporteTrimestralController extends Controller
             {
                 $arreglo_salidas = $this->salidas($salidas);
             }
-
             
-            //return array("datos" => $trimestre);
-
+            //Obtenemos las checadas de todoos los trabajadores
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
             }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -164,8 +149,6 @@ class ReporteTrimestralController extends Controller
                 $arreglo_consulta = array();
                 $dias_habiles = array();
     
-                //$resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "RETARDOS" => 0, 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0];
-                
                 $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
                 $omisiones          = $this->omisiones($data_empleado->omisiones);
                 $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
@@ -200,7 +183,6 @@ class ReporteTrimestralController extends Controller
                                         //return array("datos" => $jornada_laboral);
                                 }
                                 //fin veririficador
-                                //return array("r1" => substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE,0,10));
                                 $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
                                 $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,10)."T23:59:59");
 
@@ -211,18 +193,6 @@ class ReporteTrimestralController extends Controller
                                 }
                                 
                                 
-                                /*while($fecha_evaluar->lessThan($fecha_inicio_periodo) && $fecha_evaluar->greaterThan($fecha_fin_periodo) && $indice_horario_seleccionado < count($horarios_periodo))
-                                {
-                                    $indice_horario_seleccionado++;
-                                    if($indice_horario_seleccionado < count($horarios_periodo))
-                                    {
-                                        $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
-                                        $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,9)."T23:59:59");
-                                        $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
-                                    }
-                                }*/
-                                
-
                                 while($fecha_evaluar->greaterThan($fecha_inicio_periodo) && $fecha_fin_periodo->lessThan($fecha_evaluar) && $indice_horario_seleccionado < count($horarios_periodo))
                                 {
                                     $indice_horario_seleccionado++;
