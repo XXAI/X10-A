@@ -259,64 +259,7 @@ class reporteController extends Controller
               
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
-                       /*if ($diafest != ''){
-
-
-                                    $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['StartTime']]);
-                                    $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['EndTime']]);
-
-
-                                    $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
-                        
-                                    $fecha_eval = $asistencia[$indice]['fecha'];
-                                    $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckInTime1']].":00.000";                   
-                                    $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckInTime2']].":00.000";
-                                    //$diatrab=substr($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->COMETIME],0,10)-substr($var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->LEAVTIME],0,10);
-                                    $diatrab=0;
-                                    $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000";                   
-                                    $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime2']].":00.000";
-
-                                    $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['StartTime']].":00.000";
-                                    $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['EndTime']].":00.000";
-
-
-                                    if ($diatrab>=1)
-                                    {
-                                        $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000");
-                                        $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime2']].":00.000");
-                                        $modif=$inicio_sal;                                                             
-                                        $inicio_sal->addDays($diatrab);
-                                        $final_sal->addDays($diatrab);
-                                        $inicio_sal= str_replace(" ", "T", $inicio_sal);
-                                        $final_sal= str_replace(" ", "T", $final_sal);
-                                        $modif=$modif->subDays($diatrab);
-
-                                    }
                       
-                  
-                     
-                       
-                  
-                            $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
-                                
-                            
-
-
-                            $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso][$diafest->festivo_finsemana['CheckOutTime1']].":00.000"); 
-                            $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
-                            $inicio_sal_fuera->subHours(2);
-                            $final_entra_fuera=$inicio_sal_fuera->subHours(2);
-                            $final_entra_fuera->subMinute();
-                            $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
-                            $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
-                            
-                                                    
-                            
-                            
-                            $asistencia[$indice]['horario'] = $inicio;
-
-
-                       }else{*/
                         $jorIni=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
                         $jorFin=new Carbon($var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin);
                        
@@ -637,7 +580,7 @@ class reporteController extends Controller
                         $checa_inhabil = DB::TABLE("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
-                        if(isset($checa_inhabil)){
+                        if(isset($checa_inhabil) && $diafest ==''){
                             $asistencia[$indice]['checado_entrada']=$checa_inhabil->HOLIDAYNAME;
                             $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
                             $asistencia[$indice]['validacion'] = 1;
@@ -655,13 +598,13 @@ class reporteController extends Controller
         
                     }
 
-                //checadas contingencia
-                if($validacion->SEP!=0 && $validacion->SSN!='700250009' && $fecha_eval<='2021-01-01'){
+                //checadas contingencia&& $fecha_eval<='2021-01-01'
+                if($validacion->SEP!=0 && $validacion->SSN!='700250009' ){
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
                         $checa_contingencia = DB::TABLE("contingencia")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
-                        if(isset($checa_contingencia)){
+                        if(isset($checa_contingencia) ){
                             $asistencia[$indice]['checado_entrada']=$checa_contingencia->HOLIDAYNAME;
                             $asistencia[$indice]['checado_salida']=$checa_contingencia->HOLIDAYNAME;
                             $asistencia[$indice]['validacion'] = 1;
