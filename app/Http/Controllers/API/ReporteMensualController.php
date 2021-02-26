@@ -10,6 +10,7 @@ use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;;
 use App\Models\Usuarios;
 use App\Models\ReglasHorarios;
 use App\Models\Festivos;
+use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use Illuminate\Support\Facades\Input;
@@ -100,7 +101,14 @@ class ReporteMensualController extends Controller
         if(count($festivos) > 0)
             $arreglo_festivos = $this->festivos($festivos);
         
+        //obtener dias contingencia
 
+        $contingencia  = Contingencia::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
+        $arreglo_contingencia = array();
+        if(count($contingencia) > 0)
+        {
+            $arreglo_contingencia = $this->contingencia($contingencia);
+        }
         //Obtenemos salidas autorizadas
         $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
         $arreglo_salidas = array();
@@ -215,7 +223,7 @@ class ReporteMensualController extends Controller
 
                                     $checada_entrada = 0;
                                     $checada_salida  = 0;
-                                    if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos))
+                                    if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos) && !array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_contingencia))
                                     {
                                         if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
                                         {
@@ -440,6 +448,16 @@ class ReporteMensualController extends Controller
             $arreglo_festivos = $this->festivos($festivos);
         }
         return $arreglo_festivos;
+    }
+
+    public function dias_contingencia($fecha_inicio, $fecha_fin)
+    {
+        $contingencia   = Contingencia::where("STARTTIME", ">=", $fecha_inicio)->where("STARTTIME", "<=", $fecha_fin)->get();
+        $arreglo_contingencia = array();
+        if(count($contingencia) > 0){
+            $arreglo_contingencia = $this->contingencia($contingencia);
+        }
+        return $arreglo_contingencia;
     }
 
     public function salidas_autorizadas($fecha_inicio, $fecha_fin)

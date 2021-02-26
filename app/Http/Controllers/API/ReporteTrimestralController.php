@@ -11,6 +11,7 @@ use App\Models\Usuarios;
 use App\Models\User;
 use App\Models\ReglasHorarios;
 use App\Models\Festivos;
+use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use App\Models\ConfiguracionTrimestral;
@@ -94,6 +95,16 @@ class ReporteTrimestralController extends Controller
             if(count($festivos) > 0)
             {
                 $arreglo_festivos = $this->festivos($festivos);
+            }
+
+
+            //obtener dias contingencia
+
+            $contingencia  = Contingencia::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
+            $arreglo_contingencia = array();
+            if(count($contingencia) > 0)
+            {
+                $arreglo_contingencia = $this->contingencia($contingencia);
             }
 
             
@@ -229,7 +240,7 @@ class ReporteTrimestralController extends Controller
                                             
                                             $checada_entrada = 0;
                                             $checada_salida  = 0;
-                                            if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos))
+                                            if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos) && !array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_contingencia))
                                             {
                                                 if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
                                                 {
@@ -251,6 +262,7 @@ class ReporteTrimestralController extends Controller
                                                             }
                                                         }
                                                     }
+                                                    
 
                                                     if(array_key_exists($fecha_evaluar->format('Y-m-d'), $omisiones))
                                                     {
@@ -402,6 +414,15 @@ class ReporteTrimestralController extends Controller
             $arreglo_festivos[substr($value->STARTTIME, 0,10)][] = $value;
         }
         return $arreglo_festivos;
+    }
+
+    function contingencia($arreglo)
+    {
+        $arreglo_contingencia = array();
+        foreach ($arreglo as $key => $value) {
+            $arreglo_contingencia [substr($value->STARTTIME, 0,10)][] = $value;
+        }
+        return $arreglo_contingencia;
     }
 
     function salidas($arreglo)
