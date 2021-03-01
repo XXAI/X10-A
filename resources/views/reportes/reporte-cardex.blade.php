@@ -214,7 +214,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                             <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td> //<i class="fa fa-check" aria-hidden="true"></i>
                             @for($i = 1; $i <= 31; $i++)
                                 @if(array_key_exists($i, $mes))
-                                    <td>
+                                    <td style='border: 1px solid #efefef; text-align:center'>
                                         <?php echo $mes[$i]; ?>
                                     </td>
                                 @else    
