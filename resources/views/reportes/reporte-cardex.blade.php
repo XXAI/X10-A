@@ -215,7 +215,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                             @for($i = 1; $i <= 31; $i++)
                                 @if(array_key_exists($i, $mes))
                                     <td>
-                                        <?php echo ($mes[$i] == "") ? '<img style="border: 1px solid #efefef; height:15px; text-align:center" src="images/check.png">' : $mes[$i]; ?>
+                                        <?php echo $mes[$i]; ?>
                                     </td>
                                 @else    
                                     <td style='border: 1px solid #efefef; text-align:center'>-</td>
