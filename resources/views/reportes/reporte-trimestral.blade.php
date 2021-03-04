@@ -235,7 +235,7 @@ switch($empleados['trimestre'])
                     <td class='linea'>{{ $letras[$empleado->TRIMESTRAL] }}</td>
                    
                 </tr>    
-                <?php $numero++; ?>
+                
             @endforeach
             
         </tbody>

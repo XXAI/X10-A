@@ -24,8 +24,8 @@ class ReporteTrimestralController extends Controller
         //return Input::all();
         $empleados = $this->claseAsistencia($request);
         
-        return response()->json(["usuarios" => $empleados['datos']]);
-        //return response()->json(["usuarios" => $empleados]);
+        //return response()->json(["usuarios" => $empleados['datos']]);
+        return response()->json(["usuarios" => $empleados]);
     }
 
     public function reporteTrimestral(Request $request)
@@ -79,6 +79,7 @@ class ReporteTrimestralController extends Controller
         
         $empleados_trimestral = [];
 
+        
         foreach ($catalogo_trimestre[$trimestre] as $index_trimestre => $data_trimestre) {
 
             $fecha_ejercicio = Carbon::now();
@@ -349,7 +350,7 @@ class ReporteTrimestralController extends Controller
                     }
                 }
                 
-                if($trimestre == 2)
+                if($trimestre == 4)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
                 }else if($verificador == $dias_mes)
@@ -365,6 +366,7 @@ class ReporteTrimestralController extends Controller
            
             $lista_empleados_trimestral = [];
             foreach ($empleados_trimestral as $index_trimestral => $data_trimestral) {
+                
                 if($data_trimestral['TRIMESTRAL'] > 0)
                 {
                     /*if(count($data_trimestral['horarios']))
