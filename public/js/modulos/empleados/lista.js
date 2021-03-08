@@ -196,18 +196,18 @@ function limpia_empleados() {
     $("#codigo").val('');
     $("#clues").val('');
     $("#area").val('');
-   
- 
+
+
     $("#horario").val('');
     $("#code").val('');
 
 }
 
 function cargar_departamentos() {
-  //limpia_empleados();
-  //alert($("#tipotra").val());
- 
-  //$("#tipotra").empty();
+    //limpia_empleados();
+    //alert($("#tipotra").val());
+
+    //$("#tipotra").empty();
     $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
     $.ajax({
         type: "GET",
@@ -257,8 +257,8 @@ function save_horario() {
     var code = $("#code").val();
 
 
-  
-//console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
+
+    //console.log("idhorario: " + idhorario + "    inifec: " + ini_fec + "    fechafin:  " + fin_fec)
     $.ajax({
         type: 'GET',
         //"./api/buscaempleado/" + idempleado
@@ -270,7 +270,7 @@ function save_horario() {
             document.getElementById('btn-save-emp').disabled = false;
             editEmpleado(idempleado)
             $("#form-hora").hide();
-           
+
 
         },
         error: function(data) {
@@ -339,6 +339,7 @@ function cargar_datos_empleado(datos) {
         linea.append(campo1, campo2, campo3, campo4, campo5,campo6);
         table.append(linea);
 
+
     });
 
 }
@@ -389,7 +390,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     editEmpleado(id);
 
 
-    
+
     console.log(id);
     obten_fecnac(rfc);
     sacadias();
@@ -655,7 +656,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-       // console.log(value.checado_entrada);
+        // console.log(value.checado_entrada);
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
@@ -711,21 +712,21 @@ function cargar_blade_checadas() {
 function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
-    
+
     idempleado = parseInt(id);
     cargar_departamentos();
-         
+
     $.ajax({
         type: "GET",
         url: "./api/buscaempleado/" + idempleado,
 
         dataType: "json",
         success: function(data) {
-            
+
             cargar_horarios_empleado(data.data.horarios);
-      
-        //    console.log(data.data.DEFAULTDEPTID);
-          
+
+            //    console.log(data.data.DEFAULTDEPTID);
+
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
             $("#sexo").val(data.data.Gender);
@@ -734,7 +735,7 @@ function editEmpleado(id) {
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
             $("#tipotra").val(data.data.DEFAULTDEPTID);
-           
+
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
 
@@ -743,7 +744,7 @@ function editEmpleado(id) {
             alert('error');
         }
     });
-   // cargar_departamentos();
+    // cargar_departamentos();
 }
 
 
