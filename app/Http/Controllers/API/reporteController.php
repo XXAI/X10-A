@@ -236,10 +236,13 @@ class reporteController extends Controller
                 if($diafest != null)
                 {
                     foreach ($var_reglas as $key => $value) {
+                       
                         if($value != null)
                         {
+                            
                             //$regla_festivo_fin_Semana = $value;
                             $var_reglas[$fecha_evaluar->dayOfWeekIso]  = $value;
+                          
                         }
                     }
                 }

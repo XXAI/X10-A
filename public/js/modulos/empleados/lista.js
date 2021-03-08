@@ -315,7 +315,7 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-        // console.log(value.horarios);
+         console.log(value);
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
@@ -325,17 +325,18 @@ function cargar_datos_empleado(datos) {
 
             // diaslab = (value.horarios);
             // console.log(diaslab[mike]);
+            var campo5 = $("<td>" + hentrada + " - " + hsalida +"</td>");
             if (idcap==15 || idcap==13 || idcap==10){
-                var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a>" );
+                var campo6 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a>" );
             }
             else{
                
-                var campo5 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a><a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>" );
+                var campo6 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a><a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>" );
             }
         } else
             var campo4 = $("<td>Sin Horario</><a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
 
-        linea.append(campo1, campo2, campo3, campo4, campo5); //,campo6);
+        linea.append(campo1, campo2, campo3, campo4, campo5,campo6);
         table.append(linea);
 
     });
