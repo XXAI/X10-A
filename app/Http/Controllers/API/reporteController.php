@@ -20,6 +20,8 @@ class reporteController extends Controller
 
     public function consulta_checadas(Request $request)
     {
+        $zk = DB::connection('ZK');
+        $bs = DB::connection('BS'); 
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
@@ -28,7 +30,7 @@ class reporteController extends Controller
         $dia_actual = $fecha_actual->day;
         $Rfc = $request->rfc;
         $sol = $request->soli;
-//        return $sol;
+
 
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
@@ -43,7 +45,14 @@ class reporteController extends Controller
         {
             $desc =$parametros['id'];
         }
-        //return $desc;
+
+        $buscaBase=$bs->table("tablaBases")->where("rfc","=",$desc)->first();
+        if ($buscaBase->base=='ZKAccess'){
+            $conexion=$zk;
+        }else{
+            $conexion=$bs;
+        }
+      // dd($conexion);
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
 
@@ -65,8 +74,13 @@ class reporteController extends Controller
         
         //Se sacaron variables de inicio para las consultas en la base de datos
        
-          $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)
-            ->first();
+         // $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
+
+            $validacion= $conexion->table("userinfo")
+            ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
+            ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
+            ->where("userinfco.TITLE", "=",  $desc)->first();
+
             
         $checa_dias = DB::table("user_speday")
         ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")

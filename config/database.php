@@ -78,6 +78,35 @@ return [
             'sslmode' => 'prefer',
         ],
 
+       
+         'ZK' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_ZK', '10.10.10.250'),
+            'port' => env('DB_PORT_ZK', '1433'),
+            'database' => env('DB_DATABASE_ZK', 'forge'),
+            'username' => env('DB_USERNAME_ZK', 'forge'),
+            'password' => env('DB_PASSWORD_ZK', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+
+        ],
+
+        'BS' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_BANCO_SANGRE', 'localhost'),
+            'port' => env('DB_PORT_BANCO_SANGRE', '1433'),
+            'database' => env('DB_DATABASE_BANCO_SANGRE', 'forge'),
+            'username' => env('DB_USERNAME_BANCO_SANGRE', 'forge'),
+            'password' => env('DB_PASSWORD_BANCO_SANGRE', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+
+        ], 
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
