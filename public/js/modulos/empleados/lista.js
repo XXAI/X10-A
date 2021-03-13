@@ -310,12 +310,13 @@ function modifica_horario(idho, inifec, finfec, idh, id) {
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
+    console.log(datos);
     $.each(datos, function(key, value) {
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-         console.log(value);
+         
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
@@ -1040,6 +1041,7 @@ function inserta_incidencia_emp() {
                     url: "../api/guarda-just-emp",
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
                     success: function(data) {
+                        console.log(data);
                         /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
                           document.getElementById('save_in_emp').disabled = true;
                           $("#modal_justificante").modal('toggle').hide;

@@ -79,7 +79,7 @@ return [
         ],
 
        
-         'ZK' => [
+        'ZK' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST_ZK', '10.10.10.250'),
