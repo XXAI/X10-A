@@ -28,8 +28,8 @@ class EmpleadoController extends Controller
     public function index(Request $request)
     {
 
-        $zk = DB::connection('ZK');
-        $bs = DB::connection('BS'); 
+        /* $zk = DB::connection('ZK');
+        $bs = DB::connection('BS');  */
         $name = $request->get('buscar');  
 
         /* $usuarios = $bs->table('USERINFO')->where('TITLE', 'BEBA620313GI5')->first();
