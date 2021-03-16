@@ -55,9 +55,16 @@ function cargar_empleados(dato) {
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
         cargar_datos_empleado(data.usuarios.data);
-
+        festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
+    });
+}
+
+function festivos(datosfestivos){
+    $.each(datosfestivos, function(key, value) {
+
+        console.log(value.STARTTIME);
     });
 }
 
@@ -310,7 +317,7 @@ function modifica_horario(idho, inifec, finfec, idh, id) {
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
-    // console.log(datos);
+    //console.log(datos);
     $.each(datos, function(key, value) {
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
@@ -379,6 +386,7 @@ function obtenerDiasLab(idho) {
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
         cargar_datos_empleado(data.usuarios.data);
+        
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -971,8 +979,6 @@ function validando_incidencia() {
 }
 
 function inserta_incidencia() {
-
-
     var x = 0;
     var dia_eva;
     for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
