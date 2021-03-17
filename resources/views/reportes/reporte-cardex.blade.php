@@ -13,12 +13,10 @@
             border: 0px;
             
         }
-
         .fuente
         {
             font-family: Helvetica;
         }
-
         .fuente_datos
         {
             font-family: Helvetica;
@@ -28,24 +26,20 @@
         {
             font-size: 9pt;
         }
-
         .firmantes
         {
             font-size: 9pt;
             font-family: Helvetica;
         }
-
         .linea
         {
             border-bottom: 1px solid #cfcfcf;
             border-right: 1px solid #cfcfcf;
         }
-
         .centrado
         {
             text-align: center; 
         }
-
         .falta
         {
             background-color: #EFEFEF;
@@ -54,22 +48,18 @@
         {
             padding:0px 20px 0px 20px;
         }
-
         @page {
             margin: 100px 35px 0px 50px;
         }
-
         .encabezados
         {
             font-size: 9pt;
             text-align: center;
         }
-
         body{
             margin: 100px 0px 30px 5px;
             /*border:1px solid #000;*/
         }
-
         header {
             position: fixed;
             width:100%;
@@ -77,17 +67,14 @@
             left: 0px;
             right: 0px;
             height: 50px;
-
             
         }
-
         /*.footer {
             position: fixed; 
             bottom: 90px; 
             left: 0px; 
             right: 0px;
             height: 50px; 
-
          
         }*/
         .contenido
@@ -159,10 +146,10 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
     </table> 
     </header>  
     
-    
+    <br>
     <!--<table width="100%"  class="fuente"><tr><td style='text-align:center'>OBSERVACIONES</td></tr></table>
     <br>
-    <br>
+    
     <br>-->
     
     <div class="contenido">
@@ -211,12 +198,10 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                     @foreach ($anio as $index_mes => $mes )
                         <tr>
                             <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $index_anio }}</td>
-                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td> //<i class="fa fa-check" aria-hidden="true"></i>
+                            <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $meses[$index_mes] }}</td>
                             @for($i = 1; $i <= 31; $i++)
                                 @if(array_key_exists($i, $mes))
-                                    <td style='border: 1px solid #efefef; text-align:center'>
-                                        <?php echo $mes[$i]; ?>
-                                    </td>
+                                    <td style='border: 1px solid #efefef; height:30px; text-align:center'>{{ $mes[$i] }}</td>
                                 @else    
                                     <td style='border: 1px solid #efefef; text-align:center'>-</td>
                                 @endif    
@@ -265,6 +250,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
         </tbody>    
     </table> 
     <div class="page_break"></div>
+    <br>
  <table width="100%"  class="fuente">
     <tr><td style='text-align:center'>OBSERVACIONES</td></tr>
     <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
@@ -278,7 +264,6 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
     <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
  </table>
     
-
  <!--<script type="text/php">
         $pdf->page_text(680, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
 </script>-->      

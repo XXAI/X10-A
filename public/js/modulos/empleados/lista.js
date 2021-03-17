@@ -16,6 +16,7 @@ var id_inci;
 var msj, ban_url;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
+arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
 
@@ -61,12 +62,33 @@ function cargar_empleados(dato) {
     });
 }
 
-function festivos(datosfestivos){
-    $.each(datosfestivos, function(key, value) {
+function festivos(diasfestivos) {
+    $.each(diasfestivos, function(key, value) {
+        const arreglo_diafest = value.STARTTIME.substr(0, 10);
 
-        console.log(value.STARTTIME);
+        //console.log(arreglo_diafest);
     });
 }
+
+
+
+function festivos() {
+    jQuery.ajax({
+        type: "GET",
+        dataType: "json",
+        url: './api/empleado',
+    }).done(function(data, textStatus, jqXHR) {
+        arreglo_diafest = data.festivos;
+        // console.log(arreglo_diafest);
+        /*  $.each(data.festivos, function(key, value) {
+             arreglo_diafest = value.STARTTIME.substr(0, 10);
+             //console.log(arreglo_diafest);
+         }); */
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    });
+}
+
 
 function cargar_horarios() {
 
@@ -386,7 +408,7 @@ function obtenerDiasLab(idho) {
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
         cargar_datos_empleado(data.usuarios.data);
-        
+
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -986,29 +1008,53 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-        // console.log(diaslab);
-        for (var j = 0; j < diaslab.length; j++) {
-            if (moment(fini).day() == 0)
-                dia_eva = 7;
-            else
-                dia_eva = moment(fini).day();
-            console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
-            if (dia_eva == diaslab[j].EDAYS) {
-                $.ajax({
-                    type: 'POST',
-                    url: url_in,
-                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
-                    success: function(data) {
-                        console.log(data);
+        festivos();
+        $.each(arreglo_diafest, function(key, value) {
+            arreglo_diafest = value.STARTTIME.substr(0, 10);
+            // console.log(arreglo_diafest);
 
-                    },
-                    error: function(data) {
-                        swal("Error!", "No se registro ningun dato!", "error");
-                    }
-                })
+        });
 
+        if (arreglo_diafest.includes(fini.substr(0, 10)) == true) {
+            $.ajax({
+                type: 'POST',
+                url: url_in,
+                data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+                success: function(data) {
+                    console.log(data);
+
+                },
+                error: function(data) {
+                    swal("Error!", "No se registro ningun dato!", "error");
+                }
+            })
+        } else {
+
+            for (var j = 0; j < diaslab.length; j++) {
+                if (moment(fini).day() == 0)
+                    dia_eva = 7;
+                else
+                    dia_eva = moment(fini).day();
+                console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
+                if (dia_eva == diaslab[j].EDAYS) {
+                    $.ajax({
+                        type: 'POST',
+                        url: url_in,
+                        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+                        success: function(data) {
+                            console.log(data);
+
+                        },
+                        error: function(data) {
+                            swal("Error!", "No se registro ningun dato!", "error");
+                        }
+                    })
+
+                }
             }
         }
+
+        // console.log(fini.substr(0, 10));
 
         x = 1;
 
