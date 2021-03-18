@@ -46,12 +46,12 @@ class reporteController extends Controller
             $desc =$parametros['id'];
         }
 
-        $buscaBase=$bs->table("tablaBases")->where("rfc","=",$desc)->first();
+      /*   $buscaBase=$bs->table("tablaBases")->where("rfc","=",$desc)->first();
         if ($buscaBase->base=='ZKAccess'){
             $conexion=$zk;
         }else{
             $conexion=$bs;
-        }
+        } */
       // dd($conexion);
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
