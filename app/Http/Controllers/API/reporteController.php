@@ -20,8 +20,8 @@ class reporteController extends Controller
 
     public function consulta_checadas(Request $request)
     {
-        $zk = DB::connection('ZK');
-        $bs = DB::connection('BS'); 
+       /*  $zk = DB::connection('ZK');
+        $bs = DB::connection('BS');  */
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
