@@ -74,12 +74,12 @@ class reporteController extends Controller
         
         //Se sacaron variables de inicio para las consultas en la base de datos
        
-          //$validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
+          $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
 
-            $validacion= $conexion->table("userinfo")
+          /*  $validacion= $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
-            ->where("userinfo.TITLE", "=",  $desc)->first();
+            ->where("userinfo.TITLE", "=",  $desc)->first();*/
 
             
         $checa_dias = DB::table("user_speday")
