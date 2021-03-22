@@ -419,6 +419,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
 
     console.log(id);
+    editEmpleado(id);
     obten_fecnac(rfc);
     sacadias();
     var mes = date.getMonth() + 1; //obteniendo mes
@@ -765,6 +766,7 @@ function editEmpleado(id) {
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
+            console.log(diaslab);
 
         },
         error: function(data) {
@@ -911,6 +913,8 @@ function validar(idinci) {
 }
 
 function validando_incidencia() {
+    editEmpleado(idempleado);
+    
     if (ban_url == 1) {
         id = $("#userid").val();
         documentos = $("#documentos").val();
@@ -1166,6 +1170,7 @@ function guardar_incidencia() {
             $("#autorizo").val('');
             $("#observaciones").val('');
             document.getElementById('buscar').click();
+            document.getElementById('filtro_check').click();
             // }
         } else {
             if (val_in == 0) {
