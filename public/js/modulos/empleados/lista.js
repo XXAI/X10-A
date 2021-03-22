@@ -1012,14 +1012,14 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-        festivos();
+         /* festivos();
         $.each(arreglo_diafest, function(key, value) {
             arreglo_diafest = value.STARTTIME.substr(0, 10);
             // console.log(arreglo_diafest);
 
         });
 
-        if (arreglo_diafest.includes(fini.substr(0, 10)) == true) {
+       if (arreglo_diafest.includes(fini.substr(0, 10)) == true) {
             $.ajax({
                 type: 'POST',
                 url: url_in,
@@ -1033,7 +1033,7 @@ function inserta_incidencia() {
                 }
             })
         } else {
-
+ */
             for (var j = 0; j < diaslab.length; j++) {
                 if (moment(fini).day() == 0)
                     dia_eva = 7;
@@ -1056,7 +1056,7 @@ function inserta_incidencia() {
 
                 }
             }
-        }
+        //}
 
         // console.log(fini.substr(0, 10));
 
