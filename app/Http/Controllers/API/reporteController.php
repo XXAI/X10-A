@@ -487,6 +487,9 @@ class reporteController extends Controller
                                     case 32:
                                         $impr="Vacaciones 2020 Invierno";                                   
                                         break;
+                                    case 33:
+                                        $impr="Vacaciones 2021 Primavera";                                   
+                                        break;
                                     default:
                                         $impr="";
                                         break;
