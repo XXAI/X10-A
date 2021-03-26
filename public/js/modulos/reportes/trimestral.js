@@ -64,7 +64,7 @@ function cargar_dato(dato)
             url: './api/trimestral',
       }).done(function( data, textStatus, jqXHR ) {
             lista.html("");
-            console.log(data.usuarios.length);
+            //console.log(data.usuarios);
             if(data.usuarios.length == 0)
             {
                   var linea = $("<tr ></tr>");
@@ -75,7 +75,9 @@ function cargar_dato(dato)
             }
             var contador = 0;
             $.each(data.usuarios, function(index, value)
+
             {
+             //     console.log(index);
                 contador = contador + 1;
                 var linea = $("<tr ></tr>");
                 var campo1 = $("<td>"+contador+"</td>");

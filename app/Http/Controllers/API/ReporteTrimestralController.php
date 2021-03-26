@@ -24,8 +24,8 @@ class ReporteTrimestralController extends Controller
         //return Input::all();
         $empleados = $this->claseAsistencia($request);
         
-        //return response()->json(["usuarios" => $empleados['datos']]);
-        return response()->json(["usuarios" => $empleados]);
+        return response()->json(["usuarios" => $empleados['datos']]);
+       // return response()->json(["usuarios" => $empleados]);
     }
 
     public function reporteTrimestral(Request $request)
@@ -101,12 +101,13 @@ class ReporteTrimestralController extends Controller
 
             //obtener dias contingencia
 
-            $contingencia  = Contingencia::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
+             $contingencia  = Contingencia::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
             $arreglo_contingencia = array();
             if(count($contingencia) > 0)
             {
                 $arreglo_contingencia = $this->contingencia($contingencia);
             }
+           
 
             
             //Obtenemos salidas autorizadas
@@ -129,9 +130,11 @@ class ReporteTrimestralController extends Controller
             }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
             }])
-            ->whereNull("state")
-            ->WHERE("PAGER", "NOT LIKE", 'CF%')
-            ->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
+             ->whereNull("state")
+            ->where("ATT","=","1")
+            ->WHERE("PAGER", "NOT LIKE", 'CF%') 
+            //->where("FPHONE", 'like','%CSSSA017213%')
+           ->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
             ->WHERE("OPHONE", "!=", 3)
             ->Where(function($query2)use($parametros){
                 $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
@@ -139,12 +142,12 @@ class ReporteTrimestralController extends Controller
                         ->orWhere('Badgenumber', $parametros['nombre']);
             })
             //->where("TITLE","=", 'AESS770416PJ4')
-            ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
-            //->limit(200)
+           // ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+            ->limit(200) 
             ->orderBy("carType", "DESC")
             ->get();
             
-
+           // return $empleados;
             foreach ($empleados as $index_empleado => $data_empleado) {
                 $empleado_seleccionado = $empleados[$index_empleado];
                 
@@ -350,7 +353,7 @@ class ReporteTrimestralController extends Controller
                     }
                 }
                 
-                if($trimestre == 4)
+                if($trimestre == 1)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
                 }else if($verificador == $dias_mes)
