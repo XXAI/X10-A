@@ -497,6 +497,11 @@ function guardar_empleado() {
     var code = $("#code").val();
     var fin_fec = $("#fin_fec").val();
     var street = $('select[name="tipotra"] option:selected').text();
+    var mmi;
+    if ($("#mmi").prop('checked')){
+        mmi=0;
+    }
+    else{mmi = 1;}
     var city;
     if (tipotra == 6)
         city = "416";
@@ -527,7 +532,7 @@ function guardar_empleado() {
     $.ajax({
         type: tipo,
         url: url_emp,
-        data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code },
+        data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi },
         success: function(data) {
 
             swal("Exito!", data.mensaje, "success");
@@ -762,11 +767,14 @@ function editEmpleado(id) {
             $("#codigo").val(data.data.PAGER);
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
-            $("#tipotra").val(data.data.DEFAULTDEPTID);
+            $("#tipotra").val(data.data.DEFAULTDEPTID);           
+            if (data.data.ATT==0) {                
+                $("#mmi").prop('checked',true);
+            }
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
-            console.log(diaslab);
+            //console.log(diaslab);
 
         },
         error: function(data) {

@@ -75,8 +75,17 @@
                         <label for="area" class="col-sm-3 col-form-label">Area</label>
                         <input type="text" class="form-control" id="area" name="area" maxlength="150"required>
                      </div>
-                  </div>
+                  </div>                 
                   
+               </div>
+               <div class="row">
+                  <div class="col-md-4" >
+                     <div class="form-group">
+                        <label for="area" class="col-sm-10 col-form-label">Seleccionar si es Mando Medio</label>
+                        <input class="form-check-input"  type="checkbox" value="1" id="mmi" name="mmi">
+                        
+                     </div>
+                  </div>
                </div>
             </div>
             <div class="card-footer text-muted">    
