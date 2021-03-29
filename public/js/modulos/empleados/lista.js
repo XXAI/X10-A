@@ -770,7 +770,7 @@ function editEmpleado(id) {
             $("#tipotra").val(data.data.DEFAULTDEPTID);           
             if (data.data.ATT==0) {                
                 $("#mmi").prop('checked',true);
-            }
+            }else{ $("#mmi").prop('checked',false);}
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);

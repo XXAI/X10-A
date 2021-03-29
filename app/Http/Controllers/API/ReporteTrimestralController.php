@@ -143,7 +143,7 @@ class ReporteTrimestralController extends Controller
             })
             //->where("TITLE","=", 'AESS770416PJ4')
             ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
-            ->limit(200) 
+            //->limit(200) 
             ->orderBy("carType", "DESC")
             ->get();
             
