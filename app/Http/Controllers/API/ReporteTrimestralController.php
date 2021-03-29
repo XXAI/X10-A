@@ -142,7 +142,7 @@ class ReporteTrimestralController extends Controller
                         ->orWhere('Badgenumber', $parametros['nombre']);
             })
             //->where("TITLE","=", 'AESS770416PJ4')
-           // ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+            ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
             ->limit(200) 
             ->orderBy("carType", "DESC")
             ->get();
