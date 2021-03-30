@@ -29,8 +29,8 @@ class EmpleadoController extends Controller
     public function index(Request $request)
     {
 
-        /* $zk = DB::connection('ZK');
-        $bs = DB::connection('BS');  */
+         $zk = DB::connection('ZK');
+        $bs = DB::connection('BS');  
         $name = $request->get('buscar');  
 
         /* $usuarios = $bs->table('USERINFO')->where('TITLE', 'BEBA620313GI5')->first();
@@ -45,9 +45,9 @@ class EmpleadoController extends Controller
 
         $idcap = Auth::id();          
 
-       /*  $usuarios =  $zk->table("userinfo")
+        /*  $usuarios =  $zk->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
-            ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")->where('userinfo.status', '=', 0)->select("userinfo.*"); */
+            ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")->where('userinfo.status', '=', 0)->select("userinfo.*");  */
         $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);        
      
       //  $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
