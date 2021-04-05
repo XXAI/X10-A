@@ -221,7 +221,8 @@ function cargar_formato(jini, jfin) {
     //console.log(datos_credencializacion);
 
     //mGZmt316o4aBibe5mw==
-    //iGZ3wn9zo4aAjsi9lw==
+    //iGZ3wn9zo4aAjsi9lw==  ramon
+    //jHpouH95o4aDhsXBng== hugo
 
 
 

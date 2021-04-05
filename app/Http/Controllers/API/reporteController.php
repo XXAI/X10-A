@@ -21,7 +21,8 @@ class reporteController extends Controller
     public function consulta_checadas(Request $request)
     {
         $zk = DB::connection('ZK');
-        $bs = DB::connection('BS');  
+        $bs = DB::connection('BS'); 
+        $gm = DB::connection('GM'); 
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
@@ -47,11 +48,29 @@ class reporteController extends Controller
         }
 
          $buscaBase=$zk->table("tablaBases")->where("rfc","=",$desc)->first();
-         if ($buscaBase->base=='ZKAccess'){
+         //dd($buscaBase);
+        // foreach($buscaBase as $base){
+            switch($buscaBase->base){
+                
+                case 'ZKAccess':                       
+                    $conexion=$zk;                                        
+                    break;                                  
+                case 'gomezmaza':                       
+                    $conexion=$gm;                                        
+                    break;
+                case 'BancodeSangre':                       
+                    $conexion=$bs;                                        
+                    break;
+                /*default:
+                    $impr="";
+                    break;*/
+            }                                                           
+        
+        /*  if ($buscaBase->base=='ZKAccess'){
             $conexion=$zk;
         }else{
             $conexion=$bs;
-        } 
+        }  */
       // print_r($conexion);
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
