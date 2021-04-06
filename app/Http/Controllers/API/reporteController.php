@@ -79,7 +79,7 @@ class reporteController extends Controller
             $validacion= $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
-            ->where("userinfo.TITLE", "=",  $desc)->first();
+            ->where("userinfo.TITLE", "=",  $desc)->first(); 
 
             
         $checa_dias = $conexion->table("user_speday")

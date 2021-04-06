@@ -30,7 +30,7 @@ class EmpleadoController extends Controller
     {
 
          $zk = DB::connection('ZK');
-        $bs = DB::connection('BS');  
+         $bs = DB::connection('BS');  
         $name = $request->get('buscar');  
 
         /* $usuarios = $bs->table('USERINFO')->where('TITLE', 'BEBA620313GI5')->first();
