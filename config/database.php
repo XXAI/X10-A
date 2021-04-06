@@ -120,6 +120,19 @@ return [
             'prefix_indexes' => true,
 
         ], 
+        'GM' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_GOMEZ_MAZA', 'localhost'),
+            'port' => env('DB_PORT_GOMEZ_MAZA', '1433'),
+            'database' => env('DB_DATABASE_GOMEZ_MAZA', 'forge'),
+            'username' => env('DB_USERNAME_GOMEZ_MAZA', 'forge'),
+            'password' => env('DB_PASSWORD_GOMEZ_MAZA', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+
+        ], 
 
 
     ],
