@@ -774,7 +774,7 @@ function editEmpleado(id) {
                 $("#mmi").prop('checked', true);
             } else { $("#mmi").prop('checked', false); }
 
-            if (data.data.ZIP == 0) {
+            if (data.data.INLATE == 0) {
                 $("#interino").prop('checked', true);
             } else { $("#interino").prop('checked', false); }
 
