@@ -497,11 +497,13 @@ function guardar_empleado() {
     var code = $("#code").val();
     var fin_fec = $("#fin_fec").val();
     var street = $('select[name="tipotra"] option:selected').text();
-    var mmi;
-    if ($("#mmi").prop('checked')){
-        mmi=0;
-    }
-    else{mmi = 1;}
+    var mmi, interino;
+    if ($("#mmi").prop('checked')) {
+        mmi = 0;
+    } else { mmi = 1; }
+    if ($("#interino").prop('checked')) {
+        interino = 0;
+    } else { interino = 1; }
     var city;
     if (tipotra == 6)
         city = "416";
@@ -532,7 +534,7 @@ function guardar_empleado() {
     $.ajax({
         type: tipo,
         url: url_emp,
-        data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi },
+        data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
         success: function(data) {
 
             swal("Exito!", data.mensaje, "success");
@@ -767,10 +769,15 @@ function editEmpleado(id) {
             $("#codigo").val(data.data.PAGER);
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
-            $("#tipotra").val(data.data.DEFAULTDEPTID);           
-            if (data.data.ATT==0) {                
-                $("#mmi").prop('checked',true);
-            }else{ $("#mmi").prop('checked',false);}
+            $("#tipotra").val(data.data.DEFAULTDEPTID);
+            if (data.data.ATT == 0) {
+                $("#mmi").prop('checked', true);
+            } else { $("#mmi").prop('checked', false); }
+
+            if (data.data.ZIP == 0) {
+                $("#interino").prop('checked', true);
+            } else { $("#interino").prop('checked', false); }
+
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
@@ -922,7 +929,7 @@ function validar(idinci) {
 
 function validando_incidencia() {
     editEmpleado(idempleado);
-    
+
     if (ban_url == 1) {
         id = $("#userid").val();
         documentos = $("#documentos").val();
@@ -1020,7 +1027,7 @@ function inserta_incidencia() {
         ffin = moment(date_2.add(x, 'd')).format();
         fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
         ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-         /* festivos();
+        /* festivos();
         $.each(arreglo_diafest, function(key, value) {
             arreglo_diafest = value.STARTTIME.substr(0, 10);
             // console.log(arreglo_diafest);
@@ -1042,28 +1049,28 @@ function inserta_incidencia() {
             })
         } else {
  */
-            for (var j = 0; j < diaslab.length; j++) {
-                if (moment(fini).day() == 0)
-                    dia_eva = 7;
-                else
-                    dia_eva = moment(fini).day();
-                console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
-                if (dia_eva == diaslab[j].EDAYS) {
-                    $.ajax({
-                        type: 'POST',
-                        url: url_in,
-                        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
-                        success: function(data) {
-                            console.log(data);
+        for (var j = 0; j < diaslab.length; j++) {
+            if (moment(fini).day() == 0)
+                dia_eva = 7;
+            else
+                dia_eva = moment(fini).day();
+            console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
+            if (dia_eva == diaslab[j].EDAYS) {
+                $.ajax({
+                    type: 'POST',
+                    url: url_in,
+                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+                    success: function(data) {
+                        console.log(data);
 
-                        },
-                        error: function(data) {
-                            swal("Error!", "No se registro ningun dato!", "error");
-                        }
-                    })
+                    },
+                    error: function(data) {
+                        swal("Error!", "No se registro ningun dato!", "error");
+                    }
+                })
 
-                }
             }
+        }
         //}
 
         // console.log(fini.substr(0, 10));

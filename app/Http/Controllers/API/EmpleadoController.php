@@ -161,7 +161,7 @@ class EmpleadoController extends Controller
                     $registro->CITY=$request->city;
                     $registro->STATE=0;
                     $registro->ATT=$request->mmi;
-                    $registro->ZIP= 1;
+                    $registro->ZIP= $request->interino;
                     $registro->FPHONE=$request->clues;
                     $registro->DEFAULTDEPTID=$request->tipotra;            
                     $registro->MINZU=$request->area;   
@@ -230,6 +230,7 @@ class EmpleadoController extends Controller
             $registro->CITY=$request->city;          
             $registro->FPHONE=$request->clues;
             $registro->ATT=$request->mmi;
+            $registro->ZIP= $request->interino;
            $registro->DEFAULTDEPTID=$request->tipotra;            
             $registro->MINZU=$request->area;           
             $registro->save(); 
