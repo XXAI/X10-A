@@ -70,6 +70,9 @@
                         </select>
                      </div>
                   </div>
+                  
+                 
+                 
                   <div class="col-md-6" >
                      <div class="form-group">
                         <label for="area" class="col-sm-3 col-form-label">Area</label>
@@ -81,7 +84,16 @@
                <div class="row">
                   <div class="col-md-4" >
                      <div class="form-group">
-                        <label for="area" class="col-sm-10 col-form-label">Seleccionar si es Mando Medio</label>
+                        <label for="interino" class="col-sm-10 col-form-label">Seleccionar si es Interino</label>
+                        <input class="form-check-input"  type="checkbox" value="1" id="interino" name="interino">
+                        
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-4" >
+                     <div class="form-group">
+                        <label for="mmi" class="col-sm-10 col-form-label">Seleccionar si es Mando Medio</label>
                         <input class="form-check-input"  type="checkbox" value="1" id="mmi" name="mmi">
                         
                      </div>

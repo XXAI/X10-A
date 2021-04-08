@@ -11,6 +11,7 @@ use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
 use App\Models\FinSemanaFestivo;
+
 //use App\Models\ReglasHorario;
 use App\Models\Festivos;
 use App\Models\Horario;
@@ -23,6 +24,7 @@ class reporteController extends Controller
         $zk = DB::connection('ZK');
         $bs = DB::connection('BS'); 
         $gm = DB::connection('GM'); 
+        $otra;
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
@@ -98,8 +100,8 @@ class reporteController extends Controller
             $validacion= $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
-            ->where("userinfo.TITLE", "=",  $desc)->first(); 
-
+            ->where("userinfo.TITLE", "=",  $desc)->first();
+        
             
         $checa_dias = $conexion->table("user_speday")
         ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
@@ -211,7 +213,7 @@ class reporteController extends Controller
                         
                 }         
                        
-                       
+                           
         for($tot_hora=0;$tot_hora<=$ind; $tot_hora++){                       
             $arreglo_dias = array();
 
@@ -688,7 +690,7 @@ class reporteController extends Controller
             }
         
         $ps=$ps/60;
-       
+       // dd( $validacion); 
         $resumen = array(['horastra'=>$htra,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
