@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConfiguracionTrimestral;
 use Illuminate\Support\Facades\Input;
 use \Validator, \Hash, \Response;
+use Illuminate\Support\Facades\Auth;
 
 class ConfiguracionTrimestralController extends Controller
 {
@@ -31,7 +32,7 @@ class ConfiguracionTrimestralController extends Controller
     {   
         $parametros =Input::all();
         try
-        {        
+        {      
             $parametros =Input::all();
            $obj = ConfiguracionTrimestral::where("anio", "=", $parametros['config_anio'])->where("trimestre", "=", $parametros['config_trimestre'])->first();
             if($obj)
@@ -48,7 +49,7 @@ class ConfiguracionTrimestralController extends Controller
                 $obj->quincena = $parametros['config_quincena']; 
                 $obj->no_documento = $parametros['config_documento']; 
                 $obj->tipo_trabajador = $parametros['config_tipo_trabajador'];
-                $obj->user_id = $parametros['user_id'];
+                $obj->user_id = Auth::id();
             }
             $obj->save();
             
