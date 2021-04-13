@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuarios extends Model
 {
+    
+    protected $connection = 'dinamica';
+   
+    
     protected $table = "USERINFO";
 
-    //protected $connection = 'ZK';
+    
     
     protected $fillable = [ 'Badgenumber','Name','Gender','TITLE','PAGER','BIRTHDAY','HIREDDAY','street','CITY','STATE','ZIP','FPHONE','DEFAULTDEPTID','MINZU'];//,'ATT','INLATE','OUTEARLY','OVERTIME','SEP','HOLIDAY','MINZU','status'];
     public $timestamps = false;
