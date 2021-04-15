@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use APP\Http\Middleware;
+use APP\Http\Middleware\CheckDataBase;
 use Carbon\Carbon, DB;
 use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
@@ -16,14 +16,19 @@ use App\Models\FinSemanaFestivo;
 use App\Models\Festivos;
 use App\Models\Horario;
 
+use Closure;
+
 class reporteController extends Controller
 {
 
+
+    
+
     public function consulta_checadas(Request $request)
     {
-        /* $zk = DB::connection('ZK');
+        $zk = DB::connection('ZK');
         $bs = DB::connection('BS'); 
-        $gm = DB::connection('GM');  */
+        $gm = DB::connection('GM');  
         $otra;
         $parametros = Input::all();
         $arreglo_fecha = array();
@@ -51,12 +56,12 @@ class reporteController extends Controller
         //dd($desc);
          //$buscaBase=$zk->table("tablaBases")->where("rfc","=",$desc)->first();
          $buscaBase=DB::table("tablaBases")->where("rfc","=",$desc)->first();
-        
-        $namedb=$buscaBase->base;
-        
-        //dd($namedb);
+         //$CheckDataBase = new CheckDataBase();
+        //$namedb=$buscaBase->base;
+        //$CheckDataBase->handle($request, Closure $namedb);
+       // dd($buscaBase);
         // foreach($buscaBase as $base){
-       /*      switch($buscaBase->base){
+             switch($buscaBase->base){
                 
                 case 'ZKAccess':                       
                     $conexion='zk';                                        
@@ -68,14 +73,14 @@ class reporteController extends Controller
                     $conexion=$bs;                                        
                     break;
                
-            }  */                                                          
+            }                                                           
         
         /*  if ($buscaBase->base=='ZKAccess'){
             $conexion=$zk;
         }else{
             $conexion=$bs;
         }  */
-      // print_r($conexion);
+     
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
 
@@ -97,16 +102,16 @@ class reporteController extends Controller
         
         //Se sacaron variables de inicio para las consultas en la base de datos
        
-         $validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
-       dd($validacion);
-         /*   $validacion= $conexion->table("userinfo")
+         //$validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
+      // dd($validacion);
+            $validacion= $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
-            ->where("userinfo.TITLE", "=",  $desc)->first(); */
+            ->where("userinfo.TITLE", "=",  $desc)->first();
           //  dd($validacion);
           
        // $checa_dias = $conexion->table("user_speday")
-        $checa_dias = DB::table("user_speday")
+        $checa_dias = $conexion->table("user_speday")
         ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
         ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")                            
         ->where("TITLE", "=",  $desc)   
@@ -171,7 +176,7 @@ class reporteController extends Controller
                     break;
             }                                                           
         }
-        $buscaHorario=DB::table("USER_OF_RUN")                  
+        $buscaHorario=$conexion->table("USER_OF_RUN")                  
                 ->where("USERID", "=",  $validacion->USERID)                                 
                 ->where("STARTDATE","<=",substr($ff_fin, 0, 10).'T23:59:59.000')
                 ->where("ENDDATE",">=",substr($f_ini, 0, 10).'T00:00:01.000')   
@@ -186,7 +191,7 @@ class reporteController extends Controller
                 $arreglo_reglas=array();  
                 $ind=0;
                 foreach($buscaHorario as $key => $horario){                        
-                    $empleado = DB::table("user_of_run")                            
+                    $empleado = $conexion->table("user_of_run")                            
                     ->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID")
                     ->join("num_run_deil", "num_run_deil.NUM_RUNID", "=", "num_run.NUM_RUNID")
                     ->join("schclass", "schclass.schClassid", "=", "num_run_deil.SCHCLASSID")
@@ -363,13 +368,13 @@ class reporteController extends Controller
 
              
 
-                        $checada_entrada = DB::table("checkinout")
+                        $checada_entrada = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))                        
                                 ->first();
-                        $checada_entrada_fuera = DB::table("checkinout")
+                        $checada_entrada_fuera = $conexion->table("checkinout")
                         ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                         ->where("TITLE", "=",  $desc)
                         ->whereBetween("CHECKTIME", [$inicio_entra_fuera, $final_entra_fuera])                                           
@@ -377,14 +382,14 @@ class reporteController extends Controller
                         ->first();
 
 
-                        $checada_salida = DB::table("checkinout")
+                        $checada_salida = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
                         //return $checada_salida;
-                        $checada_sal_fuera = DB::table("checkinout")
+                        $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
@@ -394,7 +399,7 @@ class reporteController extends Controller
                         
                                
                         /* if($sol<>1){ */
-                                $checada_extra = DB::table("user_speday")
+                                $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->where("TITLE", "=",  $desc)
@@ -623,7 +628,7 @@ class reporteController extends Controller
                     }
 
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
-                        $checa_inhabil = DB::table("HOLIDAYS")
+                        $checa_inhabil = $conexion->table("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
                         if(isset($checa_inhabil) && $diafest ==''){
@@ -634,7 +639,7 @@ class reporteController extends Controller
         
                     }
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']<>"SIN REGISTRO")){
-                        $checa_inhabil = DB::table("SAL_AUTO")
+                        $checa_inhabil = $conexion->table("SAL_AUTO")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
                         if(isset($checa_inhabil)){                           
@@ -647,7 +652,7 @@ class reporteController extends Controller
                 //checadas contingencia&& $fecha_eval<='2021-01-01'
                 if($validacion->SEP!=0 && $validacion->SSN!='700250009' && $fecha_eval<'2021-01-01'){
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
-                        $checa_contingencia = DB::table("contingencia")
+                        $checa_contingencia = $conexion->table("contingencia")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
                         if(isset($checa_contingencia) ){
@@ -658,7 +663,7 @@ class reporteController extends Controller
         
                     }
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']<>"SIN REGISTRO")){
-                        $checa_inhabil = DB::table("SAL_AUTO")
+                        $checa_inhabil = $conexion->table("SAL_AUTO")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
                         if(isset($checa_inhabil)){                           

@@ -165,7 +165,7 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2021-01-25 09:44:51.565',
             'updated_at' => '2021-01-25 09:44:51.565'
-        ]);*/
+        ]);
 
         User::create([ // create a new user
             'email' => 'ricardo',
@@ -179,6 +179,34 @@ class creacion_usuarios extends Seeder
             'created_at' => '2021-02-17 17:54:56.565',
             'updated_at' => '2021-02-17 17:56:51.565'
         ]);
-        
+        */
+
+        User::create([ // create a new user
+            'email' => 'bancosangre',
+            'password' => Hash::make('bs2021*'),
+            'username' => 'bancosangre',
+            'nombre' => 'Banco de Sangre',
+            'apellido_paterno' => '-',
+            'apellido_materno' => '-',
+            'alias' => 'rivs',
+            'is_superuser' => 0,
+            'created_at' => '2021-04-15 13:00:56.565',
+            'updated_at' => '2021-04-15 13:00:51.565',
+            'base' => 'BancodeSangre'
+        ]);
+
+        User::create([ // create a new user
+            'email' => 'gomezmaza',
+            'password' => Hash::make('gm2021*'),
+            'username' => 'gomezmaza',
+            'nombre' => 'Gomez Maza',
+            'apellido_paterno' => '-',
+            'apellido_materno' => '-',
+            'alias' => 'rivs',
+            'is_superuser' => 0,
+            'created_at' => '2021-04-15 13:00:56.565',
+            'updated_at' => '2021-04-15 13:00:51.565',
+            'base' => 'gomezmaza'
+        ]);
     }
 }

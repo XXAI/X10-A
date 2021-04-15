@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UsuarioHorario extends Model
 {
-    protected $connection = 'ZK';
+    //protected $connection = 'ZK';
     protected $table = "USER_OF_RUN";
     public $timestamps = false;
    

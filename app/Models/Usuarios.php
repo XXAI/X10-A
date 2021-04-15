@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Usuarios extends Model
 {
     
-    protected $connection = 'dinamica';
+    //protected $connection = 'dinamica';
    
     
     protected $table = "USERINFO";
