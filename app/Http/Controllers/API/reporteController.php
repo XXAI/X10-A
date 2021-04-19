@@ -398,12 +398,16 @@ class reporteController extends Controller
 
                         
                                
-                        /* if($sol<>1){ */
+                        /* if($sol<>1){
+                            
+                            ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"]) */
                                 $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->where("TITLE", "=",  $desc)
-                                ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                        
+                              ->where("STARTSPECDAY","<=",$fecha_eval)
+                              ->where("ENDSPECDAY",">=",$fecha_eval)   
+                                //->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                     
                                 ->select("leaveclass.LeaveName as Exepcion"
                                     ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
                                     ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
