@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use APP\Http\Middleware\CheckDataBase;
+//use APP\Http\Middleware\CheckDataBase;
 use Carbon\Carbon, DB;
 use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
@@ -16,7 +16,7 @@ use App\Models\FinSemanaFestivo;
 use App\Models\Festivos;
 use App\Models\Horario;
 
-use Closure;
+//use Closure;
 
 class reporteController extends Controller
 {
@@ -29,7 +29,7 @@ class reporteController extends Controller
         $zk = DB::connection('ZK');
         $bs = DB::connection('BS'); 
         $gm = DB::connection('GM');  
-        $otra;
+        
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
@@ -59,12 +59,12 @@ class reporteController extends Controller
          //$CheckDataBase = new CheckDataBase();
         //$namedb=$buscaBase->base;
         //$CheckDataBase->handle($request, Closure $namedb);
-       // dd($buscaBase);
+        //dd($buscaBase);
         // foreach($buscaBase as $base){
              switch($buscaBase->base){
                 
                 case 'ZKAccess':                       
-                    $conexion='zk';                                        
+                    $conexion=$zk;                                        
                     break;                                  
                 case 'gomezmaza':                       
                     $conexion=$gm;                                        
@@ -103,8 +103,8 @@ class reporteController extends Controller
         //Se sacaron variables de inicio para las consultas en la base de datos
        
          //$validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
-      // dd($validacion);
-            $validacion= $conexion->table("userinfo")
+       //dd($conexion);
+            $validacion = $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
             ->where("userinfo.TITLE", "=",  $desc)->first();
