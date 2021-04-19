@@ -405,8 +405,8 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->where("TITLE", "=",  $desc)
-                              ->where("STARTSPECDAY","<=",$fecha_eval)
-                              ->where("ENDSPECDAY",">=",$fecha_eval)   
+                              ->where("STARTSPECDAY","<=",$fecha_eval."T23:59:59.000")
+                              ->where("ENDSPECDAY",">=",$fecha_eval."T00:00:00.000")   
                                 //->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                     
                                 ->select("leaveclass.LeaveName as Exepcion"
                                     ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
