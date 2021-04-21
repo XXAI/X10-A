@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChecadasTrabajador extends Model
 {
+    protected $connection = 'dinamica';
+   
     protected $table = "CHECKINOUT";
    
   

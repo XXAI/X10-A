@@ -188,11 +188,10 @@ class creacion_usuarios extends Seeder
             'nombre' => 'Banco de Sangre',
             'apellido_paterno' => '-',
             'apellido_materno' => '-',
-            'alias' => 'rivs',
+            'alias' => 'bs',
             'is_superuser' => 0,
             'created_at' => '2021-04-15 13:00:56.565',
-            'updated_at' => '2021-04-15 13:00:51.565',
-            'base' => 'BancodeSangre'
+            'updated_at' => '2021-04-15 13:00:51.565'
         ]);
 
         User::create([ // create a new user
@@ -202,11 +201,10 @@ class creacion_usuarios extends Seeder
             'nombre' => 'Gomez Maza',
             'apellido_paterno' => '-',
             'apellido_materno' => '-',
-            'alias' => 'rivs',
+            'alias' => 'gm',
             'is_superuser' => 0,
             'created_at' => '2021-04-15 13:00:56.565',
-            'updated_at' => '2021-04-15 13:00:51.565',
-            'base' => 'gomezmaza'
+            'updated_at' => '2021-04-15 13:00:51.565'
         ]);
     }
 }

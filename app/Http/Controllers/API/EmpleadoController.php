@@ -43,8 +43,9 @@ class EmpleadoController extends Controller
 
         return response()->json(["usuarios" => $usuarios]); */
 
-        $idcap = Auth::id();          
-
+        $idcap = Auth::id();         
+       // $prueba = User::with("cluesUsers")->get(); 
+       // dd($prueba);
         /*  $usuarios =  $zk->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")->where('userinfo.status', '=', 0)->select("userinfo.*");  */
