@@ -345,7 +345,7 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-
+        console.log("gggogogogogogogogogo");
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
