@@ -55,6 +55,7 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
+       // console.log(data);
         cargar_datos_empleado(data.usuarios.data);
         festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -345,7 +346,7 @@ function cargar_datos_empleado(datos) {
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
-        console.log("gggogogogogogogogogo");
+        //console.log("gggogogogogogogogogo");
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
@@ -601,9 +602,39 @@ function generar_inci(jini, jfin) {
 function agregar_entsal(jini, jfin) {
     $("#id").val(id_x);
     xini = jini;
-    xfin = jfin;
+    xfin = jfin;  
+    carga_omisiones();
 
+}
+function sel_tiporeg(tiporeg) {
 
+    agregar_entsal(xini, xfin)
+    if (tiporeg == "I") {
+        $("#fecha_reg").val(xini);
+    } else {
+        $("#fecha_reg").val(xfin);
+    }
+    carga_omisiones();
+   
+
+}
+function carga_omisiones() {
+    id = $("#id").val();
+    fecha =$("#fecha_reg").val();
+    tipo = $("#tipo_es").val(); 
+    $.ajax({
+        type: "GET",
+        url: "./api/omisiones/",
+        data:{ id:id,fecha:fecha,tipo:tipo},
+        dataType: "json",
+        success: function(data) {            
+         console.log(data);
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
 }
 
 function cargar_datos_checadas(urlchecadas) {
@@ -655,30 +686,39 @@ function cargar_datos_checadas(urlchecadas) {
 }
 
 function sel_inci(valor) {
-
+    var mensaje;
 
     switch (parseInt(valor)) {
+       
         case 1:
             pasesal = 6 - resumen_checadas.Pase_Salida;
-            var mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
+            mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
 
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         case 6:
-            diaeco = 2 - resumen_checadas.Día_Económico;
-            var mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 2 al mes";
+          
+            if (diaslab.length == 5) {
+                console.log("economico:  "+resumen_checadas.Día_Económico);
+                diaeco = 2 - resumen_checadas.Día_Económico;
+                mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 2 al mes";
+            }
+            else{
+                diaeco = 1 - resumen_checadas.Día_Económico;
+                mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 1 al mes"; 
+            }
             mostrarMensaje(mensaje);
 
             break;
         case 10:
 
-            var mensaje = "Su onomástico es el: " + onomastico.substr(3, 2) + " de " + arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
+            mensaje = "Su onomástico es el: " + onomastico.substr(3, 2) + " de " + arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
             mostrarMensaje(mensaje);
 
             break;
         default:
-            var mensaje = "  ";
+            mensaje = "  ";
             mostrarMensaje(mensaje);
     }
 
@@ -747,7 +787,6 @@ function cargar_blade_checadas() {
 function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
-
     idempleado = parseInt(id);
     cargar_departamentos();
 
@@ -781,7 +820,7 @@ function editEmpleado(id) {
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
-            //console.log(diaslab);
+           // console.log(data.data.dias_justificados);
 
         },
         error: function(data) {
@@ -878,16 +917,7 @@ function cargar_dato(dato) {
 }
 
 
-function sel_tiporeg(tiporeg) {
 
-    agregar_entsal(xini, xfin)
-    if (tiporeg == "I") {
-        $("#fecha_reg").val(xini);
-    } else {
-        $("#fecha_reg").val(xfin);
-    }
-
-}
 
 
 
@@ -1061,7 +1091,7 @@ function inserta_incidencia() {
                     url: url_in,
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
-                        console.log(data);
+                    //    console.log(data);
 
                     },
                     error: function(data) {
@@ -1107,7 +1137,7 @@ function inserta_incidencia_emp() {
                     url: "../api/guarda-just-emp",
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
                     success: function(data) {
-                        console.log(data);
+                      //  console.log(data);
                         /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
                           document.getElementById('save_in_emp').disabled = true;
                           $("#modal_justificante").modal('toggle').hide;

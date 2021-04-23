@@ -40,8 +40,8 @@ use Illuminate\Http\Request;
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
 
 
-    Route::get('/buscaempleado/{id}', 'API\EmpleadoController@show');
-
+    Route::get('/buscaempleado/{id}', 'API\EmpleadoController@show');    
+    Route::get('/omisiones', 'API\EmpleadoController@omisiones');   
     Route::get('/buscaincidencia/{id}', 'API\IncidenciaController@show');
     Route::get('/justificante/{id}',    'API\IncidenciaController@justificante');
     Route::get('/validaincidencia/{id}', 'API\DiasJustificaController@update');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FinSemanaFestivo extends Model
 {
+    protected $connection = 'dinamica';
     protected $table = 'USER_TEMP_SCH';
 
 

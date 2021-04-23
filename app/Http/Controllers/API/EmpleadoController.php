@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests\EmpleadoRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon, DB;
@@ -41,7 +41,7 @@ class EmpleadoController extends Controller
 
         }
 
-        return response()->json(["usuarios" => $usuarios]); */
+       // return response()->json(["usuarios" => $usuarios]); */
 
         $idcap = Auth::id();         
        // $prueba = User::with("cluesUsers")->get(); 
@@ -49,7 +49,7 @@ class EmpleadoController extends Controller
         /*  $usuarios =  $zk->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")->where('userinfo.status', '=', 0)->select("userinfo.*");  */
-        $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);        
+        $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados")->where('status', '=', 0);        
      
       //  $usuarios = Usuarios::with("horarios.detalleHorario")->where('status', '=', 0);
         //berriozabal
@@ -194,10 +194,28 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
-        $empleado = Usuarios::with("horarios.detalleHorario")->find($id);
+        $empleado = Usuarios::with("horarios.detalleHorario","dias_justificados")->find($id);
         //->join("num_run", "num_run.NUM_RUNID", "=", "user_of_run.NUM_OF_RUN_ID"); 
     
         return response()->json(["data" => $empleado]);
+    }
+
+
+    public function omisiones(Request $request)
+    {
+       $id = $request->id;
+       $fecha = $request->fecha;
+       $tipo = $request->tipo;
+       $fecha_mes = new Carbon($fecha);
+       $fecha_mes_inicio = $fecha_mes->firstOfMonth();
+       $fecha_mes_medio = $fecha_mes->addDays(15);
+       $fecha_mes_fin = $fecha_mes-> lastOfMonth();
+        dd($fecha_mes->format('d'));
+        $parametros = Input::all();
+        $omisiones = Usuarios::with("omisiones")->where("userid","=",$id)->get();
+        
+
+        return response()->json(["omisiones" => $omisiones]);
     }
 
     /**

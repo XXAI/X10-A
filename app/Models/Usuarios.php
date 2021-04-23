@@ -39,6 +39,10 @@ class Usuarios extends Model
         return $this->hasMany('App\Models\DiasOtorgados', 'USERID', "USERID");
     }
 
+    public function dias_justificados(){
+        return $this->hasMany('App\Models\DiasJustifica', 'USERID', "USERID");
+    }
+
   
 
     public function getKeyName(){
