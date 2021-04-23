@@ -12,10 +12,11 @@ use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
 use App\Models\FinSemanaFestivo;
 
+
 //use App\Models\ReglasHorario;
 use App\Models\Festivos;
 use App\Models\Horario;
-
+use Illuminate\Support\Facades\Auth;
 //use Closure;
 
 class reporteController extends Controller
@@ -26,8 +27,14 @@ class reporteController extends Controller
 
     public function consulta_checadas(Request $request)
     {
-         $zk = DB::connection('dinamica');
+        /*  $conexion = DB::connection('dinamica');
          $conexion=$zk;
+ */
+       
+         //dd(auth()->user());
+
+
+        
         /*$bs = DB::connection('BS'); 
         $gm = DB::connection('GM');   */
         
@@ -54,24 +61,14 @@ class reporteController extends Controller
         {
             $desc =$parametros['id'];
         }
-        //dd($desc);
-         //$buscaBase=$zk->table("tablaBases")->where("rfc","=",$desc)->first();
-        $buscaBase=$conexion->table("tablaBases")->where("rfc","=",$desc)->first();
-        $namedb=$buscaBase->base;
-          /*    switch($buscaBase->base){
-                
-                case 'ZKAccess':                       
-                    $conexion=$zk;                                        
-                    break;                                  
-                case 'gomezmaza':                       
-                    $conexion=$gm;                                        
-                    break;
-                case 'BancodeSangre':                       
-                    $conexion=$bs;                                        
-                    break;
-               
-            }                                                           
-         */
+
+        if(is_null(auth()->user())){
+            $buscaBase=DB::table("tablaBases")->where("rfc","=",$desc)->first();
+            $namedb=$buscaBase->base;
+            \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
+            $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 
+        }else{$conexion = DB::connection('dinamica');}
+
         
      
         $fecha_view_inicio = Carbon::now()->startOfMonth();
