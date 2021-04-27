@@ -362,8 +362,10 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))                        
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                              //  ->groupBy("checkinout.sn")                        
                                 ->first();
+                        //dd($checada_entrada);
                         $checada_entrada_fuera = $conexion->table("checkinout")
                         ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                         ->where("TITLE", "=",  $desc)
@@ -376,8 +378,10 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))//,"checkinout.sn")
+                               // ->groupBy("checkinout.sn")
                                 ->first();
+                                
                         //return $checada_salida;
                         $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
@@ -548,7 +552,8 @@ class reporteController extends Controller
                                             }
                                         }
                                         else
-                                        $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;                                
+                                          //  if (isset($checada_entrada->sn)){
+                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; //}                               
 
                         }
                       

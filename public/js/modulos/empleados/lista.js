@@ -626,7 +626,6 @@ function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
     fecha = xini;
-
     // tipo = $("#tipo_es").val();, tipo: tipo
     $.ajax({
         type: "GET",
@@ -636,7 +635,12 @@ function obtener_omisiones() {
         success: function(data) {
             // console.log(data.omisiones);
             $.each(data.omisiones, function(key, value) {
-                console.log(key + "...", value.CHECKTIME);
+               // console.log(key + "...", value.CHECKTIME);
+                console.log("fechabusqueda"+fecha.substr(0, 10));
+                if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)){
+                    console.log("misma fecha".fecha);
+                }
+
 
             });
             omisiones_total = data;
