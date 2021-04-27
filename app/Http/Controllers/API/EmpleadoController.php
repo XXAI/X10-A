@@ -11,6 +11,7 @@ use App\Models\Usuarios;
 use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
 use App\Models\Festivos;
+use App\Models\Omisiones;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
 
@@ -205,15 +206,35 @@ class EmpleadoController extends Controller
     {
        $id = $request->id;
        $fecha = $request->fecha;
-       $tipo = $request->tipo;
        $fecha_mes = new Carbon($fecha);
+       $fecha_mes_inicio = new Carbon($fecha);
+       $fecha_mes_fin = new Carbon($fecha);
+       $dia =  $fecha_mes->day;
+    //   dd($dia);
+        if ($dia<=15){
+             $fechaIni=$fecha_mes_inicio->firstOfMonth();
+            $fechaFin=$fecha_mes_fin->firstOfMonth()->addDays(15); 
+           // dd("dia menor de 15");
+        } else{
+           // dd("dia mayor o igual  de 16");
+           $fechaIni=$fecha_mes_inicio->firstOfMonth()->addDays(15);
+           $fechaFin=$fecha_mes_fin->lastOfMonth(); 
+        }
+      // $tipo = $request->tipo;
+      /*  
        $fecha_mes_inicio = $fecha_mes->firstOfMonth();
        $fecha_mes_medio = $fecha_mes->addDays(15);
-       $fecha_mes_fin = $fecha_mes-> lastOfMonth();
-        dd($fecha_mes->format('d'));
+       $fecha_mes_fin = $fecha_mes-> lastOfMonth(); */
+     //   dd(substr($fechaIni,-19,10)."T".'00:00:01.000');
+       
         $parametros = Input::all();
-        $omisiones = Usuarios::with("omisiones")->where("userid","=",$id)->get();
+        $omisiones = omisiones::where("userid","=",$id)
+         ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])
+       
+        ->get();
         
+        
+      //  dd($omisiones);
 
         return response()->json(["omisiones" => $omisiones]);
     }

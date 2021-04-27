@@ -2,20 +2,21 @@ var urlchecadas = "./api/consulta-asistencia";
 var dato;
 var date = new Date();
 var resumen_checadas;
-var diaslab, mike;
+var diaslab;
 var diaeco;
-var onomastico;
+var onomastico, omisiones_total;
 var pasesal;
 var inicio;
 var fin;
 var xini, xfin;
-var id, idcap;
+var id, idcap, fecha, tipo;
 var id_x;
 var rfc_x;
 var id_inci;
 var msj, ban_url;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
+//var omision = [];
 arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
@@ -55,7 +56,7 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
-       // console.log(data);
+        // console.log(data);
         cargar_datos_empleado(data.usuarios.data);
         festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -582,6 +583,14 @@ function mostrarMensaje(mensaje) {
 
 }
 
+function mostrarMensaje2(mensaje) {
+    $("#divmsg2").empty();
+    $("#divmsg2").append("<p>" + mensaje + "</p>");
+    //  $("#divmsg").show(500);
+    // $("#divmsg").hide(30000);
+
+}
+
 function generar_inci(jini, jfin) {
 
     ban_url = 0;
@@ -602,10 +611,55 @@ function generar_inci(jini, jfin) {
 function agregar_entsal(jini, jfin) {
     $("#id").val(id_x);
     xini = jini;
-    xfin = jfin;  
-    carga_omisiones();
+    xfin = jfin;
+    //fecha = xini;
+
+    obtener_omisiones();
+    //console.log(omisiones_total.omisiones.length);
+
 
 }
+
+
+
+function obtener_omisiones() {
+    //omision = [];
+    id = $("#id").val();
+    fecha = xini;
+
+    // tipo = $("#tipo_es").val();, tipo: tipo
+    $.ajax({
+        type: "GET",
+        url: "./api/omisiones/",
+        data: { id: id, fecha: fecha },
+        dataType: "json",
+        success: function(data) {
+            // console.log(data.omisiones);
+            $.each(data.omisiones, function(key, value) {
+                console.log(key + "...", value.CHECKTIME);
+
+            });
+            omisiones_total = data;
+            if (omisiones_total.omisiones.length < 2) {
+                var mensaje = "  ";
+                mostrarMensaje2(mensaje);
+                $('#btn_save_entrasal').attr('disabled', false);
+            } else {
+                var mensaje = "Ud. ya no puede tener omisiones dentro de esta QNA.";
+                $('#btn_save_entrasal').attr('disabled', true);
+                mostrarMensaje2(mensaje);
+            }
+
+            //omision.push(data.omisiones);
+            // console.log(omision);
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+}
+
 function sel_tiporeg(tiporeg) {
 
     agregar_entsal(xini, xfin)
@@ -614,27 +668,11 @@ function sel_tiporeg(tiporeg) {
     } else {
         $("#fecha_reg").val(xfin);
     }
-    carga_omisiones();
-   
+    obtener_omisiones();
 
-}
-function carga_omisiones() {
-    id = $("#id").val();
-    fecha =$("#fecha_reg").val();
-    tipo = $("#tipo_es").val(); 
-    $.ajax({
-        type: "GET",
-        url: "./api/omisiones/",
-        data:{ id:id,fecha:fecha,tipo:tipo},
-        dataType: "json",
-        success: function(data) {            
-         console.log(data);
 
-        },
-        error: function(data) {
-            alert('error');
-        }
-    });
+
+
 }
 
 function cargar_datos_checadas(urlchecadas) {
@@ -689,7 +727,7 @@ function sel_inci(valor) {
     var mensaje;
 
     switch (parseInt(valor)) {
-       
+
         case 1:
             pasesal = 6 - resumen_checadas.Pase_Salida;
             mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
@@ -698,15 +736,14 @@ function sel_inci(valor) {
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         case 6:
-          
+
             if (diaslab.length == 5) {
-                console.log("economico:  "+resumen_checadas.Día_Económico);
+                console.log("economico:  " + resumen_checadas.Día_Económico);
                 diaeco = 2 - resumen_checadas.Día_Económico;
                 mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 2 al mes";
-            }
-            else{
+            } else {
                 diaeco = 1 - resumen_checadas.Día_Económico;
-                mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 1 al mes"; 
+                mensaje = "Tiene " + diaeco + " dia(s) disponible(s) para económico, Recuerde que solo puede tomar máximo 1 al mes";
             }
             mostrarMensaje(mensaje);
 
@@ -732,6 +769,7 @@ function cargar_blade_checadas() {
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
         // console.log(value.checado_entrada);
+
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
@@ -820,7 +858,7 @@ function editEmpleado(id) {
 
             //console.log(data.data.horarios[0].detalle_horario);
             diaslab = (data.data.horarios[0].detalle_horario);
-           // console.log(data.data.dias_justificados);
+            // console.log(data.data.dias_justificados);
 
         },
         error: function(data) {
@@ -1091,7 +1129,7 @@ function inserta_incidencia() {
                     url: url_in,
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
                     success: function(data) {
-                    //    console.log(data);
+                        //    console.log(data);
 
                     },
                     error: function(data) {
@@ -1137,7 +1175,7 @@ function inserta_incidencia_emp() {
                     url: "../api/guarda-just-emp",
                     data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
                     success: function(data) {
-                      //  console.log(data);
+                        //  console.log(data);
                         /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
                           document.getElementById('save_in_emp').disabled = true;
                           $("#modal_justificante").modal('toggle').hide;

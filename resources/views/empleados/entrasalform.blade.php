@@ -12,18 +12,22 @@
                                 <option value="I">Entrada</option>
                                 <option value="O">Salida</option>                                
                             </select>
+                    </div>
+                    <div id="divmsg2" style="display:visible" class="alert-primary" role="alert">
+                    </div>
+                </div>
             </div>
             <div class="row">                   
                     <div class="col-md-6" >
                         <div class="form-group">
                             <label for="f_ini" class="col-sm-12 col-form-label">Entrada o Salida</label>
-                            <input type="datetime-local" class="form-control"   id="fecha_reg" name="fecha_reg" >
+                            <input type="datetime-local" class="form-control"   id="fecha_reg" name="fecha_reg" readonly >
                             
                         </div>
+                        
                     </div>           
                         
-                    </div>
-                </div>
+                   
             </div>
             
             <div class="row">

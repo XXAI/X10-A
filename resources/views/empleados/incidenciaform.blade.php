@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-12" >
                     <div class="form-group">
-                    <label for="incidencia" class="col-sm-3 col-form-label">Incidencia</label>
+                        <label for="incidencia" class="col-sm-3 col-form-label">Incidencia</label>
                         <!-- <input id="horario">    --> 
                         <input id="incidencia"  type="text" style="outline: none;">
                         <input type="hidden" id="code_in" name="code_in" onchange="sel_inci(this.value)" required>  
