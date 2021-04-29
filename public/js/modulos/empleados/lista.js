@@ -626,6 +626,7 @@ function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
     fecha = xini;
+    var algo = 0;
     // tipo = $("#tipo_es").val();, tipo: tipo
     $.ajax({
         type: "GET",
@@ -635,21 +636,23 @@ function obtener_omisiones() {
         success: function(data) {
             // console.log(data.omisiones);
             $.each(data.omisiones, function(key, value) {
-               // console.log(key + "...", value.CHECKTIME);
-                console.log("fechabusqueda"+fecha.substr(0, 10));
-                if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)){
-                    console.log("misma fecha".fecha);
+                // console.log(key + "...", value.CHECKTIME);
+                console.log("fechabusqueda" + fecha.substr(0, 10));
+                if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
+                    algo = 1;
                 }
 
 
             });
             omisiones_total = data;
-            if (omisiones_total.omisiones.length < 2) {
+            console.log(algo);
+            if (omisiones_total.omisiones.length < 2 || algo == 0) {
                 var mensaje = "  ";
                 mostrarMensaje2(mensaje);
                 $('#btn_save_entrasal').attr('disabled', false);
             } else {
-                var mensaje = "Ud. ya no puede tener omisiones dentro de esta QNA.";
+
+                var mensaje = "Ya se agoto la cantidad de omisiones perimitidas";
                 $('#btn_save_entrasal').attr('disabled', true);
                 mostrarMensaje2(mensaje);
             }

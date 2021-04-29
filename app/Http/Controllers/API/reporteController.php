@@ -64,6 +64,7 @@ class reporteController extends Controller
 
         if(is_null(auth()->user())){
             $buscaBase=DB::table("tablaBases")->where("rfc","=",$desc)->first();
+            //dd($buscaBase);
             $namedb=$buscaBase->base;
             \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
             $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 

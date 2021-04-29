@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\Middleware\CheckDataBase as Middleware;
 use Closure;
 use Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\BaseUser;
 
 use Illuminate\Support\Facades\Config;
 
@@ -22,17 +23,20 @@ class CheckDataBase
      */
     public function handle($request, Closure $next)
     {
-      $desc = $request->desc;
-       // console.log('hola pablo');
-        $rfc = Request::header('buscar'); // Este es el parámetro a validar
-      //$namedb = $request->namedb;
-      echo $rfc;
-     /*  $buscaBase=DB::table("tablaBases")->where("rfc","=",$desc)->first();
-     dd($buscaBase); */
-      if(isset(auth()->user()['nombre'])){
+      if(isset(auth()->user()['id'])){
+        
+        $iduser = auth()->user()['id'];
+        $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
+        $namedb = $buscaBase->base;
+      
+    }
+    
+    
+
+   /*    if(isset(auth()->user()['nombre'])){
         
         $namedb = auth()->user()['nombre'];
-    }
+    } */
       
       //$namedb=auth()->user()['nombre'];
       //echo auth()->user()['nombre'];

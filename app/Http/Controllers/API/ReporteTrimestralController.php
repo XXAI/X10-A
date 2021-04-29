@@ -15,6 +15,7 @@ use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use App\Models\ConfiguracionTrimestral;
+use App\Models\CluesUser;
 use Illuminate\Support\Facades\Input;
 
 class ReporteTrimestralController extends Controller
@@ -32,6 +33,8 @@ class ReporteTrimestralController extends Controller
     {
         $parametros = Input::all();
         $usuario = Auth::user();
+        
+      
        
         $datos_configuracion = ConfiguracionTrimestral::where("trimestre", $parametros['trimestre'])
                                                     ->where("anio", $parametros['anio'])
@@ -108,7 +111,7 @@ class ReporteTrimestralController extends Controller
                 $arreglo_contingencia = $this->contingencia($contingencia);
             }
            
-
+            
             
             //Obtenemos salidas autorizadas
             $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
@@ -117,7 +120,18 @@ class ReporteTrimestralController extends Controller
             {
                 $arreglo_salidas = $this->salidas($salidas);
             }
+             $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+             foreach ( $obtengoclues as $key => $value) {
+                $value = $obtengoclues[$key]->clues;
+               /*  if(!array_key_exists($obtengoclues[$key]->clues, $empleados_trimestral))
+                {
+
+                } */
+               // 
+            }
             
+           
+            // print_r($obtengoclues);
             //Obtenemos las checadas de todoos los trabajadores
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
