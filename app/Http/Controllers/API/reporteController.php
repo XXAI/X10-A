@@ -363,10 +363,11 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
-                              //  ->groupBy("checkinout.sn")                        
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn")
+                                ->groupBy("checkinout.sn")
+                                                
                                 ->first();
-                        //dd($checada_entrada);
+                       // dd($checada_entrada);
                         $checada_entrada_fuera = $conexion->table("checkinout")
                         ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                         ->where("TITLE", "=",  $desc)
@@ -379,9 +380,10 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))//,"checkinout.sn")
-                               // ->groupBy("checkinout.sn")
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn")
+                                ->groupBy("checkinout.sn")
                                 ->first();
+                        
                                 
                         //return $checada_salida;
                         $checada_sal_fuera = $conexion->table("checkinout")
@@ -534,7 +536,7 @@ class reporteController extends Controller
                             else{
                                 $hora_extra=$checada_extra->HORA;
                             }
-                        if(isset($checada_entrada)){                        
+                        if(isset($checada_entrada) || !is_null($checada_entrada)){                        
                             $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
                             $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
                           
@@ -553,12 +555,17 @@ class reporteController extends Controller
                                             }
                                         }
                                         else
-                                          //  if (isset($checada_entrada->sn)){
-                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; //}                               
+                                        //dd($checada_entrada);
+                                           if (is_null($checada_entrada->sn)){
+                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; }                               
+                                            else{
+                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. " Omisión Entrada";
+                                            }
+                                        
 
                         }
                       
-                    if(is_null($asistencia[$indice]['checado_entrada'])){
+                    if(empty($asistencia[$indice]['checado_entrada'])){
                         $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
                         $asistencia[$indice]['validacion'] = 0;
                         if(is_null($checada_extra)){
@@ -599,7 +606,7 @@ class reporteController extends Controller
                        
                     }
 
-                    if(isset($checada_salida)){
+                    if(isset($checada_salida) || !is_null($checada_salida)){
                             
                         
                         
@@ -612,9 +619,14 @@ class reporteController extends Controller
                         //|| ($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
                             
                         else
-                            $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                        if (is_null($checada_salida->sn)){
+                            $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
+                           else{
+                               $asistencia[$indice]['checado_salida'] = $checada_salida->HORA. " Omisión Salida";
+                           }
+                            
                     }
-                    if(is_null($asistencia[$indice]['checado_salida'])){
+                    if(empty($asistencia[$indice]['checado_salida'])){
                             if(is_null($checada_extra)){
                             $asistencia[$indice]['checado_salida'] ="SIN REGISTRO";
                             $asistencia[$indice]['validacion'] = 0;

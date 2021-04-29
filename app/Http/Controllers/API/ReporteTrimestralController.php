@@ -121,13 +121,14 @@ class ReporteTrimestralController extends Controller
                 $arreglo_salidas = $this->salidas($salidas);
             }
              $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
-             foreach ( $obtengoclues as $key => $value) {
-                $value = $obtengoclues[$key]->clues;
+             foreach ( $obtengoclues as $key =>$value) {
+                //$value = $obtengoclues[$key]->clues;
                /*  if(!array_key_exists($obtengoclues[$key]->clues, $empleados_trimestral))
                 {
 
                 } */
-               // 
+               //
+            //    return$obtengoclues[$key][$value->clues]);
             }
             
            
