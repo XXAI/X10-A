@@ -120,17 +120,16 @@ class ReporteTrimestralController extends Controller
             {
                 $arreglo_salidas = $this->salidas($salidas);
             }
-             $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
-             foreach ( $obtengoclues as $key =>$value) {
-                //$value = $obtengoclues[$key]->clues;
-               /*  if(!array_key_exists($obtengoclues[$key]->clues, $empleados_trimestral))
-                {
 
-                } */
-               //
-            //    return$obtengoclues[$key][$value->clues]);
-            }
-            
+
+             $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+             $arreglo_clues = [];
+             if(count($obtengoclues) > 0)
+             {
+                 $arreglo_clues = $this->clues_users($obtengoclues);
+                 
+             }  
+       //  dd($arreglo_clues);
            
             // print_r($obtengoclues);
             //Obtenemos las checadas de todoos los trabajadores
@@ -149,7 +148,9 @@ class ReporteTrimestralController extends Controller
             ->where("ATT","=","1")
             ->WHERE("PAGER", "NOT LIKE", 'CF%') 
             //->where("FPHONE", 'like','%CSSSA017213%')
-           ->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
+          //->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
+          //  ->WHEREIN("FPHONE",[$arreglo_clues])
+          ->WHEREIN("FPHONE", $arreglo_clues)
             ->WHERE("OPHONE", "!=", 3)
             ->Where(function($query2)use($parametros){
                 $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
@@ -425,6 +426,20 @@ class ReporteTrimestralController extends Controller
             $arreglo_checadas[substr($value->CHECKTIME, 0,10)][] = $value;
         }
         return $arreglo_checadas;
+    }
+
+    function clues_users($arreglo)
+    {
+        $arreglo_clues = array();
+        $arrprueba = [];
+        foreach ($arreglo as $key => $value) {
+            $arreglo_clues[] = $value->clues;
+            //$arrprueba = implode(", ",$arreglo_clues);
+
+            //$arrprueba = "'".implode("','",$arreglo_clues)."'";
+           
+        }
+        return $arreglo_clues;//$arreglo_clues;
     }
 
     function festivos($arreglo)

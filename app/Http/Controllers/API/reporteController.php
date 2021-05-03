@@ -125,6 +125,7 @@ class reporteController extends Controller
             $diaE=0;
             $vacEx=0;
             $vacMR=0;
+            $pagoGuardia=0;
             $diaE=0;
             $ono=0;
         foreach($checa_dias as $tipos){
@@ -155,6 +156,9 @@ class reporteController extends Controller
                     break;
                 case 16:                                        
                     $vacEx=$tipos->total;
+                    break;
+                case 22:                                        
+                    $pagoGuardia=$tipos->total;
                     break;
                 case 30:                                        
                     $vac20_1=$tipos->total;
@@ -507,6 +511,9 @@ class reporteController extends Controller
                                     case 20:
                                         $impr="Licencia Sin Goce ";                                    
                                         break;
+                                    case 22:
+                                        $impr="Pago de Guardia ";                                    
+                                        break;
                                     case 27:
                                         $impr="Lista de Asistencia segun Memoradúm ".$memo;                                    
                                         break;
@@ -713,7 +720,7 @@ class reporteController extends Controller
         
         $ps=$ps/60;
        // dd( $validacion); 
-        $resumen = array(['horastra'=>$htra,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
+        $resumen = array(['horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
       

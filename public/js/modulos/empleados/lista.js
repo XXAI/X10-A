@@ -1083,6 +1083,16 @@ function validando_incidencia() {
             }
             break;
 
+        case 22: //Pago de Guardias   
+
+            if (resumen_checadas.pagoGuardia < 4) {
+                bandera = 1;
+            } else {
+                bandera = 0;
+                msj = "ya no puede justificar con Pago de Guardias";
+            }
+            break;
+
             // case 12:
             //resumen_checadas.Vacaciones_2018_Invierno
             //    break;
@@ -1097,62 +1107,42 @@ function validando_incidencia() {
 function inserta_incidencia() {
     var x = 0;
     var dia_eva;
-    for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
-        fini = moment(date_1.add(x, 'd')).format();
-        ffin = moment(date_2.add(x, 'd')).format();
-        fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
-        ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-        /* festivos();
-        $.each(arreglo_diafest, function(key, value) {
-            arreglo_diafest = value.STARTTIME.substr(0, 10);
-            // console.log(arreglo_diafest);
+    // for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
+    fini = moment(date_1.add(x, 'd')).format();
+    ffin = moment(date_2.add(x, 'd')).format();
+    fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
+    ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+    //console.log("fecha ini " + fini + "  fwcha fini " + ffin);
+    /* 
+     for (var j = 0; j < diaslab.length; j++) {
+         if (moment(fini).day() == 0)
+             dia_eva = 7;
+         else
+             dia_eva = moment(fini).day();
+      //   console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
+         if (dia_eva == diaslab[j].EDAYS) { */
+    $.ajax({
+        type: 'POST',
+        url: url_in,
+        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+        success: function(data) {
+            //    console.log(data);
 
-        });
-
-       if (arreglo_diafest.includes(fini.substr(0, 10)) == true) {
-            $.ajax({
-                type: 'POST',
-                url: url_in,
-                data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
-                success: function(data) {
-                    console.log(data);
-
-                },
-                error: function(data) {
-                    swal("Error!", "No se registro ningun dato!", "error");
-                }
-            })
-        } else {
- */
-        for (var j = 0; j < diaslab.length; j++) {
-            if (moment(fini).day() == 0)
-                dia_eva = 7;
-            else
-                dia_eva = moment(fini).day();
-            console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
-            if (dia_eva == diaslab[j].EDAYS) {
-                $.ajax({
-                    type: 'POST',
-                    url: url_in,
-                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
-                    success: function(data) {
-                        //    console.log(data);
-
-                    },
-                    error: function(data) {
-                        swal("Error!", "No se registro ningun dato!", "error");
-                    }
-                })
-
-            }
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
         }
-        //}
+    })
 
-        // console.log(fini.substr(0, 10));
+    //      }
+    //  }
+    //}
 
-        x = 1;
+    // console.log(fini.substr(0, 10));
 
-    }
+    //  x = 1;
+
+    //  }
     //('#agregar_incidencia').modal('toggle'); 
 
     swal("Exito!", "El registro se ha guardado!", "success");
@@ -1164,45 +1154,45 @@ function inserta_incidencia_emp() {
 
     var x = 0;
     var dia_eva;
-    for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
-        fini = moment(date_1.add(x, 'd')).format();
-        ffin = moment(date_2.add(x, 'd')).format();
-        fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
-        ffin = fini.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-        for (var j = 0; j < diaslab.length; j++) {
+    // for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
+    fini = moment(date_1.add(x, 'd')).format();
+    ffin = moment(date_2.add(x, 'd')).format();
+    fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
+    ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+    /*    for (var j = 0; j < diaslab.length; j++) {
             if (moment(fini).day() == 0)
                 dia_eva = 7;
             else
                 dia_eva = moment(fini).day();
 
             if (dia_eva == diaslab[j].EDAYS) {
+ */
+    $.ajax({
+        type: 'POST',
+        url: "../api/guarda-just-emp",
+        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
+        success: function(data) {
+            //  console.log(data);
+            /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
+              document.getElementById('save_in_emp').disabled = true;
+              $("#modal_justificante").modal('toggle').hide;
+              $("#documentos").val('');
+              $("#autorizo").val('');
+              $("#observaciones").val('');
+              document.getElementById('buscar').click(); */
 
-                $.ajax({
-                    type: 'POST',
-                    url: "../api/guarda-just-emp",
-                    data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
-                    success: function(data) {
-                        //  console.log(data);
-                        /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
-                          document.getElementById('save_in_emp').disabled = true;
-                          $("#modal_justificante").modal('toggle').hide;
-                          $("#documentos").val('');
-                          $("#autorizo").val('');
-                          $("#observaciones").val('');
-                          document.getElementById('buscar').click(); */
+        },
+        error: function(data) {
+            swal("Error!", "No se registro ningun dato!", "error");
+        }
+    })
 
-                    },
-                    error: function(data) {
-                        swal("Error!", "No se registro ningun dato!", "error");
-                    }
-                })
-
-            }
+    /*     }
         }
 
         x = 1;
 
-    }
+    } */
     //('#agregar_incidencia').modal('toggle'); 
 
     //swal("Exito!", "El registro se ha guardado!", "success");

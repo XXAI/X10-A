@@ -12,6 +12,7 @@ use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
 use App\Models\Festivos;
 use App\Models\Omisiones;
+use App\Models\DiasJustifica;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
 
@@ -229,9 +230,13 @@ class EmpleadoController extends Controller
        
         $parametros = Input::all();
         $omisiones = omisiones::where("userid","=",$id)
-         ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])
-       
+         ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])       
         ->get();
+
+
+        $pGuardias = DiasJustifica::where("userid","=",$id)
+        ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])       
+       ->get();
         
         
       //  dd($omisiones);

@@ -13,6 +13,7 @@ use App\Models\Festivos;
 use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
+use App\Models\CluesUser;
 use Illuminate\Support\Facades\Input;
 
 class CardexController extends Controller
@@ -20,10 +21,18 @@ class CardexController extends Controller
     public function index(Request $request)
     {
         $parametros = Input::all();
-        
+
+        $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+        $arreglo_clues = [];
+        if(count($obtengoclues) > 0)
+        {
+            $arreglo_clues = $this->clues_users($obtengoclues);
+            
+        }
+       // dd($arreglo_clues );
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 //->whereNull("USERINFO.state")
-                                ->whereIn("USERINFO.FPHONE", ['CSSSA017213','CSSSA017324'])
+                                ->whereIn("USERINFO.FPHONE", $arreglo_clues)
                                 ->Where(function($query2)use($parametros){
                                     $query2->where('Name','LIKE','%'.$parametros['filtro'].'%')
                                             ->orWhere('TITLE','LIKE','%'.$parametros['filtro'].'%')
@@ -34,16 +43,32 @@ class CardexController extends Controller
         return response()->json(["usuarios" => $empleados]);
     }
 
+    function clues_users($arreglo)
+    {
+        $arreglo_clues = array();
+       
+        foreach ($arreglo as $key => $value) {
+            $arreglo_clues[] = $value->clues;           
+        }
+        return $arreglo_clues;//$arreglo_clues;
+    }
+
     public function reporteCardex(Request $request)
     {
         $parametros = Input::all();
-
+        $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+        $arreglo_clues = [];
+        if(count($obtengoclues) > 0)
+        {
+            $arreglo_clues = $this->clues_users($obtengoclues);
+            
+        }
        // dd($parametros['anio']);
         $datos = $this->claseAsistencia($parametros['empleado'],$parametros['anio']);
         //return response()->json(["usuarios" => $datos]);
         $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 //->whereNull("USERINFO.state")
-                                ->whereIn("USERINFO.FPHONE", ['CSSSA017213','CSSSA017324'])
+                                ->whereIn("USERINFO.FPHONE", $arreglo_clues )
                                 ->Where('Badgenumber', $parametros['empleado'])
                                 ->first();
 
