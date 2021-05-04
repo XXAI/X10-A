@@ -234,9 +234,9 @@ class EmpleadoController extends Controller
         ->get();
 
 
-        $pGuardias = DiasJustifica::where("userid","=",$id)
+       /*  $pGuardias = DiasJustifica::where("userid","=",$id)
         ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])       
-       ->get();
+       ->get(); */
         
         
       //  dd($omisiones);
