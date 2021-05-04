@@ -626,7 +626,9 @@ function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
     fecha = xini;
-    var algo = 0;
+    var algo = 0,
+        oentrada = 0,
+        osalida = 0;
     // tipo = $("#tipo_es").val();, tipo: tipo
     $.ajax({
         type: "GET",
@@ -634,10 +636,13 @@ function obtener_omisiones() {
         data: { id: id, fecha: fecha },
         dataType: "json",
         success: function(data) {
-            // console.log(data.omisiones);
+            console.log(data);
             $.each(data.omisiones, function(key, value) {
-                // console.log(key + "...", value.CHECKTIME);
-                console.log("fechabusqueda" + fecha.substr(0, 10));
+                // console.log(fecha.substr(0, 10) + value.CHECKTIME.substr(0, 10));
+                console.log(value.CHECKTYPE);
+                if (value.CHECKTYPE == 'I') {
+                    oentrada += 1;
+                } else { osalida += 1; }
                 if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
                     algo = 1;
                 }
@@ -645,8 +650,8 @@ function obtener_omisiones() {
 
             });
             omisiones_total = data;
-            console.log(algo);
-            if (omisiones_total.omisiones.length < 2 || algo == 0) {
+            console.log("oentrada: " + oentrada + " osalida: " + osalida);
+            if (oentrada < 2 && osalida < 2 && algo == 0) {
                 var mensaje = "  ";
                 mostrarMensaje2(mensaje);
                 $('#btn_save_entrasal').attr('disabled', false);

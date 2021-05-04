@@ -211,8 +211,10 @@ class EmpleadoController extends Controller
        $fecha_mes_inicio = new Carbon($fecha);
        $fecha_mes_fin = new Carbon($fecha);
        $dia =  $fecha_mes->day;
+       $fechaIni=$fecha_mes_inicio->firstOfMonth();
+       $fechaFin=$fecha_mes_fin->lastOfMonth(); 
     //   dd($dia);
-        if ($dia<=15){
+        /* if ($dia<=15){
              $fechaIni=$fecha_mes_inicio->firstOfMonth();
             $fechaFin=$fecha_mes_fin->firstOfMonth()->addDays(15); 
            // dd("dia menor de 15");
@@ -220,7 +222,7 @@ class EmpleadoController extends Controller
            // dd("dia mayor o igual  de 16");
            $fechaIni=$fecha_mes_inicio->firstOfMonth()->addDays(15);
            $fechaFin=$fecha_mes_fin->lastOfMonth(); 
-        }
+        } */
       // $tipo = $request->tipo;
       /*  
        $fecha_mes_inicio = $fecha_mes->firstOfMonth();
