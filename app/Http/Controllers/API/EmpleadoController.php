@@ -207,43 +207,55 @@ class EmpleadoController extends Controller
     {
        $id = $request->id;
        $fecha = $request->fecha;
-       $fecha_mes = new Carbon($fecha);
+       $fini = $request->fini;
+       $ffin = $request->ffin;
+       $codein = $request->codein;
+
+
+       $fecha_mes = new Carbon($fini);
        $fecha_mes_inicio = new Carbon($fecha);
        $fecha_mes_fin = new Carbon($fecha);
+       $fmesini = new Carbon($fini);
+       $fmesfin = new Carbon($ffin);
        $dia =  $fecha_mes->day;
-       $fechaIni=$fecha_mes_inicio->firstOfMonth();
-       $fechaFin=$fecha_mes_fin->lastOfMonth(); 
+       
     //   dd($dia);
-        /* if ($dia<=15){
-             $fechaIni=$fecha_mes_inicio->firstOfMonth();
-            $fechaFin=$fecha_mes_fin->firstOfMonth()->addDays(15); 
+         if ($dia<=15){
+             $fechaIni=$fmesini->firstOfMonth();
+             $fechaFin= $fmesfin->firstOfMonth()->addDays(15); 
            // dd("dia menor de 15");
         } else{
            // dd("dia mayor o igual  de 16");
-           $fechaIni=$fecha_mes_inicio->firstOfMonth()->addDays(15);
-           $fechaFin=$fecha_mes_fin->lastOfMonth(); 
-        } */
-      // $tipo = $request->tipo;
-      /*  
-       $fecha_mes_inicio = $fecha_mes->firstOfMonth();
-       $fecha_mes_medio = $fecha_mes->addDays(15);
-       $fecha_mes_fin = $fecha_mes-> lastOfMonth(); */
-     //   dd(substr($fechaIni,-19,10)."T".'00:00:01.000');
+                $fechaIni=$fmesini->firstOfMonth()->addDays(15);
+                $fechaFin= $fmesfin->lastOfMonth(); 
+        } 
+     // dd(substr($fechaIni,-19,10)."T".'00:00:01.000');
        
         $parametros = Input::all();
         $omisiones = omisiones::where("userid","=",$id)
-         ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])       
+        ->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])              
         ->get();
+ /*   ->where("STARTSPECDAY","<=",(substr($fechaFin,-19,10)."T".'23:59:59.000'))
+                        -> where("ENDSPECDAY",">=",(substr($fechaIni,-19,10)."T".'00:00:01.000')) ; */
 
+         $diasJustificados = DiasJustifica::where("userid","=",$id);        
+  
 
-       /*  $pGuardias = DiasJustifica::where("userid","=",$id)
-        ->whereBetween("CHECKTIME",[(substr($fechaIni,-19,10)."T".'00:00:01.000'),(substr($fechaFin,-19,10)."T".'23:59:59.000')])       
-       ->get(); */
+        if($codein !=''){
+                    $diasJustificados = $diasJustificados->where('DATEID','=',$codein);
+                    if($codein == 22){
+                        $diasJustificados = $diasJustificados
+                     
+                        ->where("STARTSPECDAY","<=",$fechaFin)
+                        ->where("ENDSPECDAY",">=",$fechaIni);
+                    } 
+                }
+       $diasJustificados =  $diasJustificados->get();
         
         
       //  dd($omisiones);
 
-        return response()->json(["omisiones" => $omisiones]);
+        return response()->json(["omisiones" => $omisiones,"diasJustificados" => $diasJustificados]);
     }
 
     /**

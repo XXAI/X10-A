@@ -9,7 +9,7 @@ var pasesal;
 var inicio;
 var fin;
 var xini, xfin;
-var id, idcap, fecha, tipo;
+var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
 var rfc_x;
 var id_inci;
@@ -35,6 +35,19 @@ $(document).ready(function() {
     $('#btn-mod-hora').hide();
     //cargar_incidencias()
     idcap = $("#id_user").val();
+    $('#incidencia').blur(function() {
+        obtener_incidencias();
+    });
+    $("#agregar_incidencia").on('hidden.bs.modal', function() {
+        $("#code_in").val("");
+    });
+    $("#agregar_entrasal").on('hidden.bs.modal', function() {
+        //$("#code_in").val("");
+    });
+
+    $("#agregar_empleado").on('hidden.bs.modal', function() {
+        limpia_empleados();
+    });
     // console.log(idcap);
 
 
@@ -441,6 +454,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
+
     //console.log(diaslab);
 
 
@@ -604,6 +618,7 @@ function generar_inci(jini, jfin) {
     $("#incidencia").val('');
     var mensaje = "  ";
     mostrarMensaje(mensaje);
+    obtener_incidencias();
 
 
 }
@@ -636,10 +651,10 @@ function obtener_omisiones() {
         data: { id: id, fecha: fecha },
         dataType: "json",
         success: function(data) {
-            console.log(data);
+            // console.log(data);
             $.each(data.omisiones, function(key, value) {
                 // console.log(fecha.substr(0, 10) + value.CHECKTIME.substr(0, 10));
-                console.log(value.CHECKTYPE);
+                // console.log(value.CHECKTYPE);
                 if (value.CHECKTYPE == 'I') {
                     oentrada += 1;
                 } else { osalida += 1; }
@@ -649,8 +664,10 @@ function obtener_omisiones() {
 
 
             });
+
+
             omisiones_total = data;
-            console.log("oentrada: " + oentrada + " osalida: " + osalida);
+            //  console.log("oentrada: " + oentrada + " osalida: " + osalida);
             if (oentrada < 2 && osalida < 2 && algo == 0) {
                 var mensaje = "  ";
                 mostrarMensaje2(mensaje);
@@ -664,6 +681,48 @@ function obtener_omisiones() {
 
             //omision.push(data.omisiones);
             // console.log(omision);
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+}
+
+function obtener_incidencias() {
+    //omision = [];
+    fini = $("#f_ini").val();
+    ffin = $("#f_fin").val();
+    codein = $("#code_in").val();
+    //console.log(fini);
+    id = $("#id").val();
+    fecha = xini;
+
+    $.ajax({
+        type: "GET",
+        url: "./api/omisiones/",
+        data: { id: id, fini: fini, ffin: ffin, codein: codein },
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            $.each(data.diasJustificados, function(key, value) {
+
+                // pagoGuardia = data.diasJustificados.length;
+
+
+            });
+
+            console.log(data.diasJustificados.length + "hola " + codein);
+            if (data.diasJustificados.length >= 2 && codein == 22) {
+                var mensaje = "Ya no puede justificar con Pago de Guardias";
+                $('#btn_save_inci').attr('disabled', true);
+                mostrarMensaje(mensaje);
+            } else {
+                var mensaje = " ";
+                $('#btn_save_inci').attr('disabled', false);
+                mostrarMensaje(mensaje);
+
+            }
 
         },
         error: function(data) {
@@ -748,7 +807,6 @@ function sel_inci(valor) {
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         case 6:
-
             if (diaslab.length == 5) {
                 console.log("economico:  " + resumen_checadas.Día_Económico);
                 diaeco = 2 - resumen_checadas.Día_Económico;
@@ -764,6 +822,12 @@ function sel_inci(valor) {
 
             mensaje = "Su onomástico es el: " + onomastico.substr(3, 2) + " de " + arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
             mostrarMensaje(mensaje);
+
+            break;
+
+        case 22:
+            // $('#f_fin').attr('disabled', true);
+
 
             break;
         default:
@@ -1088,15 +1152,7 @@ function validando_incidencia() {
             }
             break;
 
-        case 22: //Pago de Guardias   
 
-            if (resumen_checadas.pagoGuardia < 4) {
-                bandera = 1;
-            } else {
-                bandera = 0;
-                msj = "ya no puede justificar con Pago de Guardias";
-            }
-            break;
 
             // case 12:
             //resumen_checadas.Vacaciones_2018_Invierno

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiasJustifica extends Model
 {
+    protected $connection = 'dinamica';
     protected $table = "USER_SPEDAY";
     public $timestamps = false;
 
