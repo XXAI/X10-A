@@ -704,7 +704,7 @@ function obtener_incidencias() {
         data: { id: id, fini: fini, ffin: ffin, codein: codein },
         dataType: "json",
         success: function(data) {
-            console.log(data);
+            // console.log(data);
             $.each(data.diasJustificados, function(key, value) {
 
                 // pagoGuardia = data.diasJustificados.length;
@@ -712,7 +712,7 @@ function obtener_incidencias() {
 
             });
 
-            console.log(data.diasJustificados.length + "hola " + codein);
+            //console.log(data.diasJustificados.length + "hola " + codein);
             if (data.diasJustificados.length >= 2 && codein == 22) {
                 var mensaje = "Ya no puede justificar con Pago de Guardias";
                 $('#btn_save_inci').attr('disabled', true);
