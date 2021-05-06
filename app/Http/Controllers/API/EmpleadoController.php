@@ -210,6 +210,7 @@ class EmpleadoController extends Controller
        $fini = $request->fini;
        $ffin = $request->ffin;
        $codein = $request->codein;
+       $tipoomi = $request->tipoomi;
 
 
        $fecha_mes = new Carbon($fini);
@@ -233,8 +234,14 @@ class EmpleadoController extends Controller
        
         $parametros = Input::all();
         $omisiones = omisiones::where("userid","=",$id)
-        ->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])              
-        ->get();
+        ->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')]) ;
+        if($tipoomi !=''){
+            $omisiones = $omisiones->where("CHECKTYPE","=",$tipoomi);
+        }
+                    
+
+        $omisiones = $omisiones->get();
+       // dd($omisiones)
  /*   ->where("STARTSPECDAY","<=",(substr($fechaFin,-19,10)."T".'23:59:59.000'))
                         -> where("ENDSPECDAY",">=",(substr($fechaIni,-19,10)."T".'00:00:01.000')) ; */
 

@@ -629,7 +629,7 @@ function agregar_entsal(jini, jfin) {
     xfin = jfin;
     //fecha = xini;
 
-    obtener_omisiones();
+    //obtener_omisiones();
     //console.log(omisiones_total.omisiones.length);
 
 
@@ -640,6 +640,7 @@ function agregar_entsal(jini, jfin) {
 function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
+    tipoomi = $("#tipo_es").val();
     fecha = xini;
     var algo = 0,
         oentrada = 0,
@@ -648,7 +649,7 @@ function obtener_omisiones() {
     $.ajax({
         type: "GET",
         url: "./api/omisiones/",
-        data: { id: id, fecha: fecha },
+        data: { id: id, fecha: fecha, tipoomi: tipoomi },
         dataType: "json",
         success: function(data) {
             // console.log(data);
@@ -667,17 +668,41 @@ function obtener_omisiones() {
 
 
             omisiones_total = data;
-            //  console.log("oentrada: " + oentrada + " osalida: " + osalida);
+            console.log("oentrada: " + oentrada + " osalida: " + osalida + " algo: " + algo);
+
             if (oentrada < 2 && osalida < 2 && algo == 0) {
                 var mensaje = "  ";
                 mostrarMensaje2(mensaje);
                 $('#btn_save_entrasal').attr('disabled', false);
             } else {
 
-                var mensaje = "Ya se agoto la cantidad de omisiones perimitidas";
+                var mensaje = "Ya se agoto la cantidad de omisiones";
                 $('#btn_save_entrasal').attr('disabled', true);
                 mostrarMensaje2(mensaje);
             }
+            /*  if (osalida < 2) {
+                var mensaje = "  ";
+                mostrarMensaje2(mensaje);
+                $('#btn_save_entrasal').attr('disabled', false);
+            } else {
+
+                var mensaje = "Ya se agoto la cantidad de omisiones";
+                $('#btn_save_entrasal').attr('disabled', true);
+                mostrarMensaje2(mensaje);
+            }
+
+            if (algo == 0) {
+                var mensaje = "  ";
+                mostrarMensaje2(mensaje);
+                $('#btn_save_entrasal').attr('disabled', false);
+            } else {
+
+                var mensaje = "Ya se agoto la cantidad de omisiones";
+                $('#btn_save_entrasal').attr('disabled', true);
+                mostrarMensaje2(mensaje);
+            }
+ */
+
 
             //omision.push(data.omisiones);
             // console.log(omision);
