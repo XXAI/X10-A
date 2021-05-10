@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReglaAsistencia extends Model
 {
+    protected $connection = 'dinamica';
     protected $table = "SchClass";
 }

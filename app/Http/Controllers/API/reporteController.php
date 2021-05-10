@@ -420,10 +420,7 @@ class reporteController extends Controller
                                     )
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id')
                                 ->first();
-                                
-          
-                                
-                          
+                               // dd($conexion);
 
                                 $ban_inci=0;
                                 if(is_null($checada_extra)){

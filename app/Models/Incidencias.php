@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Incidencias extends Model
 {
+    protected $connection = 'dinamica';
     protected $table = 'incidencias';
 
     public function TiposIncidencia(){

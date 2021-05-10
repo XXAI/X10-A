@@ -205,10 +205,10 @@ class CardexController extends Controller
             }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
             }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-                $query->where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
+                $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
             }])
             ->Where('Badgenumber', $empleado)->first();
-            
+            ////where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
             //return $empleados;
             #Obtenemos los dias totales del reporte
             //
@@ -226,6 +226,9 @@ class CardexController extends Controller
             $checadas_empleado  = $this->checadas_empleado($empleados->checadas);
             $omisiones          = $this->omisiones($empleados->omisiones);
             $dias_otorgados     = $this->dias_otorgados($empleados->dias_otorgados);
+
+
+         //   dd($dias_otorgados);
             #Empieza lo bueno, revision de checadas
             #por default ponemos los dias del pimer periodo, ya que sale de la consulta, pero validamos
             
@@ -257,7 +260,7 @@ class CardexController extends Controller
                     }  
                 }
                
-                
+               
                 if($diferencia_dias_sin_horario == 0)
                 {
                     
@@ -518,22 +521,26 @@ class CardexController extends Controller
     function dias_otorgados($arreglo)
     {
         $arreglo_dias = array();
-        $bandera = 0;
-        $licencia_medica = 0;
+        $arreglo_dias2 = array();
+        $range = array();
+
         foreach ($arreglo as $key => $value) {
-            /*if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
-            if($value->DATEID == 8){ $licencia_medica++;  }
-*/
-            $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
-        }
-        /*if($bandera == 1 || $licencia_medica >= 10)
-        {
-            return -1;
-        }else
-        {*/
-            return $arreglo_dias;
-        //}
+             $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+           /*   $arreglo_dias2[substr($value->ENDSPECDAY, 0,10)][] = $value;
+             $start = substr($value->STARTSPECDAY, 0,10);
+             $end = substr($value->ENDSPECDAY, 0,10);
+             do {
+                $range[] = date('Y-m-d',$arreglo_dias);
+                $arreglo_dias= strtotime("+ 1 day",  $arreglo_dias);
+            } while($arreglo_dias<= $arreglo_dias2);
         
+            dd($range); */
+      
+            
+         }
+         dd($arreglo_dias);
+         return $arreglo_dias;
+       
     }
 
 }  
