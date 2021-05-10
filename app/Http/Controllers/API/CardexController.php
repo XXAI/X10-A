@@ -521,24 +521,23 @@ class CardexController extends Controller
     function dias_otorgados($arreglo)
     {
         $arreglo_dias = array();
-        $arreglo_dias2 = array();
-        $range = array();
+       
 
         foreach ($arreglo as $key => $value) {
-             $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
-           /*   $arreglo_dias2[substr($value->ENDSPECDAY, 0,10)][] = $value;
-             $start = substr($value->STARTSPECDAY, 0,10);
-             $end = substr($value->ENDSPECDAY, 0,10);
-             do {
-                $range[] = date('Y-m-d',$arreglo_dias);
-                $arreglo_dias= strtotime("+ 1 day",  $arreglo_dias);
-            } while($arreglo_dias<= $arreglo_dias2);
-        
-            dd($range); */
-      
+           //  $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
             
+              $inicio = new Carbon($value->STARTSPECDAY);
+             $fin = new Carbon($value->ENDSPECDAY);
+             $diff = $inicio->diffInDays($fin);
+             //$arreglo_dias2[] = substr($inicio, 0,10);
+             $arreglo_dias[substr($inicio, 0,10)][] = $value;
+             for ($i=0; $i < $diff; $i++) { 
+                $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+                
+             } 
+
          }
-         dd($arreglo_dias);
+       
          return $arreglo_dias;
        
     }
