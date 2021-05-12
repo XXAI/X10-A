@@ -487,7 +487,18 @@ class ReporteTrimestralController extends Controller
             if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
             if($value->DATEID == 8){ $licencia_medica++; }
 
-            $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+           // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+            $inicio = new Carbon($value->STARTSPECDAY);
+            $fin = new Carbon($value->ENDSPECDAY);
+            $diff = $inicio->diffInDays($fin);            
+            $arreglo_dias[substr($inicio, 0,10)][] = $value;
+            for ($i=0; $i < $diff; $i++) { 
+               $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+               
+            } 
+            
+
+
         }
         if($bandera == 1 || $licencia_medica >= 10)
         {
