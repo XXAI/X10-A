@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 //use APP\Http\Middleware\CheckDataBase;
-use Carbon\Carbon, DB;
+use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;  ;
 use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
@@ -23,21 +23,28 @@ class reporteController extends Controller
 {
 
 
-    
+    public function imprimirTarjeta(Request $request)
+    {
+        $parametros = Input::all();
+        $usuario = Auth::user();
+        
+      
+       
+        
+        //return $usuario;
+        $asistencia = $this->consulta_checadas($request);
+        $datos = $asistencia;
+        //dd(($asistencia));
+        $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $datos]);
+        //$pdf = PDF::loadView('empleados//tarjeta', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
+        $pdf->setPaper('LEGAL', 'landscape');
+        $pdf->setOptions(['isPhpEnabled' => true]);
+        
+        return $pdf->stream('tarjeta.pdf');
+    }
 
     public function consulta_checadas(Request $request)
     {
-        /*  $conexion = DB::connection('dinamica');
-         $conexion=$zk;
- */
-       
-         //dd(auth()->user());
-
-
-        
-        /*$bs = DB::connection('BS'); 
-        $gm = DB::connection('GM');   */
-        
         $parametros = Input::all();
         $arreglo_fecha = array();
         $fecha_actual = Carbon::now();
@@ -720,7 +727,7 @@ class reporteController extends Controller
         $resumen = array(['horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
-      
+      //  return array("data" => $asistencia);
     }
 
     public function decrypt($string) {

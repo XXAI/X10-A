@@ -103,7 +103,7 @@
                                                   <br>
                                                       <label for="fecha_inicio"><br></label>
                                                       <button onclick="filtrar_checadas()" id="filtro_check" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
-                                                  
+                                                      <button class="btn btn-info" type='button' onclick="imprimir_tarjeta()"><i class="fa fa-print "></i></button>
                                                   </div>
                                               </div>
                                               

@@ -193,36 +193,7 @@ function cargar_incidencias() {
 
 }
 
-/* function cargar_select() {
 
-
-    if (ban_url == 1) {
-        url_ = '../api/empleado';
-    } else {
-        url_ = './api/empleado'
-    }
-
-
-    $("#incidencia_tipo").empty();
-    $("#incidencia_tipo").append("<option disabled selected value=''>Elegir tipo de Incidencia</option>");
-    $.ajax({
-        type: "GET",
-        url: url_,
-
-        dataType: "json",
-        success: function(data) {
-
-            $.each(data.incidencias, function(key, registro) {
-                $("#incidencia_tipo").append("<option value=" + registro.LeaveId + ">" + registro.LeaveName + "</option>");
-            });
-        },
-        error: function(data) {
-            alert('error');
-        }
-    });
-
-
-} */
 
 function obten_fecnac(rfc_x) {
 
@@ -920,6 +891,15 @@ function cargar_blade_checadas() {
     }, function() {
         $(this).removeClass('hover');
     });
+
+}
+
+function imprimir_tarjeta() {
+
+
+
+    //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
+    win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin, '_blank');
 
 }
 
