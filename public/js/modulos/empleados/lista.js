@@ -1,5 +1,5 @@
 var urlchecadas = "./api/consulta-asistencia";
-var dato;
+var dato, impre = 0;
 var date = new Date();
 var resumen_checadas;
 var diaslab;
@@ -896,10 +896,10 @@ function cargar_blade_checadas() {
 
 function imprimir_tarjeta() {
 
-
+    impre = 1;
 
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
-    win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin, '_blank');
+    win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&impre=" + impre, '_blank');
 
 }
 
