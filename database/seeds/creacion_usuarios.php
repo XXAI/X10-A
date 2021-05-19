@@ -194,7 +194,7 @@ class creacion_usuarios extends Seeder
             'updated_at' => '2021-04-15 13:00:51.565'
         ]);
 
-        User::create([ // create a new user
+      /*  User::create([ // create a new user
             'email' => 'gomezmaza',
             'password' => Hash::make('gm2021*'),
             'username' => 'gomezmaza',
@@ -205,6 +205,6 @@ class creacion_usuarios extends Seeder
             'is_superuser' => 0,
             'created_at' => '2021-04-15 13:00:56.565',
             'updated_at' => '2021-04-15 13:00:51.565'
-        ]);
+        ]);*/
     }
 }

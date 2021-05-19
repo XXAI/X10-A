@@ -33,9 +33,9 @@ class reporteController extends Controller
         
         //return $usuario;
         $asistencia = $this->consulta_checadas($request);
-        $datos = $asistencia;
-        dd(($asistencia));
-        $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $datos]);
+       // $datos = $asistencia;
+     //   dd(($asistencia));
+        $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $asistencia]);
         //$pdf = PDF::loadView('empleados//tarjeta', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);

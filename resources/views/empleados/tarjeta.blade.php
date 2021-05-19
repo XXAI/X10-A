@@ -116,7 +116,8 @@
     </style>
 </head>
 <?php
- $datos   = $asistencia;
+ $asistencia = $asistencia['data'];
+ //print_r($asistencia);
 // var_dump($arr);
  //header('Content-Type: text/html; charset=utf-8');
  
@@ -193,16 +194,14 @@ $incidencia = $pase['tipos_incidencia'];
             <tbody class='datos'>
                     <?php $numero = 0; ?>
 
-
-                   <!--  @foreach($datos as $obj) -->
-                    
-
-                    <tr>
-                            <td >{{ print_r($datos) }}</td>
-                           
-                           
-                    </tr>    
-                    <!-- @endforeach -->
+   
+                @foreach($asistencia as $key=>$obj) 
+                 
+                print_r("El " . $key. " es " . $obj);
+                 echo "<br>"; --
+ 
+                       
+                      @endforeach 
                                         
                         
                       

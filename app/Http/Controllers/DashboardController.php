@@ -31,6 +31,12 @@ class DashboardController extends Controller
         return view('empleado');
     }
     
+
+    public function register()
+    {
+        return view('auth.register');
+    }
+    
     public function cardex()
     {
         return view('cardex');
