@@ -51,7 +51,7 @@ use Illuminate\Http\Request;
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */
 
-
+    Route::post('/registra-usuario','Auth\RegisterController@create')->name('registra-usuario');
     Route::post('/guarda-justificante','API\DiasJustificaController@store');
     Route::post('/guarda-just-emp','API\IncidenciaController@store');
     Route::post('/guarda-entrasal','API\EntraSalidaController@store');
