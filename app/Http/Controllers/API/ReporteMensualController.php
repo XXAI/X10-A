@@ -13,6 +13,7 @@ use App\Models\Festivos;
 use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
+use App\Models\CluesUser;
 use Illuminate\Support\Facades\Input;
 
 class ReporteMensualController extends Controller
@@ -109,13 +110,23 @@ class ReporteMensualController extends Controller
         {
             $arreglo_contingencia = $this->contingencia($contingencia);
         }
+
+
+        $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+        $arreglo_clues = [];
+        if(count($obtengoclues) > 0)
+        {
+            $arreglo_clues = $this->clues_users($obtengoclues);
+            
+        }  
+        dd($obtengoclues);
         //Obtenemos salidas autorizadas
         $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
         $arreglo_salidas = array();
         if(count($salidas) > 0)
             $arreglo_salidas = $this->salidas($salidas);
         
-        
+       
         
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
@@ -128,7 +139,8 @@ class ReporteMensualController extends Controller
             $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
         }])
         ->whereNull("state")
-        ->WHERE("FPHONE", "=", 'CSSSA017213')
+        //->WHERE("FPHONE", "=", 'CSSSA017213')
+        ->WHEREIN("FPHONE", $arreglo_clues)
         ->Where(function($query2)use($parametros){
             $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')

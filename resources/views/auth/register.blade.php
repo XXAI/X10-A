@@ -8,7 +8,7 @@
 
                 <div class="card-body">
                 
-                    <form method="POST"  action="{{ route('registra-usuario') }}">
+                    <form method="POST" >
                         @csrf                     
 
                         <div class="row">
@@ -86,13 +86,10 @@
                         
                                 
                             
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Guardar') }}
-                                </button>
-                            </div>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="btnregister" onclick="register_user()">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              </div>
                     </form>
                
                 </div>
@@ -101,3 +98,12 @@
     </div>
 </div>
 @endsection
+
+
+@section('scripts')
+    @parent
+    <script src="js/modulos/registrar/registrar.js"></script> 
+     
+   
+    
+@stop
