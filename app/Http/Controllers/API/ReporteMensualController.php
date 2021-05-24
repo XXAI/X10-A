@@ -119,7 +119,7 @@ class ReporteMensualController extends Controller
             $arreglo_clues = $this->clues_users($obtengoclues);
             
         }  
-        dd($obtengoclues);
+        //dd($obtengoclues);
         //Obtenemos salidas autorizadas
         $salidas   = SalidaAutorizada::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
         $arreglo_salidas = array();
@@ -390,7 +390,19 @@ class ReporteMensualController extends Controller
         }
         return $arreglo_checadas;
     }
+    function clues_users($arreglo)
+    {
+        $arreglo_clues = array();
+        $arrprueba = [];
+        foreach ($arreglo as $key => $value) {
+            $arreglo_clues[] = $value->clues;
+            //$arrprueba = implode(", ",$arreglo_clues);
 
+            //$arrprueba = "'".implode("','",$arreglo_clues)."'";
+           
+        }
+        return $arreglo_clues;//$arreglo_clues;
+    }
     function festivos($arreglo)
     {
         $arreglo_festivos = array();
@@ -486,6 +498,13 @@ class ReporteMensualController extends Controller
 
     public function empleados_checadas($fecha_inicio, $fecha_fin, $parametros)
     {
+        $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+        $arreglo_clues = [];
+        if(count($obtengoclues) > 0)
+        {
+            $arreglo_clues = $this->clues_users($obtengoclues);
+            
+        }
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -497,7 +516,8 @@ class ReporteMensualController extends Controller
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
         ->whereNull("state")
-        ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
+      //  ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
+      ->WHEREIN("FPHONE", $arreglo_clues)
         ->where(function($query2)use($parametros){
             $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
@@ -649,7 +669,7 @@ class ReporteMensualController extends Controller
 
         if($diferencia_dias != 0)
         {
-            $fecha_evaluar->addDays($diferencia);
+            $fecha_evaluar->addDays($diferencia_dias);
             $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
             $inicio_salida_fija =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
             $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
@@ -888,5 +908,6 @@ class ReporteMensualController extends Controller
         $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
         return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }
+    
     
 }

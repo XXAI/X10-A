@@ -7,10 +7,8 @@
     </div>
 
                 <div class="card-body">
-                
-                    <form method="POST" >
+                <form>                         
                         @csrf                     
-
                         <div class="row">
                             <div class="col-md-4" >
                                 <div class="form-group">
@@ -77,21 +75,14 @@
                                     <label for="password-confirm" class="col-md-8 col-form-label text-md-center">{{ __('Confirmar Password') }}</label>                            
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div>
-                            </div>
-                                
-                           
-                       
-                               
-                            
-                        
-                                
-                            
-                            <div class="modal-footer">
+                            </div>                            
+                           <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="btnregister" onclick="register_user()">Guardar</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                               </div>
-                    </form>
+
                
+                </form>  
                 </div>
             </div>
         </div>

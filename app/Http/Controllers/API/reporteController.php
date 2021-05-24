@@ -77,7 +77,7 @@ class reporteController extends Controller
             $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 
         }else{$conexion = DB::connection('dinamica');}
 
-        
+        //dd($namedb);
      
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
