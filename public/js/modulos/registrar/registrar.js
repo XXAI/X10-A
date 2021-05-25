@@ -18,7 +18,9 @@ function register_user() {
         url: 'api/registra-usuario',
         data: { name: name, apellido_paterno: apellido_paterno, apellido_materno: apellido_materno, email: email, password: password },
         success: function(data) {
-            //href="./logout"
+
+          window.location = "./logout"
+            //href=
         },
         error: function(data) {
             // console.log(data);
