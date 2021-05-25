@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href=".././libs/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href=".././libs/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href=".././css/hover-table.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -113,21 +116,35 @@
             text-decoration-color: black;
         }
 
+        .tabla_checadas {
+            font-size: 10pt;
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tabla_checadas td, .tabla_checadas th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .tabla_checadas tr:nth-child(even){background-color: #f2f2f2;}
+
+        .tabla_checadas tr:hover {background-color: #ddd;}
+
+        .tabla_checadas th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #b8b8b8;
+            color: black;
+        }
+
     </style>
 </head>
 <?php
- $asistencia = $asistencia['data'];
- //print_r($asistencia);
-// var_dump($arr);
- //header('Content-Type: text/html; charset=utf-8');
- 
- 
-    //echo 'Resultado vale: ', $datos , PHP_EOL;
- //echo($asistencia);
-/*$empleado   = $pase['usuarios'];
-$incidencia = $pase['tipos_incidencia'];
- */
-
+    $asistencia = $asistencia['data'];
+    $dias = ["", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
 ?>
 <body>
     <header>
@@ -162,66 +179,32 @@ $incidencia = $pase['tipos_incidencia'];
                 </tbody>
             </table>
         </div>
-    </header>  
-    <!-- <table width="100%"  cellspacing="0" class="fuente_datos">
-        <tr>
-            <td>ID</td><td> <b>echo $objeto['id']</b></td>
-        </tr>
-    </table>  -->
-<div class="marco">
-<h3 style="text-align: center;">P&nbsp;&nbsp;A&nbsp;&nbsp;S&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;&nbsp;D&nbsp;E&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;A&nbsp;&nbsp;L&nbsp;&nbsp;I&nbsp;&nbsp;D&nbsp;&nbsp;A</h3>
-    <table width="100%" class="fuente">
-    	<tr>
-            <td class="encabezado">
-                <strong>C. ENCARGADO DEL CONTROL DE ASISTENCIA.<br>
-                O F I C I N A    C E N T R A L.<br>
-                EDIFICIO.</strong>
-            </td>
+    </header>
+    <br>  
+<section class="card">
 
-        	
-    	</tr>
-		<tr>
-			<p class="parrafo">EN ATENCIÓN A LA SOLICITUD DE (EL) (LA) C. <strong><?php ?></strong>Y DE CONFORMIDAD<br>
-                CON LO DISPUESTO POR EL ARTÍCULO 96 DE LAS CONDICIONES GENERALES DE TRABAJO
-                DE LA SECRETARÍA DE SALUD, SE LE AUTORIZA LA SALIDA DE LAS
-               
-			</p>
-		</tr>
-
-	</table>
-    <br>
-    <table width="100%" class='firmantes'>
-            <tbody class='datos'>
-                    <?php $numero = 0; ?>
-
-   
-                @foreach($asistencia as $key=>$obj) 
-                 
-                print_r("El " . $key. " es " . $obj);
-                 echo "<br>"; --
- 
-                       
-                      @endforeach 
-                                        
-                        
-                      
-             
-               
-                
+    <table class="tabla_checadas">
+        <thead>
+            <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+            </tr>
+        </thead>
+        @foreach($asistencia as $key => $value)
+            <tbody>
+                <tr>
+                    <td>{{ $dias[$asistencia[$key]['numero_dia']]  }}</td>
+                    <td>{{ $asistencia[$key]['fecha'] }}</td>
+                    <td>{{ $asistencia[$key]['checado_entrada'] }}</td>
+                    <td>{{ $asistencia[$key]['checado_salida']  }}</td>
+                </tr>
             </tbody>
+        @endforeach
     </table>
-    <br>
-    
 
-</div>
-<br>
-<div>
-       
-</div>
+</section>
 
-
-
-
-    
 </body>
 </html>
