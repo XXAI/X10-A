@@ -7,21 +7,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tarjeta de Asistencia</title>
+    <title>Reporte de Asistencia</title>
     <style>
         .cabecera
         {
             font-size: 12pt;
             background-color:#CFCFCF;
-            border: 0px;
-            
+            border: 0px;   
         }
-
         .fuente
         {
             font-family: Helvetica;
         }
-
+        .fuente_datos
+        {
+            font-family: Helvetica;
+            font-size: 10pt;
+        }
         .parrafo
         {
             font-family: Helvetica;
@@ -139,12 +141,18 @@
             background-color: #b8b8b8;
             color: black;
         }
+        .espacio { 
+            white-space: normal;
+        }
 
     </style>
 </head>
 <?php
-    $asistencia = $asistencia['data'];
-    $dias = ["", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
+    $datos_asistencia     = $asistencia['data'];
+    $datos_empleado       = $asistencia['validacion'];
+    $fecha_inicio         = $asistencia['fecha_inicial'];
+    $fecha_fin            = $asistencia['fecha_final'];
+    $dias           = ["", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
 ?>
 <body>
     <header>
@@ -180,8 +188,24 @@
             </table>
         </div>
     </header>
-    <br>  
+    <br>
+    <br>
+<table width="100%"  cellspacing="0" class="fuente_datos">
+    <tr>
+        <td>ID:</td><td><b><?php echo $datos_empleado->Badgenumber ?></b></td>
+        <td colspan='2'></td>
+        <td>NOMBRE:</td><td> <b><?php echo $datos_empleado->Name ?></b></td>
+    </tr>
+    <tr>
+        <td>FECHA INICIO (DESDE):</td><td><b><?php echo $fecha_inicio ?></b></td>
+        <td colspan='2'></td>
+        <td>FECHA FINAL (HASTA):</td><td><b><?php echo $fecha_fin ?></b></td>
+    </tr>
+
+</table>
+<br>
 <section class="card">
+    <br>
 
     <table class="tabla_checadas">
         <thead>
@@ -192,18 +216,18 @@
                 <th>Hora Salida</th>
             </tr>
         </thead>
-        @foreach($asistencia as $key => $value)
+        @foreach($datos_asistencia as $key => $value)
             <tbody>
                 <tr>
-                    <td>{{ $dias[$asistencia[$key]['numero_dia']]  }}</td>
-                    <td>{{ $asistencia[$key]['fecha'] }}</td>
-                    <td>{{ $asistencia[$key]['checado_entrada'] }}</td>
-                    <td>{{ $asistencia[$key]['checado_salida']  }}</td>
+                    <td>{{ $dias[$datos_asistencia[$key]['numero_dia']]  }}</td>
+                    <td>{{ $datos_asistencia[$key]['fecha'] }}</td>
+                    <td>{{ $datos_asistencia[$key]['checado_entrada'] }}</td>
+                    <td>{{ $datos_asistencia[$key]['checado_salida']  }}</td>
                 </tr>
             </tbody>
         @endforeach
     </table>
-
+    <div class="espacio"></div>
 </section>
 
 </body>

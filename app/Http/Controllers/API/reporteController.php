@@ -40,7 +40,7 @@ class reporteController extends Controller
         $pdf->setPaper('letter', 'portrait');
         $pdf->setOptions(['isPhpEnabled' => true]);
         
-        return $pdf->stream('tarjeta.pdf');
+        return $pdf->stream('reporte-asistencia.pdf');
     }
 
     public function consulta_checadas(Request $request)
@@ -728,7 +728,7 @@ class reporteController extends Controller
        if($impre==0){
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
        }else{  
-           return array("data" => $asistencia);
+           return array("data" => $asistencia, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('d/m/Y'), "fecha_final"=> $fecha_view_fin->format('d/m/Y'));
        }
     }
 
