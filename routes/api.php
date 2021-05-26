@@ -38,7 +38,7 @@ use Illuminate\Http\Request;
     Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
     Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
-    Route::get('/imprimirTarjeta','API\ReporteController@imprimirTarjeta');
+    Route::get('/imprimirTarjeta','API\reporteController@imprimirTarjeta');
 
 
     Route::get('/buscaempleado/{id}', 'API\EmpleadoController@show');    
