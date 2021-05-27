@@ -32,19 +32,6 @@ class CheckDataBase
     }
     
     
-
-   /*    if(isset(auth()->user()['nombre'])){
-        
-        $namedb = auth()->user()['nombre'];
-    } */
-      
-      //$namedb=auth()->user()['nombre'];
-      //echo auth()->user()['nombre'];
-      /* if(auth()->user()['nombre']=='Administrator'){
-        $namedb ='ZKAccess';
-      }else{$namedb ='gomezmaza';}
- */
-      //echo $namedb;
         if(!empty($namedb)){
             \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
             DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 
