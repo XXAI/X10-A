@@ -192,15 +192,26 @@
     <br>
 <table width="100%"  cellspacing="0" class="fuente_datos">
     <tr>
-        <td>ID:</td><td><b><?php echo $datos_empleado->Badgenumber ?></b></td>
-        <td colspan='2'></td>
-        <td>NOMBRE:</td><td> <b><?php echo $datos_empleado->Name ?></b></td>
+        <td>NOMBRE:</td><td colspan='3'> <b><?php echo $datos_empleado->Name ?></b></td>
+        <td>RFC:</td><td colspan='3'><b><?php echo $datos_empleado->TITLE ?></b></td>
+        <td>ID:</td><td colspan='2'><b><?php echo $datos_empleado->Badgenumber ?></b></td>
     </tr>
     <tr>
-        <td>FECHA INICIO (DESDE):</td><td><b><?php echo $fecha_inicio ?></b></td>
-        <td colspan='2'></td>
-        <td>FECHA FINAL (HASTA):</td><td><b><?php echo $fecha_fin ?></b></td>
+        <td>TIPO:</td><td><b><?php echo $datos_empleado->street ?></b></td>
     </tr>
+    <tr>
+        <td colspan='2'>HORA DE ENTRADA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorini'], 12, 4) ?></b></td>
+        <td colspan='2'>HORA DE SALIDA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorfin'], 12, 4) ?></b></td>
+    </tr>
+
+    <tr>
+        <td colspan='2'>FECHA INICIO(DESDE):</td><td colspan='2'><b><?php echo $fecha_inicio ?></b></td>
+        <td colspan='2'>FECHA FINAL(HASTA):</td><td colspan='2'><b><?php echo $fecha_fin ?></b></td>
+    </tr>
+    <tr>
+        
+    </tr>
+
 
 </table>
 <br>
