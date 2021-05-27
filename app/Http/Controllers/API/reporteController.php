@@ -75,9 +75,11 @@ class reporteController extends Controller
             $namedb=$buscaBase->base;
             \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
             $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 
-        }else{$conexion = DB::connection('dinamica');}
-
-        //dd($namedb);
+        }else{
+            $conexion = DB::connection('dinamica');
+            
+        }
+      
      
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();

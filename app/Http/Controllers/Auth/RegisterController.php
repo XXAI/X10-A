@@ -14,6 +14,7 @@ use Response;
 
 
 use App\Models\User;
+use App\Models\BaseUser;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,12 @@ class RegisterController extends Controller
             $registro->email = $request->email;
             $registro->alias = "bsx";        
             $registro->save();
+            $id_user=User::max('id'); 
+            $user_base = new BaseUser;
+            $user_base->user_id=$id_user;
+            $user_base->base=$request->base; 
+            $user_base->save();
+
             return Response::json(['mensaje'=>'Registrado Correctamente ']); 
         } 
         catch (\Exception $e) {             

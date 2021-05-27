@@ -39,6 +39,7 @@ class CardexController extends Controller
                                             ->orWhere('Badgenumber', $parametros['filtro']);
                                 })
                                 ->get();
+        //dd($empleados);
         
         return response()->json(["usuarios" => $empleados]);
     }

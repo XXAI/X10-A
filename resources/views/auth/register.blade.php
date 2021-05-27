@@ -75,11 +75,30 @@
                                     <label for="password-confirm" class="col-md-8 col-form-label text-md-center">{{ __('Confirmar Password') }}</label>                            
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div>
-                            </div>                            
+                            </div> 
+                        </div>  
+
+                        <div class="row">
+                            
+                            <div class="col-md-6" >
+                                <div class="form-group">
+                                    <label for="base"  class="col-sm-12 col-form-label">Base</label>
+                                    <select class="form-control" id="base" required>
+                                    <option value="">Seleccione la Base a la cual se conectara</option>
+                                    <option value="ZKAccess">Oficina Central</option>
+                                    <option value="gomezmaza">Gomez Maza</option>
+                                    <option value="bancodesangre">Banco de sangre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div> 
+                                                
                            <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="btnregister" onclick="register_user()">Guardar</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                               </div>
+                           </div>
 
                
                 </form>  
