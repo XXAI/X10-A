@@ -201,7 +201,7 @@
     </tr>
     <tr>
         <td colspan='2'>HORA DE ENTRADA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorini'], 12, 4) ?></b></td>
-        <td colspan='2'>HORA DE SALIDA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorfin'], 12, 4) ?></b></td>
+        <td colspan='2'>HORA DE SALIDA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorfin'], 11, 5) ?></b></td>
     </tr>
 
     <tr>
