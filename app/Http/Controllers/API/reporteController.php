@@ -79,8 +79,10 @@ class reporteController extends Controller
             $conexion = DB::connection('dinamica');
             
         }
-      
-     
+       // dd($namedb);
+        if(isset($namedb)) $nombrebase=$namedb;
+        if(isset($conexion)) $nombrebase = $conexion->getDatabaseName(); 
+
         $fecha_view_inicio = Carbon::now()->startOfMonth();
         $fecha_view_fin    = Carbon::now();
 
@@ -572,7 +574,9 @@ class reporteController extends Controller
                                            if (is_null($checada_entrada->sn)){
                                              $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; }                               
                                             else{
-                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. " Omisión Entrada";
+                                                if($nombrebase<>'ZKAccess')
+                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. " Omisión Entrada";
+                                                else $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
                                             }
                                         
 
@@ -635,7 +639,9 @@ class reporteController extends Controller
                         if (is_null($checada_salida->sn)){
                             $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
                            else{
-                               $asistencia[$indice]['checado_salida'] = $checada_salida->HORA. " Omisión Salida";
+                                if($nombrebase<>'ZKAccess')
+                                     $asistencia[$indice]['checado_salida'] = $checada_salida->HORA. " Omisión Salida";
+                                else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
                            }
                             
                     }
