@@ -165,7 +165,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="guardar_incidencia()">Guardar</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-secondary" id="cerrar1" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
@@ -209,7 +209,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" id="btn-save-emp" onclick="guardar_empleado()">Guardar</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>

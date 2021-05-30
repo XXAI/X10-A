@@ -46,6 +46,7 @@
                 <script src="easyautocomplete/jquery.easy-autocomplete.js"></script>
                
                <!--  <script src="bootstrap4/js/bootstrap.min.js"></script> -->
+               
                 <script src="js/modulos/login/login.js"></script> 
                 <script src="libs/theme/vendor/chart.js/Chart.min.js"></script>  
                 <script src="libs/theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
@@ -53,6 +54,8 @@
                 <script src="libs/theme/js/sb-admin-2.min.js"></script> 
                 <script src="libs/moment/moment.min.js"></script> 
                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+              
+
                 
                 
                 

@@ -438,31 +438,36 @@ function guardar_entrasal() {
     var fecha_ing = moment($("#fecha_reg").val());
     var tipo_registro = $("#tipo_es").val();
     var razon = $("#refe").val();
-
     var fing = moment(fecha_ing).format();
     fing = fing.substr(0, 10) + " " + fing.substr(11, 8) + ".00";
 
+    if (razon == "") {
+        swal("Verifique!", "Este campo es necesario", "error");
+        $("#refe").focus();
+    } else {
 
-    $.ajax({
-        type: 'POST',
-        url: "api/guarda-entrasal",
-        data: { id: id, fing: fing, tipo_registro: tipo_registro, razon: razon, idcap: idcap },
-        success: function(data) {
-            swal("Exito!", "El registro se ha guardado!", "success");
-            $("#refe").val('');
-            $("#tipo_es").val('');
-            $("#agregar_entrasal").modal('hide');
-            document.getElementById('filtro_check').click();
-
-
-
-        },
-        error: function(data) {
-            swal("Error!", "No se registro ningun dato!", "error");
+        $.ajax({
+            type: 'POST',
+            url: "api/guarda-entrasal",
+            data: { id: id, fing: fing, tipo_registro: tipo_registro, razon: razon, idcap: idcap },
+            success: function(data) {
+                swal("Exito!", "El registro se ha guardado!", "success");
+                $("#refe").val('');
+                $("#tipo_es").val('');
+                $("#agregar_entrasal").modal('hide');
+                document.getElementById('filtro_check').click();
 
 
-        }
-    })
+
+            },
+            error: function(data) {
+                swal("Error!", "No se registro ningun dato!", "error");
+
+
+            }
+        })
+
+    }
 
 
 
@@ -625,8 +630,7 @@ function obtener_omisiones() {
         success: function(data) {
             // console.log(data);
             $.each(data.omisiones, function(key, value) {
-                // console.log(fecha.substr(0, 10) + value.CHECKTIME.substr(0, 10));
-                // console.log(value.CHECKTYPE);
+
                 if (value.CHECKTYPE == 'I') {
                     oentrada += 1;
                 } else { osalida += 1; }
@@ -639,7 +643,7 @@ function obtener_omisiones() {
 
 
             omisiones_total = data;
-            console.log("oentrada: " + oentrada + " osalida: " + osalida + " algo: " + algo);
+            // console.log("oentrada: " + oentrada + " osalida: " + osalida + " algo: " + algo);
 
             if (oentrada < 2 && osalida < 2 && algo == 0) {
                 var mensaje = "  ";
@@ -1178,40 +1182,35 @@ function inserta_incidencia() {
     ffin = moment(date_2.add(x, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-    //console.log("fecha ini " + fini + "  fwcha fini " + ffin);
-    /* 
-     for (var j = 0; j < diaslab.length; j++) {
-         if (moment(fini).day() == 0)
-             dia_eva = 7;
-         else
-             dia_eva = moment(fini).day();
-      //   console.log("dia_evaluado " + dia_eva + " dia final: " + diaslab[j].EDAYS);
-         if (dia_eva == diaslab[j].EDAYS) { */
-    $.ajax({
-        type: 'POST',
-        url: url_in,
-        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
-        success: function(data) {
-            //    console.log(data);
+    if (razon == "") {
+        swal("Verifique!", "Este campo es necesario", "error");
+        $("#razon").focus();
+    } else {
 
-        },
-        error: function(data) {
-            swal("Error!", "No se registro ningun dato!", "error");
-        }
-    })
+        $.ajax({
+            type: 'POST',
+            url: url_in,
+            data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+            success: function(data) {
+                swal("Exito!", "La incidencia ha sido Registrada!", "success");
+                document.getElementById("cerrar1").click();
+                $("#documentos").val('');
+                $("#autorizo").val('');
+                $("#observaciones").val('');
+                document.getElementById('buscar').click();
+                document.getElementById('filtro_check').click();
 
-    //      }
-    //  }
-    //}
+                //    console.log(data);
 
-    // console.log(fini.substr(0, 10));
+            },
+            error: function(data) {
+                swal("Error!", "No se registro ningun dato!", "error");
+            }
+        })
+    }
 
-    //  x = 1;
 
-    //  }
-    //('#agregar_incidencia').modal('toggle'); 
 
-    swal("Exito!", "El registro se ha guardado!", "success");
 }
 
 function inserta_incidencia_emp() {
@@ -1225,27 +1224,18 @@ function inserta_incidencia_emp() {
     ffin = moment(date_2.add(x, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-    /*    for (var j = 0; j < diaslab.length; j++) {
-            if (moment(fini).day() == 0)
-                dia_eva = 7;
-            else
-                dia_eva = moment(fini).day();
 
-            if (dia_eva == diaslab[j].EDAYS) {
- */
     $.ajax({
         type: 'POST',
         url: "../api/guarda-just-emp",
         data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
         success: function(data) {
-            //  console.log(data);
-            /*   swal("Exito!", "El registro se ha guardado_emp!", "success");
-              document.getElementById('save_in_emp').disabled = true;
-              $("#modal_justificante").modal('toggle').hide;
-              $("#documentos").val('');
-              $("#autorizo").val('');
-              $("#observaciones").val('');
-              document.getElementById('buscar').click(); */
+            document.getElementById("cerrar").click();
+            $("#documentos").val('');
+            $("#autorizo").val('');
+            $("#observaciones").val('');
+            document.getElementById('buscar').click();
+            document.getElementById('filtro_check').click();
 
         },
         error: function(data) {
@@ -1281,9 +1271,6 @@ function save_justi_emp() {
             id_inci = data.id_inci;
             inserta_incidencia();
 
-            //win = window.open( getJustifica(data.data.USERID), '_blank' );
-            //      win = window.open('../api/justificante/' + id_inci, '_blank');
-            //   console.log("datosss", data); 
 
 
 
@@ -1301,29 +1288,21 @@ function save_justi_emp() {
 function guardar_incidencia() {
 
     validando_incidencia();
-    console.log("bandera: " + bandera);
+    // console.log("bandera: " + bandera);
 
     if (bandera == 1) {
 
-        console.log("banurl: " + ban_url);
+        // console.log("banurl: " + ban_url);
         if (ban_url == 1) {
             save_justi_emp();
-            //  swal("Exito!", "El registro se ha guardado", "success");
 
-
-            document.getElementById("cerrar").click();
-            $("#documentos").val('');
-            $("#autorizo").val('');
-            $("#observaciones").val('');
-            document.getElementById('buscar').click();
-            document.getElementById('filtro_check').click();
             // }
         } else {
             if (val_in == 0) {
                 save_justi_emp();
-                $("#agregar_incidencia").modal('hide');
+                /*  $("#agregar_incidencia").modal('hide');
                 document.getElementById('filtro_check').click();
-
+ */
 
             } else {
                 acepta_incidencia();
