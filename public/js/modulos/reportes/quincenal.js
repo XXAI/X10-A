@@ -6,7 +6,7 @@ $(document).ready(function()
 
 function cargar_catalogo()
 {
-      var select = $("#tipo_trabajador");
+      var select = $("#tipo_trabajador1");
       select.html("");
       jQuery.ajax({
             data: {'buscar': ""},

@@ -146,7 +146,8 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+       // ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+       ->where("carBrand", "=", $tipo_trabajador)
         ->orWhereNull("DEFAULTDEPTID")
         ->orderBy("carType", "DESC")
         ->get();
@@ -523,7 +524,9 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
+        //->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
+
+        ->where("carBrand", "=", $parametros['tipo_trabajador'])
         //->where("USERID", "=","509")
         ->orderBy("carType", "DESC")
         //->limit(296)
@@ -760,6 +763,7 @@ class ReporteMensualController extends Controller
         $empleados = $this->empleados_checadas($fecha_inicio, $fecha_fin, $parametros);
         
         //return array("datos" =>$arreglo_festivos);
+        $personal = 0;
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
@@ -797,7 +801,10 @@ class ReporteMensualController extends Controller
                 }
                 
                 $validacion_horario = $this->validaHorario($fecha_evaluar, $indice_horario_seleccionado, $horarios_periodo, $dias_habiles, $jornada_laboral);
-                
+                if (!is_array($validacion_horario)) {
+                    $personal++;
+                    continue;
+                }
                 if($validacion_horario['jornada'] !=0)
                 {
                     $jornada_laboral = $validacion_horario['jornada'];
@@ -905,6 +912,7 @@ class ReporteMensualController extends Controller
                 $arreglo_resultado[] = $empleados[$index_empleado];
             }
         }
+        //echo $personal;
         $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
         return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }

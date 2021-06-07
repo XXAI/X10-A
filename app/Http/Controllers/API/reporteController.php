@@ -681,7 +681,7 @@ class reporteController extends Controller
                     }
 
                 //checadas contingencia&& $fecha_eval<='2021-01-01'
-                if($validacion->SEP!=0 && $validacion->SSN!='700250009' && $fecha_eval<'2021-01-01'){
+                if($validacion->SEP!=0  && $fecha_eval<'2021-01-01'){
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
                         $checa_contingencia = $conexion->table("contingencia")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 

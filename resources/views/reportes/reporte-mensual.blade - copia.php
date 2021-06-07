@@ -101,7 +101,10 @@
                             <b>DESCUENTOS POR FALTAS INJUSTIFICADAS<br>
                             8001<br>
                             UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> OFICINA CENTRAL</b>
-                           
+                            <br><br>
+                            <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
+                          {{--    <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                            </div>-->  --}}
                            
                         </td>
                         <td width="100px">
@@ -116,10 +119,23 @@
                     
                     <tr>
                         <td style='font-size:9pt;' colspan='2'>
-                       
+                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                           
+                        </td>
                         <td  style='font-size:9pt;text-align:left;' width="100px">
                             NO. LOTE:
-                         
+                          {{--    @switch($empleados['tipo_trabajador']['DEPTID'])
+                                @case(6)
+                                @case(11)
+                                    GOV0008
+                                @break
+                                @case(13)
+                                    CAR0008
+                                @break
+                                @case(12)
+                                    PEV0008
+                                @break
+                            @endswitch  --}}
                             <br>
                             QNA. APLICACIÓN:<br>
                             MES: {{ $empleados['nombre_mes'] }}<br>
@@ -241,7 +257,19 @@
     if (isset($pdf))
     {
         $iniciales = "Rubi";
-         
+         /* @switch($empleados['tipo_trabajador']['DEPTID'])
+       
+            @case(6)
+            @case(11)
+                $iniciales = "GOV";
+            @break
+            @case(13)
+                $iniciales = "CAR";
+            @break
+            @case(12)
+                $iniciales = "PEV";
+            @break
+        @endswitch*/
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }
