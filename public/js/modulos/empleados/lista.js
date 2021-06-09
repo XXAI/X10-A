@@ -655,32 +655,10 @@ function obtener_omisiones() {
                 $('#btn_save_entrasal').attr('disabled', true);
                 mostrarMensaje2(mensaje);
             }
-            /*  if (osalida < 2) {
-                var mensaje = "  ";
-                mostrarMensaje2(mensaje);
-                $('#btn_save_entrasal').attr('disabled', false);
-            } else {
-
-                var mensaje = "Ya se agoto la cantidad de omisiones";
-                $('#btn_save_entrasal').attr('disabled', true);
-                mostrarMensaje2(mensaje);
-            }
-
-            if (algo == 0) {
-                var mensaje = "  ";
-                mostrarMensaje2(mensaje);
-                $('#btn_save_entrasal').attr('disabled', false);
-            } else {
-
-                var mensaje = "Ya se agoto la cantidad de omisiones";
-                $('#btn_save_entrasal').attr('disabled', true);
-                mostrarMensaje2(mensaje);
-            }
- */
+           
 
 
-            //omision.push(data.omisiones);
-            // console.log(omision);
+           
 
         },
         error: function(data) {
@@ -739,7 +717,7 @@ function sel_tiporeg(tiporeg) {
     } else {
         $("#fecha_reg").val(xfin);
     }
-    obtener_omisiones();
+    //obtener_omisiones();
 
 
 
