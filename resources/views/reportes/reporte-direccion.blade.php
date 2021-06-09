@@ -84,12 +84,36 @@
         }
     </style>
 </head>
-<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO"); ?>
+<?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE", "DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS"); 
+switch ($empleados['filtros']['direccion']) {
+    case '070020':
+        $direccion='DIRECCION GENERAL';
+        break;
+    case '070025':
+        $direccion='DIRECCION ADMINISTRACION Y FINANZAS';
+        break;
+    case '070022':
+        $direccion='DIRECCION ATENCION MEDICA';
+        break;
+    case '070026':
+        $direccion='DIRECCION INFRAESTRUCTURA EN SALUD';
+        break;
+    case '070024':
+        $direccion='DIRECCION PLANEACION Y DESARROLLO';
+        break;
+    case '070021':
+        $direccion='DIRECCION SALUD PUBLICA';
+        break;
+    case '070029':
+        $direccion='DIRECCION REGIMEN ESTATAL DE PROTECCION SOCIAL EN SALUD';
+        break;
+}
+?>
 <?php //print_r($empleados['datos']); ?>
 <body>
     <header>
         <div class="fuente">
-            <!--<div class="centrado datos">DESCUENTOS POR FALTAS INJUSTIFICADAS<br>8001</div>-->
+            <!--<div class="centrado datos">REPORTE DE FALTAS POR DIRECCIONES<br></div>-->
             <table width="100%">
                 <tbody>
                     <tr>
@@ -98,13 +122,13 @@
                         </td>
                         <td>
                             <div class="centrado datos">
-                            <b>DESCUENTOS POR FALTAS INJUSTIFICADAS<br>
-                            8001<br>
-                            UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> OFICINA CENTRAL</b>
-                            <br><br>
-                            <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
-                          {{--    <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
-                            </div>-->  --}}
+                            <b>REPORTE DE FALTAS POR DIRECCIONES<br>                            
+                            UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> 
+                            OFICINA CENTRAL<br>
+                            {{ $direccion }}<br>
+                            MES: {{ $empleados['nombre_mes'] }}<br>   
+                        </b>
+                           
                            
                         </td>
                         <td width="100px">
@@ -119,30 +143,8 @@
                     
                     <tr>
                         <td style='font-size:9pt;' colspan='2'>
-                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
-                           
-                        </td>
-                        <td  style='font-size:9pt;text-align:left;' width="100px">
-                            NO. LOTE:
-                          {{--    @switch($empleados['tipo_trabajador']['DEPTID'])
-                                @case(6)
-                                @case(11)
-                                    GOV0008
-                                @break
-                                @case(13)
-                                    CAR0008
-                                @break
-                                @case(12)
-                                    PEV0008
-                                @break
-                            @endswitch  --}}
-                            <br>
-                            QNA. APLICACIÓN:<br>
-                            MES: {{ $empleados['nombre_mes'] }}<br>
-                            <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
-                            AÑO: {{ $empleados['filtros']['anio'] }}<br>
-                            
-                        </td>
+                       
+                      
                     </tr>
                 </tbody>
             </table>
@@ -176,32 +178,30 @@
     <table width="100%" cellspacing="0" class="fuente">
         <thead class='cabecera'>
             <tr>
-                <th rowspan="2" class='encabezados' width="100px"># DOCUMENTO</th>
+                
                 <th rowspan="2" class='encabezados' width="100px">RFC</th>
                 <th rowspan="2" class='encabezados' width="70px">CODIGO</th>
                 <th rowspan="2" class='encabezados' width="100px">JORNADA</th>
                 <th rowspan="2" class='encabezados' width="100px">NO. PUESTO</th>
                 <th rowspan="2" class='encabezados'>NOMBRE DEL EMPLEADO</th>
-                <th colspan="6" class='encabezados' >DÍAS A DESCONTAR</th>
+                
                 
             </tr>   
             <tr>
                 <th width="80px" class="centrado">No. DÍAS</th>
                 <tH width="80px" class="centrado">LETRA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
-                <tH width="80px" class="centrado">DÍA</th>
+                <tH width="160px" class="centrado">DÍAS</th>
+               
                 
             </tr> 
         </thead>
         <tbody class='datos'>
             <?php $numero = 0; ?>
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
-                @if($empleados['filtros']['quincena'] == 1)
-                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
+                 @if($empleados['filtros']['quincena'] == 1)
+                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -210,22 +210,20 @@
                             
                             <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) }}</td>
                             <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q1'])] }}</td>
-                            
-                            @for ($i = 0; $i < 4 ; $i++)
-                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i]))
-                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i] }} </td>
-                                @else
-                                    <td class='linea centrado'></td>
-                                @endif   
+                            <td class='linea centrado'>
+                            @for ($i = 0; $i < count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) ; $i++)
+                                      {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q1'][$i] }} -
+                                
                             @endfor  
+                            </td>
                         </tr>
                         <?php $numero++; ?>
                     @endif
                 @endif    
                 @if($empleados['filtros']['quincena'] == 2)
-                    @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
+                @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                         
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -234,19 +232,17 @@
                             
                             <td class='linea centrado'>{{ count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) }}</td>
                             <td class='linea centrado'>{{ $letras[count($empleado['resumen']['FALTAS_QUINCENALES']['Q2'])] }}</td>
-                            
-                            @for ($i = 0; $i < 4 ; $i++)
-                                @if(isset($empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i]))
-                                    <td class='linea centrado'>  {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i] }} </td>
-                                @else
-                                    <td class='linea centrado'></td>
-                                @endif    
+                            <td class='linea centrado'>
+                            @for ($i = 0; $i < count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) ; $i++)
+                                      {{ $empleado['resumen']['FALTAS_QUINCENALES']['Q2'][$i] }} -
+                                
                             @endfor  
+                            </td>
                         </tr>
                         <?php $numero++; ?>
                     @endif
-                @endif            
-                
+                @endif             
+            
             @endforeach
         </tbody>
     </table>
@@ -257,19 +253,7 @@
     if (isset($pdf))
     {
         $iniciales = "Rubi";
-         /* @switch($empleados['tipo_trabajador']['DEPTID'])
-       
-            @case(6)
-            @case(11)
-                $iniciales = "GOV";
-            @break
-            @case(13)
-                $iniciales = "CAR";
-            @break
-            @case(12)
-                $iniciales = "PEV";
-            @break
-        @endswitch*/
+         
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
     }

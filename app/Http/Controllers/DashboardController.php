@@ -21,6 +21,11 @@ class DashboardController extends Controller
         return view('mensual');
     }
 
+    public function direccion()
+    {
+        return view('direccion');
+    }
+
     public function trimestral(Request $request)
     {
         return view('trimestral');

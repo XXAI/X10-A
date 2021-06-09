@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'REPORTE - Faltas')
+@section('title', 'REPORTE x Direccion')
 
 @section('estilos')
     @parent
@@ -9,9 +9,9 @@
 
 @section('content')
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-3">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Reporte de Faltas Mensuales</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Reporte Direcciones</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -60,18 +60,28 @@
                         </select>
                     </div>    
                 </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tipo Trabajador</label>
-                        <select id='tipo_trabajador' class='select form-control'>
+        
+
+                <div class="col-sm-4">
+                    <div class="form-group">            
+                        <label for="exampleInputEmail1">Dirección</label>
+                        <select class='select form-control' id='direccion'>
+                            
+                            <option value='070020'>DIRECCION GENERAL</option>
+                            <option value='070025'>ADMINISTRACION Y FINANZAS</option>
+                            <option value='070022'> ATENCION MEDICA</option>
+                            <option value='070026'>INFRAESTRUCTURA EN SALUD</option>
+                            <option value='070024'>PLANEACION Y DESARROLLO</option>
+                            <option value='070021'>SALUD PUBLICA</option>
+                            <option value='070029'>REGIMEN ESTATAL DE PROTECCION SOCIAL EN SALUD</option>
                         </select>
                     </div>    
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">            
-                        <button class="btn btn-success" type='button' onclick="btn_filtrar()"><i class="fa fa-search fa-3x" ></i></button>
-                        <button class="btn btn-info" type='button' onclick="generar_reporte()"><i class="fa fa-print "></i> <br>8001</button>
-                        <button class="btn btn-info" type='button' onclick="generar_reporte_juridico()"><i class="fa fa-print "></i> <br>8002</button>
+                        <button class="btn btn-success" type='button' onclick="btn_filtrar_dir()"><i class="fa fa-search " ></i></button>
+                        <button class="btn btn-info" type='button' onclick="generar_reporte_dir()"><i class="fa fa-print "></i> <br></button>
+                        
                     </div>    
                 </div>
            </div>
@@ -100,5 +110,5 @@
 
 @section('scripts')
     @parent
-    <script src="js/modulos/reportes/quincenal.js"></script> 
+    <script src="js/modulos/reportes/direcciones.js"></script> 
 @stop

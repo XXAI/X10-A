@@ -28,6 +28,7 @@ use Illuminate\Http\Request;
     Route::get('/kardex','API\KardexController@index');
 
     Route::get('/mensual','API\ReporteMensualController@index');
+    Route::get('/direccion','API\ReporteDireccionController@index');
     Route::get('/trimestral','API\ReporteTrimestralController@index');
     Route::get('/empleado','API\EmpleadoController@index');
     Route::post('/empleado/fetch','API\EmpleadoController@fetch');
@@ -36,6 +37,7 @@ use Illuminate\Http\Request;
 
     Route::get('/catalogo','API\ReporteMensualController@catalogo');
     Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
+    Route::get('/reporte-direccion','API\ReporteDireccionController@reporteDireccion');
     Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
     Route::get('/imprimirTarjeta','API\reporteController@imprimirTarjeta');

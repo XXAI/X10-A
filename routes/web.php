@@ -21,8 +21,10 @@ Route::get('/repgral','reporteGralController@index');
 
 Route::middleware('auth')->get('/dashboard', 'DashboardController@index');
 Route::middleware('auth')->get('/reporte-mensual', 'DashboardController@mensual');
+Route::middleware('auth')->get('/reporte-direccion', 'DashboardController@direccion');
 Route::middleware('auth')->get('/reporte-trimestral', 'DashboardController@trimestral');
 Route::middleware('auth')->get('/empleado', 'DashboardController@empleado');
 Route::middleware('auth')->get('/register', 'DashboardController@register');
+
 Route::middleware('auth')->get('/cardex', 'DashboardController@cardex');
 Route::middleware('rutabase')->get('//consulta-asistencia', 'API\reporteController@consulta_checadas');

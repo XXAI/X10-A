@@ -1,42 +1,21 @@
 $(document).ready(function()
 {
     //cargar_dato("");
-    cargar_catalogo();
+   // cargar_catalogo();
 });
 
-function cargar_catalogo()
-{
-      var select = $("#tipo_trabajador");
-      select.html("");
-      jQuery.ajax({
-            data: {'buscar': ""},
-            type: "GET",
-            dataType: "json",
-            url: './api/catalogo',
-      }).done(function( data, textStatus, jqXHR ) {
-            $.each(data.catalogo, function(index, valor)
-           {
-                 if(valor.DEPTID!=1)
-                 {
-                        select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
-                 }
-           });
-            
-      }).fail(function( jqXHR, textStatus, errorThrown ) {
-            
-      });
-}
 
-function btn_filtrar()
+
+function btn_filtrar_dir()
 {
       //console.log("entro");
       var anio = $("#anio").val();
       var mes = $("#mes").val();
-      var tipo_trabajador = $("#tipo_trabajador").val();
+      var direccion = $("#direccion").val();
       //var quincena = $("#quincena").val();
       var nombre = $("#nombre").val();
 
-      obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'nombre': nombre };
+      obj_filtro = { 'anio': anio, 'mes': mes, 'direccion': direccion, 'nombre': nombre };
       cargar_dato(obj_filtro);
 }
 
@@ -52,7 +31,7 @@ function cargar_dato(dato)
             data: dato,
             type: "GET",
             dataType: "json",
-            url: './api/mensual',
+            url: './api/direccion',
       }).done(function( data, textStatus, jqXHR ) {
             lista.html("");
             console.log(data.usuarios.length);
@@ -136,30 +115,17 @@ function cargar_dato(dato)
       });
 }
 
-function generar_reporte()
+function generar_reporte_dir()
 {
       var anio = $("#anio").val();
       var mes = $("#mes").val();
-      var tipo_trabajador = $("#tipo_trabajador").val();
+      var direccion = $("#direccion").val();
       var nombre = $("#nombre").val();
       var quincena = $("#quincena").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
-
+console.log("ando acaaaaa");
       
-      win = window.open( './api/reporte-mensual?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&quincena="+quincena, '_blank');
+      win = window.open( './api/reporte-direccion?anio='+anio+"&mes="+mes+"&direccion="+direccion+"&nombre="+nombre+"&quincena="+quincena, '_blank');
 }
 
-function generar_reporte_juridico()
-{
-      var anio = $("#anio").val();
-      var mes = $("#mes").val();
-      var tipo_trabajador = $("#tipo_trabajador").val();
-      var nombre = $("#nombre").val();
-      var quincena = $("#quincena").val();
-
-      /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
-
-      
-      win = window.open( './api/reporte-mensual-8002?anio='+anio+"&mes="+mes+"&tipo_trabajador="+tipo_trabajador+"&nombre="+nombre+"&quincena="+quincena, '_blank');
-}

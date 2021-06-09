@@ -74,6 +74,7 @@
             <a class="collapse-item" href="./cardex">CARDEX</a>
             <a class="collapse-item" href="./reporte-mensual">FALTAS</a>
             <a class="collapse-item" href="./reporte-trimestral">TRIMESTRAL</a>
+            <a class="collapse-item" href="./reporte-direccion">DIRECCION</a>
             <!--<a class="collapse-item" href="">ANUAL</a>-->
           </div>
         </div>

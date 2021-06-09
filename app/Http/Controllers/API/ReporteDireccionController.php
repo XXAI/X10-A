@@ -16,7 +16,7 @@ use App\Models\Departamentos;
 use App\Models\CluesUser;
 use Illuminate\Support\Facades\Input;
 
-class ReporteMensualController extends Controller
+class ReporteDireccionController extends Controller
 {
 
     public $catalogo_meses = ['01' => "ENERO", "02" => "FEBRERO", "03" => "MARZO", "04" => "ABRIL", "05" => "MAYO", "06" => "JUNIO", "07" => "JULIO", "08" => "AGOSTO", "09" => "SEPTIEMBRE", "10" => "OCTUBRE", "11" => "NOVIEMBRE", "12" => "DICIEMBRE"];
@@ -30,27 +30,19 @@ class ReporteMensualController extends Controller
         return response()->json(["usuarios" => $empleados['datos']]);
     }
 
-    public function reporteMensual(Request $request)
+    public function reporteDireccion(Request $request)
     {
 
         #$asistencia = $this->claseAsistencia($request);
         $asistencia = $this->claseFaltas($request);
         //return $asistencia;
-        $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
+        $pdf = PDF::loadView('reportes//reporte-direccion', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
-        return $pdf->stream('Reporte-Mensual.pdf');
+        return $pdf->stream('Reporte-Direccion.pdf');
     }
 
-    public function reporteMensual_8002(Request $request)
-    {
-
-        $asistencia = $this->claseFaltas($request);
-        $pdf = PDF::loadView('reportes//reporte-mensual-8002', ['empleados' => $asistencia]);
-        $pdf->setPaper('LEGAL', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
-        return $pdf->stream('Reporte-Mensual-8002.pdf');
-    }
+   
 
     function claseAsistencia(Request $request)
     {
@@ -66,7 +58,7 @@ class ReporteMensualController extends Controller
         
         $anio = date("Y");
         $mes  = date("m");
-        $tipo_trabajador = 1;
+       // $tipo_trabajador = 1;
         $quincena = 1;
         //$parametros = Input::all();
 
@@ -75,11 +67,11 @@ class ReporteMensualController extends Controller
         //return response()->json(["usuarios" => $parametros]);
         if(count($parametros) > 0)
         {
-            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
+            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['direccion'] != "")
             {
                 $anio = $parametros['anio'];
                 $mes = $parametros['mes'];
-                $tipo_trabajador = $parametros['tipo_trabajador'];
+                $direccion = $parametros['direccion'];
                 $nombre = $parametros['nombre'];
                 //$quincena = $parametros['quincena'];
             }
@@ -146,8 +138,8 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
-       //->where("carBrand", "=", $tipo_trabajador)
+        
+       ->where("carBrand", "=", $direccion)
         ->orWhereNull("DEFAULTDEPTID")
         ->orderBy("carType", "DESC")
         ->get();
@@ -371,8 +363,8 @@ class ReporteMensualController extends Controller
         }
         
         //$empleado->nombre_mes = $catalogo_meses;#[$parametros['mes']];
-        $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
-        return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
+       //$tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();//, "tipo_trabajador" => $tipo_nomina
+        return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']]);
     }
     function dias_horario($arreglo)
     {
@@ -524,9 +516,7 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
-
-        //->where("carBrand", "=", $parametros['tipo_trabajador'])
+        ->where("carBrand", "=", $parametros['direccion'])
         //->where("USERID", "=","509")
         ->orderBy("carType", "DESC")
         //->limit(296)
@@ -746,11 +736,11 @@ class ReporteMensualController extends Controller
         $arreglo_resultado = Array();
         if(count($parametros) > 0)
         {
-            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
+            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['direccion'] != "")
             {
                 $anio = $parametros['anio'];
                 $mes = $parametros['mes'];
-                $tipo_trabajador = $parametros['tipo_trabajador'];
+                $direccion = $parametros['direccion'];
                 $nombre = $parametros['nombre'];
             }
         }
@@ -913,8 +903,8 @@ class ReporteMensualController extends Controller
             }
         }
         //echo $personal;
-        $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
-        return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
+       // $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();//, "tipo_trabajador" => $tipo_nomina
+        return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']]);
     }
     
     
