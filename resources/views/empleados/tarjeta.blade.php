@@ -232,7 +232,17 @@
                 <tr>
                     <td>{{ $dias[$datos_asistencia[$key]['numero_dia']]  }}</td>
                     <td>{{ $datos_asistencia[$key]['fecha'] }}</td>
-                    <td>{{ $datos_asistencia[$key]['checado_entrada'] }}</td>
+                    <td>
+                            @if(strpos($datos_asistencia[$key]['checado_entrada'],'Retardo') !== false) 
+                                {{substr($datos_asistencia[$key]['checado_entrada'],0,5)}}
+
+                            
+                            @else
+                                {{$datos_asistencia[$key]['checado_entrada']}}
+                             
+                            @endif    
+                        
+                    </td>
                     <td>{{ $datos_asistencia[$key]['checado_salida']  }}</td>
                 </tr>
             </tbody>

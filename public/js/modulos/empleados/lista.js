@@ -739,7 +739,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        //console.log(data);
+        console.log(data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 

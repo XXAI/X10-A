@@ -88,6 +88,7 @@
                                     <option value="ZKAccess">Oficina Central</option>
                                     <option value="gomezmaza">Gomez Maza</option>
                                     <option value="bancodesangre">Banco de sangre</option>
+                                    <option value="villaflores">Villaflores</option>
                                     </select>
                                 </div>
                             </div>

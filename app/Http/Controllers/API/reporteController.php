@@ -171,6 +171,7 @@ class reporteController extends Controller
                 case 22:                                        
                     $pagoGuardia=$tipos->total;
                     break;
+
                 case 30:                                        
                     $vac20_1=$tipos->total;
                     break;         
@@ -370,10 +371,7 @@ class reporteController extends Controller
                             
                         $asistencia[$indice]['horario'] = $inicio;
 
-                       //}
-
-             
-
+      
                         $checada_entrada = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
@@ -410,16 +408,14 @@ class reporteController extends Controller
 
                         
                                
-                        /* if($sol<>1){
-                            
-                            ->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"]) */
+                        
                                 $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->where("TITLE", "=",  $desc)
                               ->where("STARTSPECDAY","<=",$fecha_eval."T23:59:59.000")
                               ->where("ENDSPECDAY",">=",$fecha_eval."T00:00:00.000")   
-                                //->whereBetween("STARTSPECDAY",[$fecha_eval."T00:00:00.000",$fecha_eval."T23:59:59.000"])                     
+                                                   
                                 ->select("leaveclass.LeaveName as Exepcion"
                                     ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
                                     ,DB::RAW("datediff(MINUTE,STARTSPECDAY, ENDSPECDAY) AS DIFHORA")
@@ -450,96 +446,121 @@ class reporteController extends Controller
 
                                    //return $ban_inci;
                                     switch($checada_extra->TIPO){
-                                    case 1:                                
-                                        $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
-                                        
-                                                                                
-                                        if ($diatrab>=1)
-                                            {
-                                                $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
-                                                $hps=$modif->diffInMinutes($hps);
-                                                $ps=$hps;
-                                            }                                                    
-                                        else
-                                            $ps=$ps+$checada_extra->DIFHORA;
-                                        break;
-                                    case 2:
-                                        $impr= "Vacaciones 2019 Primavera-Verano";
-                                        break;                               
-                                    
-                                    case 3:
-                                        $impr= "Comisión";
-                                        break;
-                                    case 4:
-                                        $impr= "Omisión Salida".$memo;
-                                        //$oS=$oS+1;
-                                        break;
-                                    case 5:
-                                        $impr="Omisión Entrada".$memo ;
-                                        //$oE=$oE+1;
-                                        break;
-                                    case 6:
-                                        $impr="Día Económico"; 
-                                        $diaE=$diaE+1;                                   
-                                        break;
-                                    case 8:
-                                        $impr="Licencia Médica";
-                                        break;
-                                    case 10:
-                                        $impr= "Onomástico";                                    
-                                        break;
-                                    case 11:
-                                        $impr="Vacaciones 2018 Primavera-Verano";                                    
-                                        break;
-                                    case 12:
-                                        $impr="Vacaciones 2018 Invierno";
-                                        
-                                        break;
-                                    case 13:
-                                        $impr="Vacaciones 2019 Invierno";                                    
-                                        break;
-                                    case 14:
-                                        $impr="Reposición".$memo; 
-                                        break;                                 
-                                    case 15:                                
-                                        $impr="Vacaciones Mediano Riesgo";                                
+                                        case 1:                                
+                                            $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
+                                            
+                                                                                    
+                                            if ($diatrab>=1)
+                                                {
+                                                    $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
+                                                    $hps=$modif->diffInMinutes($hps);
+                                                    $ps=$hps;
+                                                }                                                    
+                                            else
+                                                $ps=$ps+$checada_extra->DIFHORA;
                                             break;
-                                    case 16:
-                                        $impr="Vacaciones Extra Ordinarias";                                    
-                                        break;
-                                    case 17:
-                                        $impr="Cuidados Maternos";                                    
-                                        break;
-                                    case 18:
-                                        $impr="Constancia de Entrada";                                    
-                                        break;
-                                    case 19:
-                                        $impr="Memorandum ".$memo;                                    
-                                        break;
-                                    case 20:
-                                        $impr="Licencia Sin Goce ";                                    
-                                        break;
-                                    case 22:
-                                        $impr="Pago de Guardia ";                                    
-                                        break;
-                                    case 27:
-                                        $impr="Lista de Asistencia segun Memoradúm ".$memo;                                    
-                                        break;
-                                    case 30:
-                                        $impr="Vacaciones 2020 Primavera-Verano";                                    
-                                        break;       
-                                    case 31:
-                                        $impr="Contingencia COVID19".$memo;                                    
-                                        break;
-                                    case 32:
-                                        $impr="Vacaciones 2020 Invierno";                                   
-                                        break;
-                                    case 33:
-                                        $impr="Vacaciones 2021 Primavera";                                   
-                                        break;
-                                    default:
-                                        $impr="";
-                                        break;
+                                        case 2:
+                                            $impr= "Vacaciones 2019 Primavera-Verano";
+                                            break;                               
+                                        
+                                        case 3:
+                                            $impr= "Comisión ".$memo;
+                                            break;
+                                        case 4:
+                                            $impr= "Omisión Salida".$memo;
+                                            //$oS=$oS+1;
+                                            break;
+                                        case 5:
+                                            $impr="Omisión Entrada".$memo ;
+                                            //$oE=$oE+1;
+                                            break;
+                                        case 6:
+                                            $impr="Día Económico"; 
+                                            $diaE=$diaE+1;                                   
+                                            break;
+                                        case 8:
+                                            $impr="Licencia Médica";
+                                            break;
+                                        case 10:
+                                            $impr= "Onomástico";                                    
+                                            break;
+                                        case 11:
+                                            $impr="Vacaciones 2018 Primavera-Verano";                                    
+                                            break;
+                                        case 12:
+                                            $impr="Vacaciones 2018 Invierno";
+                                            
+                                            break;
+                                        case 13:
+                                            $impr="Vacaciones 2019 Invierno";                                    
+                                            break;
+                                        case 14:
+                                            $impr="Reposición".$memo; 
+                                            break;                                 
+                                        case 15:                                
+                                            $impr="Vacaciones Mediano Riesgo";                                
+                                                break;
+                                        case 16:
+                                            $impr="Vacaciones Extra Ordinarias";                                    
+                                            break;
+                                        case 17:
+                                            $impr="Cuidados Maternos";                                    
+                                            break;
+                                        case 18:
+                                            $impr="Constancia de Entrada";                                    
+                                            break;
+                                        case 19:
+                                            $impr="Curso ".$memo;                                    
+                                            break;
+                                        case 20:
+                                            $impr="Licencia Sin Goce ";                                    
+                                            break;
+                                        case 21:
+                                            $impr="Licencia Sin Goce ";                                    
+                                            break;
+                                        case 22:
+                                            $impr="Pago de Guardia ";                                    
+                                            break;
+                                        case 27:
+                                            $impr="Lista de Asistencia segun Memoradúm ".$memo;                                    
+                                            break;
+                                        case 29:
+                                            $impr="Comisión Sindical según Memoradúm ".$memo;                                    
+                                            break;
+                                        case 30:
+                                            $impr="Vacaciones 2020 Primavera-Verano";                                    
+                                            break;       
+                                        case 31:
+                                            $impr="Contingencia COVID19 ".$memo;                                    
+                                            break;
+                                        case 32:
+                                            $impr="Vacaciones 2020 Invierno";                                   
+                                            break;
+                                        case 33:
+                                            $impr="Vacaciones 2021 Primavera";                                   
+                                            break;
+                                        case 34:
+                                            $impr="Vacaciones 2021 Invierno";                                   
+                                            break;
+                                        case 40:
+                                            $impr="Dia Autorizado ".$memo;                                    
+                                            break;
+                                        case 41:
+                                            $impr="Vacaciones de Alto Riesgo".$memo;                                    
+                                            break;
+                                        case 42:
+                                            $impr="Vacaciones de Bajo Riesgo".$memo;                                    
+                                            break;
+                                        case 43:
+                                            $impr="Segun Memorandúm ".$memo;                                    
+                                            break;
+                                        case 44:
+                                            $impr="Licencia por Maternidad ".$memo;                                    
+                                            break;
+                                        default:
+                                            $impr="";
+                                            break;
+                                        
                                 }
 
                             
@@ -548,25 +569,34 @@ class reporteController extends Controller
                         if(is_null($checada_extra)){
                                 "checada_extra";
                         }
-                            else{
+                        else{
                                 $hora_extra=$checada_extra->HORA;
                             }
                         if(isset($checada_entrada) || !is_null($checada_entrada)){                        
                             $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
-                            $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);
-                          
+                            $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);                          
                             $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
                             $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
 
                                 
                                         if ($formato_checado>($tolerancia)){
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
-                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
-                                                    $rme=$rme+1;
+                                                    if(is_null($checada_extra)){
+                                                        $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
+                                                        $rme=$rme+1;
+                                                    }
+                                                    else{
+                                                        $asistencia[$indice]['checado_entrada'] = $impr;
+                                                    }
                                                 }
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 26){
-                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
-                                                $rm=$rm+1;
+                                                if(is_null($checada_extra)){
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
+                                                    $rm=$rm+1;
+                                                }
+                                                else{
+                                                    $asistencia[$indice]['checado_entrada'] = $impr;
+                                                }
                                             }
                                         }
                                         else
@@ -593,8 +623,7 @@ class reporteController extends Controller
                         else{
                         
                                 $asistencia[$indice]['validacion'] = 1;      
-                                if ($checada_extra->TIPO==1){   
-                                
+                                if ($checada_extra->TIPO==1){                                   
                                     $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
                                     $asistencia[$indice]['validacion'] = 0;
                                 }
@@ -623,8 +652,7 @@ class reporteController extends Controller
                        
                     }
 
-                    if(isset($checada_salida) || !is_null($checada_salida)){
-                            
+                    if(isset($checada_salida) || !is_null($checada_salida)){                           
                         
                         
                         if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
@@ -680,7 +708,7 @@ class reporteController extends Controller
         
                     }
 
-                //checadas contingencia&& $fecha_eval<='2021-01-01'
+                
                 if($validacion->SEP!=0  && $fecha_eval<'2021-01-01'){
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
                         $checa_contingencia = $conexion->table("contingencia")
@@ -731,7 +759,7 @@ class reporteController extends Controller
             }
         
         $ps=$ps/60;
-       // dd( $validacion); 
+        //dd( $asistencia); 
         $resumen = array(['horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        if($impre==0){
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
