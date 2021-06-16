@@ -11,7 +11,7 @@
     <style>
         .cabecera
         {
-            font-size: 12pt;
+            font-size: 10pt;
             background-color:#CFCFCF;
             border: 0px;   
         }
@@ -22,34 +22,34 @@
         .fuente_datos
         {
             font-family: Helvetica;
-            font-size: 10pt;
+            font-size: 7pt;
         }
         .parrafo
         {
             font-family: Helvetica;
-            font-size: 10pt;
+            font-size: 7pt;
             text-align: justify;
         }
         .encabezado
         {
             font-family: Helvetica;
-            font-size: 10pt;
+            font-size: 7pt;
             text-align: left;
         }
         .fecha
         {
             font-family: Helvetica;
-            font-size: 10pt;
+            font-size: 7pt;
             text-align: right;
         }
         .datos
         {
-            font-size: 9pt;
+            font-size: 7pt;
         }
 
         .firmantes
         {
-            font-size: 9pt;
+            font-size: 7pt;
             font-family: Helvetica;
         }
 
@@ -80,7 +80,7 @@
 
         .encabezados
         {
-            font-size: 9pt;
+            font-size: 7pt;
             text-align: center;
         }
 
@@ -119,7 +119,7 @@
         }
 
         .tabla_checadas {
-            font-size: 10pt;
+            font-size: 7pt;
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
             width: 100%;
