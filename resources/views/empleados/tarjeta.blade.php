@@ -148,11 +148,14 @@
     </style>
 </head>
 <?php
-    $datos_asistencia     = $asistencia['data'];
-    $datos_empleado       = $asistencia['validacion'];
-    $fecha_inicio         = $asistencia['fecha_inicial'];
-    $fecha_fin            = $asistencia['fecha_final'];
+
+    $datos_asistencia     = $asistencia['data'];   
+    $datos_empleado       = $asistencia['validacion'];   
+    $fecha_inicio         = $asistencia['fecha_inicial'];   
+    $fecha_fin            = $asistencia['fecha_final'];  
     $dias           = ["", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
+    $longitud= key($datos_asistencia);
+  // print_r($longitud);exit;
 ?>
 <body>
     <header>
@@ -190,6 +193,7 @@
     </header>
     <br>
     <br>
+    
 <table width="100%"  cellspacing="0" class="fuente_datos">
     <tr>
         <td>NOMBRE:</td><td colspan='3'> <b><?php echo $datos_empleado->Name ?></b></td>
@@ -200,12 +204,12 @@
         <td>TIPO:</td><td><b><?php echo $datos_empleado->street ?></b></td>
     </tr>
     <tr>
-        <td colspan='2'>HORA DE ENTRADA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorini'], 12, 4) ?></b></td>
-        <td colspan='2'>HORA DE SALIDA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[2]['jorfin'], 11, 5) ?></b></td>
+        <td>HORA DE ENTRADA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[$longitud]['jorini'], 11, 5) ?></b></td>
+        <td colspan='2'>HORA DE SALIDA:</td><td  colspan='2'><b><?php echo substr($datos_asistencia[$longitud]['jorfin'], 11, 5) ?></b></td>
     </tr>
 
     <tr>
-        <td colspan='2'>FECHA INICIO(DESDE):</td><td colspan='2'><b><?php echo $fecha_inicio ?></b></td>
+        <td>FECHA INICIO(DESDE):</td><td colspan='2'><b><?php echo $fecha_inicio ?></b></td>
         <td colspan='2'>FECHA FINAL(HASTA):</td><td colspan='2'><b><?php echo $fecha_fin ?></b></td>
     </tr>
     <tr>
@@ -241,7 +245,9 @@
                                 {{$datos_asistencia[$key]['checado_entrada']}}
                              
                             @endif    
-                        
+                          
+
+                          
                     </td>
                     <td>{{ $datos_asistencia[$key]['checado_salida']  }}</td>
                 </tr>

@@ -253,7 +253,8 @@ function cargar_horarios_empleado(horarios) {
         var campo2 = $("<td>" + moment(value.STARTDATE).format('YYYY-MM-DD') + "</td>");
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
         //]
-        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.NUM_OF_RUN_ID + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\", \"" + value.id + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a>");
+        var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.NUM_OF_RUN_ID + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\", \"" + value.id + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a><a type='button' class='btn btn-link'' onclick='eliminar_hora_emp(\"" + value.id + "\")'><i class='fa fa-trash' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Horario'></i></a>");
+        
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
 
         linea.append(campo1, campo2, campo3, campo4);
@@ -1402,6 +1403,41 @@ function eliminar_in_emp(id) {
                 swal("El registro no se a eliminado");
             }
         });
+
+
+}
+
+function eliminar_hora_emp(id) {
+alert("Estamos trabajando......");
+
+   /*  swal({
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no podrá recuperar!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "../api/deletehorario-emp/" + id + "/",
+                    success: function(data) {
+                        swal("¡El horario ha sido eliminado!", {
+                            icon: "success",
+                        });
+
+                        
+
+                    }
+                });
+
+
+
+            } else {
+                swal("El horario no se ha eliminado");
+            }
+        }); */
 
 
 }

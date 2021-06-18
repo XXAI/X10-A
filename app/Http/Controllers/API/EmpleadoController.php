@@ -356,7 +356,16 @@ class EmpleadoController extends Controller
        
     }
 
+    public function elimina_horario($id)
+    {
+        $registro=UsuarioHorario::FindOrFail($id);     
+        $result = $registro->delete();
 
+        if($result){
+            return response()->json(['mensaje'=>'Registro Eliminado']);
+            
+        }
+    }
     public function modifica_horario_empleado(Request $request, $idhorario)
     {
         
