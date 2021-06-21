@@ -64,6 +64,6 @@ use Illuminate\Http\Request;
     Route::post('/guarda-configuracion-trimestral','API\ConfiguracionTrimestralController@store');
     Route::delete('/deleteincidencia/{id}', 'API\DiasJustificaController@destroy');
     Route::delete('/deleteinci-emp/{id}', 'API\IncidenciaController@destroy');
-    Route::delete('/deletehorario-emp/{id}', 'API\EmpleadoController@elimina_horario');
+    Route::delete('/deletehora-emp/{id}', 'API\EmpleadoController@elimina_horario');
 //});
 Route::post('login', 'Auth\LoginController@doLogin');

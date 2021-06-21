@@ -297,50 +297,7 @@ class EmpleadoController extends Controller
             $user_hora->ORDER_RUN=0;
             $user_hora->save();
             }
-           /*  if ($request->code!=''){              
-
-                $maxhora=UsuarioHorario::findOrFail($USERID)->max('ENDDATE');                           
-                $modif_hora = UsuarioHorario::findOrFail($USERID)->where('ENDDATE','=',$maxhora)->first();    
-
-                    $inifec = new Carbon($request->ini_fec);
-                    
-                        if ($modif_hora->ENDDATE>=$inifec){
-                             //DB::enableQueryLog(); 
-                            $inifec->subDay();    
-                           // dd(substr($inifec, 0).".000"); 
-                            $modif_hora->ENDDATE=substr($inifec, 0).".000"; 
-                            DB::table('USER_OF_RUN')                            
-                            ->where('USERID','=',$USERID)
-                            ->where('ENDDATE','=',$maxhora)
-                            ->update(['ENDDATE' => substr($inifec, 0).".000" ]);
-
-                           // dd(DB::getQueryLog()); 
-                            
-                        }
-                      
-                       // 2020-11-29 00:00:00.0 UTC (+00:00)
-                        
-                       // dd( $modif_hora);
-                
-                
-                   $user_hora = new UsuarioHorario;
-                   $user_hora->USERID=$USERID;
-                   $user_hora->NUM_OF_RUN_ID=$request->code;
-                   $user_hora->STARTDATE=$request->ini_fec;
-                   $user_hora->ENDDATE=$request->fin_fec;
-                   $user_hora->ISNOTOF_RUN=0;
-                   $user_hora->ORDER_RUN=0;
-                   $user_hora->save();                
-
-                   // $ss="Exitoo!! Los Datos se han Modificado  correctamente!!!";
-
-
-
-             
-               
-                    
-            }
-            */
+         
           
             return response()->json(['mensaje'=>"Exitoo!! Los Datos se han Modificado  correctamente!!!"]); 
     }
@@ -358,21 +315,29 @@ class EmpleadoController extends Controller
 
     public function elimina_horario($id)
     {
-        $registro=UsuarioHorario::FindOrFail($id);     
-        $result = $registro->delete();
+       // dd("HOLA REPENDEJO");
 
-        if($result){
-            return response()->json(['mensaje'=>'Registro Eliminado']);
+         try {
             
-        }
+            $registro=UsuarioHorario::where('id','=',$id)->delete();   
+            //$result = $registro->delete();
+
+            if($registro){
+                return response()->json(['mensaje'=>'Registro Eliminado']);
+                
+            }
+        } 
+        catch (\Exception $e) {
+            
+            return Response::json(['estas rependejo' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+            } 
     }
     public function modifica_horario_empleado(Request $request, $idhorario)
     {
         
         try {
 
-            //DB::enableQueryLog(); 
-            //$user_hora= UsuarioHorario::where('id','=',$idhorario);  
+          
             $user_hora= UsuarioHorario::findOrFail($idhorario);  
             
             $user_hora->NUM_OF_RUN_ID=$request->code;

@@ -1408,9 +1408,9 @@ function eliminar_in_emp(id) {
 }
 
 function eliminar_hora_emp(id) {
-alert("Estamos trabajando......");
+//alert("Estamos trabajando......");
 
-   /*  swal({
+   swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrá recuperar!",
             icon: "warning",
@@ -1419,25 +1419,29 @@ alert("Estamos trabajando......");
         })
         .then((willDelete) => {
             if (willDelete) {
+            
                 $.ajax({
                     type: 'DELETE',
-                    url: "../api/deletehorario-emp/" + id + "/",
+                    url: "api/deletehora-emp/" + id + "/",
+                   // "api/edita-empleado/" + idempleado;
+                    
                     success: function(data) {
                         swal("¡El horario ha sido eliminado!", {
                             icon: "success",
                         });
-
+                        editEmpleado(idempleado);
                         
 
                     }
                 });
-
+        
 
 
             } else {
+                console.log(url);
                 swal("El horario no se ha eliminado");
             }
-        }); */
-
+        }); 
+ 
 
 }

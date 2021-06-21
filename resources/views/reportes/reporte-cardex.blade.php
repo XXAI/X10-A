@@ -88,7 +88,10 @@
 $objeto = $empleados;
 $clave = $objeto['ur'].$objeto['gf'].$objeto['fn'].$objeto['sf'].$objeto['pg'].$objeto['al'].$objeto['pp'].$objeto['partida'].$objeto['codigo'].$objeto['numpto'];
 $catalogo_trabajador = ['','BASE','CONTRATO',"REGULARIZADO", 'FORMALIZADO', 'HOMOLOGADO', 'UNEMES CAPACIT', 'ESTATAL', 'PENDIENTE'];
-$meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
+$meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+//print_r(($objeto['asistencia']));
+//$periodo =[''];
+
 ?>
 <body>
     <header>
@@ -141,7 +144,11 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
         </tr>
         <tr>
             <td>HORARIO <b><?php echo $objeto['jornada'] ?></td><td></td>
-            <td>TIPO TRABAJADOR</td><td> <b><?php echo $catalogo_trabajador[$objeto['tipo_trabajador_id']]." 2019/2020" ?></b></td>
+            <td>TIPO TRABAJADOR</td><td> <b><?php echo $catalogo_trabajador[$objeto['tipo_trabajador_id']]?>
+                @foreach ($objeto['asistencia'] as $index => $anio)
+                {{ '('. $periodo = $index.' ' .')'}}                 
+                @endforeach
+            </b></td>
         </tr>
     </table> 
     </header>  

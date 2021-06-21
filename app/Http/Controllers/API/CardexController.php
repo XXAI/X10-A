@@ -76,7 +76,7 @@ class CardexController extends Controller
         $empleados->asistencia = $datos['datos'];    
         $empleados->jornada = $datos['horario'];    
 
-        
+      //  dd($empleados);
         //return response()->json(["usuarios" => $datos]);                    
         $pdf = PDF::loadView('reportes//reporte-cardex', ['empleados' => $empleados]);
         $pdf->setPaper('LETTER', 'landscape');
