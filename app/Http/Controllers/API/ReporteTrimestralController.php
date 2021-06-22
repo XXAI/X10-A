@@ -143,7 +143,7 @@ class ReporteTrimestralController extends Controller
             }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
             }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-                $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
+                $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59' )->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00' );
                // $query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
             }])
              ->whereNull("state")
