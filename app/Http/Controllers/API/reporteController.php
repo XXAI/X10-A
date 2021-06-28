@@ -581,7 +581,7 @@ class reporteController extends Controller
                                 
                                         if ($formato_checado>($tolerancia)){
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
-                                                    if(is_null($checada_extra)){
+                                                    if(is_null($checada_extra)|| ($checada_extra->TIPO==1)){
                                                         $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
                                                         $rme=$rme+1;
                                                     }
@@ -590,7 +590,7 @@ class reporteController extends Controller
                                                     }
                                                 }
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 26){
-                                                if(is_null($checada_extra)){
+                                                if(is_null($checada_extra) || ($checada_extra->TIPO==1)){
                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
                                                     $rm=$rm+1;
                                                 }

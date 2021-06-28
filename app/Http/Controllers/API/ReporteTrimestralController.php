@@ -371,15 +371,16 @@ class ReporteTrimestralController extends Controller
                     }
                 }
                 
-                if($trimestre == 1)
+                if($trimestre == 2)
                 {
-                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 2;
                 }else if($verificador == $dias_mes)
                 {
                     
                     //$empleados[$index_empleado]->TRIMESTRAL += 1;
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] += 1;
                 }
+            
                 
                 //$empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_laboral;
             }

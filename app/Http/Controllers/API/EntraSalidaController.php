@@ -18,16 +18,14 @@ class EntraSalidaController extends Controller
     public function store(Request $request)
     {           
         try {
-                /* $ultimo= ChecadasTrabajador::all();
-
-                $ultimo_reg =var_dump($ultimo->last())+1; */
+                
                 $registro = new ChecadasTrabajador;
                 $registro->USERID = $request->id;
                 $registro->CHECKTIME = $request->fing;
                 $registro->CHECKTYPE = $request->tipo_registro;
                 $registro->VERIFYCODE = $request->idcap;        
                 $registro->SENSORID = $request->idcap; 
-               //$registro->LOGID=  "1";    
+                
                 $registro->MachineId=  "0"; 
                 $registro->UserExtFmt=    "0";  
                 $registro->WorkCode=  "0";
