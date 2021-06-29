@@ -79,7 +79,7 @@ class ReporteTrimestralController extends Controller
             }
         }
 
-        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [10,11,12]];
+        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [6], 3=> [7,8,9], 4=> [10,11,12]];
         
         $empleados_trimestral = [];
 
@@ -172,7 +172,7 @@ class ReporteTrimestralController extends Controller
                 if(!array_key_exists($empleados[$index_empleado]->TITLE, $empleados_trimestral))
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE] = $empleados[$index_empleado];
-                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 0;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 2;
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = 0;
                 }
                 
@@ -370,10 +370,10 @@ class ReporteTrimestralController extends Controller
                         //echo $fecha_evaluar->format("Y-m-d")."--";
                     }
                 }
-                
-                if($trimestre == 2)
+               // print_r($empleados_trimestral);
+                if($trimestre == 1)
                 {
-                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 2;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
                 }else if($verificador == $dias_mes)
                 {
                     
