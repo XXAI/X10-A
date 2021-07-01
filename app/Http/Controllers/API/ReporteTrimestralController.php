@@ -149,7 +149,7 @@ class ReporteTrimestralController extends Controller
              ->whereNull("state")
             ->where("ATT","=","1")
             ->WHERE("PAGER", "NOT LIKE", 'CF%') 
-            //->where("FPHONE", 'like','%CSSSA017213%')
+            ->where("carType", '<>','700230001')
           //->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
           //  ->WHEREIN("FPHONE",[$arreglo_clues])
           ->WHEREIN("FPHONE", $arreglo_clues)
@@ -164,8 +164,8 @@ class ReporteTrimestralController extends Controller
             //->limit(200) 
             ->orderBy("carType", "DESC")
             ->get();
-            
-           // return $empleados;
+            //dd($empleados);
+           //return $empleados;
             foreach ($empleados as $index_empleado => $data_empleado) {
                 $empleado_seleccionado = $empleados[$index_empleado];
                 
