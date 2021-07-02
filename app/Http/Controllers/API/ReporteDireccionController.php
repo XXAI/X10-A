@@ -439,7 +439,15 @@ class ReporteDireccionController extends Controller
             {
                 switch(intval($value->siglas->Classify))
                 {
-                    case 1: $arreglo_dias['festivos'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
+                    case 1: 
+                        $inicio = new Carbon($value->STARTSPECDAY);
+                        $fin = new Carbon($value->ENDSPECDAY);
+                        $diff = $inicio->diffInDays($fin);   
+                        $arreglo_dias['festivos'][substr($inicio, 0,10)][] = $value;
+                        for ($i=0; $i < $diff; $i++) { 
+                            $arreglo_dias['festivos'][substr($inicio->addDays(), 0,10)][] = $value;
+                            
+                         }  break;
                     case 2: 
                     case 3: $arreglo_dias['entradas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
                     case 4: 
