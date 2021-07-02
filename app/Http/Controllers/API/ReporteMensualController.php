@@ -134,11 +134,11 @@ class ReporteMensualController extends Controller
             $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00');//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-            //$query->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59');
-            $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
+        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
+            $query->where("ENDSPECDAY",">=",$fecha_inicio.'T00:00:00'  )->where("STARTSPECDAY", "<=", $fecha_fin.'T23:59:59' );
         }])
         ->whereNull("state")
+        ->where("carType", '<>','700230001')
         //->WHERE("FPHONE", "=", 'CSSSA017213')
         ->WHEREIN("FPHONE", $arreglo_clues)
         ->Where(function($query2)use($parametros){
@@ -510,13 +510,15 @@ class ReporteMensualController extends Controller
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTDATE", "<=", $fecha_inicio);//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
-        }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
-        }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
+        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+           // $query->where("STARTSPECDAY", ">=", $fecha_inicio)->where("ENDSPECDAY", "<=", $fecha_fin);
+           $query->where("ENDSPECDAY",">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
         ->whereNull("state")
+        ->where("carType", '<>','700230001')
       //  ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
       ->WHEREIN("FPHONE", $arreglo_clues)
         ->where(function($query2)use($parametros){

@@ -66,7 +66,7 @@ function cargar_dato(dato)
             }
             $.each(data.usuarios, function(index, value)
             {
-                console.log(data.usuarios);
+                //console.log(data.usuarios);
                 var linea = $("<tr  ></tr>");
                 
                 var campo1 = $("<td style='border-bottom:1px solid black;'>"+ value.Badgenumber +' - '+value.TITLE+" - "+value.Name+"</td>");
