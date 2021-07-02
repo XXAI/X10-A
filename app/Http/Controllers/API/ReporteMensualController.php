@@ -442,12 +442,24 @@ class ReporteMensualController extends Controller
     function dias_otorgados($arreglo)
     {
         $arreglo_dias = array();
+
+        
         foreach ($arreglo as $key => $value) {
+                    
+    
             if($value->siglas != null)
             {
                 switch(intval($value->siglas->Classify))
                 {
-                    case 1: $arreglo_dias['festivos'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
+                    case 1:
+                        $inicio = new Carbon($value->STARTSPECDAY);
+                        $fin = new Carbon($value->ENDSPECDAY);
+                        $diff = $inicio->diffInDays($fin);   
+                        $arreglo_dias['festivos'][substr($inicio, 0,10)][] = $value;
+                        for ($i=0; $i < $diff; $i++) { 
+                            $arreglo_dias['festivos'][substr($inicio->addDays(), 0,10)][] = $value;
+                            
+                         }  break;
                     case 2: 
                     case 3: $arreglo_dias['entradas'][substr($value->STARTSPECDAY, 0,10)][] = $value; break;
                     case 4: 
@@ -610,7 +622,7 @@ class ReporteMensualController extends Controller
         $contador_retardo = 0;
         $contador_faltas = 0;
         $contador_asistencia = 0;
-
+        //dd($dias_otorgados);
         if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 2){ $checada_entrada = 1; }
         if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 3){ $calcular_entrada = 1; }
         if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
@@ -764,7 +776,7 @@ class ReporteMensualController extends Controller
         $arreglo_salidas = $this->salidas_autorizadas($fecha_inicio, $fecha_fin);
         $empleados = $this->empleados_checadas($fecha_inicio, $fecha_fin, $parametros);
         
-        //return array("datos" =>$arreglo_festivos);
+       // dd($empleados);
         $personal = 0;
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
