@@ -67,7 +67,7 @@ class EmpleadoController extends Controller
         $departamentos = Departamentos::where("DEPTID","<>",1)->get();   
         $festivos = Festivos::get();   
         
-        //print_r($usuarios);
+        //dd($incidencias);
         return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos,"festivos" => $festivos]); 
       // dd(DB::getQueryLog());
     }
@@ -93,7 +93,7 @@ class EmpleadoController extends Controller
        /*  if($request->get('bh'))
         {  */ 
         $bi = $request->get('bi');
-        $data_in = TiposIncidencia::orderBy('LeaveName','ASC')->where("LeaveName",'LIKE','%'.$bi.'%')->whereNotIn('LeaveId', [4,5,7,9,18,28])->get();          
+        $data_in = TiposIncidencia::orderBy('LeaveName','ASC')->where("LeaveName",'LIKE','%'.$bi.'%')->whereNotIn('LeaveId', [4,5,7,9,28])->get();          
         
       
       return response()->json($data_in);  

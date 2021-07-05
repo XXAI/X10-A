@@ -169,6 +169,7 @@ function cargar_incidencias() {
             onSelectItemEvent: function() {
                 var selectedItemValue = $("#incidencia").getSelectedItemData().LeaveId;
                 $("#code_in").val(selectedItemValue).trigger("change");
+                
             }
         },
         ajaxSettings: {
@@ -181,6 +182,7 @@ function cargar_incidencias() {
 
         preparePostData: function(data) {
             data.bi = $("#incidencia").val();
+            
             return data;
         },
 
@@ -190,6 +192,7 @@ function cargar_incidencias() {
     };
 
     $("#incidencia").easyAutocomplete(options);
+
 
 }
 
