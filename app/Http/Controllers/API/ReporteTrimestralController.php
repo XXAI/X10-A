@@ -365,10 +365,10 @@ class ReporteTrimestralController extends Controller
                                                 $dia_laboral = intval($dias_habiles[$fecha_evaluar->dayOfWeekIso]['reglaAsistencia']['WorkDay']);//Revisar urgente
                                                 $dia_economico = $dia_economico + $dia_laboral;
                                             }
-                                            if($dia_economico == 2)
+                                           /*  if($dia_economico == 2)
                                             {
                                                 break;
-                                            }
+                                            } */
                                             //Dias otorgados (aqui hay que verificar)
                                             $verificador++;
                                         }    
