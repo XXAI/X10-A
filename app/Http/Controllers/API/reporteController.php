@@ -27,6 +27,8 @@ class reporteController extends Controller
     {
         $parametros = Input::all();
         $usuario = Auth::user();
+
+        $diaActual = Carbon::now()->isoFormat('dddd D \d\e MMMM \d\e\l Y');
         
       
        
@@ -35,7 +37,7 @@ class reporteController extends Controller
         $asistencia = $this->consulta_checadas($request);
        // $datos = $asistencia;
      //   dd(($asistencia));
-        $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $asistencia]);
+        $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $asistencia, 'leyenda' => $parametros['leyenda'], 'hoy' => $diaActual]);
         //$pdf = PDF::loadView('empleados//tarjeta', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
         $pdf->setPaper('letter', 'portrait');
         $pdf->setOptions(['isPhpEnabled' => true]);

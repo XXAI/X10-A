@@ -104,6 +104,14 @@
                                                       <label for="fecha_inicio"><br></label>
                                                       <button onclick="filtrar_checadas()" id="filtro_check" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Filtrar"><i class="fa fa-search"></i>  Filtrar</button>
                                                       <button class="btn btn-info" type='button' onclick="imprimir_tarjeta()"><i class="fa fa-print "></i></button>
+                                                      
+
+                                                      <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="leyenda" value="" onclick="incluir_leyenda()" checked>
+                                                        <label class="form-check-label" for="leyenda">Incluir leyenda</label>
+                                                      </div>
+
+
                                                   </div>
                                               </div>
                                               

@@ -144,6 +144,16 @@
         .espacio { 
             white-space: normal;
         }
+        .text-justify {
+            text-align: justify;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .mayuscula{
+            text-transform: uppercase;
+        }
 
     </style>
 </head>
@@ -155,6 +165,8 @@
     $fecha_fin            = $asistencia['fecha_final'];  
     $dias           = ["", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
     $longitud= key($datos_asistencia);
+    $inluye_leyenda = $leyenda;
+    $fecha_actual = $hoy;
   // print_r($longitud);exit;
 ?>
 <body>
@@ -256,6 +268,31 @@
     </table>
     <div class="espacio"></div>
 </section>
+<br>
+@if($inluye_leyenda == 1)
+<p class="text-justify fuente_datos">
+    <strong>C E R T I F I C A C I Ó N &nbsp; D E &nbsp; D O C U M E N T O:</strong> INSTITUTO DE SALUD, TUXTLA GUTIÉRREZ CHIAPAS, AL DÍA <strong class="mayuscula">{{ $fecha_actual }}</strong>, LA SUSCRITA L.A.E. ANITA DEL CARMEN GARCÍA LEÓN, SUBDIRECTORA DE RECURSOS HUMANOS
+    <br><a class="text-center fuente_datos">------------------------------------------------------------------------------------------------<strong>H A C E   C O N S T A R</strong>-----------------------------------------------------------------------------------------------</a><br>
+    <a class="text-justify fuente_datos">QUE LA PRESENTE COPIA FOTOSTÁTICA QUE CONSTAN DE UNA (01) FOJA UTIL, ES COPIA FIEL Y EXACTA DEL DOCUMENTO QUE SE TIENE A LA VISTA, QUE OBRA Y FORMA PARTE INTEGRAL DEL SISTEMA DE REGISTRO  ELECTRONICO DE ASISTENCIA DEL C. JULIO PAREDES SOLIS  CON ID: 1167 DE LA SUBDIRECCIÓN DE RECURSOS HUMANOS, DEPENDIENTE DE LA DIRECCIÓN DE ADMINISTRACIÓN Y FINANZAS DE ESTE INSTITUTO DE SALUD, LA CUAL SE COMPULSA Y CERTIFICA PARA TODOS LOS EFECTOS LEGALES A QUE HAYA LUGAR; MISMA QUE FIRMO Y SELLO CON FUNDAMENTO EN EL ARTÍCULO 40 FRACCION VII DEL REGLAMENTO INTERIOR DEL INSTITUTO DE SALUD.</a><br>
+    <br><a class="text-center fuente_datos">--------------------------------------------------------------------------------------------------------<strong>C O N S T E</strong>-------------------------------------------------------------------------------------------------------</a><br>
+</p>
+<br>
+<br>
+<p class="centrado datos fuente_datos">
+    <strong>LAE. ANITA DEL CARMEN GARCÍA LEÓN
+    <br>
+    SUBDIRECTORA DE RECURSOS HUMANOS.</strong>
+</p>
+<br>
+<br>
+<p class="text-center fuente_datos">
+    <strong>REVISO:<br>ING. GABRIEL DE LA GUARDIA NAGANO.<br>
+    -Jefe del Departamento de Operación y Sistematización de Nomina-</strong>
+</p>
+@else
+   <div>
+   </div>
+@endif
 
 </body>
 </html>

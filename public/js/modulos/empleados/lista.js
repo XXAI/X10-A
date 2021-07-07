@@ -16,6 +16,7 @@ var id_inci;
 var msj, ban_url;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
+var leyenda = 1;
 //var omision = [];
 arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
@@ -743,7 +744,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        console.log(data);
+        console.log("aca",data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
@@ -774,6 +775,19 @@ function cargar_datos_checadas(urlchecadas) {
             alert("No se cargo la lista de asistencia  " + textStatus);
         }
     });
+}
+
+function  incluir_leyenda(){
+
+    if ($("#leyenda").prop('checked')) {
+        leyenda = 1;
+    }else { 
+        leyenda = 0;
+    }
+
+    console.log("val", leyenda);
+
+    
 }
 
 function sel_inci(valor) {
@@ -885,7 +899,7 @@ function imprimir_tarjeta() {
     impre = 1;
 
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
-    win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&impre=" + impre, '_blank');
+    win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
 
 }
 
