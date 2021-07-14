@@ -66,7 +66,8 @@
                   <div class="col-md-6" >
                      <div class="form-group">
                         <label for="tipotra"  class="col-sm-12 col-form-label">Tipo Trabajador</label>
-                        <select class="form-control" id="tipotra" name="tipotra" required>                   
+                        <select class="form-control" id="tipotra" name="tipotra" required>   
+                        <option value="" selected> Seleccion un tipo</option>                
                         </select>
                      </div>
                   </div>

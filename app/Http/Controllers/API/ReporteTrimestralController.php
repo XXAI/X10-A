@@ -89,11 +89,12 @@ class ReporteTrimestralController extends Controller
             $fecha_ejercicio = Carbon::now();
             $fecha_ejercicio->year =  $anio;
             $fecha_ejercicio->month = $data_trimestre;
-            $fecha_ejercicio->day = 1;
+            $fecha_ejercicio->day = 3;
             $fecha_inicio = $fecha_ejercicio->format('Y-m-d');
             $fecha_fin = $fecha_ejercicio->format('Y-m-').$fecha_ejercicio->daysInMonth;
             $dias_mes = $fecha_ejercicio->daysInMonth;
-            
+            $dias_mes = $dias_mes - 2;
+           //dd($fecha_inicio);
             //Obtenemos los dias Festivos
             $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
             $arreglo_festivos = array();
@@ -198,12 +199,12 @@ class ReporteTrimestralController extends Controller
                 $dia_economico = 0;
                 if($dias_otorgados != -1)
                 {
-                    
+                    //dd($dias_mes);
                     for($i = 1; $i<=$dias_mes; $i++)
                     {
                         $fecha_evaluar = new Carbon($fecha_inicio);
-                        $fecha_evaluar->day = $i;
-                        
+                        $fecha_evaluar->day = $i+2;
+                       // dd($fecha_evaluar);
                         if($fecha_evaluar->lessThan($fecha_limite_actual))
                         {
                             
@@ -393,7 +394,7 @@ class ReporteTrimestralController extends Controller
                    
                 }
             // print_r($empleados_trimestral);
-            
+           // dd("VERi=".$verificador."dias= ".$dias_mes);
                 if($trimestre == 1)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;

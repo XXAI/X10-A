@@ -11,7 +11,7 @@ var fin;
 var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
-var rfc_x;
+var rfc_x, tipotra;
 var id_inci;
 var msj, ban_url;
 var mes_nac, idempleado, idhorario;
@@ -25,7 +25,7 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function() {
 
     $("#form-hora").hide();
-    limpia_empleados();
+    //limpia_empleados();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
         if (e.which == 13) {
@@ -48,6 +48,7 @@ $(document).ready(function() {
 
     $("#agregar_empleado").on('hidden.bs.modal', function() {
         limpia_empleados();
+      //  $("#tipotra").empty();
     });
     // console.log(idcap);
 
@@ -226,11 +227,13 @@ function cargar_departamentos() {
     //limpia_empleados();
     //alert($("#tipotra").val());
 
+    
     //$("#tipotra").empty();
-    $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
+   // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
     $.ajax({
         type: "GET",
         url: './api/empleado',
+        async: false,
         dataType: "json",
         success: function(data) {
 
@@ -489,7 +492,7 @@ function guardar_empleado() {
     var clues = $("#clues").val();
     var area = $("#area").val();
     var fechaing = $("#fechaing").val();
-    var tipotra = $("#tipotra").val();
+    tipotra = $("#tipotra").val();
     var ini_fec = $("#ini_fec").val();
     var code = $("#code").val();
     var fin_fec = $("#fin_fec").val();
@@ -907,6 +910,7 @@ function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
     idempleado = parseInt(id);
+    //$("#tipotra").empty();
     cargar_departamentos();
 
     $.ajax({
@@ -917,8 +921,8 @@ function editEmpleado(id) {
         success: function(data) {
 
             cargar_horarios_empleado(data.data.horarios);
-
-            //    console.log(data.data.DEFAULTDEPTID);
+            tipotra = data.data.DEFAULTDEPTID
+               console.log("entranndo"+tipotra);
 
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
@@ -927,7 +931,8 @@ function editEmpleado(id) {
             $("#codigo").val(data.data.PAGER);
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
-            $("#tipotra").val(data.data.DEFAULTDEPTID);
+            
+            $("#tipotra").val(tipotra);
             if (data.data.ATT == 0) {
                 $("#mmi").prop('checked', true);
             } else { $("#mmi").prop('checked', false); }
@@ -946,6 +951,8 @@ function editEmpleado(id) {
             alert('error');
         }
     });
+    console.log("saliendo    "+tipotra);
+   
     // cargar_departamentos();
 }
 
