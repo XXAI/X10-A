@@ -434,7 +434,7 @@ class ReporteTrimestralController extends Controller
         } 
         
         //return array("datos" => $empleados_trimestral);
-        $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
+        $tipo_nomina = Departamentos::where("id", "=",$tipo_trabajador)->first();
         return array("datos" => $lista_empleados_trimestral, "filtros" => $parametros, "trimestre"=> $parametros['trimestre'], "tipo_trabajador" => $tipo_nomina);
     }
     function dias_horario($arreglo)

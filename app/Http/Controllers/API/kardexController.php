@@ -337,7 +337,7 @@ class KardexController extends Controller
         }
         
         //$empleado->nombre_mes = $catalogo_meses;#[$parametros['mes']];
-        $tipo_nomina = Departamentos::where("DEPTID", "=",$tipo_trabajador)->first();
+        $tipo_nomina = Departamentos::where("id", "=",$tipo_trabajador)->first();
         return array("datos" => $empleados, "filtros" => $parametros, "nombre_mes"=> $catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
     }
     function dias_horario($arreglo)
