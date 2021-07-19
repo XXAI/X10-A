@@ -18,7 +18,7 @@ function cargar_catalogo()
            {
                  if(valor.DEPTID!=1)
                  {
-                        select.append("<option value='"+valor.DEPTID+"'>"+valor.DEPTNAME+"</option>");
+                        select.append("<option value='"+valor.id+"'>"+valor.descripcion+"</option>");
                  }
            });
             
