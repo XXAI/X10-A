@@ -64,7 +64,7 @@ class EmpleadoController extends Controller
          //CSSSA009162
         $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate();
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,28])->get();  
-        $departamentos = Departamentos::where("DEPTID","<>",1)->get();   
+        $departamentos = Departamentos::get();   
         $festivos = Festivos::get();   
         
         //dd($incidencias);
@@ -152,7 +152,7 @@ class EmpleadoController extends Controller
                     $registro->INLATE= $request->interino;
                     $registro->ZIP= 1;
                     $registro->FPHONE=$request->clues;
-                    $registro->DEFAULTDEPTID=$request->tipotra;            
+                    $registro->ur_id=$request->tipotra;            
                     $registro->MINZU=$request->area;   
                     $registro->save();
                     if ($request->code!=''){
@@ -283,7 +283,8 @@ class EmpleadoController extends Controller
             $registro->FPHONE=$request->clues;
             $registro->ATT=$request->mmi;
             $registro->INLATE= $request->interino;
-           $registro->DEFAULTDEPTID=$request->tipotra;            
+           //$registro->DEFAULTDEPTID=$request->tipotra;   
+           $registro->ur_id=$request->tipotra;          
             $registro->MINZU=$request->area;           
             $registro->save(); 
 

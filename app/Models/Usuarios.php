@@ -14,7 +14,7 @@ class Usuarios extends Model
 
     
     
-    protected $fillable = [ 'Badgenumber','Name','Gender','TITLE','PAGER','BIRTHDAY','HIREDDAY','street','CITY','STATE','ZIP','FPHONE','DEFAULTDEPTID','MINZU'];//,'ATT','INLATE','OUTEARLY','OVERTIME','SEP','HOLIDAY','MINZU','status'];
+    protected $fillable = [ 'Badgenumber','Name','Gender','TITLE','PAGER','BIRTHDAY','HIREDDAY','street','CITY','STATE','ZIP','FPHONE','ur_id','MINZU'];//,'ATT','INLATE','OUTEARLY','OVERTIME','SEP','HOLIDAY','MINZU','status'];
     public $timestamps = false;
 
 

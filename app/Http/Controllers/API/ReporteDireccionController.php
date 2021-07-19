@@ -140,7 +140,7 @@ class ReporteDireccionController extends Controller
         })
         
        ->where("carBrand", "=", $direccion)
-        ->orWhereNull("DEFAULTDEPTID")
+        ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
         

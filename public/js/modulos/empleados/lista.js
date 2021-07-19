@@ -238,7 +238,7 @@ function cargar_departamentos() {
         success: function(data) {
 
             $.each(data.departamentos, function(key, registro) {
-                $("#tipotra").append("<option value=" + registro.DEPTID + ">" + registro.DEPTNAME + "</option>");
+                $("#tipotra").append("<option value=" + registro.id + ">" + registro.descripcion + "</option>");
             });
         },
         error: function(data) {
@@ -921,7 +921,7 @@ function editEmpleado(id) {
         success: function(data) {
 
             cargar_horarios_empleado(data.data.horarios);
-            tipotra = data.data.DEFAULTDEPTID
+            tipotra = data.data.ur_id
                console.log("entranndo"+tipotra);
 
             $("#name").val(data.data.Name);

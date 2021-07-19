@@ -146,9 +146,9 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $tipo_trabajador)
+        ->where("ur_id", "=", $tipo_trabajador)
        //->where("carBrand", "=", $tipo_trabajador)
-        ->orWhereNull("DEFAULTDEPTID")
+        ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
         
@@ -538,7 +538,7 @@ class ReporteMensualController extends Controller
                     ->orWhere('TITLE','LIKE','%'.$parametros['nombre'].'%')
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
-        ->where("DEFAULTDEPTID", "=", $parametros['tipo_trabajador'])
+        ->where("ur_id", "=", $parametros['tipo_trabajador'])
 
         //->where("carBrand", "=", $parametros['tipo_trabajador'])
         //->where("USERID", "=","509")
