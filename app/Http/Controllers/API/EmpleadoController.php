@@ -15,6 +15,7 @@ use App\Models\Omisiones;
 use App\Models\DiasJustifica;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
+use App\Models\CluesUser;
 
 
 use App\Models\User;
@@ -35,12 +36,19 @@ class EmpleadoController extends Controller
         $name = $request->get('buscar');  
 
        
-
+        $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+        $arreglo_clues = [];
+        if(count($obtengoclues) > 0)
+        {
+            $arreglo_clues = $this->clues_users($obtengoclues);
+            
+        }  
+      //  dd($arreglo_clues);
         $idcap = Auth::id();         
     
-        $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados")->where('status', '=', 0);        
+        $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados")->where('status', '=', 0)->WHEREIN("FPHONE", $arreglo_clues);        
      
-        if ($idcap==2){
+       /*  if ($idcap==2){
            $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
         } 
 
@@ -50,7 +58,7 @@ class EmpleadoController extends Controller
          } 
          if ($idcap==14){
             $usuarios=$usuarios->where('FPHONE','=','CSSSA009162'); 
-         }
+         } */
          if($name !='')
          $usuarios=$usuarios->Where(function($query2)use($name){
             $query2->where("Name",'LIKE','%'.$name.'%')
@@ -353,5 +361,17 @@ class EmpleadoController extends Controller
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
             }
 
+    }
+
+
+    function clues_users($arreglo)
+    {
+        $arreglo_clues = array();
+        $arrprueba = [];
+        foreach ($arreglo as $key => $value) {
+            $arreglo_clues[] = $value->clues;
+           
+        }
+        return $arreglo_clues;//$arreglo_clues;
     }
 }

@@ -505,7 +505,7 @@ function guardar_empleado() {
         interino = 0;
     } else { interino = 1; }
     var city;
-    if (tipotra == 6)
+    if (tipotra == 1)
         city = "416";
     else
         city = street.substr(0, 3);
