@@ -705,23 +705,25 @@ class ReporteMensualController extends Controller
             }
             if($checada_salida == 0)
             {
-                foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
-                  
-                    $checada = new Carbon($dato_checada->CHECKTIME);
-              //      dd($checada);
-                    if($checada_salida == 0 )
-                    {
-                        
-                        if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
+                if(isset($checadas_empleado[$fecha_evaluar->format('Y-m-d')])){
+                    foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                    
+                        $checada = new Carbon($dato_checada->CHECKTIME);
+                
+                        if($checada_salida == 0 )
                         {
-                            $checada_salida = 1;
-                            if($calcular_salida == 1)
+                            
+                            if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                             {
-                                $minutos_salida = $checada->diffInMinutes($inicio_salida_fija->addMinutes(1));
+                                $checada_salida = 1;
+                                if($calcular_salida == 1)
+                                {
+                                    $minutos_salida = $checada->diffInMinutes($inicio_salida_fija->addMinutes(1));
+                                }
                             }
                         }
                     }
-                }
+                 }
             }
         }
 
