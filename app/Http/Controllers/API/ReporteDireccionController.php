@@ -124,9 +124,9 @@ class ReporteDireccionController extends Controller
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00');//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
-        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+        }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+        }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59')                   
             ->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')
                  ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00');    
@@ -157,16 +157,7 @@ class ReporteDireccionController extends Controller
             $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
             $omisiones          = $this->omisiones($data_empleado->omisiones);
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
-            //return response()->json(["usuarios" => $dias_otorgados]);
-            /*if($quincena == 1)
-            {
-                $i = 1;
-            }else if($quincena == 2)
-            {
-                $i = 16;
-            } */   
-
-            //return response()->json(["usuarios" => $i]);
+           
             $i = 1;
             for($i; $i<=$dias_mes; $i++)
             {

@@ -132,9 +132,9 @@ class ReporteMensualController extends Controller
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00');//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
-        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+        }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
+        }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
             $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59')                   
                    ->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')
                         ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00'); 
@@ -174,14 +174,14 @@ class ReporteMensualController extends Controller
             {
                 $i = 16;
             } */   
-
+            //dd( $checadas_empleado);
             //return response()->json(["usuarios" => $i]);
             $i = 1;
             for($i; $i<=$dias_mes; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
                 $fecha_evaluar->day = $i;
-            
+              //  dd($fecha_evaluar);
                 //if($fecha_evaluar->lessThanOrEqualTo($fecha_limite_actual))
                 if($fecha_evaluar->lessThan($fecha_limite_actual))
                 {
@@ -243,6 +243,7 @@ class ReporteMensualController extends Controller
                                     {
                                         if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
                                         {
+                                           
                                             foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
                                                 
                                                 $checada = new Carbon($dato_checada->CHECKTIME);
@@ -548,6 +549,7 @@ class ReporteMensualController extends Controller
         ->orderBy("carType", "DESC")
         //->limit(296)
         ->get();
+        
         return $empleados;
     }
 
@@ -686,7 +688,7 @@ class ReporteMensualController extends Controller
         {
             $checada_salida = 1;
         }
-
+       // dd($checadas_empleado[$fecha_evaluar->format('Y-m-d')]);
         if($diferencia_dias != 0)
         {
             $fecha_evaluar->addDays($diferencia_dias);
@@ -704,9 +706,12 @@ class ReporteMensualController extends Controller
             if($checada_salida == 0)
             {
                 foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                  
                     $checada = new Carbon($dato_checada->CHECKTIME);
+              //      dd($checada);
                     if($checada_salida == 0 )
                     {
+                        
                         if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                         {
                             $checada_salida = 1;
