@@ -50,6 +50,7 @@ use Illuminate\Http\Request;
     Route::get('/validaincidencia/{id}', 'API\DiasJustificaController@update');
     /* Cardex */
     Route::get('/cardex','API\CardexController@index');
+    Route::get('/logs','API\LogsController@obtenerLogs');
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */
 

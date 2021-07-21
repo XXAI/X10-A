@@ -129,7 +129,7 @@ class ReporteDireccionController extends Controller
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59')                   
             ->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')
-                 ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00');   
+                 ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00');    
         }])
         ->whereNull("state")
         //->WHERE("FPHONE", "=", 'CSSSA017213')
@@ -514,7 +514,10 @@ class ReporteDireccionController extends Controller
         }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
+            $query->where("ENDSPECDAY","<=", $fecha_fin)                   
+                   ->where("STARTSPECDAY", ">=", $fecha_inicio)
+                        ->orWhere("ENDSPECDAY", ">=", $fecha_inicio);   
+        
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
         ->whereNull("state")

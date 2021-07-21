@@ -12,4 +12,10 @@ class DiasOtorgados extends Model
     public function siglas(){
         return $this->hasOne('App\Models\Siglas', 'LeaveId', "DATEID");
     }
+
+    public function capturista(){
+        return $this->hasOne('App\Models\User', 'id', "captura_id");
+    }
+
+    
 }
