@@ -153,7 +153,7 @@
         <td class="centrado tamano">
             JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
             <br><br><br>
-            ING. JAVIER MORALES SOLÍS
+            ING. GABRIEL DE LA GUARDIA NAGANO
             <HR>
             NOMBRE Y FIRMA
             </td>
