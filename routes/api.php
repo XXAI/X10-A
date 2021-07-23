@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
     Route::get('/trimestral','API\ReporteTrimestralController@index');
     Route::get('/empleado','API\EmpleadoController@index');
     Route::post('/empleado/fetch','API\EmpleadoController@fetch');
+    Route::post('/buscacapturista','API\LogsController@buscacapturista');
     Route::post('/empleado/tipoincidencia','API\EmpleadoController@tipoincidencia');
 
 

@@ -124,7 +124,7 @@ function generar_reporte_dir()
       var quincena = $("#quincena").val();
 
       /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
-console.log("ando acaaaaa");
+
       
       win = window.open( './api/reporte-direccion?anio='+anio+"&mes="+mes+"&direccion="+direccion+"&nombre="+nombre+"&quincena="+quincena, '_blank');
 }
