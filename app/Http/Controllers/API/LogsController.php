@@ -33,17 +33,20 @@ class LogsController extends Controller
         $inicio = $request->inicio;
         $fin = $request->fin;
         $user = $request->get('user');
-       // dd($user);
-        $logs = DiasOtorgados::with("siglas","capturista")->whereNotNull("captura_id")->whereBetween("DATE",[$inicio,$fin]);
+        //dd($user);
+        $logs = DiasOtorgados::with("siglas","capturista","empleado")->whereNotNull("captura_id")->whereBetween("DATE",[$inicio,$fin]);
         $omisiones = Omisiones::with("capturista")->whereNotNull("MODIFYBY")->orderBy("DATE","DESC")->paginate();
         
 
-        if($user!=''){
-            $logs=$logs->where("captura_id",'=',$user);
-        }
-        
-      $logs= $logs->orderBy("DATE","DESC")->paginate();
-        return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+        if($user != 'NaN') {          
+          $logs=$logs->Where(function($query)use($user){
+          $query->where("captura_id",'=',$user);
+          }); 
+         }
+     
+      $logs= $logs->orderBy("DATE","DESC")->paginate(2000);
+       // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+        return array("logs" => $logs, "omision" => $omisiones);
     }
 
     public function buscacapturista(Request $request)
@@ -52,7 +55,7 @@ class LogsController extends Controller
        /*  if($request->get('bh'))
         {  */ 
         $bi = $request->get('bi');
-        $data_in = User::orderBy('nombre','ASC')->where("nombre",'LIKE','%'.$bi.'%')->get();          
+        $data_in = User::with("BaseUsers")->orderBy('nombre','ASC')->where("nombre",'LIKE','%'.$bi.'%')->get();          
         
       
       return response()->json($data_in);  

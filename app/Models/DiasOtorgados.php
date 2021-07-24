@@ -17,5 +17,9 @@ class DiasOtorgados extends Model
         return $this->hasOne('App\Models\User', 'id', "captura_id");
     }
 
+    public function empleado(){
+        return $this->hasOne('App\Models\Usuarios', 'USERID', "USERID");
+    }
+
     
 }

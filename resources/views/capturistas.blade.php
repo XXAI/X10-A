@@ -55,12 +55,14 @@
             <table class="table table-bordered table-faltas">
                 <thead>
                     <tr>
+                        <th>Num</th>
                         <th>Usuario</th>                        
                         <th style='text-align:center'>Incidencia</th>
                         <th style='text-align:center'>Inicio</th>
                         <th style='text-align:center'>Fin</th>
                         <th style='text-align:center'>Referencia</th>
                         <th style='text-align:center'>Fecha Captura</th>
+                        <th style='text-align:center'>ID-Nombre Empleado</th>
                         
                     </tr>
                     
