@@ -153,7 +153,7 @@ switch($empleados['trimestre'])
                     </tr>
                    <tr>
                     <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: OFICINA CENTRAL</td>
-                    <td colspan='2' class='datos'>TIPO DE TRABAJADOR: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</td>
+                    <td colspan='2' class='datos'>TIPO DE TRABAJADOR: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</td>
                    </tr>
                 </tbody>
             </table>
