@@ -188,7 +188,7 @@ switch($empleados['trimestre'])
             
             $relleno = "1100000";
             $numero = $config['no_documento'];
-            switch ($empleados['tipo_trabajador']['DEPTID']) {
+            switch ($empleados['tipo_trabajador']['ur_id']) {
                 /*case 6:
                 case 11:
                 case 13:
