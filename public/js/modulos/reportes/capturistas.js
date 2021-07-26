@@ -23,7 +23,8 @@ function cargar_usuarios() {
         },
 
         getValue: function(element) {
-            return element.nombre;
+            return (element.nombre + " " + element.apellido_paterno + " " + element.apellido_materno);
+
 
         },
         list: {
@@ -39,8 +40,9 @@ function cargar_usuarios() {
             data: {
                 dataType: "json"
             }
-        },
 
+        },
+        //console.log(data);
         preparePostData: function(data) {
             data.bi = $("#nombre").val();
             return data;

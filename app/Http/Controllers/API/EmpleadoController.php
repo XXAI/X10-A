@@ -70,7 +70,7 @@ class EmpleadoController extends Controller
 
  //DB::enableQueryLog(); 
          //CSSSA009162
-        $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate();
+        $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate(200);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,28])->get();  
         $departamentos = Departamentos::get();   
         $festivos = Festivos::get();   

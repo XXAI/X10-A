@@ -10,6 +10,7 @@ use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;;
 use App\Models\DiasOtorgados;
 use App\Models\Omisiones;
 use App\Models\User;
+use App\Models\BaseUser;
 
 use Illuminate\Support\Facades\Input;
 //use \Hash, \Response;
@@ -54,9 +55,18 @@ class LogsController extends Controller
         
        /*  if($request->get('bh'))
         {  */ 
-        $bi = $request->get('bi');
-        $data_in = User::with("BaseUsers")->orderBy('nombre','ASC')->where("nombre",'LIKE','%'.$bi.'%')->get();          
+        $iduser = auth()->user()['id'];
+        $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
+        $namedb = $buscaBase->base;
         
+        $bi = $request->get('bi');
+       // $data_in = User::with("BaseUsers")->orderBy('nombre','ASC')->where("nombre",'LIKE','%'.$bi.'%')->get(); 
+        
+        $data_in = DB::table('users')
+        ->join("users_bases", "users_bases.user_id", "=","users.id")
+        ->where("nombre",'LIKE','%'.$bi.'%')->where("base","=",$namedb)->where("users.id",'!=',1)->get(); 
+        
+        //dd($data_in); ->where("base","=",$namedb)
       
       return response()->json($data_in);  
         
