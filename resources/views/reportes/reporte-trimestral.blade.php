@@ -136,8 +136,26 @@ switch($empleados['trimestre'])
                            
                         </td>
                         <td>
+                        <?php 
+                            
+                            $alias="";
+                             switch ($empleados['tipo_trabajador']['id']) {
+                                /*case 6:
+                                case 11:*/
+                                case 3:
+                                     $alias = "PEV";
+                                break;
+                                case 4:
+                                    $alias = "CAR";
+                                break;
+                                default:
+                                    $alias = "GOV";
+                                break;
+                                
+                            }  
+                        ?>
                             <div class="datos">
-                            LOTE: {{ $usuario['alias'] }}{{ str_pad($config['lote'], 4, "0", STR_PAD_LEFT)}}
+                            LOTE: {{ $alias }}{{ str_pad($config['lote'], 4, "0", STR_PAD_LEFT)}}
                             
                             <br>
                             CÓDIGO MOVIMIENTO: 9204<br>
