@@ -193,7 +193,7 @@ switch($empleados['trimestre'])
                 case 11:
                 case 13:
                 break;*/
-                case 12:
+                case 3:
                     $relleno = "3300000";
                 break;
                 default:
