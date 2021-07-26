@@ -263,7 +263,7 @@ switch($empleados['trimestre'])
     <script type="text/php">
     if (isset($pdf))
     {
-        $iniciales = '{{ $usuario['alias'] }}';
+        $iniciales = '{{ $alias }}';
         
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
