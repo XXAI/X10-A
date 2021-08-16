@@ -8,7 +8,7 @@ use Closure;
 use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\BaseUser;
-
+use App\Models\CatalogoBases;
 use Illuminate\Support\Facades\Config;
 
 
@@ -24,10 +24,15 @@ class CheckDataBase
     public function handle($request, Closure $next)
     {
       if(isset(auth()->user()['id'])){
+
+
         
         $iduser = auth()->user()['id'];
-        $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
-        $namedb = $buscaBase->base;
+        $idbase = auth()->user()['base_id'];
+       // dd($idbase);
+       // $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
+        $buscaBase = CatalogoBases::where("id","=",$idbase)->first();
+        $namedb = $buscaBase->descripcion;
       
     }
     

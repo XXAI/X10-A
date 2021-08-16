@@ -25,7 +25,7 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function() {
 
     $("#form-hora").hide();
-    //limpia_empleados();
+    cargar_catalogo_base();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
         if (e.which == 13) {
@@ -969,7 +969,29 @@ function filtrar_checadas() {
 }
 
 
-
+function cargar_catalogo_base()
+{
+      var select = $("#cat_base");
+      
+      select.html("");
+      jQuery.ajax({
+            data: {'buscar': ""},
+            type: "GET",
+            dataType: "json",
+            url: './api/cat-base',
+      }).done(function( data, textStatus, jqXHR ) {
+            $.each(data.catalogo, function(index, valor)
+           {
+                
+                        select.append("<option value='"+valor.id+"'>"+valor.alias+"</option>");
+                  
+                
+           });
+            
+      }).fail(function( jqXHR, textStatus, errorThrown ) {
+            
+      });
+}
 
 
 

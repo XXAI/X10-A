@@ -16,6 +16,7 @@ use App\Models\DiasJustifica;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
 use App\Models\CluesUser;
+use App\Models\CatalogoBases;
 
 
 use App\Models\User;
@@ -92,6 +93,11 @@ class EmpleadoController extends Controller
       return response()->json($data);  
         
         //}
+    }
+    public function catalogo_bases(Request $request)
+    {
+        $catalogobases = CatalogoBases::all();
+        return response()->json(["catalogo" => $catalogobases]);
     }
 
 

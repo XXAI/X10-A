@@ -37,13 +37,14 @@ use Illuminate\Http\Request;
 
 
     Route::get('/catalogo','API\ReporteMensualController@catalogo');
+    
     Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
     Route::get('/reporte-direccion','API\ReporteDireccionController@reporteDireccion');
     Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
     Route::get('/reporte-trimestral','API\ReporteTrimestralController@reporteTrimestral');
     Route::get('/imprimirTarjeta','API\reporteController@imprimirTarjeta');
 
-
+    Route::get('/cat-base','API\EmpleadoController@catalogo_bases');
     Route::get('/buscaempleado/{id}', 'API\EmpleadoController@show');    
     Route::get('/omisiones', 'API\EmpleadoController@omisiones');   
     Route::get('/buscaincidencia/{id}', 'API\IncidenciaController@show');
