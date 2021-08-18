@@ -25,6 +25,7 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function() {
 
     $("#form-hora").hide();
+    superuser();
     cargar_catalogo_base();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
@@ -48,7 +49,7 @@ $(document).ready(function() {
 
     $("#agregar_empleado").on('hidden.bs.modal', function() {
         limpia_empleados();
-      //  $("#tipotra").empty();
+        //  $("#tipotra").empty();
     });
     // console.log(idcap);
 
@@ -57,6 +58,14 @@ $(document).ready(function() {
 
 });
 
+function superuser() {
+    var superuser = $("#super_user").val();
+    if (superuser == 1) {
+        document.getElementById('cat_base').disabled = false;
+    } else {
+        document.getElementById('cat_base').disabled = true;
+    }
+}
 
 function mostrar_form_hora() {
     $("#form-hora").show();
@@ -171,7 +180,7 @@ function cargar_incidencias() {
             onSelectItemEvent: function() {
                 var selectedItemValue = $("#incidencia").getSelectedItemData().LeaveId;
                 $("#code_in").val(selectedItemValue).trigger("change");
-                
+
             }
         },
         ajaxSettings: {
@@ -184,7 +193,7 @@ function cargar_incidencias() {
 
         preparePostData: function(data) {
             data.bi = $("#incidencia").val();
-            
+
             return data;
         },
 
@@ -227,9 +236,9 @@ function cargar_departamentos() {
     //limpia_empleados();
     //alert($("#tipotra").val());
 
-    
+
     //$("#tipotra").empty();
-   // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
+    // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
     $.ajax({
         type: "GET",
         url: './api/empleado',
@@ -261,7 +270,7 @@ function cargar_horarios_empleado(horarios) {
         var campo3 = $("<td>" + moment(value.ENDDATE).format('YYYY-MM-DD') + "</td>");
         //]
         var campo4 = $("<a type='button' class='btn btn-link'' onclick='modifica_horario(\"" + value.NUM_OF_RUN_ID + "\",\"" + value.STARTDATE + "\",\"" + value.ENDDATE + "\",\"" + value.nombre_horario[0].NAME + "\", \"" + value.id + "\")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Horario'></i></a><a type='button' class='btn btn-link'' onclick='eliminar_hora_emp(\"" + value.id + "\")'><i class='fa fa-trash' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Horario'></i></a>");
-        
+
         // moment(data.data.HIREDDAY).format('YYYY-MM-DD'));
 
         linea.append(campo1, campo2, campo3, campo4);
@@ -663,10 +672,10 @@ function obtener_omisiones() {
                 $('#btn_save_entrasal').attr('disabled', true);
                 mostrarMensaje2(mensaje);
             }
-           
 
 
-           
+
+
 
         },
         error: function(data) {
@@ -747,7 +756,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        console.log("aca",data);
+        console.log("aca", data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
@@ -780,17 +789,17 @@ function cargar_datos_checadas(urlchecadas) {
     });
 }
 
-function  incluir_leyenda(){
+function incluir_leyenda() {
 
     if ($("#leyenda").prop('checked')) {
         leyenda = 1;
-    }else { 
+    } else {
         leyenda = 0;
     }
 
     console.log("val", leyenda);
 
-    
+
 }
 
 function sel_inci(valor) {
@@ -922,7 +931,7 @@ function editEmpleado(id) {
 
             cargar_horarios_empleado(data.data.horarios);
             tipotra = data.data.ur_id
-               console.log("entranndo"+tipotra);
+            console.log("entranndo" + tipotra);
 
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
@@ -931,7 +940,7 @@ function editEmpleado(id) {
             $("#codigo").val(data.data.PAGER);
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
-            
+
             $("#tipotra").val(tipotra);
             if (data.data.ATT == 0) {
                 $("#mmi").prop('checked', true);
@@ -951,8 +960,8 @@ function editEmpleado(id) {
             alert('error');
         }
     });
-    console.log("saliendo    "+tipotra);
-   
+    console.log("saliendo    " + tipotra);
+
     // cargar_departamentos();
 }
 
@@ -969,28 +978,26 @@ function filtrar_checadas() {
 }
 
 
-function cargar_catalogo_base()
-{
-      var select = $("#cat_base");
-      
-      select.html("");
-      jQuery.ajax({
-            data: {'buscar': ""},
-            type: "GET",
-            dataType: "json",
-            url: './api/cat-base',
-      }).done(function( data, textStatus, jqXHR ) {
-            $.each(data.catalogo, function(index, valor)
-           {
-                
-                        select.append("<option value='"+valor.id+"'>"+valor.alias+"</option>");
-                  
-                
-           });
-            
-      }).fail(function( jqXHR, textStatus, errorThrown ) {
-            
-      });
+function cargar_catalogo_base() {
+    var select = $("#cat_base");
+
+    select.html("");
+    jQuery.ajax({
+        data: { 'buscar': "" },
+        type: "GET",
+        dataType: "json",
+        url: './api/cat-base',
+    }).done(function(data, textStatus, jqXHR) {
+        $.each(data.catalogo, function(index, valor) {
+
+            select.append("<option value='" + valor.id + "'>" + valor.alias + "</option>");
+
+
+        });
+
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    });
 }
 
 
@@ -1454,9 +1461,9 @@ function eliminar_in_emp(id) {
 }
 
 function eliminar_hora_emp(id) {
-//alert("Estamos trabajando......");
+    //alert("Estamos trabajando......");
 
-   swal({
+    swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrá recuperar!",
             icon: "warning",
@@ -1465,29 +1472,29 @@ function eliminar_hora_emp(id) {
         })
         .then((willDelete) => {
             if (willDelete) {
-            
+
                 $.ajax({
                     type: 'DELETE',
                     url: "api/deletehora-emp/" + id + "/",
-                   // "api/edita-empleado/" + idempleado;
-                    
+                    // "api/edita-empleado/" + idempleado;
+
                     success: function(data) {
                         swal("¡El horario ha sido eliminado!", {
                             icon: "success",
                         });
                         editEmpleado(idempleado);
-                        
+
 
                     }
                 });
-        
+
 
 
             } else {
                 console.log(url);
                 swal("El horario no se ha eliminado");
             }
-        }); 
- 
+        });
+
 
 }

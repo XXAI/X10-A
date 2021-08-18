@@ -518,7 +518,7 @@ class reporteController extends Controller
                                             $impr="Licencia Sin Goce ";                                    
                                             break;
                                         case 21:
-                                            $impr="Licencia Sin Goce ";                                    
+                                            $impr="Licencia Con Goce ";                                    
                                             break;
                                         case 22:
                                             $impr="Pago de Guardia ";                                    

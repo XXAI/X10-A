@@ -13,6 +13,7 @@
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <input type="hidden" id="id" name="id">
     <input type="hidden" id="id_user" name="id_user" value="{{ auth()->user()->id }}">
+    <input type="hidden" id="super_user" name="super_user" value="{{ auth()->user()->is_superuser }}">
         <div class="table-responsive">           
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead>                  
