@@ -149,7 +149,7 @@ class ReporteMensualController extends Controller
                     ->orWhere('Badgenumber', $parametros['nombre']);
         })
         ->where("ur_id", "=", $tipo_trabajador)
-       //->where("carBrand", "=", $tipo_trabajador)
+       //->where("userid", "=", "28353")
         ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
@@ -545,7 +545,7 @@ class ReporteMensualController extends Controller
         ->where("ur_id", "=", $parametros['tipo_trabajador'])
 
         //->where("carBrand", "=", $parametros['tipo_trabajador'])
-        //->where("USERID", "=","509")
+      //  ->where("USERID", "=","28353")
         ->orderBy("carType", "DESC")
         //->limit(296)
         ->get();

@@ -82,6 +82,7 @@
 
             
         }
+        
     </style>
 </head>
 <?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO"); ?>
@@ -103,7 +104,7 @@
                             UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br> OFICINA CENTRAL</b>
                             <br><br>
                             <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
-                            <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                            <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</b>
                             </div>-->
                            
                         </td>
@@ -114,35 +115,56 @@
                     
                 </tbody>
             </table>
+            <?php 
+            
+            $relleno = "1100000";
+            $tipotra="";
+           
+            switch ($empleados['tipo_trabajador']['id']) {
+                case 1 :
+                 $relleno = "1102839";  
+                 $tipotra="GOV0008"; 
+                 break;
+                 case 2 :
+                 $relleno = "1102839";  
+                 $tipotra="GOV0008"; 
+                 break;
+                case 3:
+                    $relleno = "3300000";
+                    $tipotra="PEV0008";
+                break;
+
+                case 4 :
+                 $relleno = "1102839";  
+                 $tipotra="CAR0008"; 
+                 break;
+                default:
+                    
+                
+                
+            }
+        ?>
             <table width="100%">
                 <tbody>
                     
                     <tr>
                         <td style='font-size:9pt;' colspan='2'>
-                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</b>
                            
                         </td>
-                        <td  style='font-size:9pt;text-align:left;' width="100px">
-                            NO. LOTE:
-                            @switch($empleados['tipo_trabajador']['DEPTID'])
-                                @case(6)
-                                @case(11)
-                                    GOV0008
-                                @break
-                                @case(13)
-                                    CAR0008
-                                @break
-                                @case(12)
-                                    PEV0008
-                                @break
-                            @endswitch
-                            <br>
-                            QNA. APLICACIÓN:<br>
-                            MES: {{ $empleados['nombre_mes'] }}<br>
-                            <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table>
-                            AÑO: {{ $empleados['filtros']['anio'] }}<br>
+                        <td  style='font-size:9pt;text-align:left;' width="100px" >
+                        <p>
+                            NO. LOTE: {{$tipotra}}
                             
+                            <br>
+                            QNA. APLICACIÓN: 18/2021<br>
+                            MES: {{ $empleados['nombre_mes'] }} AÑO: {{ $empleados['filtros']['anio'] }}<br>
+                            {{-- <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table> --}}
+                            
+                        </p>
                         </td>
+                        
+                            
                     </tr>
                 </tbody>
             </table>
@@ -173,7 +195,11 @@
             </td>
         </tr>
     </table> 
+
+    <br><br><br>
     <table width="100%" cellspacing="0" class="fuente">
+      
+                            
         <thead class='cabecera'>
             <tr>
                 <th rowspan="2" class='encabezados' width="100px"># DOCUMENTO</th>
@@ -195,13 +221,15 @@
                 
             </tr> 
         </thead>
+        
+            
         <tbody class='datos'>
             <?php $numero = 0; ?>
             @foreach ($empleados['datos'] as $index_empleado => $empleado )
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -225,7 +253,7 @@
                 @if($empleados['filtros']['quincena'] == 2)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -257,15 +285,15 @@
     if (isset($pdf))
     {
         $iniciales = "";
-        @switch($empleados['tipo_trabajador']['DEPTID'])
-            @case(6)
-            @case(11)
+        @switch($empleados['tipo_trabajador']['id'])
+            @case(1)
+            @case(2)
                 $iniciales = "GOV";
             @break
-            @case(13)
+            @case(4)
                 $iniciales = "CAR";
             @break
-            @case(12)
+            @case(3)
                 $iniciales = "PEV";
             @break
         @endswitch

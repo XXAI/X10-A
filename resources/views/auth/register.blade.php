@@ -91,6 +91,8 @@
                                     <option value="villaflores">Villaflores</option>
                                     </select>
                                 </div>
+                                <select id='cat_base' class='select form-control'>
+                                </select>
                             </div>
                             
                         </div> 
