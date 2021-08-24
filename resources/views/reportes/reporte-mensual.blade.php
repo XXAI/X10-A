@@ -117,16 +117,16 @@
             </table>
             <?php 
             
-            $relleno = "1100000";
+            $relleno = 1100000;
             $tipotra="";
            
             switch ($empleados['tipo_trabajador']['id']) {
                 case 1 :
-                 $relleno = "1102839";  
+                 $relleno = $relleno+2839;  
                  $tipotra="GOV0008"; 
                  break;
                  case 2 :
-                 $relleno = "1102839";  
+                 $relleno = $relleno+2849; 
                  $tipotra="GOV0008"; 
                  break;
                 case 3:
@@ -135,7 +135,7 @@
                 break;
 
                 case 4 :
-                 $relleno = "1102839";  
+                $relleno = $relleno+2853;  
                  $tipotra="CAR0008"; 
                  break;
                 default:
@@ -229,7 +229,8 @@
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $relleno+$numero }} </td>
+                           {{--   <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>  --}}
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -253,7 +254,8 @@
                 @if($empleados['filtros']['quincena'] == 2)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) <= 4 && $empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 0)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $relleno+$numero }} </td>
+                           
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
