@@ -119,7 +119,7 @@
             
             $relleno = 1100000;
             $tipotra="";
-            //echo $empleados['tipo_trabajador']['id'];
+            echo $empleados['tipo_trabajador']['id'];
             switch ($empleados['tipo_trabajador']['id']) {
                 case 1 :
                  $relleno = $relleno+2839;  
