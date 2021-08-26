@@ -119,14 +119,14 @@
             
             $relleno = 1100000;
             $tipotra="";
-           
+            echo $empleados['tipo_trabajador']['id'];
             switch ($empleados['tipo_trabajador']['id']) {
                 case 1 :
                  $relleno = $relleno+2839;  
                  $tipotra="GOV0008"; 
                  break;
                  case 2 :
-                 $relleno = $relleno+2849; 
+                 $relleno = $relleno+2839; 
                  $tipotra="GOV0008"; 
                  break;
                 case 3:
@@ -135,8 +135,8 @@
                 break;
 
                 case 4 :
-                $relleno = $relleno+2853;  
-                 $tipotra="CAR0008"; 
+                $relleno = $relleno+211;  
+                 $tipotra="CAR0018"; 
                  break;
                 default:
                     
