@@ -17,6 +17,8 @@ use App\Models\Horario;
 use App\Models\TiposIncidencia;
 use App\Models\CluesUser;
 use App\Models\CatalogoBases;
+use App\Models\EmpleadoBase;
+
 
 
 use App\Models\User;
@@ -35,6 +37,22 @@ class EmpleadoController extends Controller
 
       
         $name = $request->get('buscar');  
+       
+        if(auth()->user()['is_superuser']==1){
+
+            $msg="hola soy super usuario";
+            
+             $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
+            //dd($buscaBase);
+          /*  $namedb=$buscaBase->base;
+            \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
+            $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema.  */
+        }else{
+            $msg="hola soy mortal";
+            /* $conexion = DB::connection('dinamica'); */
+          //  dd($msg);
+        }
+     
 
        
         $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
@@ -143,7 +161,7 @@ class EmpleadoController extends Controller
 
    
        // if($request->ajax()){
-       
+                $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
            
                 $max=Usuarios::max('USERID');
                 $maxid=Usuarios::select('Badgenumber as num_max')
