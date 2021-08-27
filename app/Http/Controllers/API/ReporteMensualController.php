@@ -75,12 +75,13 @@ class ReporteMensualController extends Controller
         //return response()->json(["usuarios" => $parametros]);
         if(count($parametros) > 0)
         {
-            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
+            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "" && $parametros['documento'] != "")
             {
                 $anio = $parametros['anio'];
                 $mes = $parametros['mes'];
                 $tipo_trabajador = $parametros['tipo_trabajador'];
                 $nombre = $parametros['nombre'];
+                $documento = $parametros['documento'];
                 //$quincena = $parametros['quincena'];
             }
         }
@@ -770,12 +771,13 @@ class ReporteMensualController extends Controller
         $arreglo_resultado = Array();
         if(count($parametros) > 0)
         {
-            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "")
+            if($parametros['anio'] != "" && $parametros['mes']!="" && $parametros['tipo_trabajador'] != "" && $parametros['documento'] != "")
             {
                 $anio = $parametros['anio'];
                 $mes = $parametros['mes'];
                 $tipo_trabajador = $parametros['tipo_trabajador'];
                 $nombre = $parametros['nombre'];
+                $documento =  $parametros['documento'];
             }
         }
         

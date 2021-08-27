@@ -45,7 +45,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="form-group">
                         <label for="exampleInputEmail1">ID, Nombre, RFC</label>
                         <input type='text' class='form-control' name='nombre' id='nombre'>
@@ -65,6 +65,12 @@
                         <label for="exampleInputEmail1">Tipo Trabajador</label>
                         <select id='tipo_trabajador' class='select form-control'>
                         </select>
+                    </div>    
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">No Documento</label>
+                        <input type='text' class='form-control' name='documento' id='documento'>
                     </div>    
                 </div>
                 <div class="col-sm-2">

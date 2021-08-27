@@ -85,7 +85,41 @@
     </style>
 </head>
 <?php $letras = array('', "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE", "DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS"); ?>
-<?php //print_r($empleados['datos']); ?>
+<?php 
+            
+            $relleno = 1100000;
+            $tipotra="";
+            //echo $empleados['tipo_trabajador']['id'];
+            switch ($empleados['tipo_trabajador']['id']) {
+                case 1 :
+                $relleno = $relleno+$documento;  
+                $tipotra="GOV0018"; 
+                break;
+                case 2 :
+                $relleno = $relleno+$documento; 
+                $tipotra="GOV0018"; 
+                break;
+               case 3:
+                   $relleno = "3300000";
+                   $relleno = $relleno+$documento; 
+                   $tipotra="PEV0008";
+               break;
+
+               case 4 :
+               $relleno = $relleno+$documento;  
+                $tipotra="CAR0018"; 
+                break;
+                case 5 :
+               $relleno = $relleno+$documento;  
+                $tipotra="CON0018"; 
+                break;
+               default:
+                    
+                
+                
+            }
+        ?>
+
 <body>
     <header>
         <div class="fuente">
@@ -113,36 +147,30 @@
                     </tr>
                     
                 </tbody>
+
             </table>
             <table width="100%">
                 <tbody>
                     
-                    <tr>
-                        <td style='font-size:9pt; width: 1000px;' colspan='2'>
-                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['DEPTNAME']) }}</b>
+                <tr>
+                        <td style='font-size:9pt;' colspan='2'>
+                        <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</b>
                            
                         </td>
-                        <td  style='font-size:9pt;text-align:left'>
-                            NO. LOTE:
-                            @switch($empleados['tipo_trabajador']['DEPTID'])
-                                @case(6)
-                                @case(11)
-                                    GOV0008
-                                @break
-                                @case(13)
-                                    CAR0008
-                                @break
-                                @case(12)
-                                    PEV0008
-                                @break
-                            @endswitch
-                            <br>
-                            QNA. APLICACIÓN:<br>
-                            MES: {{ $empleados['nombre_mes'] }}<br>
-                            <!--table width="100%"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table-->
-                            AÑO: {{ $empleados['filtros']['anio'] }}<br>
+                        <td  style='font-size:9pt;text-align:left;' width="100px" >
+                        <p>
+                            NO. LOTE: {{$tipotra}}
                             
+                            <br>
+                            QNA. APLICACIÓN: 18/2021<br>
+                            MES: {{ $empleados['nombre_mes'] }} <br>
+                            AÑO: {{ $empleados['filtros']['anio'] }}<br>
+                            {{-- <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table> --}}
+                            
+                        </p>
                         </td>
+                        
+                            
                     </tr>
                 </tbody>
             </table>
