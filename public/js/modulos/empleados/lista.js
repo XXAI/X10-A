@@ -756,7 +756,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        console.log("aca", data);
+        // console.log("aca", data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
@@ -931,7 +931,7 @@ function editEmpleado(id) {
 
             cargar_horarios_empleado(data.data.horarios);
             tipotra = data.data.ur_id
-            console.log("entranndo" + tipotra);
+                //console.log("entranndo" + tipotra);
 
             $("#name").val(data.data.Name);
             $("#rfc").val(data.data.TITLE);
@@ -960,7 +960,7 @@ function editEmpleado(id) {
             alert('error');
         }
     });
-    console.log("saliendo    " + tipotra);
+    // console.log("saliendo    " + tipotra);
 
     // cargar_departamentos();
 }

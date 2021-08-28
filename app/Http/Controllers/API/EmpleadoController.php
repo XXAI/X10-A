@@ -18,6 +18,7 @@ use App\Models\TiposIncidencia;
 use App\Models\CluesUser;
 use App\Models\CatalogoBases;
 use App\Models\EmpleadoBase;
+use App\Models\Edificios;
 
 
 
@@ -91,11 +92,12 @@ class EmpleadoController extends Controller
          //CSSSA009162
         $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate(200);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,28])->get();  
-        $departamentos = Departamentos::get();   
+        $departamentos = Departamentos::get();  
+        $edificios = Edificios::get();   
         $festivos = Festivos::get();   
         
         //dd($incidencias);
-        return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos,"festivos" => $festivos]); 
+        return response()->json(["usuarios" => $usuarios,"incidencias" => $incidencias,"departamentos" => $departamentos,"festivos" => $festivos,"edificios" => $edificios]); 
       // dd(DB::getQueryLog());
     }
 
@@ -162,7 +164,8 @@ class EmpleadoController extends Controller
    
        // if($request->ajax()){
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
-           
+                $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
+                dd($edificio);
                 $max=Usuarios::max('USERID');
                 $maxid=Usuarios::select('Badgenumber as num_max')
                 
@@ -175,6 +178,7 @@ class EmpleadoController extends Controller
                     $registro->Gender = $request->sexo;
                     $registro->TITLE = $request->rf;        
                     $registro->PAGER = $request->codigo;
+                    $registro->DEFAULTDEPTID = $edificio;
                     $registro->BIRTHDAY = $request->fecnac;
                     $registro->HIREDDAY=$request->fechaing;
                     $registro->street=$request->street;
@@ -186,7 +190,7 @@ class EmpleadoController extends Controller
                     $registro->FPHONE=$request->clues;
                     $registro->ur_id=$request->tipotra;            
                     $registro->MINZU=$request->area;   
-                    $registro->save();
+                   // $registro->save();
                     if ($request->code!=''){
                         
                         $id_user=Usuarios::max('USERID');       
@@ -197,7 +201,7 @@ class EmpleadoController extends Controller
                         $user_hora->ENDDATE=$request->fin_fec;
                         $user_hora->ISNOTOF_RUN=0;
                         $user_hora->ORDER_RUN=0;
-                        $user_hora->save();
+                       // $user_hora->save();
                         }
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }
