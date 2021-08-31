@@ -34,7 +34,7 @@ class RegisterController extends Controller
             $registro->apellido_paterno = $request->apellido_paterno;
             $registro->apellido_materno = $request->apellido_materno; 
            $registro->password = Hash::make($request->password);
-            $registro->base_id=$request->cat_base;
+            $registro->base_id=$request->base;
             $registro->email = $request->email;
             $registro->alias = "bsx";        
             $registro->save();

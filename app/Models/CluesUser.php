@@ -8,5 +8,5 @@ class CluesUser extends Model
 {
     
     protected $table = "users_clues";
-
+    public $timestamps = false;
 }

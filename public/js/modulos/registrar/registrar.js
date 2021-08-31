@@ -15,7 +15,7 @@ function register_user() {
     var password = $("#password").val();
     var base = $("#cat_base").val();
     var clues = $("#clues").val();
-    console.log(name + apellido_paterno + apellido_materno + email + password);
+    console.log(base);
     $.ajax({
         type: 'POST',
         url: 'api/registra-usuario',

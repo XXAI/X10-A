@@ -8,4 +8,5 @@ class CatalogoBases extends Model
 {
     
     protected $table = "catalogo_bases";
+    public $timestamps = false;
 }
