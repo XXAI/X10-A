@@ -165,7 +165,7 @@ class EmpleadoController extends Controller
        // if($request->ajax()){
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
-                dd($edificio);
+               // dd($edificio);
                 $max=Usuarios::max('USERID');
                 $maxid=Usuarios::select('Badgenumber as num_max')
                 
@@ -190,7 +190,7 @@ class EmpleadoController extends Controller
                     $registro->FPHONE=$request->clues;
                     $registro->ur_id=$request->tipotra;            
                     $registro->MINZU=$request->area;   
-                   // $registro->save();
+                   $registro->save();
                     if ($request->code!=''){
                         
                         $id_user=Usuarios::max('USERID');       
@@ -201,7 +201,7 @@ class EmpleadoController extends Controller
                         $user_hora->ENDDATE=$request->fin_fec;
                         $user_hora->ISNOTOF_RUN=0;
                         $user_hora->ORDER_RUN=0;
-                       // $user_hora->save();
+                       $user_hora->save();
                         }
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }

@@ -83,19 +83,23 @@
                             <div class="col-md-6" >
                                 <div class="form-group">
                                     <label for="base"  class="col-sm-12 col-form-label">Base</label>
-                                    <select class="form-control" id="base" required>
-                                    <option value="">Seleccione la Base a la cual se conectara</option>
-                                    <option value="ZKAccess">Oficina Central</option>
-                                    <option value="gomezmaza">Gomez Maza</option>
-                                    <option value="bancodesangre">Banco de sangre</option>
-                                    <option value="villaflores">Villaflores</option>
-                                    </select>
-                                </div>
+                                    
                                 <select id='cat_base' class='select form-control'>
                                 </select>
+                                </div>
                             </div>
+                            <div class="col-md-6" >
+                                <div class="form-group">
+                                    <label for="base"  class="col-sm-12 col-form-label">Clues</label>                                    
+                                    <input id="clues" type="text" class="form-control @error('clues') is-invalid @enderror" name="clues" value="{{ old('clues') }}" required autocomplete="clues" autofocus>
+                                    @error('clues')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             
-                        </div> 
+                            </div> 
                                                 
                            <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="btnregister" onclick="register_user()">Guardar</button>
