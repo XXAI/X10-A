@@ -784,7 +784,7 @@ function cargar_datos_checadas(urlchecadas) {
     }).fail(function(jqXHR, textStatus, errorThrown) {
         if (console && console.log) {
 
-            alert("Tiene detalles con su horario, Acuda al area de control de Asistencias" + " " + textStatus);
+            alert("No se cargo la lista de asistencia  " + textStatus);
         }
     });
 }
