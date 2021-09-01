@@ -95,7 +95,7 @@
                 <tbody>
                     <tr>
                         <td width="100px">
-                            <img src='images/salud.png' width="100px">
+                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/logo_salud_federal.png' width="100px">
                         </td>
                         <td>
                             <div class="centrado datos">
@@ -109,7 +109,7 @@
                            
                         </td>
                         <td width="100px">
-                            <img src='images/chiapas.png' width="100px">
+                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/logo_salud_chiapas.png' width="100px">
                         </td>
                     </tr>
                     
