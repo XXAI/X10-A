@@ -80,7 +80,7 @@ class CardexController extends Controller
         //return response()->json(["usuarios" => $datos]);                    
         $pdf = PDF::loadView('reportes//reporte-cardex', ['empleados' => $empleados]);
         $pdf->setPaper('LETTER', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true ,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Cardex.pdf');
     }
 
