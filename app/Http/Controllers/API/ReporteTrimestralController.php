@@ -46,7 +46,7 @@ class ReporteTrimestralController extends Controller
         //return $asistencia;
         $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
         $pdf->setPaper('LEGAL', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true ,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Trimestral.pdf');
     }
 

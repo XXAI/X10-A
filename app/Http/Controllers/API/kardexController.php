@@ -30,7 +30,7 @@ class KardexController extends Controller
         $asistencia = $this->claseAsistencia($request);
         $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true ,'isRemoteEnabled' => true]);
         //return make::view('reportes\\reporte-mensual', ['empleados' => $asistencia]);
         //return View::make('reportes\\reporte-mensual', ['empleados' => $asistencia]);
         return $pdf->stream('Reporte-Mensual.pdf');

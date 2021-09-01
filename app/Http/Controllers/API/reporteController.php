@@ -40,7 +40,7 @@ class reporteController extends Controller
         $pdf = PDF::loadView('empleados//tarjeta', ['asistencia' => $asistencia, 'leyenda' => $parametros['leyenda'], 'hoy' => $diaActual]);
         //$pdf = PDF::loadView('empleados//tarjeta', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
         $pdf->setPaper('letter', 'portrait');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true ,'isRemoteEnabled' => true]);
         
         return $pdf->stream('reporte-asistencia.pdf');
     }

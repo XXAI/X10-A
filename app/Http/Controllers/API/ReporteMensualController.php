@@ -38,7 +38,7 @@ class ReporteMensualController extends Controller
         //return $asistencia;
         $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Mensual.pdf');
     }
 
@@ -48,7 +48,7 @@ class ReporteMensualController extends Controller
         $asistencia = $this->claseFaltas($request);
         $pdf = PDF::loadView('reportes//reporte-mensual-8002', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Mensual-8002.pdf');
     }
 
