@@ -151,24 +151,23 @@
 
             </table>
             <table width="100%">
-                <tbody>
-                    
-                <tr>
+                <tbody>                   
+                
+                    <tr>
                         <td style='font-size:9pt;' colspan='2'>
                         <b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</b>
                            
                         </td>
                         <td  style='font-size:9pt;text-align:left;' width="100px" >
-                        <p>
+                        
                             NO. LOTE: {{$tipotra}}
                             
                             <br>
                             QNA. APLICACIÓN: 18/2021<br>
-                            MES: {{ $empleados['nombre_mes'] }} <br>
-                            AÑO: {{ $empleados['filtros']['anio'] }}<br>
+                            MES: {{ $empleados['nombre_mes'] }} AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             {{-- <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table> --}}
                             
-                        </p>
+                        
                         </td>
                         
                             
@@ -226,7 +225,8 @@
                 @if($empleados['filtros']['quincena'] == 1)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q1']) > 4)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $relleno+$numero }} </td>
+                            {{-- <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td> --}}
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -247,7 +247,8 @@
                 @if($empleados['filtros']['quincena'] == 2)
                     @if(count($empleado['resumen']['FALTAS_QUINCENALES']['Q2']) > 4)
                         <tr>
-                            <td class='linea'>{{ str_pad(($numero+1), 7, "1100000", STR_PAD_LEFT) }} </td>
+                            <td class='linea'>{{ $relleno+$numero }} </td>
+                            {{-- <td class='linea'>{{ str_pad(($numero+1), 7, $relleno, STR_PAD_LEFT) }} </td> --}}
                             <td class='linea'>{{ $empleado->TITLE}} </td>
                             <td class='linea'>{{ $empleado->PAGER }} </td>
                             <td class='linea' style="text-align:center">{{ $empleado->jornada }} HRS.</td>
@@ -277,15 +278,15 @@
     if (isset($pdf))
     {
         $iniciales = "";
-        @switch($empleados['tipo_trabajador']['DEPTID'])
-            @case(6)
-            @case(11)
+        @switch($empleados['tipo_trabajador']['id'])
+            @case(1)
+            @case(2)
                 $iniciales = "GOV";
             @break
-            @case(13)
+            @case(4)
                 $iniciales = "CAR";
             @break
-            @case(12)
+            @case(3)
                 $iniciales = "PEV";
             @break
         @endswitch

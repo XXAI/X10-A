@@ -120,33 +120,38 @@
             $relleno = 1100000;
             $tipotra="";
             //echo $empleados['tipo_trabajador']['id'];
+            $documento = $empleados['filtros']['documento'];
             switch ($empleados['tipo_trabajador']['id']) {
                 case 1 :
-                 $relleno = $relleno+2839;  
-                 $tipotra="GOV0018"; 
-                 break;
-                 case 2 :
-                 $relleno = $relleno+2839; 
-                 $tipotra="GOV0018"; 
-                 break;
-                case 3:
-                    $relleno = "3300000";
-                    $tipotra="PEV0008";
+                $relleno = $relleno+$documento;  
+                $tipotra="GOV0018"; 
                 break;
+                case 2 :
+                $relleno = $relleno+$documento; 
+                $tipotra="GOV0018"; 
+                break;
+               case 3:
+                   $relleno = "3300000";
+                   $relleno = $relleno+$documento; 
+                   $tipotra="PEV0008";
+               break;
 
-                case 4 :
-                $relleno = $relleno+211;  
-                 $tipotra="CAR0018"; 
-                 break;
-                 case 5 :
-                $relleno = $relleno+1;  
-                 $tipotra="CON0018"; 
-                 break;
-                default:
+               case 4 :
+               $relleno = $relleno+$documento;  
+                $tipotra="CAR0018"; 
+                break;
+                case 5 :
+               $relleno = $relleno+$documento;  
+                $tipotra="CON0018"; 
+                break;
+               default:
                     
                 
                 
             }
+                
+                
+            
         ?>
             <table width="100%">
                 <tbody>
@@ -292,16 +297,16 @@
     {
         $iniciales = "";
         @switch($empleados['tipo_trabajador']['id'])
-            @case(1)
-            @case(2)
-                $iniciales = "GOV";
-            @break
-            @case(4)
-                $iniciales = "CAR";
-            @break
-            @case(3)
-                $iniciales = "PEV";
-            @break
+        @case(1)
+        @case(2)
+            $iniciales = "GOV";
+        @break
+        @case(4)
+            $iniciales = "CAR";
+        @break
+        @case(3)
+            $iniciales = "PEV";
+        @break
         @endswitch
         $pdf->page_text(50, 590, $iniciales, Null, 9, array(0, 0, 0));
         $pdf->page_text(900, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
