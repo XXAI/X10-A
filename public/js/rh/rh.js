@@ -98,8 +98,8 @@ function cargar_datos_checadas(urlchecadas) {
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
         if (console && console.log) {
-
-            alert("No se cargo la lista de asistencia " + " " + textStatus);
+            swal("Error!", "No se cargo sus datos, Verificar horario en el area de control de asistencia ", "error");
+            //alert("No se cargo sus datos, Verificar horario en el area de control de asistencia " + " " + textStatus);
         }
     });
 }
