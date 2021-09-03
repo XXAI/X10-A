@@ -178,7 +178,7 @@ class EmpleadoController extends Controller
                     $registro->Gender = $request->sexo;
                     $registro->TITLE = $request->rf;        
                     $registro->PAGER = $request->codigo;
-                    $registro->DEFAULTDEPTID = $edificio->DEPTID;
+                    $registro->DEFAULTDEPTID = $edificio;
                     $registro->BIRTHDAY = $request->fecnac;
                     $registro->HIREDDAY=$request->fechaing;
                     $registro->street=$request->street;
