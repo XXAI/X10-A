@@ -165,7 +165,7 @@ class EmpleadoController extends Controller
        // if($request->ajax()){
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
-               // dd($edificio);
+               // dd($edificio->DEPTID);
                 $max=Usuarios::max('USERID');
                 $maxid=Usuarios::select('Badgenumber as num_max')
                 
@@ -178,7 +178,7 @@ class EmpleadoController extends Controller
                     $registro->Gender = $request->sexo;
                     $registro->TITLE = $request->rf;        
                     $registro->PAGER = $request->codigo;
-                    $registro->DEFAULTDEPTID = $edificio;
+                    $registro->DEFAULTDEPTID = $edificio->DEPTID;
                     $registro->BIRTHDAY = $request->fecnac;
                     $registro->HIREDDAY=$request->fechaing;
                     $registro->street=$request->street;

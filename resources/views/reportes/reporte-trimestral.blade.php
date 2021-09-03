@@ -122,7 +122,7 @@ switch($empleados['trimestre'])
                 <tbody>
                     <tr>
                         <td width="100px">
-                            <img src='images/salud.png' width="100px">
+                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/salud.png' width="100px">
                         </td>
                         <td>
                             <div class="centrado datos">
@@ -166,7 +166,7 @@ switch($empleados['trimestre'])
                             </div>
                         </td>
                         <td width="100px">
-                            <img src='images/chiapas.png' width="100px">
+                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/chiapas.png' width="100px">
                         </td>
                     </tr>
                    <tr>
