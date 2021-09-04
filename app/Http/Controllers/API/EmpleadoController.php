@@ -165,13 +165,20 @@ class EmpleadoController extends Controller
        // if($request->ajax()){
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
-               // dd($edificio->DEPTID);
+                $edificio = $edificio['DEPTID'];
+                //dd($edificio);
                 $max=Usuarios::max('USERID');
+                if(isset($max)){
                 $maxid=Usuarios::select('Badgenumber as num_max')
                 
                 ->where('USERID','=',$max)
-                ->get();         
-                $maxid=($maxid[0]->num_max)+1;  
+                ->get();   
+                $maxid=($maxid[0]->num_max)+1;}
+                else{
+                    $maxid=1; 
+                }
+
+                 
                     $registro = new Usuarios;
                     $registro->Badgenumber= $maxid;
                     $registro->Name = $request->name;
