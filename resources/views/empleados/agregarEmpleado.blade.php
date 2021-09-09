@@ -16,6 +16,15 @@
       <div class="tab-pane container active" id="home">
          <div class="card">
             <div class="card-body">
+               <div  id="biometrico" style="display:none" class="row" role="alert">
+                  <div class="col-md-6" >
+                     <div class="form-group" >
+                        <label for="biome" class="col-sm-3 col-form-label">Biométrico</label>
+                        <input type="text" class="form-control" id="biome" name="biome" maxlength="10">
+                     </div>
+                  </div>
+                  
+               </div>
                <div class="row">
                   <div class="col-md-6" >
                      <div class="form-group">

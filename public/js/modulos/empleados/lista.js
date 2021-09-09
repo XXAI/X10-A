@@ -6,7 +6,7 @@ var diaslab;
 var diaeco;
 var onomastico, omisiones_total;
 var pasesal;
-var inicio;
+var inicio, base, maxid;
 var fin;
 var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
@@ -80,7 +80,9 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
-        // console.log(data);
+        console.log(data);
+        base = data.base.id;
+        maxid = data.max;
         cargar_datos_empleado(data.usuarios.data);
         festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -239,6 +241,13 @@ function cargar_departamentos() {
 
     //$("#tipotra").empty();
     // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
+    console.log(base);
+    if (base == 5) {
+        document.getElementById("biometrico").style.display = "block";
+        $("#biome").val(maxid);
+    } else {
+        document.getElementById("biometrico").style.display = "none";
+    }
     $.ajax({
         type: "GET",
         url: './api/empleado',
