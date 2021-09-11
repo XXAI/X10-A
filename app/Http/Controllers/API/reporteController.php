@@ -414,6 +414,7 @@ class reporteController extends Controller
                                 $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
+                                ->join('users','users.id','=',"user_speday.captura_id")
                                 ->where("TITLE", "=",  $desc)
                               ->where("STARTSPECDAY","<=",$fecha_eval."T23:59:59.000")
                               ->where("ENDSPECDAY",">=",$fecha_eval."T00:00:00.000")   
@@ -426,8 +427,9 @@ class reporteController extends Controller
                                     ,'user_speday.YUANYING AS REPO'
                                     ,'user_speday.incidencia_id as Ban_Inci'
                                     ,'user_speday.captura_id as captura_id'
+                                    ,'users.username as capturista'
                                     )
-                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id')
+                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id','users.username')
                                 ->first();
                                // dd($conexion);
 
@@ -567,6 +569,8 @@ class reporteController extends Controller
                                             break;
                                         
                                 }
+                                $capturista=$checada_extra->capturista;
+                                $asistencia[$indice]['capturista']= $capturista;    
 
                             
                             }
@@ -764,7 +768,8 @@ class reporteController extends Controller
             }
         
         $ps=$ps/60;
-        //dd( $asistencia); 
+     
+       // dd( $capturista); 
         $resumen = array(['horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        if($impre==0){
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);

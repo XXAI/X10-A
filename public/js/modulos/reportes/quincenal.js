@@ -128,7 +128,7 @@ function generar_reporte() {
     var nombre = $("#nombre").val();
     var quincena = $("#quincena").val();
     var documento = $("#documento").val();
-
+    if (documento == '') { documento = 1; }
     /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
 
@@ -142,6 +142,7 @@ function generar_reporte_juridico() {
     var nombre = $("#nombre").val();
     var quincena = $("#quincena").val();
     var documento = $("#documento").val();
+    if (documento == '') { documento = 1; }
     /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
 

@@ -15,10 +15,12 @@ use App\Models\Omisiones;
 use App\Models\DiasJustifica;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
+use App\Models\ChecadasTrabajador;
 use App\Models\CluesUser;
 use App\Models\CatalogoBases;
 use App\Models\EmpleadoBase;
 use App\Models\Edificios;
+use App\Models\RfcBase;
 
 
 
@@ -171,7 +173,8 @@ class EmpleadoController extends Controller
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
                 $edificio = $edificio['DEPTID'];
-                //dd($edificio);
+                $buscaBase=$buscaBase->descripcion;
+               // dd($buscaBase);
                 $max=Usuarios::max('USERID');
                 if(isset($max)){
                 $maxid=Usuarios::select('Badgenumber as num_max')
@@ -182,7 +185,6 @@ class EmpleadoController extends Controller
                 else{
                     $maxid=1; 
                 }
-
                  
                     $registro = new Usuarios;
                     $registro->Badgenumber= $maxid;
@@ -203,6 +205,11 @@ class EmpleadoController extends Controller
                     $registro->ur_id=$request->tipotra;            
                     $registro->MINZU=$request->area;   
                    $registro->save();
+
+                   $rfcbase= new RfcBase;
+                   $rfcbase->rfc = $request->rf; 
+                   $rfcbase->base = $buscaBase; 
+                   $rfcbase->save();
                     if ($request->code!=''){
                         
                         $id_user=Usuarios::max('USERID');       

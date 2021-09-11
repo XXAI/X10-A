@@ -894,12 +894,18 @@ function cargar_blade_checadas() {
 
 
         if (value.ban_inci >= 1)
-            icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></a>";
+            icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
         else
             icono2 = " ";
+
+        if (value.capturista == undefined)
+            icono3 = " ";
+        else
+            icono3 = "<i class='fa fa-user-circle' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='" + value.capturista + "'></i>";
+
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + xs + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + xs + icono3 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
 
 
 
@@ -1426,7 +1432,7 @@ function eliminar(id) {
 
 
             } else {
-                swal("El registro no se a eliminado");
+                swal("El registro no se ha eliminado");
             }
         });
 
@@ -1462,7 +1468,7 @@ function eliminar_in_emp(id) {
 
 
             } else {
-                swal("El registro no se a eliminado");
+                swal("El registro no se ha eliminado");
             }
         });
 
