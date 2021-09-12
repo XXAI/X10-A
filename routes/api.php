@@ -33,6 +33,7 @@ use Illuminate\Http\Request;
     Route::get('/empleado','API\EmpleadoController@index');
     Route::post('/empleado/fetch','API\EmpleadoController@fetch');
     Route::post('/buscacapturista','API\LogsController@buscacapturista');
+   
     Route::post('/empleado/tipoincidencia','API\EmpleadoController@tipoincidencia');
 
 
@@ -53,6 +54,7 @@ use Illuminate\Http\Request;
     /* Cardex */
     Route::get('/cardex','API\CardexController@index');
     Route::get('/logs','API\LogsController@obtenerLogs');
+    Route::get('/checadas','API\LogsController@obtenerchecadas');
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */
 

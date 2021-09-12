@@ -25,6 +25,10 @@ class DashboardController extends Controller
     {
         return view('direccion');
     }
+    public function checadas()
+    {
+        return view('checadas');
+    }
 
     public function capturistas()
     {

@@ -901,7 +901,7 @@ function cargar_blade_checadas() {
         if (value.capturista == undefined)
             icono3 = " ";
         else
-            icono3 = "<i class='fa fa-user-circle' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='" + value.capturista + "'></i>";
+            icono3 = "<i class='fa fa-check-square ' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Capturado por: " + value.capturista + "'></i>";
 
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 

@@ -28,4 +28,5 @@ Route::middleware('auth')->get('/empleado', 'DashboardController@empleado');
 Route::middleware('auth')->get('/register', 'DashboardController@register');
 
 Route::middleware('auth')->get('/cardex', 'DashboardController@cardex');
+Route::middleware('auth')->get('/checadas', 'DashboardController@checadas');
 Route::middleware('rutabase')->get('//consulta-asistencia', 'API\reporteController@consulta_checadas');

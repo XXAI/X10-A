@@ -14,4 +14,9 @@ class ChecadasTrabajador extends Model
     protected $fillable = ['USERID', 'CHECKTIME', 'CHECKTYPE','VERIFYCODE','SENSORID','MachineId','Memoinfo','UserExtFmt','WorkCode','sn'];
     public $timestamps = false;
 
+
+    public function empleado(){
+        return $this->BelongsTo('App\Models\Usuarios', 'USERID', "USERID");
+    }
+
 }

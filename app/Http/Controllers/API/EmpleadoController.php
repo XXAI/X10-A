@@ -24,6 +24,7 @@ use App\Models\RfcBase;
 
 
 
+
 use App\Models\User;
 //use \Hash, \Response;
 use Illuminate\Support\Facades\Auth;
@@ -75,17 +76,7 @@ class EmpleadoController extends Controller
     
         $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados")->where('status', '=', 0)->WHEREIN("FPHONE", $arreglo_clues);        
      
-       /*  if ($idcap==2){
-           $usuarios=$usuarios->where('FPHONE','=','CSSSA009203'); 
-        } 
-
-        //
-        if ($idcap==11){
-            $usuarios=$usuarios->where('FPHONE','=','CSSSA017213'); 
-         } 
-         if ($idcap==14){
-            $usuarios=$usuarios->where('FPHONE','=','CSSSA009162'); 
-         } */
+      
          if($name !='')
          $usuarios=$usuarios->Where(function($query2)use($name){
             $query2->where("Name",'LIKE','%'.$name.'%')

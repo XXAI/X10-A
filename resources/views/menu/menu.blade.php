@@ -42,7 +42,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             
             <a class="collapse-item" href="./empleado">Administración</a>
-            <a class="collapse-item" href="">Cambio de Horario</a>
+            <a class="collapse-item" href="./checadas">Registro de Checadas</a>
             
           </div>
         </div>

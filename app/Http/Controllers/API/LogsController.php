@@ -11,6 +11,9 @@ use App\Models\DiasOtorgados;
 use App\Models\Omisiones;
 use App\Models\User;
 use App\Models\BaseUser;
+use App\Models\ChecadasTrabajador;
+use App\Models\Usuarios;
+
 
 use Illuminate\Support\Facades\Input;
 //use \Hash, \Response;
@@ -69,6 +72,44 @@ class LogsController extends Controller
         //dd($data_in); ->where("base","=",$namedb)
       
       return response()->json($data_in);  
+        
+        //}
+    }
+
+    public function obtenerchecadas(Request $request)
+    {
+        
+       
+      $conexion = DB::connection('dinamica');
+      if(isset($conexion)) $nombrebase = $conexion->getDatabaseName(); 
+
+      $parametros = Input::all();
+      $inicio = $request->inicio;
+      $fin = $request->fin;
+      $name = $request->nombre;
+      //dd($user);
+    //  $checadas= ChecadasTrabajador::with("empleado")->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"]);
+/*       $checadas= ChecadasTrabajador::with(['empleado'=>function($query)use($nombre){
+        $query->where('Name','LIKE','%'.$nombre.'%')->orWhere('TITLE','LIKE','%'.$nombre.'%')->orWhere('Badgenumber','%'.$nombre.'%');}])   
+      
+        ->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"])
+        ->orderBy("CHECKTIME","DESC")
+        
+    ->get(); */
+
+    $checadas= $conexion->table("checkinout")->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+    ->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"]);
+    if($name !='')
+    $checadas=$checadas->Where(function($query2)use($name){
+       $query2->where("Name",'LIKE','%'.$name.'%')
+               ->orWhere("TITLE",'LIKE','%'.$name.'%')
+               ->orWhere("Badgenumber",'=',$name);
+   });
+   $checadas=$checadas->orderBy("CHECKTIME","ASC")
+        
+   ->get();
+     // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+      return array("checadas" => $checadas);
         
         //}
     }
