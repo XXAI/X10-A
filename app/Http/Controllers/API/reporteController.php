@@ -569,6 +569,7 @@ class reporteController extends Controller
                                             break;
                                         
                                 }
+
                                 $capturista=$checada_extra->capturista;
                                 $asistencia[$indice]['capturista']= $capturista;    
 

@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\BaseUser;
 use App\Models\ChecadasTrabajador;
 use App\Models\Usuarios;
+use App\Models\CluesUser;
 
 
 use Illuminate\Support\Facades\Input;
@@ -78,9 +79,17 @@ class LogsController extends Controller
 
     public function obtenerchecadas(Request $request)
     {
-        
+    
+      $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
+      $arreglo_clues = [];
+      if(count($obtengoclues) > 0)
+      {
+          $arreglo_clues = $this->clues_users($obtengoclues);
+          
+      }
        
       $conexion = DB::connection('dinamica');
+     
       if(isset($conexion)) $nombrebase = $conexion->getDatabaseName(); 
 
       $parametros = Input::all();
@@ -105,13 +114,25 @@ class LogsController extends Controller
                ->orWhere("TITLE",'LIKE','%'.$name.'%')
                ->orWhere("Badgenumber",'=',$name);
    });
-   $checadas=$checadas->orderBy("CHECKTIME","ASC")
+   $checadas=$checadas->orderBy("CHECKTIME","ASC")->WHEREIN("FPHONE", $arreglo_clues)
         
    ->get();
      // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
       return array("checadas" => $checadas);
         
         //}
+    }
+
+
+    function clues_users($arreglo)
+    {
+        $arreglo_clues = array();
+        $arrprueba = [];
+        foreach ($arreglo as $key => $value) {
+            $arreglo_clues[] = $value->clues;
+           
+        }
+        return $arreglo_clues;//$arreglo_clues;
     }
     
     
