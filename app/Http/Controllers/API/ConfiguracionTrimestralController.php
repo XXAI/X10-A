@@ -68,9 +68,11 @@ class ConfiguracionTrimestralController extends Controller
      */
     public function show()
     {
-        try
+        
+         try
         {        
             $parametros =Input::all();
+           
             $obj = ConfiguracionTrimestral::where("anio", "=",$parametros['anio'])
                                         ->where("trimestre", "=", $parametros['trimestre'])
                                         ->where("tipo_trabajador", "=", $parametros['tipo_trabajador'])
@@ -78,15 +80,10 @@ class ConfiguracionTrimestralController extends Controller
             return response()->json(['data'=>$obj]);
         }catch (\Exception $e) {
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
-        }
+        } 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DiasJustifica  $diasJustifica
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         //
