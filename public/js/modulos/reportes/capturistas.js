@@ -107,7 +107,7 @@ function cargar_dato(dato) {
             /*  var campo3 = $("<td>" + value.TITLE + "</td>"); */
             linea.append(campo, campo1, campo2, campo3, campo4, campo5, campo6, campo7);
             lista.append(linea);
-            console.log(data.logs);
+            // console.log(data.logs);
 
             $.each(value.capturista, function(index_capturista, value_capturista) {
 

@@ -294,15 +294,15 @@ class reporteController extends Controller
                         if($value != null)
                         {
                             
-                            //$regla_festivo_fin_Semana = $value;
+                            $festivo=1;
                             $var_reglas[$fecha_evaluar->dayOfWeekIso]  = $value;
                           
                         }
                     }
                 }
-                //return response()->json(["data" => $var_reglas]);    
+               // return response()->json(["data" => $diafest]);    
 
-               $festivos   = Festivos::where("STARTTIME", "=", $fecha_evaluar)->get();
+             //  $festivos   = Festivos::where("STARTTIME", "=", $fecha_evaluar)->get();
                
 
                
@@ -334,28 +334,13 @@ class reporteController extends Controller
                             $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
                             $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
                             $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
-    
+                      //  dd($value);
                            $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000";
                            $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin.":00.000";
-    
-                            if ($diatrab>=1)
-                                {
-                                    $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                    $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
-                                    $modif=$inicio_sal;                                                             
-                                    $inicio_sal->addDays($diatrab);
-                                    $final_sal->addDays($diatrab);
-                                    $inicio_sal= str_replace(" ", "T", $inicio_sal);
-                                    $final_sal= str_replace(" ", "T", $final_sal);
-                                    $modif=$modif->subDays($diatrab);
-    
-                                }
-                               
-                           
-                               // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
-                                
-                           
-                            $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+
+
+
+                           $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
                              
                             
     
@@ -367,6 +352,38 @@ class reporteController extends Controller
                             $final_entra_fuera->subMinute();
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+    
+                            if ($diatrab!=0 || $festivo==1 )
+                                {
+                                   
+                                    $diatrab=1;
+                                    
+                                    $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
+                                    $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");                                    
+                                    $modif=$inicio_sal;                                                             
+                                    $inicio_sal->addDays($diatrab);
+                                    $final_sal->addDays($diatrab);                                    
+                                    $inicio_sal= str_replace(" ", "T", $inicio_sal);
+                                    $final_sal= str_replace(" ", "T", $final_sal);                                    
+                                    $modif=$modif->subDays($diatrab);
+
+
+                                    $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                                   // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
+                                    $final_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000"); 
+                                    $inicio_sal_fuera->addDays($diatrab);
+                                    $final_sal_fuera->addDays($diatrab);  
+                                    $inicio_sal_fuera->subHours(2);                                   
+                                    $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+            
+    
+                                }
+                               
+                           //     dd($final_sal);
+                               // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
+                                
+                           
+                            
                            
                                                    
                             
@@ -763,6 +780,7 @@ class reporteController extends Controller
                         {
                             //$regla_festivo_fin_Semana = $value;
                             unset($var_reglas[$fecha_evaluar->dayOfWeekIso]);
+                            $festivo=0;
                         }
                     }
                 }
