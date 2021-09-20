@@ -285,7 +285,7 @@ class reporteController extends Controller
                 }
 
                 $diafest = FinSemanaFestivo::with("festivo_finsemana")->where("COMETIME","=",$fecha_evaluar)->where("USERID","=",$validacion->USERID)->first();
-
+                $festivo=0;
                 $regla_festivo_fin_Semana = "";
                 if($diafest != null)
                 {
