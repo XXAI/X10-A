@@ -717,16 +717,16 @@ function obtener_incidencias() {
             });
 
             //console.log(data.diasJustificados.length + "hola " + codein);
-            if (data.diasJustificados.length >= 2 && codein == 22) {
-                var mensaje = "Ya no puede justificar con Pago de Guardias";
-                $('#btn_save_inci').attr('disabled', true);
-                mostrarMensaje(mensaje);
-            } else {
-                var mensaje = " ";
-                $('#btn_save_inci').attr('disabled', false);
-                mostrarMensaje(mensaje);
+            /*  if (data.diasJustificados.length >= 2 && codein == 22) {
+                 var mensaje = "Ya no puede justificar con Pago de Guardias";
+                 $('#btn_save_inci').attr('disabled', true);
+                 mostrarMensaje(mensaje);
+             } else {
+                 var mensaje = " ";
+                 $('#btn_save_inci').attr('disabled', false);
+                 mostrarMensaje(mensaje);
 
-            }
+             } */
 
         },
         error: function(data) {
