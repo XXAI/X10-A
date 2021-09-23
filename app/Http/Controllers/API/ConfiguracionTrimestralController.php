@@ -77,7 +77,12 @@ class ConfiguracionTrimestralController extends Controller
                                         ->where("trimestre", "=", $parametros['trimestre'])
                                         ->where("tipo_trabajador", "=", $parametros['tipo_trabajador'])
                                         ->first();
-            return response()->json(['data'=>$obj]);
+            if(empty($arr)){
+                return response()->json(['error'=>'sin datos'],500);
+            }
+            else{
+                return response()->json(['data'=>$obj]);
+            }
         }catch (\Exception $e) {
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
         } 

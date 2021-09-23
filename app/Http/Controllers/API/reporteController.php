@@ -352,6 +352,7 @@ class reporteController extends Controller
                             $final_entra_fuera->subMinute();
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                            
     
                             if ($diatrab!=0 || $festivo==1 )
                                 {
@@ -370,7 +371,7 @@ class reporteController extends Controller
 
                                     $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
                                    // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
-                                    $final_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000"); 
+                                    $final_sal_fuera=new Carbon($final_sal_fuera); 
                                     $inicio_sal_fuera->addDays($diatrab);
                                     $final_sal_fuera->addDays($diatrab);  
                                     $inicio_sal_fuera->subHours(2);                                   
@@ -378,7 +379,7 @@ class reporteController extends Controller
             
     
                                 }
-                               
+                         //       dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
                            //     dd($final_sal);
                                // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
                                 
@@ -425,7 +426,7 @@ class reporteController extends Controller
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
 
-                        
+                                //dd($checada_sal_fuera);
                                
                         
                                 $checada_extra = $conexion->table("user_speday")
