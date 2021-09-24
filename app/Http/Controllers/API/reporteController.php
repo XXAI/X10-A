@@ -353,21 +353,24 @@ class reporteController extends Controller
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
                             
-    
+                            $trab=$diatrab;
                             if ($diatrab!=0 || $festivo==1 )
                                 {
                                    
-                                    $diatrab=1;
-                                    
+                                    $diatrab=1;                                    
                                     $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                    $final_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");                                    
+                                    $final_sal=new Carbon($final_sal);                                    
                                     $modif=$inicio_sal;                                                             
-                                    $inicio_sal->addDays($diatrab);
-                                    $final_sal->addDays($diatrab);                                    
+                                    
+                                    if($trab!=0){
+                                        $inicio_sal->addDays($diatrab);
+                                        $final_sal->addDays($diatrab); 
+                                    }
+                                                                 
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
                                     $final_sal= str_replace(" ", "T", $final_sal);                                    
                                     $modif=$modif->subDays($diatrab);
-
+                                  //  dd($final_sal);    
 
                                     $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
                                    // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
