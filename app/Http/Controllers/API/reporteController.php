@@ -366,30 +366,32 @@ class reporteController extends Controller
                                    
                                     $diatrab=1;                                    
                                     $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                    $final_sal=new Carbon($final_sal);                                    
+                                    $final_sal=new Carbon($final_sal);         
+                                    $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                                   // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
+                                    $final_sal_fuera=new Carbon($final_sal_fuera);                            
                                     $modif=$inicio_sal;                                                             
-                                    
+                                   // dd($trab);
                                     if($trab!=0){
                                         $inicio_sal->addDays($diatrab);
                                         $final_sal->addDays($diatrab); 
+                                        $inicio_sal_fuera->addDays($diatrab);
+                                        $final_sal_fuera->addDays($diatrab);
                                     }
                                                                  
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
                                     $final_sal= str_replace(" ", "T", $final_sal);                                    
                                     $modif=$modif->subDays($diatrab);
-                                  //  dd($final_sal);    
+                                  // dd($inicio_sal);    
 
-                                    $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
-                                   // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
-                                    $final_sal_fuera=new Carbon($final_sal_fuera); 
-                                    $inicio_sal_fuera->addDays($diatrab);
-                                    $final_sal_fuera->addDays($diatrab);  
+                                    
+                                      
                                     $inicio_sal_fuera->subHours(2);                                   
                                     $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
             
     
                                 }
-                         //       dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
+                               // dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
                            //     dd($final_sal);
                                // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
                                 
@@ -428,7 +430,7 @@ class reporteController extends Controller
                                 ->first();
                         
                                 
-                        //return $checada_salida;
+                        //dd($inicio_sal_fuera);
                         $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
@@ -610,6 +612,7 @@ class reporteController extends Controller
                         else{
                                 $hora_extra=$checada_extra->HORA;
                             }
+
                         if(isset($checada_entrada) || !is_null($checada_entrada)){                        
                             $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
                             $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);                          
@@ -649,7 +652,7 @@ class reporteController extends Controller
                                         
 
                         }
-                      
+                        
                     if(empty($asistencia[$indice]['checado_entrada'])){
                         $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
                         $asistencia[$indice]['validacion'] = 0;
@@ -684,11 +687,13 @@ class reporteController extends Controller
                         $asistencia[$indice]['checado_salida_fuera'] =$checada_sal_fuera->HORA;
                        
                     }
-
+                   // dd($checada_sal_fuera);
                     if(isset($checada_entrada_fuera)){
                         $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
                        
                     }
+                   // dd($checada_sal_fuera);
+                      
 
                     if(isset($checada_salida) || !is_null($checada_salida)){                           
                         
