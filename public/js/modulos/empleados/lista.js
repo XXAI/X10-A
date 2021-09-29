@@ -80,7 +80,7 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
-        console.log(data);
+        //console.log(data);
         base = data.base.id;
         maxid = data.max;
         cargar_datos_empleado(data.usuarios.data);
@@ -241,7 +241,7 @@ function cargar_departamentos() {
 
     //$("#tipotra").empty();
     // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
-    console.log(base);
+    //console.log(base);
     if (base == 5) {
         document.getElementById("biometrico").style.display = "block";
         $("#biome").val(maxid);
@@ -813,7 +813,7 @@ function incluir_leyenda() {
 
 function sel_inci(valor) {
     var mensaje;
-    console.log(resumen_checadas);
+    console.log(datos_checadas_mes);
     switch (parseInt(valor)) {
 
         case 1:
