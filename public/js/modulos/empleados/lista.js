@@ -813,7 +813,7 @@ function incluir_leyenda() {
 
 function sel_inci(valor) {
     var mensaje;
-
+    console.log(resumen_checadas);
     switch (parseInt(valor)) {
 
         case 1:

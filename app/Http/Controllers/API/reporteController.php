@@ -359,14 +359,17 @@ class reporteController extends Controller
                                    
                                     $diatrab=1;                                    
                                     $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
-                                    $final_sal=new Carbon($final_sal);                                    
+                                    $final_sal=new Carbon($final_sal);         
+                                    $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                                   // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
+                                    $final_sal_fuera=new Carbon($final_sal_fuera);                            
                                     $modif=$inicio_sal;                                                             
                                    // dd($trab);
                                     if($trab!=0){
                                         $inicio_sal->addDays($diatrab);
                                         $final_sal->addDays($diatrab); 
                                         $inicio_sal_fuera->addDays($diatrab);
-                                     $final_sal_fuera->addDays($diatrab);
+                                        $final_sal_fuera->addDays($diatrab);
                                     }
                                                                  
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
@@ -374,9 +377,7 @@ class reporteController extends Controller
                                     $modif=$modif->subDays($diatrab);
                                   // dd($inicio_sal);    
 
-                                    $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
-                                   // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
-                                    $final_sal_fuera=new Carbon($final_sal_fuera); 
+                                    
                                       
                                     $inicio_sal_fuera->subHours(2);                                   
                                     $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
