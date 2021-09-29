@@ -328,9 +328,16 @@ class reporteController extends Controller
                             $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                         
                             $fecha_eval = $asistencia[$indice]['fecha'];
-    
+                            
                             $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
-                            $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
+                           // $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
+                            $final_entra=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000");
+                            $final_entra->addMinute();  
+                            $final_entra= str_replace(" ", "T", $final_entra);
+                             $final_entra= $final_entra.".000";
+                             
+                        //    dd($final_entra);
+                        //      
                             $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
                             $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
                             $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
@@ -352,7 +359,7 @@ class reporteController extends Controller
                             $final_entra_fuera->subMinute();
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
-                            
+                        //    dd($inicio_sal_fuera);
                             $trab=$diatrab;
                             if ($diatrab!=0 || $festivo==1 )
                                 {

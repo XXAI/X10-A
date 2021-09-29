@@ -510,6 +510,7 @@ function guardar_empleado() {
     var clues = $("#clues").val();
     var area = $("#area").val();
     var fechaing = $("#fechaing").val();
+    var biome = $("#biome").val();
     tipotra = $("#tipotra").val();
     var ini_fec = $("#ini_fec").val();
     var code = $("#code").val();
@@ -552,7 +553,7 @@ function guardar_empleado() {
     $.ajax({
         type: tipo,
         url: url_emp,
-        data: { name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
+        data: { biome: biome, name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
         success: function(data) {
 
             swal("Exito!", data.mensaje, "success");
@@ -955,6 +956,15 @@ function editEmpleado(id) {
             $("#codigo").val(data.data.PAGER);
             $("#clues").val(data.data.FPHONE);
             $("#area").val(data.data.MINZU);
+            if (base == 5) {
+                document.getElementById("biometrico").style.display = "block";
+                $("#biome").val(maxid);
+                $("#biome").val(data.data.Badgenumber);
+                document.getElementById("biome").disabled = true;
+            } else {
+                document.getElementById("biometrico").style.display = "none";
+            }
+
 
             $("#tipotra").val(tipotra);
             if (data.data.ATT == 0) {

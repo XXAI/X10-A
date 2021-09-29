@@ -178,7 +178,13 @@ class EmpleadoController extends Controller
                 }
                  
                     $registro = new Usuarios;
-                    $registro->Badgenumber= $maxid;
+                    
+                    if($buscaBase=="gomezmaza"){
+                        $registro->Badgenumber=  $request->biome;
+                    }
+                    else{
+                        $registro->Badgenumber= $maxid;
+                    }
                     $registro->Name = $request->name;
                     $registro->Gender = $request->sexo;
                     $registro->TITLE = $request->rf;        
@@ -316,8 +322,14 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $USERID)
     {
+                $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
+                
+                $buscaBase=$buscaBase->descripcion;
        
-            $registro= Usuarios::findOrFail($USERID);            
+            $registro= Usuarios::findOrFail($USERID);  
+           /*  if($buscaBase=="gomezmaza"){
+                $registro->Badgenumber=  $request->biome;
+            }   */        
             $registro->Name = $request->name;
             $registro->Gender = $request->sexo;
             $registro->TITLE = $request->rf;        
