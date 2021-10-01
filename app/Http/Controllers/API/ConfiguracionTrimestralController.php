@@ -69,8 +69,8 @@ class ConfiguracionTrimestralController extends Controller
     public function show()
     {
         
-         try
-        {        
+      /*    try
+        { */        
             $parametros =Input::all();
            
             $obj = ConfiguracionTrimestral::where("anio", "=",$parametros['anio'])
@@ -80,9 +80,9 @@ class ConfiguracionTrimestralController extends Controller
           
                 return response()->json(['data'=>$obj]);
             
-        }catch (\Exception $e) {
+        /* }catch (\Exception $e) {
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
-        } 
+        }  */
     }
 
    
