@@ -56,6 +56,7 @@ class reporteController extends Controller
         $Rfc = $request->rfc;
         $sol = $request->soli;
         $impre = $request->impre;
+        $htra=0;
 
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
@@ -325,6 +326,9 @@ class reporteController extends Controller
                         else
                             $htra=0;
 
+
+                            
+
                             $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                         
                             $fecha_eval = $asistencia[$indice]['fecha'];
@@ -571,6 +575,15 @@ class reporteController extends Controller
                                             break;
                                         case 36:
                                             $impr="Cuidados Paternales ".$memo;                                   
+                                            break;
+                                        case 37:
+                                            $impr="Licencia Matrimonial ".$memo;                                   
+                                            break;
+                                        case 38:
+                                            $impr="Licencia Sindical ".$memo;                                   
+                                            break;
+                                        case 39:
+                                            $impr="Licencia por Fallecimiento Familiar ".$memo;                                   
                                             break;
                                         case 40:
                                             $impr="Dia Autorizado ".$memo;                                    
