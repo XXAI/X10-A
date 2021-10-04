@@ -126,8 +126,8 @@ function generar_reporte() {
     var inicio = $("#inicio").val();
     var fin = $("#fin").val();
 
-
-    win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+//console.log(user + "&inicio=" + inicio + "&fin=" + fin)
+   win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
 }
 
 
