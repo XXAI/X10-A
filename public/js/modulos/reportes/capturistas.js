@@ -58,16 +58,6 @@ function cargar_usuarios() {
 
 }
 
-function btn_filtrar() {
-    //console.log("entro");
-    var anio = $("#anio").val();
-    var user = parseInt($("#user").val());
-    var inicio = $("#inicio").val();
-    var fin = $("#fin").val();
-    console.log(inicio);
-    obj_filtro = { 'inicio': inicio, 'fin': fin, 'user': user };
-    cargar_dato(obj_filtro);
-}
 
 function cargar_dato(dato) {
 
@@ -120,15 +110,32 @@ function cargar_dato(dato) {
     });
 }
 
-function generar_reporte() {
+function btn_filtrar() {
+    //console.log("entro");
     var anio = $("#anio").val();
-    var mes = $("#mes").val();
-    var direccion = $("#direccion").val();
-    var nombre = $("#nombre").val();
-    var quincena = $("#quincena").val();
+    var user = parseInt($("#user").val());
+    var inicio = $("#inicio").val();
+    var fin = $("#fin").val();
+    console.log(inicio);
+    obj_filtro = { 'inicio': inicio, 'fin': fin, 'user': user };
+    cargar_dato(obj_filtro);
+}
 
-    /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
+function generar_reporte() {
+    var user = parseInt($("#user").val());
+    var inicio = $("#inicio").val();
+    var fin = $("#fin").val();
 
 
-    win = window.open('./api/reporte-direccion?anio=' + anio + "&mes=" + mes + "&direccion=" + direccion + "&nombre=" + nombre + "&quincena=" + quincena, '_blank');
+    win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+}
+
+
+function generar_excel() {
+    var user = parseInt($("#user").val());
+    var inicio = $("#inicio").val();
+    var fin = $("#fin").val();
+
+
+    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
 }

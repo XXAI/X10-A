@@ -47,6 +47,7 @@
                     <div class="form-group">            
                         <button class="btn btn-success" type='button' onclick="btn_filtrar()"><i class="fa fa-search " ></i></button>
                         <button class="btn btn-info" type='button' onclick="generar_reporte()"><i class="fa fa-print "></i> <br></button>
+                       <!--  <button class="btn btn-info" type='button' onclick="generar_excel()"><i class="fa-file-excel-o "></i> <br></button> -->
                         
                     </div>    
                 </div>

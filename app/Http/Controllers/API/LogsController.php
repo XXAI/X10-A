@@ -14,6 +14,8 @@ use App\Models\BaseUser;
 use App\Models\ChecadasTrabajador;
 use App\Models\Usuarios;
 use App\Models\CluesUser;
+ use App\Exports\CapturistasExport;
+use Maatwebsite\Excel\Facades\Excel; 
 
 
 use Illuminate\Support\Facades\Input;
@@ -29,7 +31,24 @@ class LogsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+    public function reporteCapturista(Request $request)
+    {
+
+        
+        $logs = $this->obtenerLogs($request);
+        //dd($logs);
+        $pdf = PDF::loadView('reportes//reporte-capturista', ['capturista' => $logs]);
+        $pdf->setPaper('LEGAL', 'landscape');
+        $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
+        return $pdf->stream('Reporte-Capturista.pdf');
+    }
+
+     public function export() 
+    {
+        //$logs = $this->obtenerLogs($request);
+        return Excel::download(new CapturistasExport, 'pruebaxlsx');
+        //return ("holaaaa");
+    } 
 
    public function obtenerLogs(Request $request)
     {

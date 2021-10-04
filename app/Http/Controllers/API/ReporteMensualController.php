@@ -35,6 +35,7 @@ class ReporteMensualController extends Controller
 
         #$asistencia = $this->claseAsistencia($request);
         $asistencia = $this->claseFaltas($request);
+       // dd($asistencia);
         //return $asistencia;
         $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
         $pdf->setPaper('LEGAL', 'landscape');

@@ -128,8 +128,8 @@ switch($empleados['trimestre'])
                             <div class="centrado datos">
                            SECRETARÍA DE SALUD<BR>
                            INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<BR>
-                            DIRECCIÓN DE ADMINISTRACIÓN Y FINANZAS<BR>
-                            DEPARTAMENTO DE OPERACIÓN Y SISTEMATIZACIÓN DE NÓMINAS<BR>
+                           {{$unidad['unidad']}}<BR>
+                           {{$unidad['departamento']}}<BR>
                             <BR>
                             CONSTANCIA GLOBAL DE MOVIMIENTOS
                             </div>
@@ -154,6 +154,7 @@ switch($empleados['trimestre'])
                                 
                             }  
                         ?>
+                        
                             <div class="datos">
                             LOTE: {{ $alias }}{{ str_pad($config['lote'], 4, "0", STR_PAD_LEFT)}}
                             
@@ -180,23 +181,23 @@ switch($empleados['trimestre'])
     <table width="100%" class='firmantes footer'>
         <tr>
             <td class="centrado tamano">
-            JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
+            {{$unidad['puesto1']}}
             <br><br><br>
-            ING. GABRIEL DE LA GUARDIA NAGANO
+            {{$unidad['responsable1']}}
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>SUBDIRECTOR DE RECURSOS HUMANOS
+            {{$unidad['puesto2']}}
             <br><br><br>
-            L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
+            {{$unidad['responsable2']}}
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>DIRECTOR DE ADMINISTRACIÓN Y FINANZAS
+            {{$unidad['puesto3']}}
             <br><br><br>
-            L.A. SAMUEL SILVAN OLAN
+            {{$unidad['responsable3']}}
             <HR>
             NOMBRE Y FIRMA
             </td>

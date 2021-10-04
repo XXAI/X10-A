@@ -15,6 +15,7 @@ use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use App\Models\ConfiguracionTrimestral;
+use App\Models\ConfiguracionUnidad;
 use App\Models\CluesUser;
 use Illuminate\Support\Facades\Input;
 
@@ -40,11 +41,12 @@ class ReporteTrimestralController extends Controller
                                                     ->where("anio", $parametros['anio'])
                                                     ->where("tipo_trabajador", $parametros['tipo_trabajador'])
                                                     ->first();
+        $datos_unidad = ConfiguracionUnidad::first();
         //return $usuario;
         $asistencia = $this->claseAsistencia($request);
        //dd($asistencia);
         //return $asistencia;
-        $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion]);
+        $pdf = PDF::loadView('reportes//reporte-trimestral', ['empleados' => $asistencia, 'usuario' => $usuario, "config" => $datos_configuracion,"unidad" => $datos_unidad]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true ,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Trimestral.pdf');
