@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">usuario</label>
                         <input type='text' class='form-control' name='nombre' id='nombre' style="outline: none;">
-                        <input type='hidden' class='form-control' name='user' id='user'>
+                        <input type='hidden' class='form-control' name='user' id='user' value="0">
                         
                     </div>    
                 </div>               
@@ -47,7 +47,7 @@
                     <div class="form-group">            
                         <button class="btn btn-success" type='button' onclick="btn_filtrar()"><i class="fa fa-search " ></i></button>
                         <button class="btn btn-info" type='button' onclick="generar_reporte()"><i class="fa fa-print "></i> <br></button>
-                       <!--  <button class="btn btn-info" type='button' onclick="generar_excel()"><i class="fa-file-excel-o "></i> <br></button> -->
+                       {{--   <button class="btn btn-info" type='button' onclick="generar_excel()"><i class="fa-file-excel-o "></i> <br></button>  --}}
                         
                     </div>    
                 </div>

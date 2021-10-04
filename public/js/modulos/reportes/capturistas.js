@@ -125,17 +125,36 @@ function generar_reporte() {
     var user = parseInt($("#user").val());
     var inicio = $("#inicio").val();
     var fin = $("#fin").val();
+    
+    if (user!=0){
+        win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+    }else{
+        alert("Debe Seleccionar un Capturista");
+    }
+    
 
 //console.log(user + "&inicio=" + inicio + "&fin=" + fin)
-   win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+   
 }
 
 
 function generar_excel() {
-/*     var user = parseInt($("#user").val());
+
+    console.log("hola mundoooo");
+     var user = parseInt($("#user").val());
     var inicio = $("#inicio").val();
     var fin = $("#fin").val();
+    $.ajax({       
+        url: './api/export', 
+    }).done(function(textStatus, jqXHR) {
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    }); 
 
 
-    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank'); */
+
+    
+//    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank'); 
+//win = window.open('./api/export');
+
 }

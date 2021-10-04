@@ -14,9 +14,9 @@ use App\Models\BaseUser;
 use App\Models\ChecadasTrabajador;
 use App\Models\Usuarios;
 use App\Models\CluesUser;
-/*  use App\Exports\CapturistasExport;
+use App\Exports\CapturistasExport;
 use Maatwebsite\Excel\Facades\Excel; 
- */
+
 
 use Illuminate\Support\Facades\Input;
 //use \Hash, \Response;
@@ -45,8 +45,10 @@ class LogsController extends Controller
 
      public function export() 
     {
-        //$logs = $this->obtenerLogs($request);
-        return Excel::download(new CapturistasExport, 'pruebaxlsx');
+       // $logs = $this->obtenerLogs($request);
+       // dd($logs);
+        return Excel::download(new CapturistasExport, 'prueba.xlsx');
+        
         //return ("holaaaa");
     } 
 
@@ -62,7 +64,7 @@ class LogsController extends Controller
         $omisiones = Omisiones::with("capturista")->whereNotNull("MODIFYBY")->orderBy("DATE","DESC")->paginate();
         
 
-        if($user != 'NaN') {          
+        if($user != 0) {          
           $logs=$logs->Where(function($query)use($user){
           $query->where("captura_id",'=',$user);
           }); 
@@ -76,8 +78,7 @@ class LogsController extends Controller
     public function buscacapturista(Request $request)
     {
         
-       /*  if($request->get('bh'))
-        {  */ 
+      
         $iduser = auth()->user()['id'];
         $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
         $namedb = $buscaBase->base;
