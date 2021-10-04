@@ -132,10 +132,10 @@ function generar_reporte() {
 
 
 function generar_excel() {
-    var user = parseInt($("#user").val());
+/*     var user = parseInt($("#user").val());
     var inicio = $("#inicio").val();
     var fin = $("#fin").val();
 
 
-    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank'); */
 }

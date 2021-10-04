@@ -14,9 +14,9 @@ use App\Models\BaseUser;
 use App\Models\ChecadasTrabajador;
 use App\Models\Usuarios;
 use App\Models\CluesUser;
- use App\Exports\CapturistasExport;
+/*  use App\Exports\CapturistasExport;
 use Maatwebsite\Excel\Facades\Excel; 
-
+ */
 
 use Illuminate\Support\Facades\Input;
 //use \Hash, \Response;
