@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@showLogin']);    
-    Route::post('login','Auth\LoginController@doLogin');
+    Route::post('sign-in','Auth\LoginController@doLogin');
     //Route::middleware('auth')->get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 
    
@@ -33,6 +33,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/checadas', 'DashboardController@checadas');
         
     });
-    Route::view('/asistencia/{rfc}','infoRh');
+     Route::view('/asistencia/{rfc}','infoRh');
     Route::middleware('rutabase')->get('//consulta-asistencia', 'API\reporteController@consulta_checadas');
 });
