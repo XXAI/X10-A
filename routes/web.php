@@ -1,12 +1,11 @@
 <?php
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@showLogin']);
-    Route::get('/', function () { return Redirect::to('login'); });
-    Route::post('sign-in','Auth\LoginController@doLogin');
+    Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@showLogin']);    
+    Route::post('login','Auth\LoginController@doLogin');
     //Route::middleware('auth')->get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 
-    Route::view('/asistencia/{rfc}','infoRh');
+   
    /*
     Route::middleware('auth')->get('/dashboard', 'DashboardController@index');
     Route::middleware('auth')->get('/reporte-mensual', 'DashboardController@mensual');
@@ -20,8 +19,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::middleware('auth')->get('/checadas', 'DashboardController@checadas');
     Route::middleware('rutabase')->get('//consulta-asistencia', 'API\reporteController@consulta_checadas');*/
     Route::group(['middleware' => 'auth'], function() {
-        Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+        Route::get('/', function () { return Redirect::to('login'); });        
         Route::get('/dashboard', 'DashboardController@index');
+        Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
         Route::get('/reporte-mensual', 'DashboardController@mensual');
         Route::get('/reporte-direccion', 'DashboardController@direccion');
         Route::get('/reporte-capturistas', 'DashboardController@capturistas');
@@ -33,5 +33,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/checadas', 'DashboardController@checadas');
         
     });
+    Route::view('/asistencia/{rfc}','infoRh');
     Route::middleware('rutabase')->get('//consulta-asistencia', 'API\reporteController@consulta_checadas');
 });
