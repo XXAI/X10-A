@@ -144,17 +144,11 @@ function generar_excel() {
      var user = parseInt($("#user").val());
     var inicio = $("#inicio").val();
     var fin = $("#fin").val();
-    $.ajax({       
-        url: './api/export', 
-    }).done(function(textStatus, jqXHR) {
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-
-    }); 
-
+    
 
 
     
-//    win = window.open('./api/export?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank'); 
+    win = window.URL('./api/export'); 
 //win = window.open('./api/export');
 
 }
