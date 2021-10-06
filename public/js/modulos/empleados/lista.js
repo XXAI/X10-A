@@ -235,13 +235,7 @@ function limpia_empleados() {
 }
 
 function cargar_departamentos() {
-    //limpia_empleados();
-    //alert($("#tipotra").val());
-
-
-    //$("#tipotra").empty();
-    // $("#tipotra").append("<option disabled selected value=''>Elegir tipo de trabajador</option>");
-    //console.log(base);
+   
     if (base == 5) {
         document.getElementById("biometrico").style.display = "block";
         $("#biome").val(maxid);
@@ -622,6 +616,8 @@ function generar_inci(jini, jfin) {
     var mensaje = "  ";
     mostrarMensaje(mensaje);
     obtener_incidencias();
+    obtener_justificantes();
+    
 
 
 }
@@ -693,16 +689,42 @@ function obtener_omisiones() {
         }
     });
 }
-
-function obtener_incidencias() {
-    //omision = [];
+function obtener_justificantes() {
+    
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
-    codein = $("#code_in").val();
-    //console.log(fini);
+    codein = $("#code_in").val();   
+    id = $("#id").val();
+    fecha = xini;   
+    jQuery.ajax({
+        data:  { id: id, fini: fini, ffin: ffin, codein: codein },
+        type: "GET",
+        dataType: "json",
+        url: "./api/permisos/",
+    }).done(function(data, textStatus, jqXHR) {
+        console.log(data.permisos.length);
+        justificantes=0;
+        if(data.permisos.length == 0){
+            justificantes=0;
+         }else{justificantes=1;   }
+        
+       console.log(data.permisos);
+        
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    });
+    
+
+           
+    
+}
+function obtener_incidencias() {
+
+    fini = $("#f_ini").val();
+    ffin = $("#f_fin").val();
+    codein = $("#code_in").val();    
     id = $("#id").val();
     fecha = xini;
-
     $.ajax({
         type: "GET",
         url: "./api/omisiones/",
@@ -717,17 +739,7 @@ function obtener_incidencias() {
 
             });
 
-            //console.log(data.diasJustificados.length + "hola " + codein);
-            /*  if (data.diasJustificados.length >= 2 && codein == 22) {
-                 var mensaje = "Ya no puede justificar con Pago de Guardias";
-                 $('#btn_save_inci').attr('disabled', true);
-                 mostrarMensaje(mensaje);
-             } else {
-                 var mensaje = " ";
-                 $('#btn_save_inci').attr('disabled', false);
-                 mostrarMensaje(mensaje);
-
-             } */
+          
 
         },
         error: function(data) {
@@ -814,7 +826,8 @@ function incluir_leyenda() {
 
 function sel_inci(valor) {
     var mensaje;
-    console.log(datos_checadas_mes);
+
+   // console.log(datos_checadas_mes);
     switch (parseInt(valor)) {
 
         case 1:
@@ -1104,7 +1117,7 @@ function cargar_dato(dato) {
 function validar(idinci) {
     val_in = 1;
     var idinci = parseInt(idinci);
-    cargar_incidencias()
+    cargar_incidencias();
     document.getElementById('btn_save_inci').innerText = "Validar";
 
 
@@ -1315,7 +1328,8 @@ function inserta_incidencia_emp() {
 
 function save_justi_emp() {
 
-    fini = moment(date_1.add(0, 'd')).format();
+    
+     fini = moment(date_1.add(0, 'd')).format();
     ffin = moment(date_2.add(0, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
@@ -1327,39 +1341,35 @@ function save_justi_emp() {
 
             id_inci = data.id_inci;
             inserta_incidencia();
-
-
-
-
         },
         error: function(data) {
             swal("Error!", "No se registro ningun dato!", "error");
         }
     })
-
+ 
 
 
 }
 
 
 function guardar_incidencia() {
+    obtener_justificantes();
+    console.log("justifica= "+justificantes);
 
-    validando_incidencia();
-    // console.log("bandera: " + bandera);
+    if(justificantes==1){
+        alert("no se puede ingresar otra incidencia dentro de la misma fecha");
+    }else{alert("aceptadooo");}
+   /* validando_incidencia();   
 
     if (bandera == 1) {
-
-        // console.log("banurl: " + ban_url);
+        
         if (ban_url == 1) {
             save_justi_emp();
 
             // }
         } else {
             if (val_in == 0) {
-                save_justi_emp();
-                /*  $("#agregar_incidencia").modal('hide');
-                document.getElementById('filtro_check').click();
- */
+                save_justi_emp();                
 
             } else {
                 acepta_incidencia();
@@ -1371,7 +1381,7 @@ function guardar_incidencia() {
 
     } else {
         swal("Error!", msj + "!", "error");
-    }
+    }*/
 
 }
 

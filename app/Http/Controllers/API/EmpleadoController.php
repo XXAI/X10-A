@@ -13,6 +13,7 @@ use App\Models\UsuarioHorario;
 use App\Models\Festivos;
 use App\Models\Omisiones;
 use App\Models\DiasJustifica;
+use App\Models\DiasOtorgados;
 use App\Models\Horario;
 use App\Models\TiposIncidencia;
 use App\Models\ChecadasTrabajador;
@@ -257,17 +258,17 @@ class EmpleadoController extends Controller
        $fmesfin = new Carbon($ffin);
        $dia =  $fecha_mes->day;
        
-    //   dd($dia);
+   
          if ($dia<=15){
              $fechaIni=$fmesini->firstOfMonth();
              $fechaFin= $fmesfin->firstOfMonth()->addDays(15); 
-           // dd("dia menor de 15");
+          
         } else{
-           // dd("dia mayor o igual  de 16");
+           
                 $fechaIni=$fmesini->firstOfMonth()->addDays(15);
                 $fechaFin= $fmesfin->lastOfMonth(); 
         } 
-     // dd(substr($fechaIni,-19,10)."T".'00:00:01.000');
+   
        
         $parametros = Input::all();
         $omisiones = omisiones::where("userid","=",$id)
@@ -278,18 +279,14 @@ class EmpleadoController extends Controller
                     
 
         $omisiones = $omisiones->get();
-       // dd($omisiones)
- /*   ->where("STARTSPECDAY","<=",(substr($fechaFin,-19,10)."T".'23:59:59.000'))
-                        -> where("ENDSPECDAY",">=",(substr($fechaIni,-19,10)."T".'00:00:01.000')) ; */
-
+      
          $diasJustificados = DiasJustifica::where("userid","=",$id);        
   
 
         if($codein !=''){
                     $diasJustificados = $diasJustificados->where('DATEID','=',$codein);
                     if($codein == 22){
-                        $diasJustificados = $diasJustificados
-                     
+                        $diasJustificados = $diasJustificados                     
                         ->where("STARTSPECDAY","<=",$fechaFin)
                         ->where("ENDSPECDAY",">=",$fechaIni);
                     } 
@@ -297,11 +294,31 @@ class EmpleadoController extends Controller
        $diasJustificados =  $diasJustificados->get();
         
         
-      //  dd($omisiones);
+     
 
         return response()->json(["omisiones" => $omisiones,"diasJustificados" => $diasJustificados]);
     }
+    public function buscapermiso(Request $request)
+    {
+       $id = $request->id;
+       $fecha = $request->fecha;
+       $fini = substr($request->fini,0,10);
+       $ffin = substr($request->ffin,0,10);    
+   
+      //  
+         $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin.'T23:59:59')
+         ->where("ENDSPECDAY",">=",$fini.'T00:00:00')
+         /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
+            ->where(function($a)use($fini,$ffin){
+            $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')
+            ->orWhere("ENDSPECDAY", ">=", $fini.'T00:00:00');
+         })*/->get();       
+          
 
+      // $diasJustificados =  $diasJustificados->get();
+
+        return response()->json(["permisos" => $diasJustificados]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
