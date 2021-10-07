@@ -3,6 +3,7 @@ var dato, impre = 0;
 var date = new Date();
 var resumen_checadas;
 var diaslab;
+
 var diaeco;
 var onomastico, omisiones_total;
 var pasesal;
@@ -17,7 +18,7 @@ var msj, ban_url;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
 var leyenda = 1;
-//var omision = [];
+var permisos = [];
 arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
@@ -235,7 +236,7 @@ function limpia_empleados() {
 }
 
 function cargar_departamentos() {
-   
+
     if (base == 5) {
         document.getElementById("biometrico").style.display = "block";
         $("#biome").val(maxid);
@@ -616,8 +617,8 @@ function generar_inci(jini, jfin) {
     var mensaje = "  ";
     mostrarMensaje(mensaje);
     obtener_incidencias();
-    obtener_justificantes();
-    
+    // obtener_justificantes();
+
 
 
 }
@@ -689,40 +690,39 @@ function obtener_omisiones() {
         }
     });
 }
-function obtener_justificantes() {
-    
+
+function obtener_justificantes(fini, ffin) {
+    //permisos = [];
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
-    codein = $("#code_in").val();   
+    codein = $("#code_in").val();
     id = $("#id").val();
-    fecha = xini;   
+    fecha = xini;
+
     jQuery.ajax({
-        data:  { id: id, fini: fini, ffin: ffin, codein: codein },
+        data: { id: id, fini: fini, ffin: ffin, codein: codein },
         type: "GET",
         dataType: "json",
         url: "./api/permisos/",
-    }).done(function(data, textStatus, jqXHR) {
-        console.log(data.permisos.length);
-        justificantes=0;
-        if(data.permisos.length == 0){
-            justificantes=0;
-         }else{justificantes=1;   }
-        
-       console.log(data.permisos);
-        
+
+    }).done(function(data) {
+        permisos = data.permisos;
+        // console.log(permisos);
+
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
     });
-    
 
-           
-    
+
+
+
 }
+
 function obtener_incidencias() {
 
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
-    codein = $("#code_in").val();    
+    codein = $("#code_in").val();
     id = $("#id").val();
     fecha = xini;
     $.ajax({
@@ -739,7 +739,7 @@ function obtener_incidencias() {
 
             });
 
-          
+
 
         },
         error: function(data) {
@@ -827,7 +827,7 @@ function incluir_leyenda() {
 function sel_inci(valor) {
     var mensaje;
 
-   // console.log(datos_checadas_mes);
+    // console.log(datos_checadas_mes);
     switch (parseInt(valor)) {
 
         case 1:
@@ -1328,8 +1328,8 @@ function inserta_incidencia_emp() {
 
 function save_justi_emp() {
 
-    
-     fini = moment(date_1.add(0, 'd')).format();
+
+    fini = moment(date_1.add(0, 'd')).format();
     ffin = moment(date_2.add(0, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
@@ -1346,42 +1346,45 @@ function save_justi_emp() {
             swal("Error!", "No se registro ningun dato!", "error");
         }
     })
- 
+
 
 
 }
 
 
 function guardar_incidencia() {
-    obtener_justificantes();
-    console.log("justifica= "+justificantes);
 
-    if(justificantes==1){
-        alert("no se puede ingresar otra incidencia dentro de la misma fecha");
-    }else{alert("aceptadooo");}
-   /* validando_incidencia();   
+    obtener_justificantes(fini, ffin);
+    console.log(permisos.length + " ini= " + fini + " fin = " + ffin);
 
-    if (bandera == 1) {
-        
-        if (ban_url == 1) {
-            save_justi_emp();
+    if (permisos.length === 0) {
+        alert("aceptadooo");
+    } else { alert("no se puede ingresar otra incidencia dentro de la misma fecha"); }
+    permisos = [];
 
-            // }
-        } else {
-            if (val_in == 0) {
-                save_justi_emp();                
+    /* validando_incidencia();   
 
-            } else {
-                acepta_incidencia();
+     if (bandera == 1) {
+         
+         if (ban_url == 1) {
+             save_justi_emp();
 
-            }
+             // }
+         } else {
+             if (val_in == 0) {
+                 save_justi_emp();                
 
-        }
+             } else {
+                 acepta_incidencia();
+
+             }
+
+         }
 
 
-    } else {
-        swal("Error!", msj + "!", "error");
-    }*/
+     } else {
+         swal("Error!", msj + "!", "error");
+     }*/
 
 }
 
