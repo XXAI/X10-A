@@ -18,7 +18,7 @@ var msj, ban_url;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
 var leyenda = 1;
-var permisos = [];
+let permisos = [];
 arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
 arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
@@ -692,22 +692,49 @@ function obtener_omisiones() {
 }
 
 function obtener_justificantes(fini, ffin) {
-    //permisos = [];
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
     codein = $("#code_in").val();
     id = $("#id").val();
     fecha = xini;
-
+    permisos = [];
     jQuery.ajax({
         data: { id: id, fini: fini, ffin: ffin, codein: codein },
         type: "GET",
         dataType: "json",
         url: "./api/permisos/",
 
-    }).done(function(data) {
-        permisos = data.permisos;
-        // console.log(permisos);
+    }).done(function(data) {      
+               
+        data.permisos.forEach(element => {
+            permisos.push(element);            
+        });
+        console.log(permisos);
+         
+    if (permisos.length > 0) {
+       
+        swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
+            icon: "warning",
+        });
+    } else { 
+                validando_incidencia();   
+
+                if (bandera == 1) {
+                
+                    if (ban_url == 1) {save_justi_emp();}
+                    else {
+                        if (val_in == 0) {
+                            save_justi_emp();                
+
+                        } else {  acepta_incidencia();}
+                
+                    }
+
+
+                } else {
+                    swal("Error!", msj + "!", "error");
+                }  
+            }
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -1353,38 +1380,10 @@ function save_justi_emp() {
 
 
 function guardar_incidencia() {
-
+    //permisos = [];
     obtener_justificantes(fini, ffin);
+    //permisos = [];
     console.log(permisos.length + " ini= " + fini + " fin = " + ffin);
-
-    if (permisos.length === 0) {
-        alert("aceptadooo");
-    } else { alert("no se puede ingresar otra incidencia dentro de la misma fecha"); }
-    permisos = [];
-
-    /* validando_incidencia();   
-
-     if (bandera == 1) {
-         
-         if (ban_url == 1) {
-             save_justi_emp();
-
-             // }
-         } else {
-             if (val_in == 0) {
-                 save_justi_emp();                
-
-             } else {
-                 acepta_incidencia();
-
-             }
-
-         }
-
-
-     } else {
-         swal("Error!", msj + "!", "error");
-     }*/
 
 }
 
