@@ -11,6 +11,7 @@ use App\Models\TiposIncidencia;
 use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
 use App\Models\FinSemanaFestivo;
+use App\Models\DiasOtorgados;
 
 
 //use App\Models\ReglasHorario;
@@ -104,7 +105,13 @@ class reporteController extends Controller
             $fecha_view_inicio = new Carbon($inicio);
             $fecha_view_fin    = new Carbon($fin);
         }
-        
+        $f_inicio_mes=new Carbon($inicio);
+        $f_fin_mes=new Carbon($inicio);
+        $f_inicio_mes=$f_inicio_mes->startOfMonth();
+        $f_fin_mes=$f_fin_mes->endofMonth();
+        $f_inicio_mes= str_replace(" ", "T", $f_inicio_mes);
+        $f_fin_mes= str_replace(" ", "T", $f_fin_mes);
+
         //Se sacaron variables de inicio para las consultas en la base de datos
        
          //$validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
@@ -465,7 +472,33 @@ class reporteController extends Controller
                                     )
                                 ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id','users.username')
                                 ->first();
-                               // dd($conexion);
+
+
+                                $pasesSalidas = DiasOtorgados::where("USERID", "=",  $validacion->USERID)->where("DATEID","=","1")->where("STARTSPECDAY","<=",$f_fin_mes)
+                                ->where("ENDSPECDAY",">=",$f_inicio_mes)->get();
+                                            $hs1=0;
+                                            $diff=0;
+
+                                            foreach ($pasesSalidas as $i => $value) {
+                                                
+                                                if($value != null) {                                       
+                                                    
+                                                  // for ($i=0; $i < count($pasesSalidas); $i++) { 
+                                                    $final=$pasesSalidas[$i]['ENDSPECDAY'];
+                                                    $inicio=$pasesSalidas[$i]['STARTSPECDAY'];
+                                                  
+                                                  $inicio = new Carbon($value->STARTSPECDAY);
+                                                  $final = new Carbon($value->ENDSPECDAY);
+                                                   $diff = $inicio->diffInMinutes($final);            
+                                                   $hs1=$hs1+$diff;
+                                                 //  dd($inicio);
+                                                 //  }
+                                                  
+                                                }
+                                                
+                                            }
+                                           
+                                
 
                                 $ban_inci=0;
                                 if(is_null($checada_extra)){
@@ -486,17 +519,19 @@ class reporteController extends Controller
                                     switch($checada_extra->TIPO){
                                         case 1:                                
                                             $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
-                                            
+                                           $ps=$hs1;
                                                                                     
-                                            if ($diatrab>=1)
+                                            /* if ($diatrab!=0 || $festivo==1)
                                                 {
                                                     $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
+                                                   // dd($hps);
                                                     $hps=$modif->diffInMinutes($hps);
                                                     $ps=$hps;
                                                 }                                                    
                                             else
-                                                $ps=$ps+$checada_extra->DIFHORA;
+                                                $ps=$ps+$checada_extra->DIFHORA; */
                                             break;
+                                           
                                         case 2:
                                             $impr= "Vacaciones 2019 Primavera-Verano";
                                             break;                               
@@ -817,7 +852,7 @@ class reporteController extends Controller
         
         $ps=$ps/60;
      
-       // dd( $capturista); 
+        
         $resumen = array(['horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        if($impre==0){
         return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);

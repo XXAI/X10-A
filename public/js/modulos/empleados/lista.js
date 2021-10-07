@@ -858,6 +858,7 @@ function sel_inci(valor) {
     switch (parseInt(valor)) {
 
         case 1:
+            console.log(resumen_checadas.Pase_Salida);
             pasesal = 6 - resumen_checadas.Pase_Salida;
             mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
