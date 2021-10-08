@@ -668,15 +668,17 @@ class reporteController extends Controller
                             $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
                             $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
 
-                                
+                            $asistencia[$indice]['retardo'] =0;
                                         if ($formato_checado>($tolerancia)){
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
                                                     if(is_null($checada_extra)|| ($checada_extra->TIPO==1)){
-                                                        $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Menor";
+                                                        $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;//." Retardo Menor";
+                                                        $asistencia[$indice]['retardo'] =1;
                                                         $rme=$rme+1;
                                                     }
                                                     else{
                                                         $asistencia[$indice]['checado_entrada'] = $impr;
+                                                        $asistencia[$indice]['retardo'] =0;
                                                     }
                                                 }
                                             if ($formato_checado->diffInMinutes($tolerancia) >= 26){

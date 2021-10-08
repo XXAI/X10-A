@@ -307,7 +307,7 @@ class EmpleadoController extends Controller
    
       //  
          $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin.'T23:59:59')
-         ->where("ENDSPECDAY",">=",$fini.'T00:00:00')
+         ->where("ENDSPECDAY",">=",$fini.'T00:00:00')->where("DATEID","<>","1")
          /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
             ->where(function($a)use($fini,$ffin){
             $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')

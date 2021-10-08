@@ -804,7 +804,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        console.log("aca", data);
+       // console.log("aca", data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
@@ -902,7 +902,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-        // console.log(value.checado_entrada);
+         console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
@@ -922,7 +922,9 @@ function cargar_blade_checadas() {
             } else {
                 xe = value.checado_entrada;
             }
-
+            if (value.retardo == 1) {
+                xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
+            }
         else
             xe = value.checado_entrada;
 
@@ -1177,6 +1179,8 @@ function validar(idinci) {
 
 }
 
+
+
 function validando_incidencia() {
     editEmpleado(idempleado);
 
@@ -1213,11 +1217,11 @@ function validando_incidencia() {
     diff = 1 + diff_in_days;
     var fec_com = moment(date_1).format();
     fec_com = fec_com.substr(5, 5);
-
+    
     switch (parseInt(tipo_incidencia)) {
         case 1: //Pase de Salida                  
             if (diff_in_days == 0) {
-                if (pasesal >= diff_in_hours && diff_in_hours <= 2) {
+                if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours>0 ) {
                     bandera = 1;
                 } else {
                     bandera = 0
@@ -1227,6 +1231,7 @@ function validando_incidencia() {
                 bandera = 0
                 msj = "Verifique la solicitud";
             }
+            console.log(bandera);
             break;
 
         case 6: //Dia Economico      
