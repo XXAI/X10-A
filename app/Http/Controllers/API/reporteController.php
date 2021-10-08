@@ -572,7 +572,7 @@ class reporteController extends Controller
                                             $impr="Reposición".$memo; 
                                             break;                                 
                                         case 15:                                
-                                            $impr="Vacaciones Mediano Riesgo";                                
+                                            $impr="Mediano Riesgo";                                
                                                 break;
                                         case 16:
                                             $impr="Vacaciones Extra Ordinarias";                                    
@@ -632,10 +632,10 @@ class reporteController extends Controller
                                             $impr="Dia Autorizado ".$memo;                                    
                                             break;
                                         case 41:
-                                            $impr="Vacaciones de Alto Riesgo".$memo;                                    
+                                            $impr="Alto Riesgo".$memo;                                    
                                             break;
                                         case 42:
-                                            $impr="Vacaciones de Bajo Riesgo".$memo;                                    
+                                            $impr="Bajo Riesgo".$memo;                                    
                                             break;
                                         case 43:
                                             $impr="Segun Memorandúm ".$memo;                                    
