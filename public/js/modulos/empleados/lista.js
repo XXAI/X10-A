@@ -704,37 +704,36 @@ function obtener_justificantes(fini, ffin) {
         dataType: "json",
         url: "./api/permisos/",
 
-    }).done(function(data) {      
-               
+    }).done(function(data) {
+
         data.permisos.forEach(element => {
-            permisos.push(element);            
+            permisos.push(element);
         });
         console.log(permisos);
-         
-    if (permisos.length > 0) {
-       
-        swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
-            icon: "warning",
-        });
-    } else { 
-                validando_incidencia();   
 
-                if (bandera == 1) {
-                
-                    if (ban_url == 1) {save_justi_emp();}
-                    else {
-                        if (val_in == 0) {
-                            save_justi_emp();                
+        if (permisos.length > 0) {
 
-                        } else {  acepta_incidencia();}
-                
-                    }
+            swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
+                icon: "warning",
+            });
+        } else {
+            validando_incidencia();
+
+            if (bandera == 1) {
+
+                if (ban_url == 1) { save_justi_emp(); } else {
+                    if (val_in == 0) {
+                        save_justi_emp();
+
+                    } else { acepta_incidencia(); }
+
+                }
 
 
-                } else {
-                    swal("Error!", msj + "!", "error");
-                }  
+            } else {
+                swal("Error!", msj + "!", "error");
             }
+        }
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -805,7 +804,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-        // console.log("aca", data);
+        console.log("aca", data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
