@@ -167,25 +167,27 @@ class EmpleadoController extends Controller
                 $edificio = $edificio['DEPTID'];
                 $buscaBase=$buscaBase->descripcion;
                // dd($buscaBase);
-                $max=Usuarios::max('USERID');
-                if(isset($max)){
-                $maxid=Usuarios::select('Badgenumber as num_max')
-                
-                ->where('USERID','=',$max)
-                ->get();   
-                $maxid=($maxid[0]->num_max)+1;}
-                else{
-                    $maxid=1; 
-                }
+               
                  
                     $registro = new Usuarios;
                     
                     if($buscaBase=="gomezmaza"){
-                        $registro->Badgenumber=  $request->biome;
+                        $maxid=$request->biome;
+                       
                     }
                     else{
-                        $registro->Badgenumber= $maxid;
-                    }
+                        $max=Usuarios::max('USERID');
+                        if(isset($max)){
+                        $maxid=Usuarios::select('Badgenumber as num_max')
+                        
+                        ->where('USERID','=',$max)
+                        ->get();   
+                        $maxid=($maxid[0]->num_max)+1;}
+                        else{
+                            $maxid=1; 
+                        }                   
+                     }
+                    $registro->Badgenumber= $maxid;
                     $registro->Name = $request->name;
                     $registro->Gender = $request->sexo;
                     $registro->TITLE = $request->rf;        

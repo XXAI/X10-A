@@ -16,7 +16,8 @@ var rfc_x, tipotra;
 var id_inci;
 var msj, ban_url;
 var mes_nac, idempleado, idhorario;
-var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp, banemp;
+var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
+var banemp = 0;
 var leyenda = 1;
 let permisos = [];
 arreglo_diafest = Array();
@@ -236,20 +237,14 @@ function limpia_empleados() {
 }
 
 function cargar_departamentos() {
-
-    if (base == 5) {
-        document.getElementById("biometrico").style.display = "block";
-        $("#biome").val(maxid);
-    } else {
-        document.getElementById("biometrico").style.display = "none";
-    }
+    $("#tipotra").empty();
+    
     $.ajax({
         type: "GET",
         url: './api/empleado',
         async: false,
         dataType: "json",
         success: function(data) {
-
             $.each(data.departamentos, function(key, registro) {
                 $("#tipotra").append("<option value=" + registro.id + ">" + registro.descripcion + "</option>");
             });
@@ -537,6 +532,7 @@ function guardar_empleado() {
     fin_fec = fin_fec.substr(0, 10) + " 00:00:00.00"
 
     var tipo;
+    console.log(banemp);
     if (banemp == 1) {
         url_emp = "api/edita-empleado/" + idempleado;
         tipo = 'GET';
@@ -545,7 +541,7 @@ function guardar_empleado() {
         url_emp = "api/guarda-empleado";
         tipo = 'POST';
     }
-    $.ajax({
+     $.ajax({
         type: tipo,
         url: url_emp,
         data: { biome: biome, name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
@@ -553,6 +549,10 @@ function guardar_empleado() {
 
             swal("Exito!", data.mensaje, "success");
             limpia_empleados();
+            /* $("#agregar_empleado").find("input,textarea,select").val("");
+            $("#agregar_empleado input[type='checkbox']").prop('checked', false).change(); */
+            $("#empleado-hora").html('');
+            $("#tipotra").empty();
             $('#agregar_empleado').modal('hide');
 
             cargar_empleados('');
@@ -578,7 +578,7 @@ function guardar_empleado() {
 
             }
         }
-    })
+    }) 
 
 
 
@@ -962,6 +962,9 @@ function cargar_blade_checadas() {
         $(this).removeClass('hover');
     });
 
+
+       
+
 }
 
 function imprimir_tarjeta() {
@@ -972,7 +975,16 @@ function imprimir_tarjeta() {
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
 
 }
-
+function nuevoEmpleado() {
+    banemp = 0;
+    cargar_departamentos();
+    if (base == 5) {
+        document.getElementById("biometrico").style.display = "block";
+        $("#biome").val(maxid);
+    } else {
+        document.getElementById("biometrico").style.display = "none";
+    }
+}
 function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
@@ -1027,9 +1039,7 @@ function editEmpleado(id) {
             alert('error');
         }
     });
-    // console.log("saliendo    " + tipotra);
-
-    // cargar_departamentos();
+  
 }
 
 
