@@ -977,6 +977,7 @@ function imprimir_tarjeta() {
 }
 function nuevoEmpleado() {
     banemp = 0;
+    $("#empleado-hora").html('');
     cargar_departamentos();
     if (base == 5) {
         document.getElementById("biometrico").style.display = "block";
