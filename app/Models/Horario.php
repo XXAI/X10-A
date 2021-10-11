@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Horario extends Model
 {
-    //protected $connection = 'ZK';
+    //protected $connection = 'GM';
+    
     protected $connection = 'dinamica';
    
     protected $table = "NUM_RUN";

@@ -238,7 +238,12 @@ function limpia_empleados() {
 
 function cargar_departamentos() {
     $("#tipotra").empty();
-    
+    if (base == 5) {
+        document.getElementById("biometrico").style.display = "block";
+        $("#biome").val(maxid);
+    } else {
+        document.getElementById("biometrico").style.display = "none";
+    }
     $.ajax({
         type: "GET",
         url: './api/empleado',
@@ -979,12 +984,7 @@ function nuevoEmpleado() {
     banemp = 0;
     $("#empleado-hora").html('');
     cargar_departamentos();
-    if (base == 5) {
-        document.getElementById("biometrico").style.display = "block";
-        $("#biome").val(maxid);
-    } else {
-        document.getElementById("biometrico").style.display = "none";
-    }
+    
 }
 function editEmpleado(id) {
     banemp = 1;
@@ -992,6 +992,7 @@ function editEmpleado(id) {
     idempleado = parseInt(id);
     //$("#tipotra").empty();
     cargar_departamentos();
+    
 
     $.ajax({
         type: "GET",

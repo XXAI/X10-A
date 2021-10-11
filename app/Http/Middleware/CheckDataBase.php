@@ -25,8 +25,6 @@ class CheckDataBase
     {
       if(isset(auth()->user()['id'])){
 
-
-        
         $iduser = auth()->user()['id'];
         $idbase = auth()->user()['base_id'];
        // dd($idbase);
@@ -38,8 +36,13 @@ class CheckDataBase
     
     
         if(!empty($namedb)){
+            
             \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
-            DB::connection('dinamica'); //Asigno la nueva conexión al sistema. 
+            if($namedb='gomezmaza'){
+                DB::connection('GM'); //Asigno la nueva conexión al sistema. 
+            }else{
+                DB::connection('dinamica');
+            }
         }
         return $next($request);
     }
