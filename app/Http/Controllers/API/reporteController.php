@@ -515,7 +515,7 @@ class reporteController extends Controller
                                    $ban_inci=$checada_extra->Ban_Inci;
                                    $sol=$checada_extra->captura_id;
 
-
+                                    $falta = 0;
                                    //return $ban_inci;
                                     switch($checada_extra->TIPO){
                                         case 1:                                
@@ -642,6 +642,10 @@ class reporteController extends Controller
                                             break;
                                         case 44:
                                             $impr="Licencia por Maternidad ".$memo;                                    
+                                            break;
+                                        case 45:
+                                            $impr="FALTA POR MEMORÁNDUM ".$memo;   
+                                            $falta = 1;                                 
                                             break;
                                         default:
                                             $impr="";
@@ -774,6 +778,7 @@ class reporteController extends Controller
                             }
                         else{
                             $asistencia[$indice]['checado_salida'] = $impr;
+                            $asistencia[$indice]['faltaxmemo'] = $falta;
                                 $ini = new Carbon($checada_extra->INI);
                                 $fin = new Carbon($checada_extra->FIN);
                                 $asistencia[$indice]['validacion'] = 1;

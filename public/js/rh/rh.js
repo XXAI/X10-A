@@ -148,6 +148,17 @@ function cargar_blade_checadas() {
         {
             icono = "<i class='fa fa-check' style='color:green'></i>";
         }
+        if (value.checado_entrada == "SIN REGISTRO")
+            if (value.checado_entrada_fuera != null) {
+                xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>";
+            } else {
+                xe = value.checado_entrada;
+            }
+            if (value.retardo == 1) {
+                xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
+            }
+        else
+          xe = value.checado_entrada;
         if (value.checado_salida == value.checado_salida_fuera)
             xs = value.checado_salida;
         else
@@ -159,7 +170,7 @@ function cargar_blade_checadas() {
             icono2 = " ";
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + value.checado_entrada + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + value.checado_salida + "</td> <td>" + icono + "</td></tr>");
         //<td>" + icono2 + "</td>
 
     })
