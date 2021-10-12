@@ -22,6 +22,7 @@ function cargar_catalogo() {
         url: './api/catalogo',
     }).done(function(data, textStatus, jqXHR) {
         $.each(data.catalogo, function(index, valor) {
+            console.log(valor);
          //   if (valor.id != 1) {
                 select.append("<option value='" + valor.id + "'>" + valor.descripcion + "</option>");
                 select_config.append("<option value='" + valor.id + "'>" + valor.descripcion + "</option>");

@@ -69,7 +69,7 @@ class ConfiguracionTrimestralController extends Controller
      */
     public function show()
     {
-        
+        $parametros =Input::all();
           try
         {         
             $parametros =Input::all();
