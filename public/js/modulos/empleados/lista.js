@@ -943,8 +943,8 @@ function cargar_blade_checadas() {
         else
             xs = value.checado_salida;
 
-
-        if (value.ban_inci >= 1 && value.checado_salida == undefined)
+// && value.checado_salida == undefined
+        if (value.ban_inci >= 1)
             icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
         else
             icono2 = " ";
