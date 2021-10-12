@@ -546,7 +546,7 @@ function guardar_empleado() {
         url_emp = "api/guarda-empleado";
         tipo = 'POST';
     }
-     $.ajax({
+    $.ajax({
         type: tipo,
         url: url_emp,
         data: { biome: biome, name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
@@ -583,7 +583,7 @@ function guardar_empleado() {
 
             }
         }
-    }) 
+    })
 
 
 
@@ -809,7 +809,7 @@ function cargar_datos_checadas(urlchecadas) {
         url: urlchecadas,
 
     }).done(function(data, textStatus, jqXHR) {
-       // console.log("aca", data);
+        // console.log("aca", data);
         $("#inicio").val(data.fecha_inicial);
         $("#fin").val(data.fecha_final);
 
@@ -907,16 +907,16 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-         console.log(value);
+        console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
-       /*  if (value.checado_salida == 1){
-            icono = "<i class='fa fa-close' style='color:red'";
-        } */
+        /*  if (value.checado_salida == 1){
+             icono = "<i class='fa fa-close' style='color:red'";
+         } */
 
-        if (value.validacion == 0 || value.checado_entrada.includes('Retardo'))
+        if (value.validacion == 0 || value.checado_entrada.includes('Retardo') || value.faltaxmemo != 0)
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
-        
+
         else {
             /*  if (value.sol == 0) {
                  icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
@@ -931,10 +931,9 @@ function cargar_blade_checadas() {
             } else {
                 xe = value.checado_entrada;
             }
-            if (value.retardo == 1) {
-                xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
-            }
-        else
+        if (value.retardo == 1) {
+            xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
+        } else
             xe = value.checado_entrada;
 
 
@@ -972,7 +971,7 @@ function cargar_blade_checadas() {
     });
 
 
-       
+
 
 }
 
@@ -984,19 +983,21 @@ function imprimir_tarjeta() {
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
 
 }
+
 function nuevoEmpleado() {
     banemp = 0;
     $("#empleado-hora").html('');
     cargar_departamentos();
-    
+
 }
+
 function editEmpleado(id) {
     banemp = 1;
     $("#modal-empleado").html("Editar Empleado");
     idempleado = parseInt(id);
     //$("#tipotra").empty();
     cargar_departamentos();
-    
+
 
     $.ajax({
         type: "GET",
@@ -1045,7 +1046,7 @@ function editEmpleado(id) {
             alert('error');
         }
     });
-  
+
 }
 
 
@@ -1233,11 +1234,11 @@ function validando_incidencia() {
     diff = 1 + diff_in_days;
     var fec_com = moment(date_1).format();
     fec_com = fec_com.substr(5, 5);
-    
+
     switch (parseInt(tipo_incidencia)) {
         case 1: //Pase de Salida                  
             if (diff_in_days == 0) {
-                if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours>0 ) {
+                if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
                     bandera = 1;
                 } else {
                     bandera = 0

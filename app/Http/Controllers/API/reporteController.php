@@ -135,7 +135,7 @@ class reporteController extends Controller
         )           
         ->get();
 
-       
+        $faltaxmemo = 0;
                 
             $vac19_1=0;
             $vac20_1=0;
@@ -515,7 +515,7 @@ class reporteController extends Controller
                                    $ban_inci=$checada_extra->Ban_Inci;
                                    $sol=$checada_extra->captura_id;
 
-                                    $falta = 0;
+                                    
                                    //return $ban_inci;
                                     switch($checada_extra->TIPO){
                                         case 1:                                
@@ -645,7 +645,7 @@ class reporteController extends Controller
                                             break;
                                         case 45:
                                             $impr="FALTA POR MEMORÁNDUM ".$memo;   
-                                            $falta = 1;                                 
+                                            $faltaxmemo = 1;                                 
                                             break;
                                         default:
                                             $impr="";
@@ -777,8 +777,7 @@ class reporteController extends Controller
                             $asistencia[$indice]['validacion'] = 0;
                             }
                         else{
-                            $asistencia[$indice]['checado_salida'] = $impr;
-                            $asistencia[$indice]['faltaxmemo'] = $falta;
+                            $asistencia[$indice]['checado_salida'] = $impr;                            
                                 $ini = new Carbon($checada_extra->INI);
                                 $fin = new Carbon($checada_extra->FIN);
                                 $asistencia[$indice]['validacion'] = 1;
@@ -792,6 +791,7 @@ class reporteController extends Controller
                         if(isset($checa_inhabil) && $diafest ==''){
                             $asistencia[$indice]['checado_entrada']=$checa_inhabil->HOLIDAYNAME;
                             $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                            $asistencia[$indice]['validacion'] = 1;
                             $asistencia[$indice]['validacion'] = 1;
                         }
         
@@ -834,6 +834,8 @@ class reporteController extends Controller
 
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")||($asistencia[$indice]['checado_entrada']=="SIN REGISTRO"))
                       $falta = $falta+1;
+
+                      $asistencia[$indice]['faltaxmemo'] = $faltaxmemo;
         
           
                 }
