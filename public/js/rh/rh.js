@@ -194,14 +194,14 @@ function cargar_blade_resumen() {
     $("#Pase_Salida").text(resumen_checadas.Pase_Salida);
     $("#Retardo_Mayor").text(resumen_checadas.Retardo_Mayor);
     $("#Retardo_Menor").text(resumen_checadas.Retardo_Menor);
-    $("#Vacaciones_2018_Invierno").text(resumen_checadas.Vacaciones_2018_Invierno);
+  /*   $("#Vacaciones_2018_Invierno").text(resumen_checadas.Vacaciones_2018_Invierno);
     $("#Vacaciones_2018_Primavera_Verano").text(resumen_checadas.Vacaciones_2018_Primavera_Verano);
     $("#Vacaciones_2019_Invierno").text(resumen_checadas.Vacaciones_2019_Invierno);
     $("#Vacaciones_2019_Primavera_Verano").text(resumen_checadas.Vacaciones_2019_Primavera_Verano);
     $("#Vacaciones_2020_Invierno").text(resumen_checadas.Vacaciones_2020_Invierno);
     $("#Vacaciones_2020_Primavera_Verano").text(resumen_checadas.Vacaciones_2020_Primavera_Verano);
     $("#Vacaciones_Extra_Ordinarias").text(resumen_checadas.Vacaciones_Extra_Ordinarias);
-    $("#Vacaciones_Mediano_Riesgo").text(resumen_checadas.Vacaciones_Mediano_Riesgo);
+    $("#Vacaciones_Mediano_Riesgo").text(resumen_checadas.Vacaciones_Mediano_Riesgo); */
 
 }
 

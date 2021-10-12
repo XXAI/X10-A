@@ -22,10 +22,10 @@ function cargar_catalogo() {
         url: './api/catalogo',
     }).done(function(data, textStatus, jqXHR) {
         $.each(data.catalogo, function(index, valor) {
-            if (valor.DEPTID != 1) {
+         //   if (valor.id != 1) {
                 select.append("<option value='" + valor.id + "'>" + valor.descripcion + "</option>");
                 select_config.append("<option value='" + valor.id + "'>" + valor.descripcion + "</option>");
-            }
+        //    }
         });
 
     }).fail(function(jqXHR, textStatus, errorThrown) {

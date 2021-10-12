@@ -537,7 +537,7 @@ function guardar_empleado() {
     fin_fec = fin_fec.substr(0, 10) + " 00:00:00.00"
 
     var tipo;
-    console.log(banemp);
+   // console.log(banemp);
     if (banemp == 1) {
         url_emp = "api/edita-empleado/" + idempleado;
         tipo = 'GET';
@@ -793,6 +793,11 @@ function sel_tiporeg(tiporeg) {
 
 
 }
+function probando()
+{
+    cargar_datos_checadas(urlchecadas);
+  
+}
 
 function cargar_datos_checadas(urlchecadas) {
 
@@ -815,7 +820,7 @@ function cargar_datos_checadas(urlchecadas) {
 
         datos_checadas_mes = data.data;
         resumen_checadas = data.resumen[0];
-        //console.log(datos_checadas_mes);
+        console.log(resumen_checadas.resumen2);
         validacion = data.validacion;
         //  console.log(datos_checadas_mes);
 
@@ -907,7 +912,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //console.log(datos_checadas_mes);
-        console.log(value);
+      //  console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
         /*  if (value.checado_salida == 1){
