@@ -341,6 +341,7 @@ class reporteController extends Controller
                         
                             $fecha_eval = $asistencia[$indice]['fecha'];
                             
+                            
                             $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
                            // $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
                             $final_entra=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000");
@@ -348,7 +349,7 @@ class reporteController extends Controller
                             $final_entra= str_replace(" ", "T", $final_entra);
                              $final_entra= $final_entra.".000";
                              
-                        //    dd($final_entra);
+                          //  dd($final_entra);
                         //      
                             $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
                             $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
@@ -356,6 +357,12 @@ class reporteController extends Controller
                       //  dd($value);
                            $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000";
                            $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin.":00.000";
+                           $asistencia[$indice]['jorfin'] = new carbon($asistencia[$indice]['jorfin']);
+                           if ($diatrab !=0 ){
+                            $asistencia[$indice]['jorfin']->addDays();
+                           }
+                           $asistencia[$indice]['jorfin'] = str_replace(" ", "T", $asistencia[$indice]['jorfin']);
+                         
 
 
 
@@ -389,6 +396,7 @@ class reporteController extends Controller
                                         $final_sal->addDays($diatrab); 
                                         $inicio_sal_fuera->addDays($diatrab);
                                         $final_sal_fuera->addDays($diatrab);
+                                        //$jorFin->addDays($diatrab);
                                     }
                                                                  
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
@@ -865,7 +873,7 @@ class reporteController extends Controller
         
         $resumen = array(['resumen2'=>$resumen2,'horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        if($impre==0){
-        return response()->json(["data" => $asistencia, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
+        return response()->json(["data" => $asistencia, "nocturno"=> $diatrab, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
        }else{  
            return array("data" => $asistencia, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('d/m/Y'), "fecha_final"=> $fecha_view_fin->format('d/m/Y'));
        }
