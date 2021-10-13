@@ -181,7 +181,7 @@ class ReporteTrimestralController extends Controller
                 if(!array_key_exists($empleados[$index_empleado]->TITLE, $empleados_trimestral))
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE] = $empleados[$index_empleado];
-                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 2;
+                    $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 0;
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = 0;
                 }
                 
@@ -205,7 +205,7 @@ class ReporteTrimestralController extends Controller
                     for($i = 1; $i<=$dias_mes; $i++)
                     {
                         $fecha_evaluar = new Carbon($fecha_inicio);
-                        $fecha_evaluar->day = $i+2;
+                        $fecha_evaluar->day = $i;
                        // dd($fecha_evaluar);
                         if($fecha_evaluar->lessThan($fecha_limite_actual))
                         {
