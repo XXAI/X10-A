@@ -91,12 +91,12 @@ class ReporteTrimestralController extends Controller
             $fecha_ejercicio = Carbon::now();
             $fecha_ejercicio->year =  $anio;
             $fecha_ejercicio->month = $data_trimestre;
-            $fecha_ejercicio->day = 3;
+            $fecha_ejercicio->day = 1;
             $fecha_inicio = $fecha_ejercicio->format('Y-m-d');
             $fecha_fin = $fecha_ejercicio->format('Y-m-').$fecha_ejercicio->daysInMonth;
             $dias_mes = $fecha_ejercicio->daysInMonth;
-            $dias_mes = $dias_mes - 2;
-           //dd($fecha_inicio);
+            //$dias_mes = $dias_mes;
+           //dd($fecha_fin);
             //Obtenemos los dias Festivos
             $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
             $arreglo_festivos = array();
