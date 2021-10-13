@@ -32,7 +32,7 @@ class ConfiguracionTrimestralController extends Controller
     public function store(Request $request)
     {   
         $parametros =Input::all();
-        try
+       try
         {      
             $parametros =Input::all();
            $obj = ConfiguracionTrimestral::where("anio", "=", $parametros['config_anio'])->where("trimestre", "=", $parametros['config_trimestre'])->first();
@@ -70,7 +70,9 @@ class ConfiguracionTrimestralController extends Controller
     public function show()
     {
         $parametros =Input::all();
-          try
+        dd($parametros);
+        
+      try
         {         
             $parametros =Input::all();
            
