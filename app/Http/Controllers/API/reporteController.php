@@ -345,7 +345,10 @@ class reporteController extends Controller
                             $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
                            // $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
                             $final_entra=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000");
-                            $final_entra->addMinute();  
+                            if($nombrebase == 'gomezmaza'){
+                                $final_entra->addMinute();  
+                            }
+                            
                             $final_entra= str_replace(" ", "T", $final_entra);
                              $final_entra= $final_entra.".000";
                              
@@ -653,6 +656,10 @@ class reporteController extends Controller
                                             break;
                                         case 45:
                                             $impr="FALTA POR MEMORÁNDUM ".$memo;   
+                                            $faltaxmemo = 1;                                 
+                                            break;
+                                        case 46:
+                                            $impr="ABANDONO DE LABORES ";   
                                             $faltaxmemo = 1;                                 
                                             break;
                                         default:

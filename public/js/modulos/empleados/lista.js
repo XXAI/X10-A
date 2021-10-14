@@ -909,37 +909,41 @@ function cargar_blade_checadas() {
 
 
     var table = $("#datos_filtros_checadas");
+    var xe;
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        console.log(datos_checadas_mes);
+        //console.log(datos_checadas_mes);
         //console.log(value);
 
-        icono = "<i class='fa fa-check' style='color:green'></i>";
-     
+        icono = "<i class='fa fa-check' style='color:green'></i>";    
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo') || value.faltaxmemo != 0)
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
 
         else {
-            /*  if (value.sol == 0) {
-                 icono = "<a type='button' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' class='btn btn-link' onclick='validar(" + value.ban_inci + ")'><i class='fa fa-question-circle' style='color:red' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='En proceso de Validación'></i>";
-              } else { */
+           
             icono = "<i class='fa fa-check' style='color:green'></i>";
         }
-        //}
-
+       
+        console.log(value.checado_entrada_fuera);
         if (value.checado_entrada == "SIN REGISTRO")
-            if (value.checado_entrada_fuera != null) {
+        {
+            if (value.checado_entrada_fuera != null || value.retardo == 1) {
                 xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>";
-            } else {
-                xe = value.checado_entrada;
             }
-        if (value.retardo == 1) {
+            /* else (value.retardo == 1) 
+                xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
+             */
+            
+        }else {
+            xe = value.checado_entrada;
+        }
+       /*  if (value.retardo == 1) {
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
         } else
             xe = value.checado_entrada;
-
-
+ */
+        console.log(xe,"  retaro:  "+value.retardo);
         if (value.checado_salida == "SIN REGISTRO")
             if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
 
@@ -961,7 +965,7 @@ function cargar_blade_checadas() {
 
         table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + xs + icono3 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
 
-
+        xe='SIN REGISTRO';
 
 
     })
