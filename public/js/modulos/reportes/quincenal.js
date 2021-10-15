@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
     //cargar_dato("");
     cargar_catalogo();
@@ -36,7 +39,7 @@ function btn_filtrar() {
 }
 
 function cargar_dato(dato) {
-
+    
     var lista = $("#lista_personal");
     lista.html("");
     var linea_cargar = $("<tr><td colspan='22'>Cargando espere un momento, por favor. <i class='fa fa-spin fa-refresh'></i></td></tr>");
@@ -67,6 +70,7 @@ function cargar_dato(dato) {
 
             campo2 = $("<td style='text-align:center;border-bottom:1px solid black;'>A<br>" + value.resumen.ASISTENCIA + "</td>");
             campo3 = $("<td style='text-align:center;border-bottom:1px solid black;'>R1<br>" + value.resumen.RETARDOS_1 + "</td>");
+            //retardo+=1;
             //campo4 =  $("<td style='text-align:center;border-bottom:1px solid black;'>R1Q2<br>" + value.resumen.RETARDOS_2 + "</td>");
 
             campo5 = $("<td style='text-align:center;border-bottom:1px solid black;;'>F<br>" + value.resumen.FALTAS + "</td>");
@@ -77,6 +81,7 @@ function cargar_dato(dato) {
             lista.append(linea);
 
             var i = 1;
+        
             //var linea2 = $("<tr></tr>");
             //var tamano = Object.keys(value.asistencia).length;
             $.each(value.asistencia, function(index_asistencia, value_asistencia) {
@@ -87,6 +92,7 @@ function cargar_dato(dato) {
                 if (value_asistencia == "F" || value_asistencia == "FE" || value_asistencia == "FS") {
                     campo = $("<td style='" + stilo_linea + "' class='faltas color_rojo'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                 } else if (value_asistencia == "R1") {
+                   
                     campo = $("<td style='" + stilo_linea + "'  class='faltas color_gris'>" + index_asistencia + "<br>" + value_asistencia + "</td>");
                 } else if (value_asistencia == "N/A") {
                     campo = $("<td style='background-color: #EFEFEF;" + stilo_linea + "'  class='faltas'>" + index_asistencia + "</td>");
@@ -113,6 +119,8 @@ function cargar_dato(dato) {
 
                 i++;
             });
+          //  console.log(retardo);
+           
 
         });
 

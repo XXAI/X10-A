@@ -925,21 +925,25 @@ function cargar_blade_checadas() {
             icono = "<i class='fa fa-check' style='color:green'></i>";
         }
        
-        console.log(value.checado_entrada_fuera);
-        if (value.checado_entrada == "SIN REGISTRO")
+     //   console.log(value.checado_entrada_fuera);
+
+     console.log(value.retardo);
+        if (value.checado_entrada == "SIN REGISTRO" || value.retardo == 1 )
         {
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
-            if (value.checado_entrada_fuera != null ) {
-                xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>";
-            }
-            if(value.retardo == 1){
-                "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>"
-            }
+            //if (value.checado_entrada_fuera != null || value.retardo == 1 ) {
+                xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada + ")</i>";
+            //}
+            xe= "<i style='color:red'>" + value.checado_entrada + "</i>";
             /* else (value.retardo == 1) 
                 xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
              */
             
-        }else {
+        }
+        /* else if(value.retardo == 1){
+            "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>"
+        } */
+        else {
             xe = value.checado_entrada;
         }
        /*  if (value.retardo == 1) {
@@ -947,7 +951,7 @@ function cargar_blade_checadas() {
         } else
             xe = value.checado_entrada;
  */
-        console.log(xe,"  retaro:  "+value.retardo);
+       // console.log(xe,"  retardo:  "+value.retardo);
         if (value.checado_salida == "SIN REGISTRO")
             if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
 

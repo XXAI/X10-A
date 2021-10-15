@@ -348,7 +348,7 @@ class reporteController extends Controller
                             if($nombrebase == 'gomezmaza'){
                                 $final_entra->addMinute();  
                             }
-                            
+                            $final_entra->addHours(3);
                             $final_entra= str_replace(" ", "T", $final_entra);
                              $final_entra= $final_entra.".000";
                              
@@ -689,18 +689,18 @@ class reporteController extends Controller
 
                             $asistencia[$indice]['retardo'] =0;
                                         if ($formato_checado>($tolerancia)){
-                                            if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=25){
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=40){
                                                     if(is_null($checada_extra)|| ($checada_extra->TIPO==1)){
                                                         $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;//." Retardo Menor";
-                                                        $asistencia[$indice]['retardo'] =1;
+                                                        $asistencia[$indice]['retardo'] = 1;
                                                         $rme=$rme+1;
                                                     }
                                                     else{
                                                         $asistencia[$indice]['checado_entrada'] = $impr;
-                                                        $asistencia[$indice]['retardo'] =0;
+                                                        $asistencia[$indice]['retardo'] = 0;
                                                     }
                                                 }
-                                            if ($formato_checado->diffInMinutes($tolerancia) >= 26){
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 41){
                                                 if(is_null($checada_extra) || ($checada_extra->TIPO==1)){
                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
                                                     $rm=$rm+1;

@@ -915,6 +915,7 @@ class ReporteMensualController extends Controller
             
             
             $faltas_x_retardos_q1 = intval((count($dia_retardos_quincenas["Q1"])) / 7);
+           // dd($faltas_x_retardos_q1);
             if($faltas_x_retardos_q1 > 0)
             {
                 $dia_falta_quincenas["Q1"][] = "7R1";    
@@ -926,7 +927,9 @@ class ReporteMensualController extends Controller
             {
                 $dia_falta_quincenas["Q2"][] = "7R1";    
             }
+             //   dd($faltas_x_retardos_q2 );
 
+             //$faltas_x_retardos_q2;
             $resumen['RETARDOS_QUINCENALES'] = $dia_retardos_quincenas;
             $resumen['FALTAS_QUINCENALES'] = $dia_falta_quincenas;
             
@@ -939,6 +942,7 @@ class ReporteMensualController extends Controller
                 $arreglo_resultado[] = $empleados[$index_empleado];
             }
         }
+        //dd($resumen['RETARDOS_1']);
         //echo $personal;
         $tipo_nomina = Departamentos::where("id", "=",$tipo_trabajador)->first();
         return array("datos" => $arreglo_resultado, "filtros" => $parametros, "nombre_mes"=> $this->catalogo_meses[$parametros['mes']], "tipo_trabajador" => $tipo_nomina);
