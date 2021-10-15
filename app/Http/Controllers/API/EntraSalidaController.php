@@ -19,21 +19,7 @@ class EntraSalidaController extends Controller
     {           
         try {
                 
-                $registro = new ChecadasTrabajador;
-                $registro->USERID = $request->id;
-                $registro->CHECKTIME = $request->fing;
-                $registro->CHECKTYPE = $request->tipo_registro;
-                $registro->VERIFYCODE = $request->idcap;        
-                $registro->SENSORID = $request->idcap; 
-                
-                $registro->MachineId=  "0"; 
-                $registro->UserExtFmt=    "0";  
-                $registro->WorkCode=  "0";
-                $registro->Memoinfo=$request->razon;
-                $registro->sn=   "0";
-                $registro->save();
-
-                $registro2 = new Omisiones;
+            $registro2 = new Omisiones;
                 $registro2->USERID = $request->id;
                 $registro2->CHECKTIME = $request->fing;
                 $registro2->CHECKTYPE = $request->tipo_registro;
@@ -46,6 +32,21 @@ class EntraSalidaController extends Controller
                 $registro2->ISDELETE=  "0";
                 $registro2->ISCOUNT=  "0";
                 $registro2->save(); 
+
+                 $registro = new ChecadasTrabajador;
+                $registro->USERID = $request->id;
+                $registro->CHECKTIME = $request->fing;
+                $registro->CHECKTYPE = $request->tipo_registro;
+                $registro->VERIFYCODE = $request->idcap;        
+                $registro->SENSORID = $request->idcap;                 
+                $registro->MachineId=  "0"; 
+                $registro->UserExtFmt=    "0";  
+                $registro->WorkCode=  "0";
+                $registro->Memoinfo=$request->razon;
+                $registro->sn=   "0";
+                $registro->save();
+
+                
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
             } 
         catch (\Exception $e) {            
