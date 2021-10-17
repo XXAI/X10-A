@@ -449,8 +449,8 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn")
-                                ->groupBy("checkinout.sn")
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn","WorkCode","UserExtFmt")
+                                ->groupBy("checkinout.sn","WorkCode","UserExtFmt")
                                 ->first();
                         
                                 
@@ -786,6 +786,10 @@ class reporteController extends Controller
                         if (is_null($checada_salida->sn)){
                             $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
                            else{
+
+                                $asistencia[$indice]['omision'] = $checada_salida->WorkCode;
+                                $asistencia[$indice]['user_omision'] = $checada_salida->UserExtFmt;
+                                $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
                                 if($nombrebase<>'ZKAccess')
                                      $asistencia[$indice]['checado_salida'] = $checada_salida->HORA. " Omisión Salida";
                                 else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
