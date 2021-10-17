@@ -787,7 +787,7 @@ class reporteController extends Controller
                             $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
                            else{
 
-                                $asistencia[$indice]['omision'] = $checada_salida->WorkCode;
+                                $asistencia[$indice]['omisionsal'] = $checada_salida->WorkCode;
                                 $asistencia[$indice]['user_omision'] = $checada_salida->UserExtFmt;
                                 $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
                                 if($nombrebase<>'ZKAccess')

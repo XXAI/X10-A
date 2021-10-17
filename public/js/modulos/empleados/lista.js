@@ -453,43 +453,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 }
 
 function guardar_entrasal() {
-
-    id = $("#id").val();
-
-    var fecha_ing = moment($("#fecha_reg").val());
-    var tipo_registro = $("#tipo_es").val();
-    var razon = $("#refe").val();
-    var fing = moment(fecha_ing).format();
-    fing = fing.substr(0, 10) + " " + fing.substr(11, 8) + ".00";
-
-    if (razon == "") {
-        swal("Verifique!", "Este campo es necesario", "error");
-        $("#refe").focus();
-    } else {
-
-        $.ajax({
-            type: 'POST',
-            url: "api/guarda-entrasal",
-            data: { id: id, fing: fing, tipo_registro: tipo_registro, razon: razon, idcap: idcap },
-            success: function(data) {
-                swal("Exito!", "El registro se ha guardado!", "success");
-                $("#refe").val('');
-                $("#tipo_es").val('');
-                $("#agregar_entrasal").modal('hide');
-                document.getElementById('filtro_check').click();
-
-
-
-            },
-            error: function(data) {
-                swal("Error!", "No se registro ningun dato!", "error");
-
-
-            }
-        })
-
-    }
-
+    obtener_omisiones();
 
 
 
@@ -640,6 +604,46 @@ function agregar_entsal(jini, jfin) {
 
 }
 
+function guarda_omision() {
+    id = $("#id").val();
+
+    var fecha_ing = moment($("#fecha_reg").val());
+    var tipo_registro = $("#tipo_es").val();
+    var razon = $("#refe").val();
+    var fing = moment(fecha_ing).format();
+    fing = fing.substr(0, 10) + " " + fing.substr(11, 8) + ".00";
+
+    if (razon == "") {
+        swal("Verifique!", "Este campo es necesario", "error");
+        $("#refe").focus();
+    } else {
+
+        $.ajax({
+            type: 'POST',
+            url: "api/guarda-entrasal",
+            data: { id: id, fing: fing, tipo_registro: tipo_registro, razon: razon, idcap: idcap },
+            success: function(data) {
+                swal("Exito!", "El registro se ha guardado!", "success");
+                $("#refe").val('');
+                $("#tipo_es").val('');
+                $("#agregar_entrasal").modal('hide');
+                document.getElementById('filtro_check').click();
+
+
+
+            },
+            error: function(data) {
+                swal("Error!", "No se registro ningun dato!", "error");
+
+
+            }
+        })
+
+    }
+
+
+}
+
 
 
 function obtener_omisiones() {
@@ -647,10 +651,10 @@ function obtener_omisiones() {
     id = $("#id").val();
     tipoomi = $("#tipo_es").val();
     fecha = xini;
-    var algo = 0,
-        oentrada = 0,
-        osalida = 0;
-    // tipo = $("#tipo_es").val();, tipo: tipo
+    var algo = 0;
+    oentrada = 0;
+    osalida = 0;
+
     $.ajax({
         type: "GET",
         url: "./api/omisiones/",
@@ -672,17 +676,26 @@ function obtener_omisiones() {
 
 
             omisiones_total = data;
-            // console.log("oentrada: " + oentrada + " osalida: " + osalida + " algo: " + algo);
+            console.log("oentrada: " + oentrada + " osalida: " + osalida + " algo: " + algo);
 
             if (oentrada < 2 && osalida < 2 && algo == 0) {
-                var mensaje = "  ";
-                mostrarMensaje2(mensaje);
-                $('#btn_save_entrasal').attr('disabled', false);
+                /*  var mensaje = "  ";
+                 mostrarMensaje2(mensaje);
+                 $('#btn_save_entrasal').attr('disabled', false); */
+
+                guarda_omision();
             } else {
 
-                var mensaje = "Ya se agoto la cantidad de omisiones";
+                swal("¡La Omisión no se puede ingresar porque ya agotó la cantidad permitida!", {
+                    icon: "warning",
+                });
+
+                /*  algo = 0;
+                     oentrada = 0;
+                     osalida = 0; */
+                /* var mensaje = "Ya se agoto la cantidad de omisiones";
                 $('#btn_save_entrasal').attr('disabled', true);
-                mostrarMensaje2(mensaje);
+                mostrarMensaje2(mensaje); */
             }
 
 
@@ -723,7 +736,6 @@ function obtener_justificantes(fini, ffin) {
             });
         } else {
             validando_incidencia();
-
             if (bandera == 1) {
 
                 if (ban_url == 1) { save_justi_emp(); } else {
@@ -733,7 +745,6 @@ function obtener_justificantes(fini, ffin) {
                     } else { acepta_incidencia(); }
 
                 }
-
 
             } else {
                 swal("Error!", msj + "!", "error");
@@ -820,7 +831,7 @@ function cargar_datos_checadas(urlchecadas) {
 
         datos_checadas_mes = data.data;
         resumen_checadas = data.resumen[0];
-        console.log(resumen_checadas.resumen2);
+        // console.log(resumen_checadas.resumen2);
         validacion = data.validacion;
         //  console.log(datos_checadas_mes);
 
@@ -912,7 +923,7 @@ function cargar_blade_checadas() {
     var xe = 'SIN REGISTRO';;
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        console.log(datos_checadas_mes);
+        //  console.log(datos_checadas_mes);
         //console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
@@ -953,6 +964,12 @@ function cargar_blade_checadas() {
         } else {
             icono4 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omision + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
         }
+
+        if (value.omisionsal == undefined) {
+            icono5 = " ";
+        } else {
+            icono5 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omisionsal + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
+        }
         if (value.checado_salida == "SIN REGISTRO")
             if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
 
@@ -972,7 +989,7 @@ function cargar_blade_checadas() {
 
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + icono4 + "</td>" + "</td><td>" + xs + icono3 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + icono4 + "</td>" + "</td><td>" + xs + icono3 + icono5 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
 
         xe = 'SIN REGISTRO';
 
@@ -1421,7 +1438,7 @@ function guardar_incidencia() {
     //permisos = [];
     obtener_justificantes(fini, ffin);
     //permisos = [];
-    console.log(permisos.length + " ini= " + fini + " fin = " + ffin);
+    //console.log(permisos.length + " ini= " + fini + " fin = " + ffin);
 
 }
 
