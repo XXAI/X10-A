@@ -12,6 +12,7 @@ use App\Models\Usuarios;
 use App\Models\UsuarioHorario;
 use App\Models\FinSemanaFestivo;
 use App\Models\DiasOtorgados;
+use App\Models\User;
 
 
 //use App\Models\ReglasHorario;
@@ -266,7 +267,7 @@ class reporteController extends Controller
         $oS=0;
         $falta=0;
         $ps=0;
-       
+       $omision=0;
        
             $indice = 0;
             while($fecha_pivote->diffInDays($f_fin)  > 0)
@@ -431,8 +432,8 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_entra, $final_entra])                                           
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn")
-                                ->groupBy("checkinout.sn")
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn","WorkCode","UserExtFmt")
+                                ->groupBy("checkinout.sn","WorkCode","UserExtFmt")
                                                 
                                 ->first();
                        // dd($checada_entrada);
@@ -713,8 +714,13 @@ class reporteController extends Controller
                                         else
                                         //dd($checada_entrada);
                                            if (is_null($checada_entrada->sn)){
-                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; }                               
+                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; 
+                                             
+                                            }                               
                                             else{
+                                                $asistencia[$indice]['omision'] = $checada_entrada->WorkCode;
+                                                $asistencia[$indice]['user_omision'] = $checada_entrada->UserExtFmt;
+                                                $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
                                                 if($nombrebase<>'ZKAccess')
                                                      $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. " Omisión Entrada";
                                                 else $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;

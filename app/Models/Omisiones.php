@@ -15,4 +15,9 @@ class Omisiones extends Model
         return $this->hasOne('App\Models\User', 'id', "MODIFYBY");
     }
     public $timestamps = false;
+
+    public function getKeyName(){
+        return "EXACTID";
+    }
+
 }

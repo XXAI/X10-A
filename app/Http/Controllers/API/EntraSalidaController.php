@@ -19,7 +19,8 @@ class EntraSalidaController extends Controller
     {           
         try {
                 
-            $registro2 = new Omisiones;
+           
+                $registro2 = new Omisiones;
                 $registro2->USERID = $request->id;
                 $registro2->CHECKTIME = $request->fing;
                 $registro2->CHECKTYPE = $request->tipo_registro;
@@ -33,24 +34,49 @@ class EntraSalidaController extends Controller
                 $registro2->ISCOUNT=  "0";
                 $registro2->save(); 
 
+           
                  $registro = new ChecadasTrabajador;
+                // $omision_id = Omisiones::latest('EXACTID')->first();
+                $omision_id = Omisiones::max('EXACTID');
                 $registro->USERID = $request->id;
                 $registro->CHECKTIME = $request->fing;
                 $registro->CHECKTYPE = $request->tipo_registro;
                 $registro->VERIFYCODE = $request->idcap;        
                 $registro->SENSORID = $request->idcap;                 
-                $registro->MachineId=  "0"; 
-                $registro->UserExtFmt=    "0";  
-                $registro->WorkCode=  "0";
-                $registro->Memoinfo=$request->razon;
+                $registro->MachineId =  "0"; 
+                $registro->UserExtFmt =    $request->idcap;  
+                $registro->WorkCode =   $omision_id;
+                $registro->Memoinfo =$request->razon;
                 $registro->sn=   "0";
                 $registro->save();
 
+            //  dd($omision_id);
+
+            
                 
                 return response()->json(['mensaje'=>'Registrado Correctamente']);
             } 
         catch (\Exception $e) {            
             return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
             }
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+        $registro = Omisiones::FindOrFail($id);
+              
+        DB::table('CHECKINOUT')->where("WorkCode","=",$id)->delete();
+        $result = $registro->delete();  
+
+        if($result){
+            return response()->json(['mensaje'=>'Registro Eliminado']);
+            
+        }
+    } 
+    catch (\Exception $e) {            
+        return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+        }
     }
 }

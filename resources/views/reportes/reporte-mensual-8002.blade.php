@@ -94,25 +94,25 @@
             switch ($empleados['tipo_trabajador']['id']) {
                 case 1 :
                 $relleno = $relleno+$documento;  
-                $tipotra="GOV0021"; 
+                $tipotra="GOV0018"; 
                 break;
                 case 2 :
                 $relleno = $relleno+$documento; 
-                $tipotra="GOV0021"; 
+                $tipotra="GOV0018"; 
                 break;
                case 3:
                    $relleno = "3300000";
                    $relleno = $relleno+$documento; 
-                   $tipotra="PEV0021";
+                   $tipotra="PEV0008";
                break;
 
                case 4 :
                $relleno = $relleno+$documento;  
-                $tipotra="CAR0021"; 
+                $tipotra="CAR0018"; 
                 break;
                 case 5 :
                $relleno = $relleno+$documento;  
-                $tipotra="CON0021"; 
+                $tipotra="CON0018"; 
                 break;
                default:
                     
@@ -163,7 +163,7 @@
                             NO. LOTE: {{$tipotra}}
                             
                             <br>
-                            QNA. APLICACIÓN: 18/2021<br>
+                            QNA. APLICACIÓN: 21/2021<br>
                             MES: {{ $empleados['nombre_mes'] }} AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             {{-- <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table> --}}
                             

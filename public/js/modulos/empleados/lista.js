@@ -537,7 +537,7 @@ function guardar_empleado() {
     fin_fec = fin_fec.substr(0, 10) + " 00:00:00.00"
 
     var tipo;
-   // console.log(banemp);
+    // console.log(banemp);
     if (banemp == 1) {
         url_emp = "api/edita-empleado/" + idempleado;
         tipo = 'GET';
@@ -793,10 +793,10 @@ function sel_tiporeg(tiporeg) {
 
 
 }
-function probando()
-{
+
+function probando() {
     cargar_datos_checadas(urlchecadas);
-  
+
 }
 
 function cargar_datos_checadas(urlchecadas) {
@@ -912,53 +912,54 @@ function cargar_blade_checadas() {
     var xe = 'SIN REGISTRO';;
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        //console.log(datos_checadas_mes);
+        console.log(datos_checadas_mes);
         //console.log(value);
 
-        icono = "<i class='fa fa-check' style='color:green'></i>";    
+        icono = "<i class='fa fa-check' style='color:green'></i>";
 
         if (value.validacion == 0 || value.checado_entrada.includes('Retardo') || value.faltaxmemo != 0)
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
 
         else {
-           
+
             icono = "<i class='fa fa-check' style='color:green'></i>";
         }
-       
-     //   console.log(value.checado_entrada_fuera);
 
-    // console.log(value.retardo);
-        if (value.checado_entrada == "SIN REGISTRO" || value.retardo == 1 )
-        {
+        //   console.log(value.checado_entrada_fuera);
+
+        // console.log(value.retardo);
+        if (value.checado_entrada == "SIN REGISTRO" || value.retardo == 1) {
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
             //if (value.checado_entrada_fuera != null || value.retardo == 1 ) {
-                xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada + ")</i>";
+            xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada + ")</i>";
             //}
-            xe= "<i style='color:red'>" + value.checado_entrada + "</i>";
+            xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
             /* else (value.retardo == 1) 
                 xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
              */
-            
-        }
-        /* else if(value.retardo == 1){
-            "<i style='color:red'><br>(" + value.checado_entrada_fuera + ")</i>"
-        } */
-        else {
+
+        } else {
             xe = value.checado_entrada;
         }
-       /*  if (value.retardo == 1) {
+        /*  if (value.retardo == 1) {
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
         } else
             xe = value.checado_entrada;
  */
-       // console.log(xe,"  retardo:  "+value.retardo);
+        // console.log(xe,"  retardo:  "+value.retardo);
+
+        if (value.omision == undefined) {
+            icono4 = " ";
+        } else {
+            icono4 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omision + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
+        }
         if (value.checado_salida == "SIN REGISTRO")
             if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
 
         else
             xs = value.checado_salida;
 
-// && value.checado_salida == undefined
+
         if (value.ban_inci >= 1)
             icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
         else
@@ -971,9 +972,9 @@ function cargar_blade_checadas() {
 
         // $("#datos_filtros_checadas tr").append("<td><a type='button' class='btn btn-link' style='color:red'>Eliminar</a></td>");
 
-        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + "</td>" + "</td><td>" + xs + icono3 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
+        table.append("<tr><td>" + arreglo_dias[value.numero_dia] + "</td><td>" + value.fecha + "</td>" + "</td><td>" + xe + icono4 + "</td>" + "</td><td>" + xs + icono3 + "</td> <td>" + icono + "</td><td>" + icono2 + "</td></tr>");
 
-        xe='SIN REGISTRO';
+        xe = 'SIN REGISTRO';
 
 
     })
@@ -1467,7 +1468,7 @@ function eliminar(id) {
 
     swal({
             title: "¿Estás seguro?",
-            text: "Una vez eliminado, no podrá recuperar este archivo!",
+            text: "Una vez eliminado, no podrá recuperar este dato!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -1498,6 +1499,38 @@ function eliminar(id) {
 
 }
 
+function eliminar_omision(id) {
+    swal({
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no podrá recuperar este dato!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "api/deleteomision/" + id + "/",
+                    success: function(data) {
+                        swal("¡La Omisión ha sido eliminada!", {
+                            icon: "success",
+                        });
+                        $("#agregar_incidencia").modal('hide');
+                        $("#razon").val('');
+                        document.getElementById('filtro_check').click();
+
+                    }
+                });
+
+
+
+            } else {
+                swal("El registro no se ha eliminado");
+            }
+        });
+
+}
 
 function eliminar_in_emp(id) {
 

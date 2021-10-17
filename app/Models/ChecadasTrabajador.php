@@ -19,4 +19,8 @@ class ChecadasTrabajador extends Model
         return $this->BelongsTo('App\Models\Usuarios', 'USERID', "USERID");
     }
 
+    public function getKeyName(){
+        return "LOGID";
+    }
+
 }
