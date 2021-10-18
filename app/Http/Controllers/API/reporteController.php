@@ -241,7 +241,14 @@ class reporteController extends Controller
                         
                 }         
                        
-        $resumen2 = DiasOtorgados::where("USERID", "=",  $validacion->USERID)->get();    
+        $resumen2 = DiasOtorgados::where("USERID", "=",  $validacion->USERID)
+        //->groupBy("USER_SPEDAY.DATEID","USER_SPEDAY.USERID","USER_SPEDAY.STARTSPECDAY","USER_SPEDAY.ENDSPECDAY","USER_SPEDAY.YUANYING","USER_SPEDAY.DATE","USER_SPEDAY.captura_id","USER_SPEDAY.id","USER_SPEDAY.incidencia_id")
+        ->get();        
+        $arreglo_dias_otorgados = $this->dias_otorgados($resumen2);
+
+
+      return  $arreglo_dias_otorgados;
+
         //return $resumen2;
         for($tot_hora=0;$tot_hora<=$ind; $tot_hora++){                       
             $arreglo_dias = array();
@@ -895,7 +902,31 @@ class reporteController extends Controller
            return array("data" => $asistencia, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('d/m/Y'), "fecha_final"=> $fecha_view_fin->format('d/m/Y'));
        }
     }
+    function dias_otorgados($arreglo)
+    {
+        $arreglo_dias = array();
+        $bandera = 0;
+        $licencia_medica = 0;
+        foreach ($arreglo as $key => $value) {
+           /*  if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
+            if($value->DATEID == 8){ $licencia_medica++; }
 
+           // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value; */
+            $inicio = new Carbon($value->STARTSPECDAY);
+            $fin = new Carbon($value->ENDSPECDAY);
+             $diff = $inicio->diffInDays($fin);            
+            $arreglo_dias[substr($inicio, 0,10)][] = $value;
+            /*for ($i=0; $i < $diff; $i++) { 
+               $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+               
+            }  */
+            
+//dd($arreglo);
+
+        } 
+
+
+    }
     public function decrypt($string) {
 
         $result = '';
