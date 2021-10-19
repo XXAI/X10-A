@@ -92,7 +92,8 @@ class CardexController extends Controller
         $arreglo_reglas = array();
         foreach ($reglas as $key => $value) { $arreglo_reglas[$value->schClassid] = $value;  }
         
-        $fecha_limite_inicio=new Carbon($anio.'-10-01');
+       $fecha_limite_inicio=new Carbon($anio.'-10-01');
+       // $fecha_limite_inicio=new Carbon('2021-02-02');
         if($anio==Carbon::now()->year){
             $fecha_limite_fin = Carbon::now();
             $fecha_limite_inicio=$fecha_limite_inicio->addMonth();
@@ -100,6 +101,7 @@ class CardexController extends Controller
         else{          
            
            $fecha_limite_fin=new Carbon($anio.'-10-01');
+          //$fecha_limite_fin=new Carbon('2021-02-03');
           
         }
         
@@ -173,7 +175,12 @@ class CardexController extends Controller
             
             $fecha_inicio->day = 1;
             $parametro_inicial = $fecha_inicio;
+
+
+            dd/¿
             $parametro_final = $fecha_limite_actual;*/
+            
+            //dd($parametro_inicial);
             $fecha_inicio = $fecha_limite_inicio->format('Y-m-d')."T00:00:00";
             
             //$parametro_final = Carbon::now();
@@ -343,7 +350,7 @@ class CardexController extends Controller
                                             if($dato_omision->CHECKTYPE == "O"){ $checada_salida = 1;  }
                                         }
                                     }
-                                    
+                                  // dd($checada_entrada+$checada_salida );
                                     
                                     if($checada_entrada == 1 and $checada_salida == 1){
                                         $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] = "" ; #Revisar
@@ -360,7 +367,7 @@ class CardexController extends Controller
                                                 $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "R/1"; #Revisa
                                             }
                                         }else{
-                                            $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F"; #Revisa
+                                            $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  ""; #Revisa
                                         } 
                                         
                                     }else if($checada_entrada == 0 and $checada_salida == 1)  
