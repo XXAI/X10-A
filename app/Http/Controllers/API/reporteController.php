@@ -136,7 +136,7 @@ class reporteController extends Controller
         )           
         ->get();
 
-        $faltaxmemo = 0;
+       
                 
             $vac19_1=0;
             $vac20_1=0;
@@ -247,7 +247,7 @@ class reporteController extends Controller
         $arreglo_dias_otorgados = $this->dias_otorgados($resumen2);
 
 
-      return  $arreglo_dias_otorgados;
+      //return  $arreglo_dias_otorgados;
 
         //return $resumen2;
         for($tot_hora=0;$tot_hora<=$ind; $tot_hora++){                       
@@ -275,6 +275,7 @@ class reporteController extends Controller
         $falta=0;
         $ps=0;
        $omision=0;
+       
        
             $indice = 0;
             while($fecha_pivote->diffInDays($f_fin)  > 0)
@@ -344,7 +345,7 @@ class reporteController extends Controller
 
 
                             
-
+                            $faltaxmemo = 0;
                             $asistencia[$indice]['fecha'] = $fecha_evaluar->format('Y-m-d');
                         
                             $fecha_eval = $asistencia[$indice]['fecha'];

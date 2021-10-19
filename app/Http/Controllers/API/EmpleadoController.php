@@ -160,7 +160,7 @@ class EmpleadoController extends Controller
     public function store(EmpleadoRequest $request)
     {
 
-   
+        try {
        // if($request->ajax()){
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 $edificio = Edificios::select("DEPTID")->where("type","=",$request->clues)->first();
@@ -224,7 +224,10 @@ class EmpleadoController extends Controller
                         }
                     return response()->json(['mensaje'=>'Registrado Correctamente ID:  '. $maxid]); 
        // }
-           
+    }
+    catch (\Exception $e) {            
+        return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
+        }
         
     }
 
@@ -341,43 +344,48 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $USERID)
     {
+        try {
                 $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
                 
                 $buscaBase=$buscaBase->descripcion;
        
-            $registro= Usuarios::findOrFail($USERID);  
+                $registro= Usuarios::findOrFail($USERID);  
            /*  if($buscaBase=="gomezmaza"){
                 $registro->Badgenumber=  $request->biome;
             }   */        
-            $registro->Name = $request->name;
-            $registro->Gender = $request->sexo;
-            $registro->TITLE = $request->rf;        
-            $registro->PAGER = $request->codigo;
-            $registro->BIRTHDAY = $request->fecnac;
-            $registro->HIREDDAY=$request->fechaing;
-            $registro->street=$request->street;
-            $registro->CITY=$request->city;          
-            $registro->FPHONE=$request->clues;
-            $registro->ATT=$request->mmi;
-            $registro->INLATE= $request->interino;
-           //$registro->DEFAULTDEPTID=$request->tipotra;   
-           $registro->ur_id=$request->tipotra;          
-            $registro->MINZU=$request->area;           
-            $registro->save(); 
+                $registro->Name = $request->name;
+                $registro->Gender = $request->sexo;
+                $registro->TITLE = $request->rf;        
+                $registro->PAGER = $request->codigo;
+                $registro->BIRTHDAY = $request->fecnac;
+                $registro->HIREDDAY=$request->fechaing;
+                $registro->street=$request->street;
+                $registro->CITY=$request->city;          
+                $registro->FPHONE=$request->clues;
+                $registro->ATT=$request->mmi;
+                $registro->INLATE= $request->interino;
+            //$registro->DEFAULTDEPTID=$request->tipotra;   
+                $registro->ur_id=$request->tipotra;          
+                $registro->MINZU=$request->area;           
+                $registro->save(); 
 
-            if ($request->code!=''){
-            $user_hora = new UsuarioHorario;
-            $user_hora->USERID=$USERID;
-            $user_hora->NUM_OF_RUN_ID=$request->code;
-            $user_hora->STARTDATE=$request->ini_fec;
-            $user_hora->ENDDATE=$request->fin_fec;
-            $user_hora->ISNOTOF_RUN=0;
-            $user_hora->ORDER_RUN=0;
-            $user_hora->save();
+                if ($request->code!=''){
+                $user_hora = new UsuarioHorario;
+                $user_hora->USERID=$USERID;
+                $user_hora->NUM_OF_RUN_ID=$request->code;
+                $user_hora->STARTDATE=$request->ini_fec;
+                $user_hora->ENDDATE=$request->fin_fec;
+                $user_hora->ISNOTOF_RUN=0;
+                $user_hora->ORDER_RUN=0;
+                $user_hora->save();
+                }
+            
+            
+                return response()->json(['mensaje'=>"Exitoo!! Los Datos se han Modificado  correctamente!!!"]); 
+        }
+        catch (\Exception $e) {            
+            return Response::json(['error' => $e->getMessage()], HttpResponse::HTTP_CONFLICT);
             }
-         
-          
-            return response()->json(['mensaje'=>"Exitoo!! Los Datos se han Modificado  correctamente!!!"]); 
     }
 
     /**
