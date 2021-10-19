@@ -198,6 +198,19 @@ class CardexController extends Controller
             $arreglo_salidas = array();
             if(count($salidas) > 0){ $arreglo_salidas = $this->salidas($salidas); }
 
+          /*   $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
+            }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("STARTDATE", "<=", $fecha_inicio);//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+            }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+                $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
+            }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+               $query->where("ENDSPECDAY","<=", $fecha_fin)                   
+                       ->where("STARTSPECDAY", ">=", $fecha_inicio)
+                            ->orWhere("ENDSPECDAY", ">=", $fecha_inicio);   
+            }])
+            ->Where('Badgenumber', $empleado)->first(); */
+
             #Obtenemos datos del empleado
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
@@ -208,11 +221,12 @@ class CardexController extends Controller
             }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
             }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
-               // $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
-               // $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59' )->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00' );
-               $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
+                $query->where("ENDSPECDAY","<=", $fecha_fin)                   
+                       ->where("STARTSPECDAY", ">=", $fecha_inicio)
+                            ->orWhere("ENDSPECDAY", ">=", $fecha_inicio); 
+              // $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
             }])
-            ->Where('Badgenumber', $empleado)->first();
+            ->Where('Badgenumber', $empleado)->first(); 
             ////where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
             //return $empleados;
             #Obtenemos los dias totales del reporte
@@ -229,6 +243,7 @@ class CardexController extends Controller
             $dias_habiles = array();
             $jornada = "";
             $checadas_empleado  = $this->checadas_empleado($empleados->checadas);
+           // dd($horarios_periodo);
             $omisiones          = $this->omisiones($empleados->omisiones);
             $dias_otorgados     = $this->dias_otorgados($empleados->dias_otorgados);
 

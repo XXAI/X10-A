@@ -137,10 +137,12 @@
                break;
 
                case 4 :
-               $relleno = $relleno+$documento;  
+                
+                $relleno = $relleno+$documento;  
                 $tipotra="CAR0021"; 
                 break;
                 case 5 :
+                    $relleno = 200000;
                $relleno = $relleno+$documento;  
                 $tipotra="CON0021"; 
                 break;
