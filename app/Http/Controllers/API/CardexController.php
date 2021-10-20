@@ -56,6 +56,7 @@ class CardexController extends Controller
 
     public function reporteCardex(Request $request)
     {
+        unset($empleados);
         $parametros = Input::all();
         $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
         $arreglo_clues = [];

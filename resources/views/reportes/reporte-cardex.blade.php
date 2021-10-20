@@ -143,7 +143,15 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
             <td>ADSCRIPCIÓN</td><td colspan='3'><b><?php echo $objeto['clues_adscripcion'] ?></b></td>
         </tr>
         <tr>
-            <td>HORARIO <b><?php echo $objeto['jornada'] ?></td><td></td>
+            <td>HORARIO <b><?php echo $objeto['jornada'];
+            
+            if($objeto['rfc']="VAEA7603164Z2")
+                 echo "   HORARIO DE GUARDERIA AL FINAL DE LA JORNADA"; 
+         
+            
+            ?></td><td> 
+                
+             </td>
             <td>TIPO TRABAJADOR</td><td> <b><?php echo $catalogo_trabajador[$objeto['tipo_trabajador_id']]?>
                 @foreach ($objeto['asistencia'] as $index => $anio)
                 {{ '('. $periodo = $index.' ' .')'}}                 
@@ -242,6 +250,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                 <td>P/G: LICENCIA C/GOSE DE SUELDO</td>
                 <td>E: LICENCIA MÉDICA</td>
                 <td>O/S: OMISIÓN SALIDA</td>
+                <td>M: MEMORANDUM</td>
             </tr>
             <tr>
                 <td>R/1:RETARDO MENOR</td>
