@@ -639,6 +639,10 @@ class reporteController extends Controller
                                         case 36:
                                             $impr="Cuidados Paternales ".$memo;                                   
                                             break;
+
+                                        case 35:
+                                            $impr="BECA";                                 
+                                            break;
                                         case 37:
                                             $impr="Licencia Matrimonial ".$memo;                                   
                                             break;
