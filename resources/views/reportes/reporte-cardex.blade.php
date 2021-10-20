@@ -145,7 +145,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
         <tr>
             <td>HORARIO <b><?php echo $objeto['jornada'];
             
-            if($objeto['rfc']="VAEA7603164Z2")
+            if($objeto['rfc']=="VAEA7603164Z2")
                  echo "   HORARIO DE GUARDERIA AL FINAL DE LA JORNADA"; 
          
             
