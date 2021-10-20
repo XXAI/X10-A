@@ -565,7 +565,7 @@ class CardexController extends Controller
         foreach ($arreglo as $key => $value) {
            //  $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
             
-              $inicio = new Carbon($value->STARTSPECDAY);
+            $inicio = new Carbon($value->STARTSPECDAY);
              $fin = new Carbon($value->ENDSPECDAY);
              $diff = $inicio->diffInDays($fin);            
              $arreglo_dias[substr($inicio, 0,10)][] = $value;
