@@ -381,7 +381,7 @@ class reporteController extends Controller
                             if($nombrebase == 'gomezmaza'){
                                 $final_entra->addMinute();  
                             }
-                            $final_entra->addHour();
+                           // $final_entra->addHour();
                             $final_entra= str_replace(" ", "T", $final_entra);
                             
                             $final_entra= $final_entra.".000";
