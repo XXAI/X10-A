@@ -59,7 +59,8 @@ class reporteController extends Controller
         $sol = $request->soli;
         $impre = $request->impre;
         $htra=0;
-
+        $fecha_inicio='2019-10-01T00:00:00.000';
+        $fecha_fin='2200-12-31T23:59:59.000';
         $inicio = $request->fecha_inicio;
         $fin = $request->fecha_fin;
       
@@ -239,7 +240,27 @@ class reporteController extends Controller
                         $arreglo_reglas[$ind]['dias'] = $empleado; 
                                                 
                         
-                }         
+                }     
+                
+                
+/* 
+
+                unset($empleados);
+                $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
+                    
+                }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
+                    $query->where("STARTDATE", "<=", $fecha_inicio);//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+                }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+                    $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
+                }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+                   $query->where("ENDSPECDAY","<=", $fecha_fin)                   
+                           ->where("STARTSPECDAY", ">=", $fecha_inicio)
+                                ->orWhere("ENDSPECDAY", ">=", $fecha_inicio);   
+                }])               
+                         
+                ->get();
+                 print_r($empleados); 
+                return $empleados; */
                        
         $resumen2 = DiasOtorgados::where("USERID", "=",  $validacion->USERID)->get();  
         //->groupBy("USER_SPEDAY.DATEID","USER_SPEDAY.USERID","USER_SPEDAY.STARTSPECDAY","USER_SPEDAY.ENDSPECDAY","USER_SPEDAY.YUANYING","USER_SPEDAY.DATE","USER_SPEDAY.captura_id","USER_SPEDAY.id","USER_SPEDAY.incidencia_id")
@@ -360,9 +381,10 @@ class reporteController extends Controller
                             if($nombrebase == 'gomezmaza'){
                                 $final_entra->addMinute();  
                             }
-                            
+                            $final_entra->addHour();
                             $final_entra= str_replace(" ", "T", $final_entra);
-                             $final_entra= $final_entra.".000";
+                            
+                            $final_entra= $final_entra.".000";
                              
                           //  dd($final_entra);
                         //      
