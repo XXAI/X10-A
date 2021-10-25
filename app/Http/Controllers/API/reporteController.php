@@ -564,7 +564,7 @@ class reporteController extends Controller
                                    //return $ban_inci;
                                     switch($checada_extra->TIPO){
                                         case 1:                                
-                                            $impr=$checada_extra->HORA." "."(Pase de Salida)";                                
+                                            $impr=$checada_extra->HORA." "."(Pase de Salida) " .$memo;                                
                                            $ps=$hs1;
                                                                                     
                                             /* if ($diatrab!=0 || $festivo==1)
@@ -638,7 +638,7 @@ class reporteController extends Controller
                                             $impr="Licencia Con Goce ";                                    
                                             break;
                                         case 22:
-                                            $impr="Pago de Guardia ";                                    
+                                            $impr="Pago de Guardia ".$memo;                                    
                                             break;
                                         case 27:
                                             $impr="Lista de Asistencia segun Memoradúm ".$memo;                                    
