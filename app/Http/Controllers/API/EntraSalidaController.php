@@ -65,9 +65,11 @@ class EntraSalidaController extends Controller
     public function destroy($id)
     {
         try {
-        $registro = Omisiones::FindOrFail($id);
-              
-        DB::table('CHECKINOUT')->where("WorkCode","=",$id)->delete();
+        $registro = Omisiones::FindOrFail($id);     
+       
+       //$checada=ChecadasTrabajador::where("WorkCode","=",$id)->first();
+      // dd($checada);
+        ChecadasTrabajador::where("WorkCode","=",$id)->delete();
         $result = $registro->delete();  
 
         if($result){
