@@ -25,9 +25,9 @@ function cargar_grid(dato) {
             var linea = $("<tr ></tr>");
             var campo1 = $("<td>" + value.Badgenumber + "</td>");
             var campo2 = $("<td>" + value.TITLE + "</td>");
-            var campo3 = $("<td>" + value.curp + "</td>");
-            var campo4 = $("<td>" + value.cr + "</td>");
-            var campo5 = $("<td>" + value.nombre + "</td>");
+            var campo3 = $("<td>" + value.sirh__empleados.curp + "</td>");
+            var campo4 = $("<td>" + value.sirh__empleados.cr + "</td>");
+            var campo5 = $("<td>" + value.sirh__empleados.nombre + "</td>");
             var campo6 = $("<td style='text-align:center'><input type='checkbox' class='empleado' value='" + value.Badgenumber + "'></td>");
 
             linea.append(campo1, campo2, campo3, campo4, campo5, campo6);
@@ -47,7 +47,7 @@ function btn_filtrar() {
 
 function generar_reporte() {
     var valor = $('input:checkbox[class=empleado]:checked').val();
-    var anio= $("#anio").val();
+    var anio = $("#anio").val();
     console.log(anio);
-    win = window.open('./api/reporte-cardex?empleado=' + valor +'&anio=' + anio, '_blank');
+    win = window.open('./api/reporte-cardex?empleado=' + valor + '&anio=' + anio, '_blank');
 }

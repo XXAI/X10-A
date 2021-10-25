@@ -85,8 +85,12 @@
     </style>
 </head>
 <?php
+
 $objeto = $empleados;
-$clave = $objeto['ur'].$objeto['gf'].$objeto['fn'].$objeto['sf'].$objeto['pg'].$objeto['al'].$objeto['pp'].$objeto['partida'].$objeto['codigo'].$objeto['numpto'];
+//print_r($objeto);
+/* $clave = $objeto['ur'].$objeto['gf'].$objeto['fn'].$objeto['sf'].$objeto['pg'].$objeto['al'].$objeto['pp'].$objeto['partida'].$objeto['codigo'].$objeto['numpto']; */
+$clave = $objeto->Sirh_Empleados['clave'];
+//print_r($objeto->Sirh_Empleados['rfc']);
 $catalogo_trabajador = ['','BASE','CONTRATO',"REGULARIZADO", 'FORMALIZADO', 'HOMOLOGADO', 'UNEMES CAPACIT', 'ESTATAL', 'PENDIENTE'];
 $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 //print_r(($objeto['asistencia']));
@@ -119,28 +123,25 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                             <img src='http://sistematizacion.saludchiapas.gob.mx/images/chiapas.png' width="100px">
                         </td>
                     </tr>
-                   <!--<tr>
-                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: OFICINA CENTRAL</td>
-                    <td colspan='2' class='datos'>TIPO DE TRABAJADOR: </td>
-                   </tr>-->
+                  
                 </tbody>
             </table>
         </div>
         <table width="100%"  cellspacing="0" class="fuente_datos">
         <tr>
-            <td>NOMBRE</td><td> <b><?php echo $objeto['nombre'] ?></b></td>
-            <td>DEPARTAMENTO</td><td><b><?php echo $objeto['cr_fisico'] ?></b></td>
+            <td>NOMBRE</td><td> <b><?php echo $objeto->Sirh_Empleados['nombre'] ?></b></td>
+            <td>DEPARTAMENTO</td><td><b><?php echo $objeto->Sirh_Empleados['cr_fisico'] ?></b></td>
         </tr>
         <tr>
-            <td>FUNCIÓN</td><td> <b><?php echo $objeto['puesto'] ?></b></td>
-            <td>RFC</td><td> <b><?php echo $objeto['rfc'] ?></b></td>
+            <td>FUNCIÓN</td><td> <b><?php echo $objeto->Sirh_Empleados['puesto'] ?></b></td>
+            <td>RFC</td><td> <b><?php echo $objeto->Sirh_Empleados['rfc'] ?></b></td>
         </tr>
         <tr>
             <td>CLAVE</td><td> <b><?php echo $clave; ?></b></td>
-            <td>FECHA INGRESO</td><td> <b><?php echo $objeto['fissa'] ?></b></td>
+            <td>FECHA INGRESO</td><td> <b><?php echo $objeto->Sirh_Empleados['fissa'] ?></b></td>
         </tr>
         <tr>
-            <td>ADSCRIPCIÓN</td><td colspan='3'><b><?php echo $objeto['clues_adscripcion'] ?></b></td>
+            <td>ADSCRIPCIÓN</td><td colspan='3'><b><?php echo $objeto->Sirh_Empleados['clues_adscripcion'] ?></b></td>
         </tr>
         <tr>
             <td>HORARIO <b><?php echo $objeto['jornada'];
@@ -152,7 +153,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
             ?></td><td> 
                 
              </td>
-            <td>TIPO TRABAJADOR</td><td> <b><?php echo $catalogo_trabajador[$objeto['tipo_trabajador_id']]?>
+            <td>TIPO TRABAJADOR</td><td> <b><?php  echo $catalogo_trabajador[$objeto->Sirh_Empleados['tipo_trabajador_id']] ?>
                 @foreach ($objeto['asistencia'] as $index => $anio)
                 {{ '('. $periodo = $index.' ' .')'}}                 
                 @endforeach
@@ -162,10 +163,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
     </header>  
     
     <br>
-    <!--<table width="100%"  class="fuente"><tr><td style='text-align:center'>OBSERVACIONES</td></tr></table>
-    <br>
-    
-    <br>-->
+   
     
     <div class="contenido">
         <table width="100%"  cellspacing="0" class="fuente" style='margin-top:10px'>
@@ -245,12 +243,13 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                 <td>P/S: LICENCIA S/GOSE DE SUELDO</td>
                 <td>V: VACACIONES</td>
                 <td>O/E: OMISIÓN ENTRADA</td>
+                <td>M: MEMORANDUM</td>
             </tr>
             <tr>
                 <td>P/G: LICENCIA C/GOSE DE SUELDO</td>
                 <td>E: LICENCIA MÉDICA</td>
                 <td>O/S: OMISIÓN SALIDA</td>
-                <td>M: MEMORANDUM</td>
+                
             </tr>
             <tr>
                 <td>R/1:RETARDO MENOR</td>
@@ -280,8 +279,6 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
     <tr><td style='border-bottom: 1px solid #000;height: 25px;'>&nbsp;</td></tr>
  </table>
     
- <!--<script type="text/php">
-        $pdf->page_text(680, 590, "  Página {PAGE_NUM} de {PAGE_COUNT}", Null, 9, array(0, 0, 0));
-</script>-->      
-</body>
+   
+</body>  
 </html>

@@ -30,7 +30,8 @@ class CardexController extends Controller
             
         }
        // dd($arreglo_clues );
-        $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
+        $empleados = Usuarios::with("Sirh_Empleados")
+        //leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 //->whereNull("USERINFO.state")
                                 ->whereIn("USERINFO.FPHONE", $arreglo_clues)
                                 ->Where(function($query2)use($parametros){
@@ -68,7 +69,8 @@ class CardexController extends Controller
        // dd($parametros['anio']);
         $datos = $this->claseAsistencia($parametros['empleado'],$parametros['anio']);
         //return response()->json(["usuarios" => $datos]);
-        $empleados = Usuarios::leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
+        $empleados = Usuarios::with("Sirh_Empleados")
+        //leftJoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
                                 //->whereNull("USERINFO.state")
                                 ->whereIn("USERINFO.FPHONE", $arreglo_clues )
                                 ->Where('Badgenumber', $parametros['empleado'])
@@ -77,7 +79,7 @@ class CardexController extends Controller
         $empleados->asistencia = $datos['datos'];    
         $empleados->jornada = $datos['horario'];    
 
-      //  dd($empleados);
+    //  dd($empleados);
         //return response()->json(["usuarios" => $datos]);                    
         $pdf = PDF::loadView('reportes//reporte-cardex', ['empleados' => $empleados]);
         $pdf->setPaper('LETTER', 'landscape');

@@ -924,7 +924,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //  console.log(datos_checadas_mes);
-        //console.log(value);
+        console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
@@ -940,11 +940,17 @@ function cargar_blade_checadas() {
 
         // console.log(value.retardo);
         if (value.checado_entrada == "SIN REGISTRO" || value.retardo == 1) {
+
+
             icono = "<i class='fa fa-close' style='color:red'><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a><a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_entrasal' onclick='agregar_entsal(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-clock-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Agregar Entrada o Salida'></i></a></i>";
             //if (value.checado_entrada_fuera != null || value.retardo == 1 ) {
             xe = value.checado_entrada + "<i style='color:red'><br>(" + value.checado_entrada + ")</i>";
             //}
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
+
+            if (value.checado_entrada_fuera != null && value.checado_entrada == "SIN REGISTRO") {
+                xe = "<i style='color:red'>" + value.checado_entrada_fuera + "</i>";
+            }
             /* else (value.retardo == 1) 
                 xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
              */

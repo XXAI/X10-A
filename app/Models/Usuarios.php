@@ -42,6 +42,10 @@ class Usuarios extends Model
         return $this->hasMany('App\Models\DiasJustifica', 'USERID', "USERID");
     }
 
+    public function Sirh_Empleados(){
+        return $this->hasOne('App\Models\SirhEmpleados', 'rfc', 'TITLE');
+    }
+
   
 
     public function getKeyName(){
