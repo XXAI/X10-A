@@ -10,15 +10,15 @@ class DiasJustifica extends Model
     protected $table = "USER_SPEDAY";
     public $timestamps = false;
 
-    public function Incidencias(){
+   /*  public function Incidencias(){
         return $this->hasOne('App\Models\Incidencias',  'id',"incidencia_id");
-    }
+    } */
 
 
   
 
-
+/* 
     public function getKeyName(){
         return "incidencia_id";
-    }
+    } */
 }

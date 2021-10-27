@@ -43,6 +43,7 @@
             
             <a class="collapse-item" href="./empleado">Administración</a>
             <a class="collapse-item" href="./checadas">Registro de Checadas</a>
+            <a class="collapse-item" href="./addfestivos">Agregar Dia Festivo</a>
             
           </div>
         </div>
@@ -74,8 +75,13 @@
             <a class="collapse-item" href="./cardex">CARDEX</a>
             <a class="collapse-item" href="./reporte-mensual">FALTAS</a>
             <a class="collapse-item" href="./reporte-trimestral">TRIMESTRAL</a>
+            @if(Auth::user()->id == 1 ||  Auth::user()->id == 9)
             <a class="collapse-item" href="./reporte-direccion">DIRECCION</a>
-            <a class="collapse-item" href="./reporte-capturistas">Capturista</a>
+            @endif
+            <a class="collapse-item" href="./reporte-capturistas">CAPTURISTA</a>
+            @if(Auth::user()->is_superuser == 1) 
+            <a class="collapse-item" href="./reporte-incidencias">INCIDENCIAS</a>
+            @endif
             <!--<a class="collapse-item" href="">ANUAL</a>-->
           </div>
         </div>

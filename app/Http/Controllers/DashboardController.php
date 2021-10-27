@@ -35,6 +35,16 @@ class DashboardController extends Controller
         return view('capturistas');
     }
 
+    public function incidencias()
+    {
+        return view('incidencias');
+    }
+
+    public function addfestivos()
+    {
+        return view('addfestivos');
+    }
+
     public function trimestral(Request $request)
     {
         return view('trimestral');

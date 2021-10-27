@@ -378,19 +378,28 @@ class reporteController extends Controller
                             $inicio_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000";                   
                            // $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
                             $final_entra=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000");
-                            if($nombrebase == 'gomezmaza'){
-                                $final_entra->addMinute();  
-                            }
-                           // $final_entra->addHour();
-                            $final_entra= str_replace(" ", "T", $final_entra);
                             
-                            $final_entra= $final_entra.".000";
                              
                           //  dd($final_entra);
                         //      
                             $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
                             $inicio_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"; 
                             $final_sal=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000";
+                            $final_sal=new carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
+
+
+                            if($nombrebase == 'gomezmaza'){
+                                $final_entra->addMinute();  
+                                $final_sal->addMinute(); 
+                            }
+                           // $final_entra->addHour();
+                            $final_entra= str_replace(" ", "T", $final_entra);
+                            $final_sal= str_replace(" ", "T", $final_sal);
+                            
+                            $final_entra= $final_entra.".000";
+                            $final_sal= $final_sal.".000";
+
+
                       //  dd($value);
                            $asistencia[$indice]['jorini'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000";
                            $asistencia[$indice]['jorfin'] = $fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraFin.":00.000";
@@ -512,11 +521,11 @@ class reporteController extends Controller
                                     ,DB::RAW("datediff(DAY,STARTSPECDAY, ENDSPECDAY) AS DIFDIA")
                                     ,'STARTSPECDAY AS INI','ENDSPECDAY AS FIN','leaveclass.LeaveId AS TIPO'
                                     ,'user_speday.YUANYING AS REPO'
-                                    ,'user_speday.incidencia_id as Ban_Inci'
+                                    ,'user_speday.id as Ban_Inci'
                                     ,'user_speday.captura_id as captura_id'
                                     ,'users.username as capturista'
                                     )
-                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.incidencia_id','user_speday.captura_id','users.username')
+                                ->groupBy('leaveclass.LeaveName','user_speday.ENDSPECDAY','user_speday.STARTSPECDAY','leaveclass.LeaveId','user_speday.YUANYING','user_speday.id','user_speday.captura_id','users.username')
                                 ->first();
 
 

@@ -109,11 +109,12 @@ class DiasJustificaController extends Controller
      */
     public function destroy($id)
     {
+        //dd("holalalala: ".$id  );
         $registro=DiasJustifica::FindOrFail($id);
         $result = $registro->delete();
 
         if($result){
-            return response()->json(['mensaje'=>'Registro Eliminado']);
+            return response()->json(['mensaje'=>'Registro Eliminado']); 
             
         }
     }

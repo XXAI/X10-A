@@ -29,7 +29,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/reporte-mensual', 'DashboardController@mensual');
         Route::get('/reporte-direccion', 'DashboardController@direccion');
         Route::get('/reporte-capturistas', 'DashboardController@capturistas');
-        Route::get('/reporte-trimestral', 'DashboardController@trimestral');
+        Route::get('/reporte-incidencias', 'DashboardController@incidencias');
         Route::get('/empleado', 'DashboardController@empleado');
         Route::get('/register', 'DashboardController@register');
     

@@ -33,6 +33,8 @@ use Illuminate\Http\Request;
     Route::get('/empleado','API\EmpleadoController@index');
     Route::post('/empleado/fetch','API\EmpleadoController@fetch');
     Route::post('/buscacapturista','API\LogsController@buscacapturista');
+    Route::post('/buscaempleado','API\LogsController@buscaempleado');
+   
    
     Route::post('/empleado/tipoincidencia','API\EmpleadoController@tipoincidencia');
 
@@ -41,6 +43,7 @@ use Illuminate\Http\Request;
     
     Route::get('/reporte-mensual','API\ReporteMensualController@reporteMensual');
     Route::get('/reporte-capturista','API\LogsController@reporteCapturista');
+    Route::get('/reporte-incidencias','API\LogsController@reporteIncidencia');
     Route::get('/export','API\LogsController@export');
     Route::get('/reporte-direccion','API\ReporteDireccionController@reporteDireccion');
     Route::get('/reporte-mensual-8002','API\ReporteMensualController@reporteMensual_8002');
@@ -57,6 +60,7 @@ use Illuminate\Http\Request;
     /* Cardex */
     Route::get('/cardex','API\CardexController@index');
     Route::get('/logs','API\LogsController@obtenerLogs');
+    Route::get('/incidencias','API\LogsController@obtenerIncidencias');
     Route::get('/checadas','API\LogsController@obtenerchecadas');
     Route::get('/reporte-cardex','API\CardexController@reporteCardex');
     /* */

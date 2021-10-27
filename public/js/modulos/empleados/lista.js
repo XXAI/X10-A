@@ -924,7 +924,7 @@ function cargar_blade_checadas() {
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
         //  console.log(datos_checadas_mes);
-        console.log(value);
+        //console.log(value);
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
@@ -1417,7 +1417,7 @@ function inserta_incidencia_emp() {
 function save_justi_emp() {
 
 
-    fini = moment(date_1.add(0, 'd')).format();
+/*     fini = moment(date_1.add(0, 'd')).format();
     ffin = moment(date_2.add(0, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
@@ -1427,14 +1427,15 @@ function save_justi_emp() {
         data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
         success: function(data) {
 
-            id_inci = data.id_inci;
+            id_inci = data.id_inci; */
             inserta_incidencia();
+            /* 
         },
         error: function(data) {
             swal("Error!", "No se registro ningun dato!", "error");
         }
     })
-
+ */
 
 
 }

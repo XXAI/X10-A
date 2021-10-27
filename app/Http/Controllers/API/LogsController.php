@@ -43,6 +43,18 @@ class LogsController extends Controller
         return $pdf->stream('Reporte-Capturista.pdf');
     }
 
+    public function reporteIncidencias(Request $request)
+    {
+
+        
+        $logs = $this->obtenerLogs($request);
+        //dd($logs);
+        $pdf = PDF::loadView('reportes//reporte-capturista', ['capturista' => $logs]);
+        $pdf->setPaper('LEGAL', 'landscape');
+        $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
+        return $pdf->stream('Reporte-Capturista.pdf');
+    }
+
      public function export() 
     {
        // $logs = $this->obtenerLogs($request);
@@ -58,6 +70,7 @@ class LogsController extends Controller
         $parametros = Input::all();
         $inicio = $request->inicio;
         $fin = $request->fin;
+        $fin= $fin."T23:59:59.000";
         $user = $request->get('user');
         //dd($user);
         $logs = DiasOtorgados::with("siglas","capturista","empleado")->whereNotNull("captura_id")->whereBetween("DATE",[$inicio,$fin]);
@@ -67,6 +80,32 @@ class LogsController extends Controller
         if($user != 0) {          
           $logs=$logs->Where(function($query)use($user){
           $query->where("captura_id",'=',$user);
+          }); 
+         }
+     
+      $logs= $logs->orderBy("DATE","DESC")->paginate(2000);
+       // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+        return array("logs" => $logs, "omision" => $omisiones);
+    }
+
+    public function obtenerIncidencias(Request $request)
+    {
+        
+        $parametros = Input::all();
+        $inicio = $request->inicio;
+        $fin = $request->fin;
+       
+        $fin= $fin."T23:59:59.000";
+        //dd($fin);
+        $user = $request->get('user');
+        //dd($user);
+        $logs = DiasOtorgados::with("siglas","capturista","empleado")->whereBetween("DATE",[$inicio,$fin]);
+        $omisiones = Omisiones::with("capturista")->whereNotNull("MODIFYBY")->orderBy("DATE","DESC")->paginate();
+        
+
+        if($user != 0) {          
+          $logs=$logs->Where(function($query)use($user){
+          $query->where("USERID",'=',$user);
           }); 
          }
      
@@ -97,6 +136,24 @@ class LogsController extends Controller
         //}
     }
 
+
+    public function buscaempleado(Request $request)
+    {
+             
+      
+        $bi = $request->get('bi');      
+        
+        $data_in = Usuarios::where("Name",'LIKE','%'.$bi.'%')->orWhere("Badgenumber",'LIKE','%'.$bi.'%')->get(); 
+        
+        
+        
+       // dd($data_in); 
+              return response()->json($data_in);  
+        
+        //}
+    }
+
+
     public function obtenerchecadas(Request $request)
     {
     
@@ -116,30 +173,21 @@ class LogsController extends Controller
       $inicio = $request->inicio;
       $fin = $request->fin;
       $name = $request->nombre;
-      //dd($user);
-    //  $checadas= ChecadasTrabajador::with("empleado")->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"]);
-/*       $checadas= ChecadasTrabajador::with(['empleado'=>function($query)use($nombre){
-        $query->where('Name','LIKE','%'.$nombre.'%')->orWhere('TITLE','LIKE','%'.$nombre.'%')->orWhere('Badgenumber','%'.$nombre.'%');}])   
-      
-        ->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"])
-        ->orderBy("CHECKTIME","DESC")
-        
-    ->get(); */
-
-    $checadas= $conexion->table("checkinout")->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
-    ->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"]);
-    if($name !='')
-    $checadas=$checadas->Where(function($query2)use($name){
-       $query2->where("Name",'LIKE','%'.$name.'%')
-               ->orWhere("TITLE",'LIKE','%'.$name.'%')
-               ->orWhere("Badgenumber",'=',$name);
-   });
-   $checadas=$checadas->orderBy("CHECKTIME","ASC")->WHEREIN("FPHONE", $arreglo_clues)
-        
-   ->get();
-     // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
-      return array("checadas" => $checadas);
-        
+     
+            $checadas= $conexion->table("checkinout")->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+            ->whereBetween("CHECKTIME", [$inicio."T00:00:00.000", $fin."T23:59:59.000"]);
+            if($name !='')
+            $checadas=$checadas->Where(function($query2)use($name){
+            $query2->where("Name",'LIKE','%'.$name.'%')
+                    ->orWhere("TITLE",'LIKE','%'.$name.'%')
+                    ->orWhere("Badgenumber",'=',$name);
+        });
+        $checadas=$checadas->orderBy("CHECKTIME","ASC")->WHEREIN("FPHONE", $arreglo_clues)
+                
+        ->get();
+            // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+            return array("checadas" => $checadas);
+                
         //}
     }
 
