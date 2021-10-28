@@ -83,8 +83,7 @@ class LogsController extends Controller
           }); 
          }
      
-      $logs= $logs->orderBy("DATE","DESC")->paginate(2000);
-       // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+        $logs= $logs->orderBy("DATE","DESC")->paginate(2000);       
         return array("logs" => $logs, "omision" => $omisiones);
     }
 
@@ -94,23 +93,28 @@ class LogsController extends Controller
         $parametros = Input::all();
         $inicio = $request->inicio;
         $fin = $request->fin;
-       
+        $inicio= $inicio."T00:00:01.000";
         $fin= $fin."T23:59:59.000";
         //dd($fin);
         $user = $request->get('user');
         //dd($user);
         $logs = DiasOtorgados::with("siglas","capturista","empleado")->whereBetween("DATE",[$inicio,$fin]);
-        $omisiones = Omisiones::with("capturista")->whereNotNull("MODIFYBY")->orderBy("DATE","DESC")->paginate();
+        $omisiones = Omisiones::with("capturista","empleado","checadas")->whereBetween("CHECKTIME",[$inicio,$fin])->whereNotNull("MODIFYBY")->orderBy("DATE","DESC");
         
 
         if($user != 0) {          
           $logs=$logs->Where(function($query)use($user){
           $query->where("USERID",'=',$user);
           }); 
+
+          $omisiones=$omisiones->Where(function($query)use($user){
+            $query->where("USERID",'=',$user);
+            }); 
          }
      
       $logs= $logs->orderBy("DATE","DESC")->paginate(2000);
-       // return response()->json(["logs" => $logs,"omision" => $omisiones]); 
+      $omisiones= $omisiones->paginate(2000);
+       
         return array("logs" => $logs, "omision" => $omisiones);
     }
 

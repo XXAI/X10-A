@@ -14,6 +14,15 @@ class Omisiones extends Model
     public function capturista(){
         return $this->hasOne('App\Models\User', 'id', "MODIFYBY");
     }
+
+
+    public function empleado(){
+        return $this->hasOne('App\Models\Usuarios', 'USERID', "USERID");
+    }
+
+    public function checadas(){
+        return $this->hasOne('App\Models\ChecadasTrabajador', 'WorkCode', "EXACTID");
+    }
     public $timestamps = false;
 
     public function getKeyName(){

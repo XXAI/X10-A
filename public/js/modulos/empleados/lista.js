@@ -915,7 +915,7 @@ function sel_inci(valor) {
     }
 
 }
-
+ 
 function cargar_blade_checadas() {
 
 
@@ -923,8 +923,7 @@ function cargar_blade_checadas() {
     var xe = 'SIN REGISTRO';;
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        //  console.log(datos_checadas_mes);
-        //console.log(value);
+        
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
