@@ -588,7 +588,7 @@ class reporteController extends Controller
                                             break;
                                            
                                         case 2:
-                                            $impr= "Vacaciones 2019 Primavera-Verano";
+                                            $impr= "Vacaciones 2019 Primavera-Verano ".$memo;
                                             break;                               
                                         
                                         case 3:
@@ -599,40 +599,40 @@ class reporteController extends Controller
                                             //$oS=$oS+1;
                                             break;
                                         case 5:
-                                            $impr="Omisión Entrada".$memo ;
+                                            $impr="Omisión Entrada ".$memo;
                                             //$oE=$oE+1;
                                             break;
                                         case 6:
-                                            $impr="Día Económico"; 
+                                            $impr="Día Económico " .$memo; 
                                             $diaE=$diaE+1;                                   
                                             break;
                                         case 8:
-                                            $impr="Licencia Médica";
+                                            $impr="Licencia Médica ".$memo;
                                             break;
                                         case 10:
-                                            $impr= "Onomástico";                                    
+                                            $impr= "Onomástico ".$memo;                                    
                                             break;
                                         case 11:
-                                            $impr="Vacaciones 2018 Primavera-Verano";                                    
+                                            $impr="Vacaciones 2018 Primavera-Verano ".$memo;                                    
                                             break;
                                         case 12:
-                                            $impr="Vacaciones 2018 Invierno";
+                                            $impr="Vacaciones 2018 Invierno ".$memo;
                                             
                                             break;
                                         case 13:
-                                            $impr="Vacaciones 2019 Invierno";                                    
+                                            $impr="Vacaciones 2019 Invierno ".$memo;                                    
                                             break;
                                         case 14:
-                                            $impr="Reposición".$memo; 
+                                            $impr="Reposición ".$memo; 
                                             break;                                 
                                         case 15:                                
-                                            $impr="Mediano Riesgo";                                
+                                            $impr="Mediano Riesgo ".$memo;                                
                                                 break;
                                         case 16:
-                                            $impr="Vacaciones Extra Ordinarias";                                    
+                                            $impr="Vacaciones Extra Ordinarias " .$memo;                                    
                                             break;
                                         case 17:
-                                            $impr="Cuidados Maternos";                                    
+                                            $impr="Cuidados Maternos ".$memo;                                    
                                             break;
                                         case 18:
                                             $impr="Constancia de Entrada";                                    
@@ -641,10 +641,10 @@ class reporteController extends Controller
                                             $impr="Curso ".$memo;                                    
                                             break;
                                         case 20:
-                                            $impr="Licencia Sin Goce ";                                    
+                                            $impr="Licencia Sin Goce " .$memo;                                    
                                             break;
                                         case 21:
-                                            $impr="Licencia Con Goce ";                                    
+                                            $impr="Licencia Con Goce " .$memo;                                    
                                             break;
                                         case 22:
                                             $impr="Pago de Guardia ".$memo;                                    
@@ -662,20 +662,20 @@ class reporteController extends Controller
                                             $impr="Contingencia COVID19 ".$memo;                                    
                                             break;
                                         case 32:
-                                            $impr="Vacaciones 2020 Invierno";                                   
+                                            $impr="Vacaciones 2020 Invierno " .$memo;                                   
                                             break;
                                         case 33:
-                                            $impr="Vacaciones 2021 Primavera";                                   
+                                            $impr="Vacaciones 2021 Primavera ".$memo;                                   
                                             break;
                                         case 34:
-                                            $impr="Vacaciones 2021 Invierno";                                   
+                                            $impr="Vacaciones 2021 Invierno ".$memo;                                   
                                             break;
                                         case 36:
                                             $impr="Cuidados Paternales ".$memo;                                   
                                             break;
 
                                         case 35:
-                                            $impr="BECA";                                 
+                                            $impr="BECA " .$memo;                                 
                                             break;
                                         case 37:
                                             $impr="Licencia Matrimonial ".$memo;                                   
