@@ -1,3 +1,8 @@
+var tipo;
+var user;
+var inicio;
+var fin;
+
 $(document).ready(function() {
 
     var fecha = new Date(); //Fecha actual
@@ -74,36 +79,76 @@ function cargar_dato(dato) {
     }).done(function(data, textStatus, jqXHR) {
         lista.html("");
         console.log(data.logs.length);
-        if (data.logs.length == 0) {
+        if(tipo==1) {
+                if (data.logs.length == 0) {
 
-            var linea = $("<tr ></tr>");
-            var campo1 = $("<td colspan='20'>No se encontraron resultados</td>");
-            linea.append(campo1);
-            lista.append(linea);
+                    var linea = $("<tr ></tr>");
+                    var campo1 = $("<td colspan='20'>No se encontraron resultados</td>");
+                    linea.append(campo1);
+                    lista.append(linea);
 
-        }
-        var num = 0;
-        $.each(data.logs.data, function(index, value) {
-            num += 1;
-            var linea = $("<tr></tr>");
-            var campo = $("<td>" + num + "</td>");
-            var campo1 = $("<td>" + value.capturista.nombre + "</td>");
-            var campo2 = $("<td>" + value.siglas.LeaveName + "</td>");
-            var campo3 = $("<td>" + value.STARTSPECDAY.substr(0, 16) + "</td>");
-            var campo4 = $("<td>" + value.ENDSPECDAY.substr(0, 16) + "</td>");
-            var campo5 = $("<td>" + value.YUANYING + "</td>");
-            var campo6 = $("<td>" + value.DATE.substr(0, 19) + "</td>");
-            var campo7 = $("<td>" + value.empleado.Badgenumber + "-" + value.empleado.Name + "</td>");
-            /*  var campo3 = $("<td>" + value.TITLE + "</td>"); */
-            linea.append(campo, campo1, campo2, campo3, campo4, campo5, campo6, campo7);
-            lista.append(linea);
-            // console.log(data.logs);
+                }
+                var num = 0;
+                $.each(data.logs.data, function(index, value) {
+                    num += 1;
+                    var linea = $("<tr></tr>");
+                    var campo = $("<td>" + num + "</td>");
+                    var campo1 = $("<td>" + value.capturista.nombre + "</td>");
+                    var campo2 = $("<td>" + value.siglas.LeaveName + "</td>");
+                    var campo3 = $("<td>" + value.STARTSPECDAY.substr(0, 16) + "</td>");
+                    var campo4 = $("<td>" + value.ENDSPECDAY.substr(0, 16) + "</td>");
+                    var campo5 = $("<td>" + value.YUANYING + "</td>");
+                    var campo6 = $("<td>" + value.DATE.substr(0, 19) + "</td>");
+                    var campo7 = $("<td>" + value.empleado.Badgenumber + "-" + value.empleado.Name + "</td>");
+                    
+                    linea.append(campo, campo1, campo2, campo3, campo4, campo5, campo6, campo7);
+                    lista.append(linea);
+                
 
-            $.each(value.capturista, function(index_capturista, value_capturista) {
+                
 
-            });
+                });
+            }else{
 
-        });
+                if (data.omision.length == 0) {
+
+                    var linea = $("<tr ></tr>");
+                    var campo1 = $("<td colspan='20'>No se encontraron resultados</td>");
+                    linea.append(campo1);
+                    lista.append(linea);
+
+                }
+                var num = 0;
+                $.each(data.omision.data, function(index, value) {
+                    num += 1;
+                    var linea = $("<tr></tr>");
+                    var campo = $("<td>" + num + "</td>");
+                    var campo1 = $("<td>" + value.capturista.nombre + "</td>");
+                    switch (value.CHECKTYPE) {
+                        case "I":
+                            var campo2 = $("<td>OMISION ENTRADA</td>"); 
+                            break;
+    
+                        case "O":
+                            var campo2 = $("<td>OMISION SALIDA</td>");
+                            break;
+                        default:
+                    }
+                    var campo3 = $("<td>" + value.CHECKTIME.substr(0, 16) + "</td>");
+                    var campo4 = $("<td>---------------</td>"); 
+                    var campo5 = $("<td>" + value.checadas.Memoinfo + "</td>");
+                    var campo6 = $("<td>" + value.DATE.substr(0, 19) + "</td>");
+                    var campo7 = $("<td>" + value.empleado.Badgenumber + "-" + value.empleado.Name + "</td>");
+                    
+                    linea.append(campo, campo1, campo2, campo3, campo4, campo5, campo6, campo7);
+                    lista.append(linea);
+                
+
+                
+
+                });
+
+            }
 
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -111,23 +156,27 @@ function cargar_dato(dato) {
 }
 
 function btn_filtrar() {
-    //console.log("entro");
-    var anio = $("#anio").val();
-    var user = parseInt($("#user").val());
-    var inicio = $("#inicio").val();
-    var fin = $("#fin").val();
-    console.log(inicio);
-    obj_filtro = { 'inicio': inicio, 'fin': fin, 'user': user };
+
+
+    tipo = $("#tipopermiso").val();
+    user = parseInt($("#user").val());
+    inicio = $("#inicio").val();
+    fin = $("#fin").val();
+  
+   
+    
+    obj_filtro = { 'inicio': inicio, 'fin': fin, 'user': user,'tipo': tipo };
     cargar_dato(obj_filtro);
 }
 
 function generar_reporte() {
-    var user = parseInt($("#user").val());
-    var inicio = $("#inicio").val();
-    var fin = $("#fin").val();
+    tipo = $("#tipopermiso").val();
+     user = parseInt($("#user").val());
+     inicio = $("#inicio").val();
+     fin = $("#fin").val();
     
     if (user!=0){
-        win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin, '_blank');
+        win = window.open('./api/reporte-capturista?user=' + user + "&inicio=" + inicio + "&fin=" + fin + "&tipo=" + tipo, '_blank');
     }else{
         alert("Debe Seleccionar un Capturista");
     }

@@ -26,7 +26,16 @@
                         
                     </div>    
                 </div>               
-              
+                <div class="col-sm-3">
+                    <div class="form-group">
+                            <label for="exampleInputEmail1">Tipo de Incidencia</label>
+                            <select class='select form-control' id = 'tipopermiso'>
+                                <option value = '1'>Jornada Completa</option>
+                                <option value = '2'>Jornada Parcial</option>
+                                
+                            </select>
+                        </div>   
+                </div> 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="fecha_inicio">Fecha Inicio:</label>

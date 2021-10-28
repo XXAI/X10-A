@@ -69,22 +69,30 @@ class LogsController extends Controller
         
         $parametros = Input::all();
         $inicio = $request->inicio;
+        $tipo = $request->tipo;
         $fin = $request->fin;
         $fin= $fin."T23:59:59.000";
         $user = $request->get('user');
+
+        
+
         //dd($user);
         $logs = DiasOtorgados::with("siglas","capturista","empleado")->whereNotNull("captura_id")->whereBetween("DATE",[$inicio,$fin]);
-        $omisiones = Omisiones::with("capturista")->whereNotNull("MODIFYBY")->orderBy("DATE","DESC")->paginate();
+        $omisiones = Omisiones::with("capturista","empleado","checadas")->whereBetween("CHECKTIME",[$inicio,$fin])->whereNotNull("MODIFYBY")->orderBy("DATE","DESC");
         
 
         if($user != 0) {          
           $logs=$logs->Where(function($query)use($user){
           $query->where("captura_id",'=',$user);
           }); 
+          $omisiones=$omisiones->Where(function($query)use($user){
+            $query->where("MODIFYBY",'=',$user);
+            }); 
          }
      
-        $logs= $logs->orderBy("DATE","DESC")->paginate(2000);       
-        return array("logs" => $logs, "omision" => $omisiones);
+        $logs= $logs->orderBy("DATE","DESC")->paginate(2000);   
+        $omisiones= $omisiones->paginate(2000);    
+        return array("logs" => $logs, "omision" => $omisiones,"tipo" => $tipo);
     }
 
     public function obtenerIncidencias(Request $request)

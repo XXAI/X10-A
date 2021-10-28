@@ -84,17 +84,7 @@ function cargar_dato(dato) {
         lista.html("");
         
         if (tipo==1) {
-            /* var titulos = ["Incidencia","Inicio","Fin","Referencia","Fecha Captura","Capturista","Acciones"];
-            for(i=0;i<7;i++) {
-                var hilera = document.createElement("tr");     
-                
-                var tr = document.getElementById('table').tHead.children[0],
-                th = document.createElement('th');
         
-                th.innerHTML = titulos[i];
-                tr.appendChild(th);
-                
-            } */
             if (data.logs.length == 0) {
 
                 var linea = $("<tr ></tr>");
@@ -182,10 +172,9 @@ function btn_filtrar() {
     user = parseInt($("#user").val());
     inicio = $("#inicio").val();
     fin = $("#fin").val();
-    //btn_filtrar();
-    //console.log("entro");
+  
    
-    console.log(inicio);
+    
     obj_filtro = { 'inicio': inicio, 'fin': fin, 'user': user,'tipo': tipo };
     cargar_dato(obj_filtro);
 }
