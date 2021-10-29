@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Input;
 class CardexController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
+        unset($empleados);
         $parametros = Input::all();
 
         $obtengoclues = CluesUser::where("user_id","=",auth()->user()['id'])->get();
@@ -225,20 +226,9 @@ class CardexController extends Controller
               // $query->where("ENDSPECDAY","<=", $fecha_fin )->where("STARTSPECDAY", ">=", $fecha_inicio );
             }])
             ->Where('Badgenumber', $empleado)->first(); 
-            //unset($empleados);
-            //dd($empleados);
-            ////where("STARTSPECDAY", ">=", $fecha_inicio)->where("STARTSPECDAY", "<=", $fecha_fin);
-            //return $empleados;
-            #Obtenemos los dias totales del reporte
-            //
-            //$dias_totales = $parametro_inicial->diffInDays($parametro_final);
-            //return $dias_totales;
-            #Parseamos los datos obtenidos en la consulta para generar indice de fecha
+           
             $horarios_periodo = $this->ordernarHorarios($empleados->horarios);
-            //dd($horarios_periodo);
-            //unset($horarios_periodo[1]);
-            
-            //return $horarios_periodo;
+          
 
             $indice_horario_seleccionado = 0;
             $dias_habiles = array();
@@ -398,7 +388,8 @@ class CardexController extends Controller
                         }else{
                             # En caso de ser dia otorgado se pone las letras
                             $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
-                        }    
+                        }  
+                        
                     }else
                     {   
                         # No hacemos nada en los dias no habiles
@@ -410,12 +401,14 @@ class CardexController extends Controller
                 }
                 ############## Hasta aqui
                 #reseteamos contadores
+                
                 $parametro_inicial->addDay();
                 //echo $parametro_inicial." -- ";
             }
             
         /*}*/
         return array("datos" => $resultado, "horario" => $jornada);
+        unset($resultado);
     }
 
     function ordernarHorarios($horarios)
@@ -561,12 +554,12 @@ class CardexController extends Controller
 
     function dias_otorgados($arreglo)
     {
-        $arreglo_dias = array();
-       
+        unset($arreglo_dias);
+        $arreglo_dias = array();     
 
         foreach ($arreglo as $key => $value) {
            //  $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
-            
+           
             $inicio = new Carbon($value->STARTSPECDAY);
              $fin = new Carbon($value->ENDSPECDAY);
              $diff = $inicio->diffInDays($fin);            

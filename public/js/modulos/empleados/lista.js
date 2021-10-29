@@ -715,46 +715,56 @@ function obtener_justificantes(fini, ffin) {
     codein = $("#code_in").val();
     id = $("#id").val();
     fecha = xini;
-    permisos = [];
-    jQuery.ajax({
-        data: { id: id, fini: fini, ffin: ffin, codein: codein },
-        type: "GET",
-        dataType: "json",
-        url: "./api/permisos/",
 
-    }).done(function(data) {
-
-        data.permisos.forEach(element => {
-            permisos.push(element);
-        });
-        console.log(permisos);
-
-        if (permisos.length > 0) {
-
-            swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
-                icon: "warning",
+    if (fini>ffin){
+        permisos = [];
+        jQuery.ajax({
+            data: { id: id, fini: fini, ffin: ffin, codein: codein },
+            type: "GET",
+            dataType: "json",
+            url: "./api/permisos/",
+    
+        }).done(function(data) {
+    
+            data.permisos.forEach(element => {
+                permisos.push(element);
             });
-        } else {
-            validando_incidencia();
-            if (bandera == 1) {
-
-                if (ban_url == 1) { save_justi_emp(); } else {
-                    if (val_in == 0) {
-                        save_justi_emp();
-
-                    } else { acepta_incidencia(); }
-
-                }
-
+            console.log(permisos);
+    
+            if (permisos.length > 0) {
+    
+                swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
+                    icon: "warning",
+                });
             } else {
-                swal("Error!", msj + "!", "error");
+                validando_incidencia();
+                if (bandera == 1) {
+    
+                    if (ban_url == 1) { save_justi_emp(); } else {
+                        if (val_in == 0) {
+                            save_justi_emp();
+    
+                        } else { acepta_incidencia(); }
+    
+                    }
+    
+                } else {
+                    swal("Error!", msj + "!", "error");
+                }
             }
-        }
+    
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+    
+        });
+    }
+    else{
+        swal("¡Verifique las Fechas!", {
+            icon: "warning",
+        });
+    }
 
-    }).fail(function(jqXHR, textStatus, errorThrown) {
 
-    });
-
+ 
 
 
 
