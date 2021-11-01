@@ -327,6 +327,7 @@ class reporteController extends Controller
                 }
 
                 $diafest = FinSemanaFestivo::with("festivo_finsemana")->where("COMETIME","=",$fecha_evaluar)->where("USERID","=",$validacion->USERID)->first();
+               // dd($diafest);
                 $festivo=0;
                 $regla_festivo_fin_Semana = "";
                 if($diafest != null)
@@ -345,16 +346,16 @@ class reporteController extends Controller
                // return response()->json(["data" => $diafest]);    
 
              //  $festivos   = Festivos::where("STARTTIME", "=", $fecha_evaluar)->get();
-               
+             $diatrab=0;
 
-               
+              // dd($var_reglas[$fecha_evaluar->dayOfWeekIso]);
               //  $arreglo_festivos = array();
                 //if(count($festivos) > 0){ $arreglo_festivos = $this->festivos($festivos); }
               //dd($festivos);
-                if($var_reglas[$fecha_evaluar->dayOfWeekIso] || $diafest != '' )
+                if(isset($var_reglas[$fecha_evaluar->dayOfWeekIso]) || $diafest != '' || $diafest != null )
                 {
 
-          //dd($diafest->COMETIME);
+         
               
                         $asistencia[$indice]['numero_dia'] = $fecha_evaluar->dayOfWeekIso;
                         $asistencia[$indice]['validacion'] = 1;
@@ -879,29 +880,29 @@ class reporteController extends Controller
                     }
 
                 
-                if($validacion->SEP!=0  && $fecha_eval<'2021-01-01'){
-                    if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
-                        $checa_contingencia = $conexion->table("contingencia")
-                        ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
-                        ->first();
-                        if(isset($checa_contingencia) ){
-                            $asistencia[$indice]['checado_entrada']=$checa_contingencia->HOLIDAYNAME;
-                            $asistencia[$indice]['checado_salida']=$checa_contingencia->HOLIDAYNAME;
-                            $asistencia[$indice]['validacion'] = 1;
+                    if($validacion->SEP!=0  && $fecha_eval<'2021-01-01'){
+                        if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
+                            $checa_contingencia = $conexion->table("contingencia")
+                            ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
+                            ->first();
+                            if(isset($checa_contingencia) ){
+                                $asistencia[$indice]['checado_entrada']=$checa_contingencia->HOLIDAYNAME;
+                                $asistencia[$indice]['checado_salida']=$checa_contingencia->HOLIDAYNAME;
+                                $asistencia[$indice]['validacion'] = 1;
+                            }
+            
                         }
-        
-                    }
-                    if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']<>"SIN REGISTRO")){
-                        $checa_inhabil = $conexion->table("SAL_AUTO")
-                        ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
-                        ->first();
-                        if(isset($checa_inhabil)){                           
-                            $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
-                            $asistencia[$indice]['validacion'] = 1;
+                        if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']<>"SIN REGISTRO")){
+                            $checa_inhabil = $conexion->table("SAL_AUTO")
+                            ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
+                            ->first();
+                            if(isset($checa_inhabil)){                           
+                                $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
+                                $asistencia[$indice]['validacion'] = 1;
+                            }
+            
                         }
-        
                     }
-                }
 
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")||($asistencia[$indice]['checado_entrada']=="SIN REGISTRO"))
                       $falta = $falta+1;
