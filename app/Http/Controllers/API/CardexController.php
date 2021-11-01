@@ -101,7 +101,8 @@ class CardexController extends Controller
        $fecha_limite_inicio=new Carbon($anio.'-10-01');
        // $fecha_limite_inicio=new Carbon('2021-02-02');
         if($anio==Carbon::now()->year){
-            $fecha_limite_fin = Carbon::now();
+           // $fecha_limite_fin = Carbon::now();
+            $fecha_limite_fin=new Carbon($anio.'-10-01');
             $fecha_limite_inicio=$fecha_limite_inicio->addMonth();
         }
         else{          

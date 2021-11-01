@@ -716,7 +716,7 @@ function obtener_justificantes(fini, ffin) {
     id = $("#id").val();
     fecha = xini;
 
-    if (fini>ffin){
+   // if (fini>ffin){
         permisos = [];
         jQuery.ajax({
             data: { id: id, fini: fini, ffin: ffin, codein: codein },
@@ -756,12 +756,12 @@ function obtener_justificantes(fini, ffin) {
         }).fail(function(jqXHR, textStatus, errorThrown) {
     
         });
-    }
-    else{
+   /* }
+     else{
         swal("¡Verifique las Fechas!", {
             icon: "warning",
         });
-    }
+    } */
 
 
  
