@@ -9,8 +9,11 @@
                         <label for="tipo_registro"  class="col-sm-12 col-form-label">Elegir Tipo de Checada</label>                                         
                             <select class="form-control" id="tipo_es" name="tipo_es" onchange="sel_tiporeg(this.value)" required>
                                 <option value="">Seleccione el tipo de Registro</option>
-                                <option value="I">Entrada</option>
-                                <option value="O">Salida</option>                                
+                                <option value="I">Omisión de Entrada</option>
+                                <option value="O">Omisión de Salida</option>
+                                <option value="E">Constacia de Entrada</option>
+                                <option value="C">Constacia de Salida</option>  
+                                <option value="R">Retardo</option>                               
                             </select>
                     </div>
                     <div id="divmsg2" style="display:visible" class="alert-primary" role="alert">
