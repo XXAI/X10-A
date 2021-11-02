@@ -12,7 +12,7 @@
                                 <option value="I">Omisión de Entrada</option>
                                 <option value="O">Omisión de Salida</option>
                                 <option value="E">Constacia de Entrada</option>
-                                <option value="C">Constacia de Salida</option>  
+                                <option value="S">Constacia de Salida</option>  
                                 <option value="R">Retardo</option>                               
                             </select>
                     </div>

@@ -47,7 +47,7 @@ class EntraSalidaController extends Controller
                 $registro->UserExtFmt =    $request->idcap;  
                 $registro->WorkCode =   $omision_id;
                 $registro->Memoinfo =$request->razon;
-                $registro->sn=   "0";
+                $registro->sn=   $request->tipo_registro;
                 $registro->save();
 
             //  dd($omision_id);

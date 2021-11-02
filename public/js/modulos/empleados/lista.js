@@ -664,9 +664,21 @@ function obtener_omisiones() {
             // console.log(data);
             $.each(data.omisiones, function(key, value) {
 
-                if (value.CHECKTYPE == 'I') {
+                switch (value.CHECKTYPE) {
+                    case 'I':
+                        oentrada += 1;
+                    break;
+                    case 'O':
+                        osalida += 1;
+                    break;
+
+                    default:
+
+
+                } 
+                /* if (value.CHECKTYPE == 'I') {
                     oentrada += 1;
-                } else { osalida += 1; }
+                } else { osalida += 1; } */
                 if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
                     algo = 1;
                 }
@@ -689,13 +701,11 @@ function obtener_omisiones() {
                 swal("¡La Omisión no se puede ingresar porque ya agotó la cantidad permitida!", {
                     icon: "warning",
                 });
+                algo = 0;
+                oentrada = 0;
+                osalida = 0;
 
-                /*  algo = 0;
-                     oentrada = 0;
-                     osalida = 0; */
-                /* var mensaje = "Ya se agoto la cantidad de omisiones";
-                $('#btn_save_entrasal').attr('disabled', true);
-                mostrarMensaje2(mensaje); */
+                
             }
 
 
@@ -803,10 +813,33 @@ function obtener_incidencias() {
 function sel_tiporeg(tiporeg) {
 
     agregar_entsal(xini, xfin)
-    if (tiporeg == "I") {
+   /*  if (tiporeg == "I") {
         $("#fecha_reg").val(xini);
     } else {
         $("#fecha_reg").val(xfin);
+    } */
+
+    switch(tiporeg){
+        case "I":
+            $("#fecha_reg").val(xini);
+            break;
+        case "O":
+            $("#fecha_reg").val(xfin);
+            break;
+        case "E":
+            $("#fecha_reg").val(xini);
+            break;
+        case "R":
+            $("#fecha_reg").val(xini);
+            break;
+        case "S":
+            $("#fecha_reg").val(xfin);
+            alert(xfin);
+            break;
+
+        
+        
+
     }
     //obtener_omisiones();
 

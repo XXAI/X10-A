@@ -765,12 +765,33 @@ class reporteController extends Controller
                                              
                                             }                               
                                             else{
+                                                $tipo=0;
                                                 $asistencia[$indice]['omision'] = $checada_entrada->WorkCode;
                                                 $asistencia[$indice]['user_omision'] = $checada_entrada->UserExtFmt;
                                                 $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                                if($nombrebase<>'ZKAccess')
-                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. " Omisión Entrada";
-                                                else $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
+                                                if($nombrebase<>'ZKAccess'){
+                                                    switch($checada_entrada->sn){
+                                                        
+                                                            case "I":
+                                                                $tipo=" Omisión Entrada";
+                                                                break;
+                                                           
+                                                            case "E":
+                                                                $tipo=" Constancia de Entrada";
+                                                                break;
+                                                            case "R":
+                                                                $tipo=" Justificado por Retardo";
+                                                                break;
+                                                            
+                                                        
+                                                
+                                                    }
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. $tipo;
+                                                     
+                                                }
+                                                else{
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
+                                                } 
                                             }
                                         
 
@@ -833,12 +854,26 @@ class reporteController extends Controller
                         if (is_null($checada_salida->sn)){
                             $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
                            else{
-
+                                $tipo=" ";
                                 $asistencia[$indice]['omisionsal'] = $checada_salida->WorkCode;
                                 $asistencia[$indice]['user_omision'] = $checada_salida->UserExtFmt;
                                 $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                if($nombrebase<>'ZKAccess')
-                                     $asistencia[$indice]['checado_salida'] = $checada_salida->HORA. " Omisión Salida";
+                                if($nombrebase<>'ZKAccess'){
+                                    switch($checada_salida->sn){
+                                                    
+                                       
+                                        case "O":
+                                            $tipo=" Omisión Salida";
+                                            break;
+                                        
+                                        case "S":
+                                            $tipo=" Constancia de Salida";
+                                            break;     
+                                        
+                                
+                                    }
+                                     $asistencia[$indice]['checado_salida'] = $checada_salida->HORA.$tipo;
+                                }
                                 else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
                            }
                             

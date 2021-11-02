@@ -98,20 +98,24 @@ class CardexController extends Controller
         //unset($empleados);
         //dd("asd");
         //dd("a");
-       $fecha_limite_inicio=new Carbon($anio.'-10-01');
-       // $fecha_limite_inicio=new Carbon('2021-02-02');
-        if($anio==Carbon::now()->year){
-           // $fecha_limite_fin = Carbon::now();
-            $fecha_limite_fin=new Carbon($anio.'-10-01');
+        $fecha_limite_inicio=new Carbon($anio.'-11-01');
+        $fecha_limite_fin=new Carbon($anio.'-10-01');
+        if($anio=='2022'){
+            $fecha_limite_fin = Carbon::now();
+        }
+       // dd($fecha_limite_fin);
+        //$fecha_limite_inicio=new Carbon('2021-10-01');
+        /* if($anio==Carbon::now()->year){
+            $fecha_limite_fin = Carbon::now();           
             $fecha_limite_inicio=$fecha_limite_inicio->addMonth();
         }
         else{          
            
-           $fecha_limite_fin=new Carbon($anio.'-10-01');
-          //$fecha_limite_fin=new Carbon('2021-02-03');
+           $fecha_limite_fin=new Carbon($anio.'-09-01');
+         // $fecha_limite_fin=new Carbon('2021-11-01');
           
-        }
-     //  dd($fecha_limite_inicio. 'fin: '.$fecha_limite_fin);
+        } */
+      //dd($fecha_limite_inicio. 'fin: '.$fecha_limite_fin);
         $anio_reporte =$anio; //$fecha_limite_fin->year;
 
        // dd($anio_reporte);
@@ -164,6 +168,7 @@ class CardexController extends Controller
             
             //$fecha_limite_actual->day = $dias_mes; //Fecha Final
         }
+        
         /* */
         //$fecha_inicial = $fecha_limite_actual;
         //$mes_reporte = 1;
@@ -191,6 +196,9 @@ class CardexController extends Controller
             //$parametro_final = Carbon::now();
             //$fecha_fin = $parametro_final->format('Y-m-d').'T23:59:59';
             $fecha_fin = $fecha_limite_fin->format('Y-m-d').'T23:59:59';
+
+
+           // dd($fecha_inicio."  ". $fecha_fin);
             #Obtenemos los dias Festivos
             $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio)->where("STARTTIME", "<=", $fecha_fin)->get();
             $arreglo_festivos = array();
