@@ -53,6 +53,47 @@
                 <tbody id='lista_personal'>
                 </tbody>
             </table>
+
+
+            <div class="modal fade bd-example-modal-lg" id="modal_incidencias"  tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Incidencias</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <table id="table" class="table table-bordered table-faltas">
+                <thead>
+                    <tr>
+                        <th>Num</th>                         
+                                            
+                         <th style='text-align:center'>Incidencia</th>
+                        <th style='text-align:center'>Inicio</th>
+                        <th style='text-align:center'>Fin</th>
+                        <th style='text-align:center'>Referencia</th>
+                        <th style='text-align:center'>Fecha Captura</th>                       
+                        <th>Usuario</th>  
+                                              
+                        
+                    </tr>
+                    
+                </thead>
+                <tbody id='lista_incidencias' style="font-size:9pt">
+                    <tr>
+                        <td colspan='10'>No se encuentran resultados</td>
+                    </tr>
+                </tbody>
+            </table>
+                    
+                    <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-secondary" id="cerrar1" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>        
