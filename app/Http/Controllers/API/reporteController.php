@@ -261,6 +261,13 @@ class reporteController extends Controller
                 ->get();
                  print_r($empleados); 
                 return $empleados; */
+
+                $diaEconomicoanual = 0;
+
+     /*    $diaEconomicoanual = DiasOtorgados::where("USERID", "=",  $validacion->USERID)->where("DATEID", "=",  6)->get();
+        
+        $dias_economicos    =  $this->dias_economicos($diaEconomicoanual);
+        //dd($dias_economicos); */
                        
         $resumen2 = DiasOtorgados::where("USERID", "=",  $validacion->USERID)->get();  
         //->groupBy("USER_SPEDAY.DATEID","USER_SPEDAY.USERID","USER_SPEDAY.STARTSPECDAY","USER_SPEDAY.ENDSPECDAY","USER_SPEDAY.YUANYING","USER_SPEDAY.DATE","USER_SPEDAY.captura_id","USER_SPEDAY.id","USER_SPEDAY.incidencia_id")
@@ -972,7 +979,7 @@ class reporteController extends Controller
         $ps=$ps/60;
      
         
-        $resumen = array(['resumen2'=>$resumen2,'horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
+        $resumen = array(['dea'=>$diaEconomicoanual,'resumen2'=>$resumen2,'horastra'=>$htra,'pagoGuardia'=>$pagoGuardia,'Pase_Salida'=>$ps,'Retardo_Mayor'=>$rm,'Retardo_Menor'=>$rme,'Vacaciones_2019_Primavera_Verano'=> $vac19_1,'Vacaciones_2019_Invierno'=>$vac19_2,'Vacaciones_2020_Primavera_Verano'=> $vac20_1,'Vacaciones_2020_Invierno'=>$vac20_2,'Vacaciones_2018_Primavera_Verano'=>$vac18_1,'Vacaciones_2018_Invierno'=>$vac18_2,'Día_Económico'=>$diaE,'Onomástico'=>$ono,'Omisión_Entrada'=> $oE,'Omisión_Salida'=>$oS,'Falta'=>$falta,'Vacaciones_Mediano_Riesgo'=>$vacMR,'Vacaciones_Extra_Ordinarias'=>$vacEx]);
        if($impre==0){
         return response()->json(["data" => $asistencia, "nocturno"=> $diatrab, "resumen" => $resumen, "validacion"=> $validacion, "fecha_inicial"=> $fecha_view_inicio->format('Y-m-d'), "fecha_final"=> $fecha_view_fin->format('Y-m-d')]);
        }else{  
@@ -1001,6 +1008,31 @@ class reporteController extends Controller
          return $arreglo_dias;
        
     }
+
+   /*  function dias_economicos($arreglo)
+    {
+        $arreglo_economico = array();
+       
+
+        foreach ($arreglo as $key => $value) {
+           //  $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+            
+             $inicio = new Carbon($value->STARTSPECDAY);
+             $fin = new Carbon($value->ENDSPECDAY);
+             $diff = $inicio->diffInDays($fin);            
+             $arreglo_economico[substr($inicio, 0,10)][] = $value;
+             $ndias=0;
+             for ($i=0; $i < $diff; $i++) { 
+                $arreglo_economico[substr($inicio->addDays(), 0,10)][] = $value;
+                $ndias+=1;
+                
+             } 
+
+         }
+     
+         return $ndias;
+       
+    } */
 
 
     

@@ -701,19 +701,28 @@ class ReporteMensualController extends Controller
             $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
             
             if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
-            if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5){ $calcular_salida = 1; $inicio_salida->subMinutes(120); }
+            if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5)
+            { 
+                //dd($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]);
+                $calcular_salida = 1; $inicio_salida->subMinutes(120); 
 
+                //$arreglo_salidas[$fecha_evaluar->format('Y-m-d')]=$dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')];
+              //  dd($inicio_salida);
+
+            }
+            //dd(isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]));
             if($checada_entrada == 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
             {
                 $checada_salida = 1;
             }
             if($checada_salida == 0)
             {
+                //dd("holaa salida");
                 if(isset($checadas_empleado[$fecha_evaluar->format('Y-m-d')])){
                     foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
                     
                         $checada = new Carbon($dato_checada->CHECKTIME);
-                
+                        dd($checada);
                         if($checada_salida == 0 )
                         {
                             
@@ -723,6 +732,8 @@ class ReporteMensualController extends Controller
                                 if($calcular_salida == 1)
                                 {
                                     $minutos_salida = $checada->diffInMinutes($inicio_salida_fija->addMinutes(1));
+                                    //$checada_salida = 1;
+                                   // dd($minutos_salida);
                                 }
                             }
                         }
