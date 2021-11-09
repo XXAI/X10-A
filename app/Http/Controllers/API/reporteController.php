@@ -515,7 +515,14 @@ class reporteController extends Controller
                                 ->first();
 
                                 //dd($checada_sal_fuera);
-                               
+                                if($trab!=0){
+                                    $fecha_eval= new Carbon($fecha_eval);
+                                    $fecha_eval= $fecha_eval->addDay();                                    
+                                    $fecha_eval= substr($fecha_eval,0,-9);
+                                   // dd($fecha_eval);
+                                   
+                                }
+
                         
                                 $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
