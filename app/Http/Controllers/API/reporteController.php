@@ -429,14 +429,16 @@ class reporteController extends Controller
     
     
                             $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
-                            
-                            $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
+                            $final_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
+                            $pase_ss=$inicio_sal_fuera;
+                           // $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
                             //$inicio_sal_fuera->subHours(2);
                           
                           //  $final_entra_fuera=$inicio_sal_fuera->subHours(2);
                             $final_entra_fuera->addMinutes(90);
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                            $final_sal_fuera= str_replace(" ", "T", $final_sal_fuera);
                           // dd($inicio_sal_fuera);
                             $trab=$diatrab;
                             if ($diatrab!=0 || $festivo==1 )
@@ -466,8 +468,8 @@ class reporteController extends Controller
 
                                     
                                       
-                                    $inicio_sal_fuera->subHours(2);                                   
-                                    $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
+                                  //  $inicio_sal_fuera->subHours(2);                                   
+                                   // $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
             
     
                                 }
@@ -475,9 +477,11 @@ class reporteController extends Controller
                                // dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
                            //     dd($final_sal);
                                // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
-                                
-                           
-                           //  dd($inicio_sal_fuera);
+                               
+                            $pase_ss->subHours(2);
+                             
+                             $pase_ss= str_replace(" ", "T", $pase_ss);
+                             
                            
                                                    
                             
@@ -515,7 +519,8 @@ class reporteController extends Controller
                         $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
-                                ->whereBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
+                                ->whereNotBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
+                                ->whereBetween("CHECKTIME", [$pase_ss,$inicio_sal_fuera])
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
 
