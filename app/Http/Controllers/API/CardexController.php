@@ -259,7 +259,8 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-            $fecha_x = new Carbon("2021-02-02");
+            $fecha_x = new Carbon("2021-10-09");
+           // print_r("hol2");
             while($parametro_final->greaterThanOrEqualTo($parametro_inicial))
             {
                 //echo $parametro_inicial."--";
@@ -284,8 +285,9 @@ class CardexController extends Controller
                     //dd($contador_horario);
                 }
                
-                
+                  
                //unset($empleados);
+             
                 if($diferencia_dias_sin_horario == 0)
                 {
                     
@@ -312,6 +314,7 @@ class CardexController extends Controller
                             
                             $checada_entrada = 0;
                             $checada_salida  = 0;
+                            
                             if(!array_key_exists($parametro_inicial->format('Y-m-d'), $arreglo_festivos) && !array_key_exists($parametro_inicial->format('Y-m-d'), $arreglo_contingencia))
                             {
                                 if(array_key_exists($parametro_inicial->format('Y-m-d'), $checadas_empleado))
@@ -332,16 +335,17 @@ class CardexController extends Controller
                                                 $checada_entrada = 3;
                                             }    
                                         }
+                                        
                                         if($checada_salida == 0)
                                         {
-                                            /*if($parametro_inicial->equalTo($fecha_x) && $checada_entrada!=0)
+                                            if($parametro_inicial->equalTo($fecha_x) && $checada_entrada!=0)
                                             {
-                                                print_r($jornada);
-                                                print_r($checada);
+                                                
+                                                /*print_r($checada);
                                                 print_r($inicio_salida); 
                                                 print_r($fin_salida); 
-                                                print_r($dato_checada);
-                                            }*/
+                                                print_r($dato_checada);*/
+                                            }
                                             if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                                             {
                                                 $checada_salida = 1;

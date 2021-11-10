@@ -97,7 +97,7 @@ class ReporteMensualController extends Controller
         $dias_mes = $fecha_actual->daysInMonth;
         $fecha_fin    = $anio."-".$mes."-".$dias_mes;
         
-        
+      
         //Obtenemos los dias Festivos
         $festivos   = Festivos::where("STARTTIME", ">=", $fecha_inicio.'T00:00:00')->where("STARTTIME", "<=", $fecha_fin.'T23:59:59')->get();
         $arreglo_festivos = array();
@@ -155,7 +155,7 @@ class ReporteMensualController extends Controller
         ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
-        
+      
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
@@ -526,8 +526,8 @@ class ReporteMensualController extends Controller
             $arreglo_clues = $this->clues_users($obtengoclues);
             
         }
-
-        
+        $fecha_fin->addDay();
+       // dd($fecha_fin);
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){

@@ -387,7 +387,7 @@ class reporteController extends Controller
                            // $final_entra=$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000";
                             $final_entra=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada.":00.000");
                             
-                             
+                            $final_entra_fuera=$final_entra;
                           //  dd($final_entra);
                         //      
                             $diatrab=$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaSal-$var_reglas[$fecha_evaluar->dayOfWeekIso]->diaEnt;
@@ -420,9 +420,12 @@ class reporteController extends Controller
 
 
 
-                           $inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+                           //$inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
+                           $inicio_entra_fuera = new carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarEntrada.":00.000"); 
                              
-                            
+                           $inicio_entra_fuera->subMinutes(30);
+                           $inicio_entra_fuera= str_replace(" ", "T", $inicio_entra_fuera);
+                          // dd($inicio_entra_fuera);
     
     
                             $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
@@ -430,8 +433,8 @@ class reporteController extends Controller
                             $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
                             //$inicio_sal_fuera->subHours(2);
                           
-                            $final_entra_fuera=$inicio_sal_fuera->subHours(2);
-                            $final_entra_fuera->subMinute();
+                          //  $final_entra_fuera=$inicio_sal_fuera->subHours(2);
+                            $final_entra_fuera->addMinutes(90);
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
                           // dd($inicio_sal_fuera);
@@ -443,6 +446,7 @@ class reporteController extends Controller
                                     $inicio_sal=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000");
                                     $final_sal=new Carbon($final_sal);         
                                     $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
+                                   
                                    // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
                                     $final_sal_fuera=new Carbon($final_sal_fuera);                            
                                     $modif=$inicio_sal;                                                             
@@ -467,6 +471,7 @@ class reporteController extends Controller
             
     
                                 }
+                           //     dd($final_entra_fuera);
                                // dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
                            //     dd($final_sal);
                                // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         

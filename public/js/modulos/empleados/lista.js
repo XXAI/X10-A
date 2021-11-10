@@ -997,7 +997,7 @@ function cargar_blade_checadas() {
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
 
             if (value.checado_entrada_fuera != null && value.checado_entrada == "SIN REGISTRO") {
-                xe = "<i style='color:red'>" + value.checado_entrada_fuera + "</i>";
+                xe =   "<i style='color:red'>" + value.checado_entrada + "<br>" + value.checado_entrada_fuera + "</i>";
             }
             /* else (value.retardo == 1) 
                 xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
