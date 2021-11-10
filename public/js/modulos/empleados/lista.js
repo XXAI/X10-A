@@ -722,11 +722,17 @@ function obtener_omisiones() {
 function obtener_justificantes(fini, ffin) {
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
+
+    inicio = new Date(fini);
+    termino = new Date(ffin);
+   // ffin= ffin.substr(0,16)
     codein = $("#code_in").val();
     id = $("#id").val();
     fecha = xini;
-
-    if (fini>ffin){
+    //alert("ini: "+inicio.getTime() +"   fin:  "+termino.getTime());
+    if (inicio.getTime() <= termino.getTime() ){
+        //alert("aceptaoo");
+        
         permisos = [];
         jQuery.ajax({
             data: { id: id, fini: fini, ffin: ffin, codein: codein },
@@ -1443,15 +1449,7 @@ function inserta_incidencia_emp() {
         }
     })
 
-    /*     }
-        }
 
-        x = 1;
-
-    } */
-    //('#agregar_incidencia').modal('toggle'); 
-
-    //swal("Exito!", "El registro se ha guardado!", "success");
 }
 
 
@@ -1459,25 +1457,8 @@ function inserta_incidencia_emp() {
 function save_justi_emp() {
 
 
-/*     fini = moment(date_1.add(0, 'd')).format();
-    ffin = moment(date_2.add(0, 'd')).format();
-    fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
-    ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
-    $.ajax({
-        type: 'POST',
-        url: yy,
-        data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, documentos: documentos, observaciones: observaciones, autorizo: autorizo },
-        success: function(data) {
-
-            id_inci = data.id_inci; */
             inserta_incidencia();
-            /* 
-        },
-        error: function(data) {
-            swal("Error!", "No se registro ningun dato!", "error");
-        }
-    })
- */
+
 
 
 }
