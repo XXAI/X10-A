@@ -233,11 +233,12 @@ class ReporteMensualController extends Controller
                                     //$hora_entrada_exacta = substr($horarios_periodo[$indice_horario_seleccionado]->STARTTIME, 11,8);
                                     $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
                                     $fecha_hora_entrada_exacta->addMinutes($retardo);
-                                    $fecha_hora_entrada_exacta->addMinutes(1);
+                                    $fecha_hora_entrada_exacta->addMinute();
 
                                     //return response()->json(["usuarios" => substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8)]);
                                     $inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
                                     $fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
+                                    $fin_entrada->addMinute();
                                     $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
                                     $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
 
@@ -616,6 +617,7 @@ class ReporteMensualController extends Controller
         $num_dia_jornada = floatval($dia_seleccionado->WorkDay);
         $inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
         $fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
+        $fin_entrada->addMinute();
         if($diferencia_dias == 0)
         {
             $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
@@ -661,6 +663,7 @@ class ReporteMensualController extends Controller
         foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
                                                 
             $checada = new Carbon($dato_checada->CHECKTIME);
+            
             if($checada_entrada == 0)
             {
                 if($checada->greaterThanOrEqualTo($inicio_entrada) && $checada->lessThanOrEqualTo($fin_entrada))
@@ -768,6 +771,7 @@ class ReporteMensualController extends Controller
         }else if($checada_entrada == 0 && $checada_salida == 1)
         {
             $simbolo_turno = "FE";
+        //    dd($fecha_hora_entrada_exacta ."  salida  ".$checada);
             $contador_faltas++;
         }else if(($checada_entrada == 1 || $checada_entrada == 2 ) && $checada_salida == 0)
         {
