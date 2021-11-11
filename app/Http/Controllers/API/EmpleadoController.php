@@ -309,10 +309,15 @@ class EmpleadoController extends Controller
        $fecha = $request->fecha;
        $fini = substr($request->fini,0,10);
        $ffin = substr($request->ffin,0,10);    
-   
-      //  
-         $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin.'T23:59:59')
-         ->where("ENDSPECDAY",">=",$fini.'T00:00:00')->where("DATEID","<>","1")
+        
+      //  dd($fini."T00:00:00.000");//whereBetween($fini,["STARTDATE","ENDDATE"])
+       $horario = UsuarioHorario::with("detalleHorario.reglaAsistencia")->where("USERID","=",$id)->orderBY("id","DESC")->first();
+      //dd($horario['detalleHorario'][0]->SDAYS);
+      $h_inicio = (substr($horario['detalleHorario'][0]['reglaAsistencia']->StartTime,11,12));
+      $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
+   //   dd($ffin."T".$h_termino);
+         $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin."T".$h_termino)
+         ->where("ENDSPECDAY",">=",$fini."T".$h_inicio)->where("DATEID","<>","1")
          /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
             ->where(function($a)use($fini,$ffin){
             $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')
@@ -322,7 +327,7 @@ class EmpleadoController extends Controller
 
       // $diasJustificados =  $diasJustificados->get();
 
-        return response()->json(["permisos" => $diasJustificados]);
+        return response()->json(["permisos" => $diasJustificados,"horario" => $horario]);
     }
     /**
      * Show the form for editing the specified resource.
