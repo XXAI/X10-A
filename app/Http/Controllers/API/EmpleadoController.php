@@ -307,17 +307,23 @@ class EmpleadoController extends Controller
     {
        $id = $request->id;
        $fecha = $request->fecha;
-       $fini = substr($request->fini,0,10);
-       $ffin = substr($request->ffin,0,10);    
+       //substr($request->fini,0,10);
+       $fini = $request->fini;
+       $ffin = $request->ffin;
+       // dd(intval(strlen($ffin)));
+       if(intval(strlen($fini)<19)) {$fini=$fini.":00";}
+       if(intval(strlen($ffin)<19))  {$ffin=$ffin.":00";}
         
       //  dd($fini."T00:00:00.000");//whereBetween($fini,["STARTDATE","ENDDATE"])
        $horario = UsuarioHorario::with("detalleHorario.reglaAsistencia")->where("USERID","=",$id)->orderBY("id","DESC")->first();
       //dd($horario['detalleHorario'][0]->SDAYS);
       $h_inicio = (substr($horario['detalleHorario'][0]['reglaAsistencia']->StartTime,11,12));
       $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
+
+      //dd($ffin);
    //   dd($ffin."T".$h_termino);
-         $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin."T".$h_termino)
-         ->where("ENDSPECDAY",">=",$fini."T".$h_inicio)->where("DATEID","<>","1")
+         $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+         ->where("ENDSPECDAY",">=",$fini)->where("DATEID","<>","1")
          /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
             ->where(function($a)use($fini,$ffin){
             $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')
