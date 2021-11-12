@@ -916,11 +916,23 @@ class reporteController extends Controller
                                 $asistencia[$indice]['validacion'] = 1;
                             }                        
                     }
-
+                       
                     if(($asistencia[$indice]['checado_salida']=="SIN REGISTRO")&&($asistencia[$indice]['checado_entrada']=="SIN REGISTRO")){
+
+                        if($trab!=0){
+                            $fecha_eval = new Carbon($fecha_eval);
+                            $fecha_eval= $fecha_eval->subDay();                                    
+                            $fecha_eval= substr($fecha_eval,0,-9);
+                           // dd($fecha_eval);
+                           
+                        }
+                        //dd($diafest);
+                        
                         $checa_inhabil = $conexion->table("HOLIDAYS")
                         ->where("STARTTIME","=",$fecha_eval.'T00:00:00.000') 
                         ->first();
+
+                      // dd($diafest);
                         if(isset($checa_inhabil) && $diafest ==''){
                             $asistencia[$indice]['checado_entrada']=$checa_inhabil->HOLIDAYNAME;
                             $asistencia[$indice]['checado_salida']=$checa_inhabil->HOLIDAYNAME;
