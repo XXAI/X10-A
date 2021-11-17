@@ -458,6 +458,7 @@ class reporteController extends Controller
                                         $final_sal->addDays($diatrab); 
                                         $inicio_sal_fuera->addDays($diatrab);
                                         $final_sal_fuera->addDays($diatrab);
+                                        $pase_ss=$inicio_sal_fuera;
                                         //$jorFin->addDays($diatrab);
                                     }
                                                                  
@@ -473,14 +474,9 @@ class reporteController extends Controller
             
     
                                 }
-                           //     dd($final_entra_fuera);
-                               // dd("entra: ".$inicio_sal_fuera. " sal fuera : ".$final_sal_fuera);
-                           //     dd($final_sal);
-                               // return "InicioSalida: ". $inicio_sal."  SAlidadddddddda: ".$final_sal;         
-                               
-                            $pase_ss->subHours(2);
-                             
-                             $pase_ss= str_replace(" ", "T", $pase_ss);
+                          
+                                $pase_ss->subHours(2);                             
+                                $pase_ss= str_replace(" ", "T", $pase_ss);
                              
                            
                                                    
@@ -736,6 +732,11 @@ class reporteController extends Controller
                                             $impr="ABANDONO DE LABORES ";   
                                             $faltaxmemo = 1;                                 
                                             break;
+
+                                            case 48:
+                                                $impr="REUNIÓN SINDICAL ";   
+                                                $faltaxmemo = 1;                                 
+                                                break;
                                         default:
                                             $impr="";
                                             break;

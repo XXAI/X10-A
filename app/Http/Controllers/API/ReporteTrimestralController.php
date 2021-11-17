@@ -231,7 +231,7 @@ class ReporteTrimestralController extends Controller
                                 
                                 $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
                                 $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,10)."T23:59:59");
-
+                                //dd( $fecha_fin_periodo);
                                 
                                 if(count($dias_habiles) == 0)
                                 {
@@ -247,6 +247,7 @@ class ReporteTrimestralController extends Controller
                                     {
                                         $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
                                         $fecha_fin_periodo =  new Carbon(substr($horarios_periodo[$indice_horario_seleccionado]->ENDDATE, 0,10)."T23:59:59");
+                                        //dd($fecha_fin_periodo);
                                         $dias_habiles = $this->dias_horario($horarios_periodo[$indice_horario_seleccionado]->detalleHorario);
                                     }
                                      
