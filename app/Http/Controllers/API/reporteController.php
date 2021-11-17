@@ -417,7 +417,7 @@ class reporteController extends Controller
                            }
                            $asistencia[$indice]['jorfin'] = str_replace(" ", "T", $asistencia[$indice]['jorfin']);
                          
-
+                        //   dd( substr($asistencia[$indice]['jorfin'],11,10));
 
 
                            //$inicio_entra_fuera=$fecha_eval."T".'00:00:01.000';
@@ -522,21 +522,24 @@ class reporteController extends Controller
 
                                 //dd($checada_sal_fuera);
                                 if($trab!=0){
-                                    $fecha_eval= new Carbon($fecha_eval);
-                                    $fecha_eval= $fecha_eval->addDay();                                    
-                                    $fecha_eval= substr($fecha_eval,0,-9);
+                                    $fecha_eval_fin= new Carbon($fecha_eval);
+                                    $fecha_eval_fin= $fecha_eval_fin->addDay();                                    
+                                    $fecha_eval_fin= substr($fecha_eval_fin,0,-9);
                                    // dd($fecha_eval);
                                    
+                                }else{
+                                    $fecha_eval_fin=$fecha_eval;
                                 }
 
-                        
+
+                        //dd("horainicio: ".$fecha_eval."T".substr($asistencia[$indice]['jorfin'],11,5).":00.000"."cons".$fecha_eval."T23:59:59.000");
                                 $checada_extra = $conexion->table("user_speday")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "user_speday.USERID")
                                 ->join("leaveclass","leaveclass.LeaveId", "=", "user_speday.DATEID")
                                 ->join('users','users.id','=',"user_speday.captura_id")
                                 ->where("TITLE", "=",  $desc)
-                              ->where("STARTSPECDAY","<=",$fecha_eval."T23:59:59.000")
-                              ->where("ENDSPECDAY",">=",$fecha_eval."T00:00:00.000")   
+                              ->where("STARTSPECDAY","<=",$fecha_eval_fin."T".substr($asistencia[$indice]['jorfin'],11,5).":00.000")
+                              ->where("ENDSPECDAY",">=",$fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio.":00.000")   
                                                    
                                 ->select("leaveclass.LeaveName as Exepcion"
                                     ,DB::RAW("MIN(CONVERT(nvarchar(5), STARTSPECDAY, 108)) AS HORA")
