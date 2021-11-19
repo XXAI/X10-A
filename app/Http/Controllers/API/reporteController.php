@@ -925,7 +925,8 @@ class reporteController extends Controller
 
                         if($trab!=0){
                             $fecha_eval = new Carbon($fecha_eval);
-                            $fecha_eval= $fecha_eval->subDay();                                    
+                           
+                           // $fecha_eval= $fecha_eval->subDay();                                    
                             $fecha_eval= substr($fecha_eval,0,-9);
                            // dd($fecha_eval);
                            

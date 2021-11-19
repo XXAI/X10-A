@@ -81,7 +81,7 @@ class ReporteTrimestralController extends Controller
             }
         }
 
-        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [6], 3=> [7,8,9], 4=> [10,11,12]];
+        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [6], 3=> [8], 4=> [10,11,12]];
         
         $empleados_trimestral = [];
 
@@ -134,7 +134,7 @@ class ReporteTrimestralController extends Controller
                  
              }  
        //  dd($arreglo_clues);
-           
+           //dd("inicio: ".$fecha_inicio. "  fin: ".$fecha_fin);
             // print_r($obtengoclues);
             //Obtenemos las checadas de todoos los trabajadores
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -199,8 +199,10 @@ class ReporteTrimestralController extends Controller
               
                 $jornada_laboral = 0;
                 $dia_economico = 0;
+                //dd($dias_otorgados);
                 if($dias_otorgados != -1)
                 {
+                    
                     //dd($dias_mes);
                     for($i = 1; $i<=$dias_mes; $i++)
                     {
@@ -213,6 +215,7 @@ class ReporteTrimestralController extends Controller
                             if($indice_horario_seleccionado < count($horarios_periodo))
                             {
                                  //verificador de horas de jornada
+               
                                 if($jornada_laboral == 0)
                                 {
                                    
@@ -327,33 +330,43 @@ class ReporteTrimestralController extends Controller
                                                     $verificador++;
                                                     
                                                     }else if($checada_entrada == 2 and $checada_salida == 1){
+                                                       // dd("1 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                         break;
                                                        
                                                     }else if(($checada_entrada == 1 or $checada_entrada == 2) and $checada_salida == 0)
                                                     { 
-                                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_salidas))
+                                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_salidas) || array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados))
                                                         {
                                                             if($checada_entrada == 1 )
                                                             {
                                                                 $verificador++;
                                                             }else if($checada_entrada == 2 ){
+                                                               // dd("2 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                                 break;
                                                             }
                                                         }else{
+                                                            //dd("3 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                             break;
                                                         } 
                                                         
                                                     }else if($checada_entrada == 0 and $checada_salida == 1)  
                                                     {
-                                                        break;
+                                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados)){
+                                                            $verificador++;
+                                                        }else{
+                                                         //   dd("4 ".$fecha_evaluar->format('Y-m-d'));exit();
+                                                            break;
+                                                        }
+                                                        //break;
                                                     }else if($checada_entrada == 0 and $checada_salida == 0)  
                                                     {
+                                                       // dd("5 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                         break;
                                                     }
                                                     
                                                 }else
                                                 {
-                                                    
+                                                  //  dd("6 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                     break;
                                                 }
                                             }else{
@@ -371,6 +384,7 @@ class ReporteTrimestralController extends Controller
                                             }
                                             if($dia_economico == 2)
                                             {
+                                              //  dd("7 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                 break;
                                             }
                                             //Dias otorgados (aqui hay que verificar)
@@ -382,13 +396,16 @@ class ReporteTrimestralController extends Controller
                                         $verificador++;
                                     }
                                 }else{
+                                   // dd("8 ".$fecha_evaluar->format('Y-m-d'));exit();
                                     break;        
                                 }
                             }else{
+                              //  dd("9 ".$fecha_evaluar->format('Y-m-d'));exit();
                                 break;  
                             }
                         }else
                         {
+                           // dd("10 ".$fecha_evaluar->format('Y-m-d'));exit();
                             break; 
                         }    
 
@@ -397,7 +414,7 @@ class ReporteTrimestralController extends Controller
                    
                 }
             // print_r($empleados_trimestral);
-           // dd("VERi=".$verificador."dias= ".$dias_mes);
+          //dd("VERi=".$verificador."dias= ".$dias_mes);
                 if($trimestre == 1)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
@@ -516,7 +533,7 @@ class ReporteTrimestralController extends Controller
         foreach ($arreglo as $key => $value) {
             if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
             if($value->DATEID == 8){ $licencia_medica++; }
-
+ 
            // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
             $inicio = new Carbon($value->STARTSPECDAY);
             $fin = new Carbon($value->ENDSPECDAY);
