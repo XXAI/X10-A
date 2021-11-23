@@ -454,17 +454,17 @@ class reporteController extends Controller
                                     $modif=$inicio_sal;                                                             
                                    // dd($trab);
                                     if($trab!=0){
-                                        $inicio_sal->addDays($diatrab);
-                                        $final_sal->addDays($diatrab); 
-                                        $inicio_sal_fuera->addDays($diatrab);
-                                        $final_sal_fuera->addDays($diatrab);
-                                        $pase_ss=$inicio_sal_fuera;
+                                        $inicio_sal->addDay();
+                                        $final_sal->addDay(); 
+                                        $inicio_sal_fuera->addDay();
+                                        $final_sal_fuera->addDay();
+                                        $pase_ss->addDay();
                                         //$jorFin->addDays($diatrab);
                                     }
                                                                  
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
                                     $final_sal= str_replace(" ", "T", $final_sal);                                    
-                                    $modif=$modif->subDays($diatrab);
+                                    $modif=$modif->subDay();
                                   // dd($inicio_sal);    
 
                                     
@@ -474,12 +474,12 @@ class reporteController extends Controller
             
     
                                 }
-                          
+                         
                                 $pase_ss->subHours(2);                             
                                 $pase_ss= str_replace(" ", "T", $pase_ss);
                              
                            
-                                                   
+                              //  dd("hola: ".$inicio_sal_fuera);              
                             
                             
                         $asistencia[$indice]['horario'] = $inicio;
@@ -511,7 +511,7 @@ class reporteController extends Controller
                                 ->first();
                         
                                 
-                        //dd($inicio_sal_fuera);
+                        //dd("pase ". $pase_ss."  ini: ".$inicio_sal_fuera);
                         $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
