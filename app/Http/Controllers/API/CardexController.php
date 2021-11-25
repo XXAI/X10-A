@@ -357,8 +357,8 @@ class CardexController extends Controller
                                     if(array_key_exists($parametro_inicial->format('Y-m-d'), $omisiones))
                                     {
                                         foreach ($omisiones[$parametro_inicial->format('Y-m-d')] as $index_omision => $dato_omision) {
-                                            if($dato_omision->CHECKTYPE == "I"){ $checada_entrada = 1; }
-                                            if($dato_omision->CHECKTYPE == "O"){ $checada_salida = 1;  }
+                                            if($dato_omision->CHECKTYPE == "I" || $dato_omision->CHECKTYPE == "E" || $dato_omision->CHECKTYPE == "R"){ $checada_entrada = 1; }
+                                            if($dato_omision->CHECKTYPE == "O" || $dato_omision->CHECKTYPE == "S"){ $checada_salida = 1;  }
                                         }
                                     }
                                   // dd($checada_entrada+$checada_salida );

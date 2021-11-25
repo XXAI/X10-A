@@ -840,7 +840,7 @@ function sel_tiporeg(tiporeg) {
             break;
         case "S":
             $("#fecha_reg").val(xfin);
-            alert(xfin);
+           // alert(xfin);
             break;
 
         
@@ -1025,7 +1025,10 @@ function cargar_blade_checadas() {
             icono5 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omisionsal + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
         }
         if (value.checado_salida == "SIN REGISTRO")
-            if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else { xs = value.checado_salida; }
+            if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } 
+            else if (value.checado_salida_fuera2 != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera2 + ")</i>"; }
+            else { xs = value.checado_salida; }
+           // 
 
         else
             xs = value.checado_salida;

@@ -430,15 +430,18 @@ class reporteController extends Controller
     
                             $inicio_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
                             $final_sal_fuera=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
+                            $final_sal_fuera2=new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
                             $pase_ss=$inicio_sal_fuera;
                            // $final_sal_fuera=$fecha_eval."T".'23:59:59.000';  
                             //$inicio_sal_fuera->subHours(2);
                           
                           //  $final_entra_fuera=$inicio_sal_fuera->subHours(2);
                             $final_entra_fuera->addMinutes(90);
+                            $final_sal_fuera2->addHours(2);
                             $final_entra_fuera= str_replace(" ", "T", $final_entra_fuera);
                             $inicio_sal_fuera= str_replace(" ", "T", $inicio_sal_fuera);
                             $final_sal_fuera= str_replace(" ", "T", $final_sal_fuera);
+                            $final_sal_fuera2= str_replace(" ", "T", $final_sal_fuera2);
                           // dd($inicio_sal_fuera);
                             $trab=$diatrab;
                             if ($diatrab!=0 || $festivo==1 )
@@ -450,7 +453,8 @@ class reporteController extends Controller
                                     $inicio_sal_fuera=new Carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->InicioChecarSalida.":00.000"); 
                                    
                                    // $final_sal_fuera=$fecha_eval."T".'23:59:59.000'; 
-                                    $final_sal_fuera=new Carbon($final_sal_fuera);                            
+                                    $final_sal_fuera=new Carbon($final_sal_fuera);  
+                                    $final_sal_fuera2=new Carbon($final_sal_fuera2);                           
                                     $modif=$inicio_sal;                                                             
                                    // dd($trab);
                                     if($trab!=0){
@@ -458,12 +462,15 @@ class reporteController extends Controller
                                         $final_sal->addDay(); 
                                         $inicio_sal_fuera->addDay();
                                         $final_sal_fuera->addDay();
+                                        $final_sal_fuera2->addDay();
+                                        $final_sal_fuera2->addHours(2);
                                         $pase_ss->addDay();
                                         //$jorFin->addDays($diatrab);
                                     }
                                                                  
                                     $inicio_sal= str_replace(" ", "T", $inicio_sal);
-                                    $final_sal= str_replace(" ", "T", $final_sal);                                    
+                                    $final_sal= str_replace(" ", "T", $final_sal);  
+                                    $final_sal_fuera2= str_replace(" ", "T", $final_sal_fuera2);                                   
                                     $modif=$modif->subDay();
                                   // dd($inicio_sal);    
 
@@ -510,15 +517,26 @@ class reporteController extends Controller
                                 ->groupBy("checkinout.sn","WorkCode","UserExtFmt")
                                 ->first();
                         
-                                
+                               // dd($final_sal_fuera. ".......".$final_sal_fuera2);
                         //dd("pase ". $pase_ss."  ini: ".$inicio_sal_fuera);
-                        $checada_sal_fuera = $conexion->table("checkinout")
+                                 $checada_sal_fuera = $conexion->table("checkinout")
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereNotBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
                                 ->whereBetween("CHECKTIME", [$pase_ss,$inicio_sal_fuera])
                                 ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
                                 ->first();
+                              
+                                $checada_sal_fuera2 = $conexion->table("checkinout")
+                                ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
+                                ->where("TITLE", "=",  $desc)
+                                ->whereNotBetween("CHECKTIME", [$inicio_sal_fuera, $final_sal_fuera])
+                                ->whereBetween("CHECKTIME", [$final_sal_fuera,$final_sal_fuera2])
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"))
+                                ->first();
+
+
+                               // dd($checada_sal_fuera);
 
                                 //dd($checada_sal_fuera);
                                 if($trab!=0){
@@ -861,7 +879,13 @@ class reporteController extends Controller
                      $asistencia[$indice]['sol'] = $sol;
 
 
-                    if(isset($checada_sal_fuera)){
+                   
+                    if(isset($checada_sal_fuera2) || !is_null($checada_sal_fuera2) ){
+                        $asistencia[$indice]['checado_salida_fuera2'] =$checada_sal_fuera2->HORA;
+                       
+                    }
+
+                    if(isset($checada_sal_fuera) || !is_null($checada_sal_fuera)){
                         $asistencia[$indice]['checado_salida_fuera'] =$checada_sal_fuera->HORA;
                        
                     }
@@ -991,11 +1015,11 @@ class reporteController extends Controller
 
                       $asistencia[$indice]['faltaxmemo'] = $faltaxmemo;
         
-          
+                      
                 }
 
 
-            
+                
            
 
             $indice++;

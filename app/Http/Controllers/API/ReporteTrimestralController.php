@@ -311,12 +311,12 @@ class ReporteTrimestralController extends Controller
                                                     if(array_key_exists($fecha_evaluar->format('Y-m-d'), $omisiones))
                                                     {
                                                         foreach ($omisiones[$fecha_evaluar->format('Y-m-d')] as $index_omision => $dato_omision) {
-                                                            if($dato_omision->CHECKTYPE == "I")
+                                                            if($dato_omision->CHECKTYPE == "I" || $dato_omision->CHECKTYPE == "E" || $dato_omision->CHECKTYPE == "R")
                                                             {
                                                                 $checada_entrada = 1;
                                                             }
                                                             
-                                                            if($dato_omision->CHECKTYPE == "O")
+                                                            if($dato_omision->CHECKTYPE == "O" || $dato_omision->CHECKTYPE == "S"    )
                                                             {
                                                                 $checada_salida = 1;
                                                             }
