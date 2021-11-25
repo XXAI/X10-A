@@ -756,12 +756,21 @@ class reporteController extends Controller
 
                                         case 48:
                                             $impr="REUNIÓN SINDICAL ";   
-                                            $faltaxmemo = 1;                                 
+                                                                           
                                             break;
+                                        case 47:
+                                            $impr="LICENCIA PREJUBILATORIA ";   
+                                                                            
+                                            break;
+
                                             case 49:
-                                                $impr="LICENCIA PREJUBILATORIA ";   
-                                                $faltaxmemo = 1;                                 
+                                                $impr="LICENCIA PRESIDENCIAL ";   
+                                                                             
                                                 break;
+
+
+
+
                                         default:
                                             $impr="";
                                             break;
