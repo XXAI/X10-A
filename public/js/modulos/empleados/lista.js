@@ -518,8 +518,7 @@ function guardar_empleado() {
 
             swal("Exito!", data.mensaje, "success");
             limpia_empleados();
-            /* $("#agregar_empleado").find("input,textarea,select").val("");
-            $("#agregar_empleado input[type='checkbox']").prop('checked', false).change(); */
+            
             $("#empleado-hora").html('');
             $("#tipotra").empty();
             $('#agregar_empleado').modal('hide');

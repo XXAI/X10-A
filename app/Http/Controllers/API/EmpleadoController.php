@@ -43,14 +43,7 @@ class EmpleadoController extends Controller
       
         $name = $request->get('buscar');  
        
-    //    if(auth()->user()['is_superuser']==1){
-
-          
-            // $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
-            //dd($buscaBase);
-          /*  $namedb=$buscaBase->base;
-            \Config::set('database.connections.dinamica.database',$namedb); // Asigno la DB que voy a usar
-            $conexion = DB::connection('dinamica'); //Asigno la nueva conexión al sistema.  */
+    
       
      
 
@@ -321,7 +314,7 @@ class EmpleadoController extends Controller
       $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
 
       //dd($ffin);
-   //   dd($ffin."T".$h_termino);
+
          $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
          ->where("ENDSPECDAY",">=",$fini)->where("DATEID","<>","1")
          /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
@@ -335,6 +328,30 @@ class EmpleadoController extends Controller
 
         return response()->json(["permisos" => $diasJustificados,"horario" => $horario]);
     }
+
+    public function verificaHorario(Request $request)
+    {
+       $id = $request->id;
+       $fecha = $request->fecha;
+       //substr($request->fini,0,10);
+       $fini = $request->fini;
+       $ffin = $request->ffin;
+       // dd(intval(strlen($ffin)));
+       if(intval(strlen($fini)<19)) {$fini=$fini.":00";}
+       if(intval(strlen($ffin)<19))  {$ffin=$ffin.":00";}
+        
+      //  dd($fini."T00:00:00.000");//whereBetween($fini,["STARTDATE","ENDDATE"])
+       $horario_val = UsuarioHorario::with("detalleHorario.reglaAsistencia")->where("USERID","=",$id)->where("STARTSPECDAY","<=",$ffin)
+       ->where("ENDSPECDAY",">=",$fini)->orderBY("id","DESC")->get();
+          
+          
+
+      // $diasJustificados =  $diasJustificados->get();
+
+        return response()->json(["horario_val" => $horario_val]);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *

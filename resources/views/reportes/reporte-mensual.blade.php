@@ -184,23 +184,23 @@
     <table width="100%" class='firmantes footer'>
         <tr>
         <td class="centrado tamano">
-            JEFE DEL DEPARTAMENTO DE OPERACIÓN <br>Y SISTEMATIZACIÓN DE NÓMINA
+            {{$unidad['puesto1']}}
             <br><br><br>
-            ING. GABRIEL DE LA GUARDIA NAGANO
+            {{$unidad['responsable1']}}
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>SUBDIRECTORA DE RECURSOS HUMANOS
+            {{$unidad['puesto2']}}
             <br><br><br>
-            L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
+            {{$unidad['responsable2']}}
             <HR>
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>DIRECTOR DE ADMINISTRACIÓN Y FINANZAS
+            {{$unidad['puesto3']}}
             <br><br><br>
-            L.A. SAMUEL SILVAN OLAN
+            {{$unidad['responsable3']}}
             <HR>
             NOMBRE Y FIRMA
             </td>

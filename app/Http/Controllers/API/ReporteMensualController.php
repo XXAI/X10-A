@@ -14,6 +14,7 @@ use App\Models\Contingencia;
 use App\Models\SalidaAutorizada;
 use App\Models\Departamentos;
 use App\Models\CluesUser;
+use App\Models\ConfiguracionUnidad;
 use Illuminate\Support\Facades\Input;
 
 class ReporteMensualController extends Controller
@@ -32,12 +33,14 @@ class ReporteMensualController extends Controller
 
     public function reporteMensual(Request $request)
     {
+        $datos_unidad = ConfiguracionUnidad::first();
 
+        //dd($datos_unidad);
         #$asistencia = $this->claseAsistencia($request);
         $asistencia = $this->claseFaltas($request);
        // dd($asistencia);
         //return $asistencia;
-        $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia]);
+        $pdf = PDF::loadView('reportes//reporte-mensual', ['empleados' => $asistencia,"unidad" => $datos_unidad]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Mensual.pdf');
