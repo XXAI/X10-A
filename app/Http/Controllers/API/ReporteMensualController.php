@@ -543,8 +543,8 @@ class ReporteMensualController extends Controller
                         ->orWhere("ENDSPECDAY", ">=", $fecha_inicio);   
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
-        ->whereNull("state")
-        ->where("carType", '<>','700230001')
+    //   ->whereNull("state")
+       // ->where("carType", '<>','700230001')
       //  ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
       ->WHEREIN("FPHONE", $arreglo_clues)
         ->where(function($query2)use($parametros){
@@ -557,6 +557,7 @@ class ReporteMensualController extends Controller
         //->where("carBrand", "=", $parametros['tipo_trabajador'])
       //  ->where("USERID", "=","28353")
         ->orderBy("carType", "DESC")
+        ->orderBy("Badgenumber", "ASC")
         //->limit(296)
         ->get();
         

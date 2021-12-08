@@ -695,6 +695,9 @@ function obtener_omisiones() {
                  $('#btn_save_entrasal').attr('disabled', false); */
 
                 guarda_omision();
+                algo = 0;
+                oentrada = 0;
+                osalida = 0;
             } else {
 
                 swal("¡La Omisión no se puede ingresar porque ya agotó la cantidad permitida!", {
