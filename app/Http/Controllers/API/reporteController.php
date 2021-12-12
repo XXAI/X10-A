@@ -506,8 +506,8 @@ class reporteController extends Controller
                                 ->join("checkinout","checkinout.USERID", "=", "CHECKEXACT.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKEXACT.CHECKTIME", [$inicio_entra, $final_entra])                                           
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKEXACT.CHECKTIME, 108)) AS HORAJ"),"CHECKEXACT.CHECKTYPE")    
-                                ->groupBy("CHECKEXACT.CHECKTYPE")                  
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKEXACT.CHECKTIME, 108)) AS HORAJ"),"CHECKEXACT.CHECKTYPE","CHECKEXACT.EXACTID","CHECKEXACT.MODIFYBY")    
+                                ->groupBy("CHECKEXACT.CHECKTYPE","CHECKEXACT.EXACTID","CHECKEXACT.MODIFYBY")                  
                                                 
                                 ->first();
                        // dd($checada_entrada);
@@ -630,15 +630,7 @@ class reporteController extends Controller
                                             $impr=$checada_extra->HORA." "."(Pase de Salida) " .$memo;                                
                                            $ps=$hs1;
                                                                                     
-                                            /* if ($diatrab!=0 || $festivo==1)
-                                                {
-                                                    $hps=new Carbon($fecha_eval." ".$checada_extra->HORA.":00.000");
-                                                   // dd($hps);
-                                                    $hps=$modif->diffInMinutes($hps);
-                                                    $ps=$hps;
-                                                }                                                    
-                                            else
-                                                $ps=$ps+$checada_extra->DIFHORA; */
+                                           
                                             break;
                                            
                                         case 2:
@@ -847,12 +839,7 @@ class reporteController extends Controller
                                                                 $tipo=" Omisión Entrada";
                                                                 break;
                                                            
-                                                            case "E":
-                                                                $tipo=" Constancia de Entrada";
-                                                                break;
-                                                            case "R":
-                                                                $tipo=" Justificado por Retardo";
-                                                                break;
+                                                          
                                                             
                                                         
                                                 
@@ -866,6 +853,40 @@ class reporteController extends Controller
                                             }
                                         
 
+                        }
+                        if(isset($omision_entrada)) {
+                            $tipo=0;
+                                                    $asistencia[$indice]['omision'] = $omision_entrada->EXACTID;
+                                                    $asistencia[$indice]['user_omision'] = $omision_entrada->MODIFYBY;
+                                                    $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
+                                                    if($nombrebase<>'ZKAccess'){
+                                                        switch($omision_entrada->CHECKTYPE){
+                                                            
+                                                                case "I":
+                                                                    $tipo=" Omisión Entrada";
+                                                                    break;
+                                                               
+                                                                case "E":
+                                                                    $tipo=" Constancia de Entrada";
+                                                                    break;
+                                                                case "R":
+                                                                    $tipo=" Justificado por Retardo";
+                                                                    $asistencia[$indice]['retardo'] = 0;
+                                                                    $rme=$rme-1;
+                                                                    break;
+                                                                
+                                                            
+                                                    
+                                                        }
+                                                        $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ. $tipo;
+                                                         
+                                                    }
+                                                    else{
+                                                        $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ;
+                                                    } 
+                                                    
+                                                   // $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
+                                                   // $asistencia[$indice]['checado_entrada_fuera']=null;
                         }
                         
                     if(empty($asistencia[$indice]['checado_entrada'])){
@@ -912,35 +933,6 @@ class reporteController extends Controller
                     if(isset($checada_entrada_fuera) && is_null($omision_entrada)){
                         $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
                        
-                    }else{
-                        $tipo=0;
-                                                $asistencia[$indice]['omision'] = $checada_entrada->WorkCode;
-                                                $asistencia[$indice]['user_omision'] = $checada_entrada->UserExtFmt;
-                                                $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                                if($nombrebase<>'ZKAccess'){
-                                                    switch($omision_entrada->CHECKTYPE){
-                                                        
-                                                            case "I":
-                                                                $tipo=" Omisión Entrada";
-                                                                break;
-                                                           
-                                                            case "E":
-                                                                $tipo=" Constancia de Entrada";
-                                                                break;
-                                                            case "R":
-                                                                $tipo=" Justificado por Retardo";
-                                                                break;
-                                                            
-                                                        
-                                                
-                                                    }
-                                                    $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ. $tipo;
-                                                     
-                                                }
-                                                else{
-                                                    $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ;
-                                                } 
-                                                $asistencia[$indice]['checado_entrada_fuera']=null;
                     }
                    // dd($checada_sal_fuera);
                       

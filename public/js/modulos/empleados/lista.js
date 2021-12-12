@@ -649,7 +649,8 @@ function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
     tipoomi = $("#tipo_es").val();
-    fecha = xini;
+   // fecha = xini;
+   fecha = $("#fecha_reg").val();;
     var algo = 0;
     oentrada = 0;
     osalida = 0;
