@@ -765,12 +765,17 @@ class reporteController extends Controller
                                                                             
                                             break;
 
-                                            case 49:
-                                                $impr="LICENCIA PRESIDENCIAL ";   
-                                                                             
-                                                break;
+                                        case 49:
+                                            $impr="LICENCIA PRESIDENCIAL ";   
+                                                                            
+                                            break;
 
-
+                                        case 50:
+                                            $impr="Vacaciones 2022 Primavera ".$memo;                                   
+                                            break;
+                                        case 51:
+                                            $impr="Vacaciones 2022 Invierno ".$memo;                                   
+                                            break;
 
 
                                         default:
