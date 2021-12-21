@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConfiguracionTrimestral;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Response as HttpResponse;
 use \Validator, \Hash, \Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,7 +71,7 @@ class ConfiguracionTrimestralController extends Controller
     public function show()
     {
         $parametros =Input::all();
-       // dd($parametros);
+        //dd($parametros);
         
       try
         {         

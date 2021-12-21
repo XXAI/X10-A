@@ -109,12 +109,15 @@ function generar_reporte() {
 
 function ver_configuracion() {
 
+
+    
     datos = "anio=" + $("#config_anio").val() + "&trimestre=" + $("#config_trimestre").val() + "&tipo_trabajador=" + $("#config_tipo_trabajador").val();
     jQuery.ajax({
         data: datos,
         type: "GET",
         dataType: "json",
         url: './api/ver-configuracion-trimestral',
+
     }).done(function(data, textStatus, jqXHR) {
         datos = data.data;
         if (datos == null) {
