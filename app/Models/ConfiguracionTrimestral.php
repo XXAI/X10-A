@@ -9,6 +9,6 @@ class ConfiguracionTrimestral extends Model
     protected $connection = 'dinamica';
     protected $table = "configuracion_trimestral";
   
-   /*  protected $fillable = []; */
+    protected $fillable = [];
 
 }

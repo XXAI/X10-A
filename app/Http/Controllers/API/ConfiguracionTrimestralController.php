@@ -77,9 +77,9 @@ class ConfiguracionTrimestralController extends Controller
         {         
             $parametros =Input::all();
            
-            //$obj = ConfiguracionTrimestral::where("anio", "=",$parametros['anio'])
+            $obj = ConfiguracionTrimestral::where("anio", "=",$parametros['anio'])
 
-            $obj = DB::table('configuracion_trimestral')->where("anio", "=",$parametros['anio'])
+           // $obj = DB::table('configuracion_trimestral')->where("anio", "=",$parametros['anio'])
                                         ->where("trimestre", "=", $parametros['trimestre'])
                                         ->where("tipo_trabajador", "=", $parametros['tipo_trabajador'])
                                         ->first();
