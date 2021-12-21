@@ -113,10 +113,10 @@
                                                       <button class="btn btn-info" type='button' onclick="imprimir_tarjeta()"><i class="fa fa-print "></i></button>
                                                       
 
-                                                      <div class="form-check form-check-inline">
+                                                     <!--  <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="checkbox" id="leyenda" value="" onclick="incluir_leyenda()" >
                                                         <label class="form-check-label" for="leyenda">Incluir leyenda</label>
-                                                      </div>
+                                                      </div> -->
 
 
                                                   </div>
@@ -179,7 +179,7 @@
                 @include('empleados/incidenciaform')
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">Guardar</button>  
+              <!-- <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">Guardar</button>   -->
               <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="guardar_incidencia()">Guardar</button>  
            <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
               
