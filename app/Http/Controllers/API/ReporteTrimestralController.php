@@ -158,7 +158,7 @@ class ReporteTrimestralController extends Controller
              ->whereNull("state")
             ->where("ATT","=","1")
             ->WHERE("PAGER", "NOT LIKE", 'CF%') 
-            ->where("carType", '<>','700230001')
+          //  ->where("carType", '<>','700230001')
           //->WHEREIN("FPHONE", ['CSSSA017213','CSSSA017324'])
           //  ->WHEREIN("FPHONE",[$arreglo_clues])
           ->WHEREIN("FPHONE", $arreglo_clues)
