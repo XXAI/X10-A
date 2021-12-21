@@ -111,8 +111,8 @@ function ver_configuracion() {
 
 
     
-    //datos = "anio=" + $("#config_anio").val() + "&trimestre=" + $("#config_trimestre").val() + "&tipo_trabajador=" + $("#config_tipo_trabajador").val();
-    datos = "anio=" + $("#anio").val() + "&trimestre=" + $("#trimestre").val() + "&tipo_trabajador=" + $("#tipo_trabajador").val();
+    datos = "anio=" + $("#config_anio").val() + "&trimestre=" + $("#config_trimestre").val() + "&tipo_trabajador=" + $("#config_tipo_trabajador").val();
+   // datos = "anio=" + $("#anio").val() + "&trimestre=" + $("#trimestre").val() + "&tipo_trabajador=" + $("#tipo_trabajador").val();
     jQuery.ajax({
         data: datos,
         type: "GET",
