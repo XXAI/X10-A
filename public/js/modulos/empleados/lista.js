@@ -643,6 +643,40 @@ function guarda_omision() {
 
 }
 
+function obtener_economicos() {
+    //omision = [];
+    id = $("#id").val();
+    tipoomi = $("#tipo_es").val();
+   // fecha = xini;
+   fecha = $("#fecha_reg").val();;
+    var algo = 0;
+    oentrada = 0;
+    osalida = 0;
+   
+    tipotra = 5;
+    $.ajax({
+        type: "GET",
+        url: "./api/economicos/",
+        data: { id: id, tipotra: tipotra },
+        dataType: "json",
+        success: function(data) {
+             console.log(data);
+            $.each(data.economicos, function(key, value) {
+
+              
+
+
+            });
+
+
+           
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+}
 
 
 function obtener_omisiones() {

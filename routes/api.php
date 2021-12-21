@@ -52,7 +52,8 @@ use Illuminate\Http\Request;
 
     Route::get('/cat-base','API\EmpleadoController@catalogo_bases');
     Route::get('/buscaempleado/{id}', 'API\EmpleadoController@show');    
-    Route::get('/omisiones', 'API\EmpleadoController@omisiones');   
+    Route::get('/omisiones', 'API\EmpleadoController@omisiones'); 
+    Route::get('/economicos', 'API\EmpleadoController@buscaEconomico');  
     Route::get('/permisos', 'API\EmpleadoController@buscapermiso');
     Route::get('/buscaincidencia/{id}', 'API\IncidenciaController@show');
     Route::get('/justificante/{id}',    'API\IncidenciaController@justificante');

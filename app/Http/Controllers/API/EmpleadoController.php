@@ -329,6 +329,46 @@ class EmpleadoController extends Controller
         return response()->json(["permisos" => $diasJustificados,"horario" => $horario]);
     }
 
+
+    public function buscaEconomico(Request $request)
+    {
+       $id = $request->id;
+       $fecha = $request->fecha;
+       $tipotra = $request->tipotra;
+       if ($tipotra==5){
+        $fini = '2021-01-01';
+        $ffin = '2021-12-31';
+
+       }else{
+            $fini = '2020-10-01';
+            $ffin = '2021-09-303';
+       }
+
+       
+       
+       
+     
+       $horario = UsuarioHorario::with("detalleHorario.reglaAsistencia")->where("USERID","=",$id)->orderBY("id","DESC")->first();
+      //dd($horario['detalleHorario'][0]->SDAYS);
+      $h_inicio = (substr($horario['detalleHorario'][0]['reglaAsistencia']->StartTime,11,12));
+      $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
+
+      //dd($ffin);
+
+         $diasEconomicoAnual = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+         ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","6")
+        ->get();       
+
+        $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+        ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","6")
+       ->get(); 
+          
+
+      // $diasJustificados =  $diasJustificados->get();
+
+        return response()->json(["economicoAnual" => $diasEconomicoAnual,"economicoMensual" => $diasEconomicoMensual]);
+    }
+
     public function verificaHorario(Request $request)
     {
        $id = $request->id;
