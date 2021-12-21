@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\ConfiguracionTrimestral;
-
+use Carbon\Carbon, DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Response as HttpResponse;
 use \Validator, \Hash, \Response;
