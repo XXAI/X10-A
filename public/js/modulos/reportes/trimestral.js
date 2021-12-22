@@ -111,8 +111,11 @@ function ver_configuracion() {
 
 
     
-    datos = "anio=" + $("#config_anio").val() + "&trimestre=" + $("#config_trimestre").val() + "&tipo_trabajador=" + $("#config_tipo_trabajador").val();
-   // datos = "anio=" + $("#anio").val() + "&trimestre=" + $("#trimestre").val() + "&tipo_trabajador=" + $("#tipo_trabajador").val();
+    //datos = "anio=" + $("#config_anio").val() + "&trimestre=" + $("#config_trimestre").val() + "&tipo_trabajador=" + $("#config_tipo_trabajador").val();
+
+  
+    datos = "anio=" + $("#anio").val() + "&trimestre=" + $("#trimestre").val() + "&tipo_trabajador=" + $("#tipo_trabajador").val();
+   console.log(datos);
     jQuery.ajax({
         data: datos,
         type: "GET",
@@ -120,16 +123,16 @@ function ver_configuracion() {
         url: './api/ver-configuracion-trimestral',
 
     }).done(function(data, textStatus, jqXHR) {
-        datos = data.data;
-        if (datos == null) {
+        //datos = data.data;
+        if ( data.data == null) {
             $("#config_lote").val(0);
             $("#config_quincena").val(0);
             $("#config_documento").val(0);
         } else {
             //  console.log("esdsdsdsds");
-            $("#config_lote").val(datos.lote);
-            $("#config_quincena").val(datos.quincena);
-            $("#config_documento").val(datos.no_documento);
+            $("#config_lote").val( data.data.lote);
+            $("#config_quincena").val( data.data.quincena);
+            $("#config_documento").val( data.data.no_documento);
         }
         $("#ver_config").modal("show");
     }).fail(function(jqXHR, textStatus, errorThrown) {
