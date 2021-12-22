@@ -36,7 +36,7 @@ class ConfiguracionTrimestralController extends Controller
        try
         {      
             $parametros =Input::all();
-           $obj = ConfiguracionTrimestral::where("anio", "=", $parametros['config_anio'])->where("trimestre", "=", $parametros['config_trimestre'])->first();
+           $obj = ConfiguracionTrimestral::where("anio", "=", $parametros['config_anio'])->where("trimestre", "=", $parametros['config_trimestre'])->where("tipo_trabajador", "=", $parametros['config_tipo_trabajador'])->first();
             if($obj)
             {
                 $obj->lote = $parametros['config_lote']; 
