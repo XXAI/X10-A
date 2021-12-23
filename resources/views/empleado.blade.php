@@ -188,7 +188,55 @@
           </div>
         </div>
     </div>
+    <div class="modal fade bd-example-modal-lg" id="eliminar_incidencia"  tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Eliminar Incidencia</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form>    
+             <div class="card">
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <div class="form-group">
+                                <label for="eliminaincidencia" class="col-sm-3 col-form-label">Elimina Incidencia</label>
+                                <!-- <input id="horario">    --> 
+                                <input id="incidencia"  type="text" style="outline: none;">
+                                <input type="text" id="motivo" name="motivo" required>  
+                            </div>
+                            <div id="divmsg" style="display:visible" class="alert-primary" role="alert">
+                            </div>
+                        </div>
+                    </div>
+                   
+                   
+                    </div>
 
+                </div>
+                <div class="card-footer text-muted">
+                  
+                </div>
+              </div>
+            
+            
+          </form>
+            </div>
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">Guardar</button>   -->
+              <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="eliminar_incidencia()">Guardar</button>  
+           <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
+              
+              <button type="button" class="btn btn-secondary" id="cerrar1" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
 
 
       <div class="modal fade bd-example-modal-lg" id="agregar_entrasal" tabindex="-1" role="dialog">

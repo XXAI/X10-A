@@ -1072,7 +1072,9 @@ function cargar_blade_checadas() {
 
 
         if (value.ban_inci >= 1)
-            icono2 = "<a type='button' class='btn btn-link' onclick='eliminar(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
+            icono2 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia'  ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
+            //onclick='eliminar(" + value.ban_inci + ")'
+            //<a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a>
         else
             icono2 = " ";
 
