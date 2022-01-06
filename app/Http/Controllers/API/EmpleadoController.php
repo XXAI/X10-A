@@ -303,6 +303,8 @@ class EmpleadoController extends Controller
        //substr($request->fini,0,10);
        $fini = $request->fini;
        $ffin = $request->ffin;
+
+     
        // dd(intval(strlen($ffin)));
        if(intval(strlen($fini)<19)) {$fini=$fini.":00";}
        if(intval(strlen($ffin)<19))  {$ffin=$ffin.":00";}
@@ -334,39 +336,66 @@ class EmpleadoController extends Controller
     {
        $id = $request->id;
        $fecha = $request->fecha;
+       $fini = $request->fini;
+       $ffin = $request->ffin;
        $tipotra = $request->tipotra;
-       if ($tipotra==5){
+       $fecha_mes = new Carbon($fini);
+       $fecha_mes_inicio = new Carbon($fini);
+       $fecha_mes_fin = new Carbon($fini);
+       $fmesini = new Carbon($fini);
+       $fmesfin = new Carbon($ffin);
+       $dia =  $fecha_mes->day;
+      /*  if ($tipotra==5){
         $fini = '2021-01-01';
         $ffin = '2021-12-31';
 
        }else{
             $fini = '2020-10-01';
-            $ffin = '2021-09-303';
-       }
+            $ffin = '2021-09-30';
+       } */
 
        
        
-       
-     
-       $horario = UsuarioHorario::with("detalleHorario.reglaAsistencia")->where("USERID","=",$id)->orderBY("id","DESC")->first();
-      //dd($horario['detalleHorario'][0]->SDAYS);
-      $h_inicio = (substr($horario['detalleHorario'][0]['reglaAsistencia']->StartTime,11,12));
-      $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
 
-      //dd($ffin);
-
-         $diasEconomicoAnual = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
-         ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","6")
-        ->get();       
-
-        $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
-        ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","6")
+$fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
+//
+$fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
+$fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
+$fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
+//dd($fecha_mes_fin."--------".$fecha_mes_inicio);
+         
+        $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)
+        //->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])
+         ->where("STARTSPECDAY","<=",$fecha_mes_fin)
+        ->where("ENDSPECDAY",">=",$fecha_mes_inicio)
+        ->where("DATEID","=","6")
        ->get(); 
           
 
+          $arreglo_dias = array();       
+        foreach ($diasEconomicoMensual as $key => $value) {           
+ 
+           // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+            $inicio = new Carbon($value->STARTSPECDAY);
+            $fin = new Carbon($value->ENDSPECDAY);
+            $diff = $inicio->diffInDays($fin);            
+            $arreglo_dias[substr($inicio, 0,10)][] = $value;
+            for ($i=0; $i < $diff; $i++) { 
+               $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+               
+            } 
+            
+
+
+        } 
+        //return  $arreglo_dias;
+
+       
+        return response()->json(["economicoMensual" => $arreglo_dias]);
+
       // $diasJustificados =  $diasJustificados->get();
 
-        return response()->json(["economicoAnual" => $diasEconomicoAnual,"economicoMensual" => $diasEconomicoMensual]);
+        //return response()->json(["economicoAnual" => $diasEconomicoAnual,"economicoMensual" => $diasEconomicoMensual]);
     }
 
     public function verificaHorario(Request $request)

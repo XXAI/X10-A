@@ -446,6 +446,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
+    //obtener_economicos();
 
     //console.log(diaslab);
 
@@ -648,7 +649,9 @@ function obtener_economicos() {
     id = $("#id").val();
     tipoomi = $("#tipo_es").val();
    // fecha = xini;
-   fecha = $("#fecha_reg").val();;
+   fecha = $("#fecha_reg").val();
+     fini = $("#f_ini").val();
+    ffin = $("#f_fin").val();
     var algo = 0;
     oentrada = 0;
     osalida = 0;
@@ -657,22 +660,23 @@ function obtener_economicos() {
     $.ajax({
         type: "GET",
         url: "./api/economicos/",
-        data: { id: id, tipotra: tipotra },
+        data: { id: id, tipotra: tipotra,fini:fini, ffin:ffin},
         dataType: "json",
         success: function(data) {
              console.log(data);
             $.each(data.economicos, function(key, value) {
 
-              
+               
 
 
             });
-
-
+            console.log("holasasasas"+fini+"dsdsds"+ffin+"buena");
+    console.log("holasasasasa");
            
 
         },
         error: function(data) {
+            console.log("hols"+fini+"dsdsds"+ffin+"errora");
             alert('error');
         }
     });

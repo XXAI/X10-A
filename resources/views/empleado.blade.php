@@ -179,7 +179,7 @@
                 @include('empleados/incidenciaform')
             </div>
             <div class="modal-footer">
-              <!-- <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">Guardar</button>   -->
+            <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">PruebaEconomico</button>  
               <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="guardar_incidencia()">Guardar</button>  
            <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
               
@@ -228,7 +228,7 @@
           </form>
             </div>
             <div class="modal-footer">
-              <!-- <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">Guardar</button>   -->
+               
               <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="eliminar_incidencia()">Guardar</button>  
            <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
               
