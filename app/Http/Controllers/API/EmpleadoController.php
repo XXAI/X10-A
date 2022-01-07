@@ -303,6 +303,7 @@ class EmpleadoController extends Controller
        //substr($request->fini,0,10);
        $fini = $request->fini;
        $ffin = $request->ffin;
+       
 
      
        // dd(intval(strlen($ffin)));
@@ -324,11 +325,44 @@ class EmpleadoController extends Controller
             $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')
             ->orWhere("ENDSPECDAY", ">=", $fini.'T00:00:00');
          })*/->get();       
+         $fecha_mes = new Carbon($fini);
+         $fecha_mes_inicio = new Carbon($fini);
+         $fecha_mes_fin = new Carbon($fini);
+
+         $fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
+         $fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
+         $fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
+         $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
+         //dd($fecha_mes_fin."--------".$fecha_mes_inicio);
+                  
+                 $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)
+                 //->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])
+                  ->where("STARTSPECDAY","<=",$fecha_mes_fin)
+                 ->where("ENDSPECDAY",">=",$fecha_mes_inicio)
+                 ->where("DATEID","=","6")
+                ->get(); 
+                   
+         
+                   $arreglo_dias = array();    
+                   $num = 0;   
+                 foreach ($diasEconomicoMensual as $key => $value) {           
           
+                    // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+                     $inicio = new Carbon($value->STARTSPECDAY);
+                     $fin = new Carbon($value->ENDSPECDAY);
+                     $diff = $inicio->diffInDays($fin);            
+                     $arreglo_dias[substr($inicio, 0,10)][] = $value;
+                     
+                     for ($i=0; $i < $diff; $i++) { 
+                        $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+                        
+                       
+                     } 
+                  
+                 } 
+                 $num=count($arreglo_dias);
 
-      // $diasJustificados =  $diasJustificados->get();
-
-        return response()->json(["permisos" => $diasJustificados,"horario" => $horario]);
+        return response()->json(["permisos" => $diasJustificados,"horario" => $horario,"toteconomico"=>$num]);
     }
 
 
@@ -345,20 +379,12 @@ class EmpleadoController extends Controller
        $fmesini = new Carbon($fini);
        $fmesfin = new Carbon($ffin);
        $dia =  $fecha_mes->day;
-      /*  if ($tipotra==5){
-        $fini = '2021-01-01';
-        $ffin = '2021-12-31';
-
-       }else{
-            $fini = '2020-10-01';
-            $ffin = '2021-09-30';
-       } */
+  
 
        
        
 
 $fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
-//
 $fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
 $fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
 $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
@@ -372,7 +398,8 @@ $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
        ->get(); 
           
 
-          $arreglo_dias = array();       
+          $arreglo_dias = array();    
+          $num = 0;   
         foreach ($diasEconomicoMensual as $key => $value) {           
  
            // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
@@ -380,18 +407,19 @@ $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
             $fin = new Carbon($value->ENDSPECDAY);
             $diff = $inicio->diffInDays($fin);            
             $arreglo_dias[substr($inicio, 0,10)][] = $value;
+            
             for ($i=0; $i < $diff; $i++) { 
                $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
                
+              
             } 
-            
-
-
+         
         } 
+        $num=count($arreglo_dias);
         //return  $arreglo_dias;
 
        
-        return response()->json(["economicoMensual" => $arreglo_dias]);
+        return response()->json(["economicoMensual" => $arreglo_dias,"toteconomico"=>$num]);
 
       // $diasJustificados =  $diasJustificados->get();
 
