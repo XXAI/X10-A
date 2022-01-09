@@ -179,7 +179,7 @@
                 @include('empleados/incidenciaform')
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">PruebaEconomico</button>  
+            <!-- <button type="button" class="btn btn-primary" id="btn_prueba" onclick="obtener_economicos()">PruebaEconomico</button>  --> 
               <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="guardar_incidencia()">Guardar</button>  
            <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
               
@@ -197,42 +197,36 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-            <form>    
-             <div class="card">
-                
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12" >
-                            <div class="form-group">
-                                <label for="eliminaincidencia" class="col-sm-3 col-form-label">Elimina Incidencia</label>
-                                <!-- <input id="horario">    --> 
-                                <input id="incidencia"  type="text" style="outline: none;">
-                                <input type="text" id="motivo" name="motivo" required>  
-                            </div>
-                            <div id="divmsg" style="display:visible" class="alert-primary" role="alert">
-                            </div>
-                        </div>
-                    </div>
-                   
-                   
-                    </div>
+              <div class="modal-body">
+                <form>    
+                      <div class="card">
+                        <div class="card-body">
+                                <div class="row">
+                                      <div class="col-md-12" >
+                                            <div class="form-group">
+                                                <label for="eliminaincidencia" class="col-sm-3 col-form-label">Motivo</label>
+                                                <!-- <input id="horario">    style="outline: none;"--> 
+                                                <input type="hidden" id="idin" name="idin" >
+                                                <input type="text" id="motivo"  name="motivo" required>  
+                                            </div>
+                                          
+                                      </div>
+                                </div>
+                            
+                            
+                              
 
-                </div>
-                <div class="card-footer text-muted">
-                  
-                </div>
+                        </div>
+                          
+                      <div class="card-footer text-muted">                        
+                      </div>
+                      </div>
+                              
+                </form>
               </div>
-            
-            
-          </form>
-            </div>
-            <div class="modal-footer">
-               
-              <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="eliminar_incidencia()">Guardar</button>  
-           <!--     <button type="button" class="btn btn-primary" id="btn_save_inci" onclick="probando()">pruebas</button>       -->  
-              
-              <button type="button" class="btn btn-secondary" id="cerrar1" data-dismiss="modal">Cerrar</button>
+            <div class="modal-footer">               
+              <button type="button" class="btn btn-primary" id="btn_delete_inci" onclick="eliminar()">Eliminar</button>  
+              <button type="button" class="btn btn-secondary" id="cerrar2" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>

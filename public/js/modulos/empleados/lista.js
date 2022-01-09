@@ -14,7 +14,7 @@ var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
 var rfc_x, tipotra;
 var id_inci;
-var msj, ban_url;
+var msj, ban_url,vardel;
 var mes_nac, idempleado, idhorario;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
 var banemp = 0;
@@ -768,17 +768,7 @@ function obtener_justificantes(fini, ffin) {
     ffin = $("#f_fin").val();
     inicio = new Date(fini);
     termino = new Date(ffin);   
-    codein = $("#code_in").val();
-    id = $("#id").val();
-    fecha = xini;
-    date_1 = moment($("#f_ini").val());
-    date_2 = moment($("#f_fin").val());                
-    diff_in_days = date_2.diff(date_1, 'days');
-    diff_in_hours = date_2.diff(date_1, 'hours', true);
-    diff = 0;
-    diff = 1 + diff_in_days;
-    var fec_com = moment(date_1).format();
-    fec_com = fec_com.substr(5, 5);
+    
     
     if (inicio.getTime() <= termino.getTime() ){       
         
@@ -790,114 +780,118 @@ function obtener_justificantes(fini, ffin) {
             url: "./api/permisos/",
     
         }).done(function(data) {
+
+            codein = $("#code_in").val();
+            id = $("#id").val();
+            fecha = xini;
+            date_1 = moment($("#f_ini").val());
+            date_2 = moment($("#f_fin").val());                
+            diff_in_days = date_2.diff(date_1, 'days');
+            diff_in_hours = date_2.diff(date_1, 'hours', true);
+            diff = 0;
+            diff = 1 + diff_in_days;
+            var fec_com = moment(date_1).format();
+            fec_com = fec_com.substr(5, 5);
     
             data.permisos.forEach(element => {
                 permisos.push(element);
             });
+            pases=data.pases;
             console.log(data);
     
             if (permisos.length > 0) {
-    
+                
                 swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
                     icon: "warning",
                 });
-            }
-            if(parseInt(codein)==6 && data.toteconomico>=2){
-                swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
-                    icon: "warning",
-                });
-            }
-            
-            else {
-                
-               /*  
-                switch (parseInt(codein)) {
-                    case 1: //Pase de Salida                  
-                        if (diff_in_days == 0) {
-                            if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
-                                save_justi_emp();
-                            } else {
-                                bandera = 0
-                                swal("¡Verifique la solicitud!", {
-                                    icon: "warning",
-                                });
-                            }
-                        } else {
-                            bandera = 0
-                            swal("¡Verifique la solicitud!", {
-                                icon: "warning",
-                            });
-                        }
-                        console.log(bandera);
-                        break;
-            
-                    case 6: 
-                        if (diaslab.length == 5) {
-            
-                            if (data.toteconomico <= diff)
-                                if ((data.toteconomico == 0 && diff <= 2) || (data.toteconomico == 1 && diff == 1)) {
-                                    save_justi_emp();
-                                } else {
-                                    bandera = 0;
+            }else{
+       
 
-                                    swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
+            switch (parseInt(codein)) {
+                case 1:
+                              
+                        if(pases.length>0){                   
+                        swal("¡No se puede Ingresar ese pase de salida!", {
+                            icon: "warning",
+                        });
+                        }
+                        else{
+        
+                            if (diff_in_days == 0) {
+                                if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
+                                    inserta_incidencia();
+                                } else {
+                                    bandera = 0
+                                    swal("¡No se puede Ingresar ese pase de salida!", {
                                         icon: "warning",
                                     });
-                                    
                                 }
-                        } else {
-                            if ((data.toteconomico == 0 && diff <= 1)) {
-                                save_justi_emp();
-            
                             } else {
-                                bandera = 0;
-                                swal("¡Solo puede tener 1 dia económico en el mes!", {
+                                swal("¡No se puede Ingresar ese pase de salida porque son fechas diferentes!", {
                                     icon: "warning",
                                 });
                             }
                         }
-                        break;
-                    case 10: //Onomastico   
-            
-                        if (diff_in_days == 0 && fec_com == onomastico) {
-                            save_justi_emp();
-                        } else {
-                            bandera = 0;
-                            swal("¡La fecha no es la misma que su onomástico!", {
+                    
+                break;
+
+                case 6:
+                    bandera=0;
+                    console.log(diff+"dif"+data.toteconomico);
+                    if (diaslab.length == 5) {
+                    
+                        if (data.toteconomico <= diff){
+                            if ((data.toteconomico == 0 && diff <= 2) || (data.toteconomico == 1 && diff == 1)) {
+                                inserta_incidencia();
+                                bandera = 1;
+                             //   mensaje = "mensaje1";
+    
+                            } else {
+                                                            
+                                swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
+                                    icon: "warning",
+                                });
+                                
+                            }
+                        }else{
+                            bandera=0;
+                            swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
                                 icon: "warning",
                             });
-                            
                         }
-                        break;         
-            
-            
-                        // case 12:
-                        //resumen_checadas.Vacaciones_2018_Invierno
-                        //    break;
-            
-                    default:
-                        save_justi_emp();
-                        //msj="otrooooooooo";
-            
-                }
- */
-                //alert(bandera);
-                validando_incidencia();
-                 if (bandera == 1) {
+                    } else {
+                        if ((data.toteconomico == 0 && diff <= 1)) {
+                            inserta_incidencia();
+                            bandera = 1;
     
-                    if (ban_url == 1) { save_justi_emp(); } 
-                    else {
-                        if (val_in == 0) {
-                            save_justi_emp();
-    
-                        }else { acepta_incidencia(); }
-    
+                        } else {
+                            bandera = 0;
+                            swal("¡Solo puede tener 1 dia económico en el mes!", {
+                                icon: "warning",
+                            });
+                        }
                     }
-    
-                } else {
-                    swal("Error!", msj + "!", "error");
-                } 
+                break;
+
+                case 10:
+                    if (diff_in_days == 0 && fec_com == onomastico) {
+                        inserta_incidencia();
+                    } else {
+                        swal("¡La fecha no es la misma que su onomástico!", {
+                            icon: "warning",
+                        });
+                        msj = "La fecha no es la misma que su onomástico";
+                    }
+
+                break;
+
+                default:
+                    inserta_incidencia();
+           
             }
+            }
+            
+         
     
         }).fail(function(jqXHR, textStatus, errorThrown) {
     
@@ -1064,10 +1058,10 @@ function sel_inci(valor) {
 
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
-        case 6:          
+        //case 6:          
 
        // document.getElementById("btn_prueba").click();        
-        console.log("economico:  " + tot_eco.length);
+        //console.log("economico:  " + tot_eco.length);
        /*  tot_eco=obtener_economicos();
         console.log("economico:  " + Promise.obtener_economicos(tot_eco)); */
        // console.log("EconocmicosTotales ".tot_eco)
@@ -1081,7 +1075,7 @@ function sel_inci(valor) {
             }
             mostrarMensaje(mensaje); */
 
-            break;
+            //break;
         case 10:
 
             mensaje = "Su onomástico es el: " + onomastico.substr(3, 2) + " de " + arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
@@ -1089,11 +1083,11 @@ function sel_inci(valor) {
 
             break;
 
-        case 22:
+        //case 22:
             // $('#f_fin').attr('disabled', true);
 
 
-            break;
+           // break;
         default:
             mensaje = "  ";
             mostrarMensaje(mensaje);
@@ -1152,13 +1146,13 @@ function cargar_blade_checadas() {
         if (value.omision == undefined) {
             icono4 = " ";
         } else {
-            icono4 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omision + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
+            icono4 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia' onclick='eliminaridomision(" + value.omision + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
         }
 
         if (value.omisionsal == undefined) {
             icono5 = " ";
         } else {
-            icono5 = "<a type='button' class='btn btn-link' onclick='eliminar_omision(" + value.omisionsal + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
+            icono5 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia' onclick='eliminaridomision(" + value.omisionsal + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
         }
         if (value.checado_salida == "SIN REGISTRO")
             if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } 
@@ -1171,7 +1165,7 @@ function cargar_blade_checadas() {
 
 
         if (value.ban_inci >= 1)
-            icono2 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia'  ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
+            icono2 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia' onclick='eliminarid(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
             //onclick='eliminar(" + value.ban_inci + ")'
             //<a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a>
         else
@@ -1464,8 +1458,8 @@ function validando_incidencia() {
     fec_com = fec_com.substr(5, 5);
 
     switch (parseInt(tipo_incidencia)) {
-        case 1: //Pase de Salida                  
-            if (diff_in_days == 0) {
+         case 1: //Pase de Salida                  
+           /*  if (diff_in_days == 0) {
                 if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
                     bandera = 1;
                 } else {
@@ -1476,39 +1470,13 @@ function validando_incidencia() {
                 bandera = 0
                 msj = "Verifique la solicitud";
             }
-            console.log(bandera);
+            console.log(bandera); */
+            bandera = 0;
             break;
 
-        /* case 6: //Dia Economico      
-            //obtener_economicos();
-            //alert("EconocmicosTotales ".tot_eco)
-            if (diaslab.length == 5) {
-
-                if (tot_eco <= diff)
-                    if ((tot_eco == 0 && diff <= 2) || (tot_eco == 1 && diff == 1)) {
-                        bandera = 1;
-                    } else {
-                        bandera = 0;
-                        msj = "Solo puede tener maximo 2 dias económicos en el mes";
-                    }
-            } else {
-                if ((resumen_checadas.Día_Económico == 0 && diff <= 1)) {
-                    bandera = 1;
-
-                } else {
-                    bandera = 0;
-                    msj = "Solo puede tener 1 dia económico en el mes";
-                }
-            }
-            break; */
         case 10: //Onomastico   
 
-            if (diff_in_days == 0 && fec_com == onomastico) {
-                bandera = 1;
-            } else {
-                bandera = 0;
-                msj = "La fecha no es la misma que su onomástico";
-            }
+            
             break;
 
 
@@ -1528,6 +1496,10 @@ function inserta_incidencia() {
     var x = 0;
     var dia_eva;
     // for (var i = 0; i < parseInt(diff_in_days + 1); i++) {
+    id = $("#id").val();
+    idcap = $("#id_user").val();
+    razon = $("#razon").val();
+    url_in = "api/guarda-justificante";
     fini = moment(date_1.add(x, 'd')).format();
     ffin = moment(date_2.add(x, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
@@ -1540,7 +1512,7 @@ function inserta_incidencia() {
         $.ajax({
             type: 'POST',
             url: url_in,
-            data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: tipo_incidencia, razon: razon, idcap: idcap, id_inci: id_inci },
+            data: { id: id, fini: fini, ffin: ffin, tipo_incidencia: codein, razon: razon, idcap: idcap, id_inci: codein },
             success: function(data) {
                 swal("Exito!", "La incidencia ha sido Registrada!", "success");
                 document.getElementById("cerrar1").click();
@@ -1635,28 +1607,33 @@ function acepta_incidencia() {
     })
 }
 
-/* function edita_empleado() {
-    $.ajax({
-        type: "GET",
-        url: "./api/edita-empleado/" + idempleado,
-        data: { idcap: idcap },
-        success: function(data) {
 
-            swal("Exito!", "La incidencia ha sido validada!", "success");
-
-            $("#agregar_incidencia").modal('hide');
-            document.getElementById('filtro_check').click();
-
-        },
-        error: function(data) {
-            swal("Error!", "No se registro ningun dato!", "error");
-        }
-    })
-} */
-
-function eliminar(id) {
+function eliminarid(id) {
+    vardel = 0;
+    $("#idin").val(id);
+}
 
 
+
+function eliminar(){
+    if (vardel==0){
+        eliminar_incidencia();
+    }else{
+        eliminar_omision();
+    }
+}
+
+function eliminar_incidencia() {
+    id = $("#idin").val();
+    motivo = $("#motivo").val();
+    idcap = $("#id_user").val();
+    if(motivo=='' || id==''){
+        swal("¡Debe escribir un motivo para la eliminacion!", {
+            icon: "warning",
+        });
+    }
+    else{
+    
     swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrá recuperar este dato!",
@@ -1668,13 +1645,15 @@ function eliminar(id) {
             if (willDelete) {
                 $.ajax({
                     type: 'DELETE',
+                    data: { motivo: motivo,idcap: idcap },
                     url: "api/deleteincidencia/" + id + "/",
                     success: function(data) {
                         swal("¡La incidencia ha sido eliminada!", {
                             icon: "success",
                         });
-                        $("#agregar_incidencia").modal('hide');
-                        $("#razon").val('');
+                        $("#eliminar_incidencia").modal('hide');
+                        $("#motivo").val('');
+                        $("#idin").val('');
                         document.getElementById('filtro_check').click();
 
                     }
@@ -1686,12 +1665,26 @@ function eliminar(id) {
                 swal("El registro no se ha eliminado");
             }
         });
-
+    }
 
 }
+function eliminaridomision(id) {
+    vardel = 1;
+    $("#idin").val(id);
 
-function eliminar_omision(id) {
-    swal({
+}
+function eliminar_omision() {
+
+    id = $("#idin").val();
+    motivo = $("#motivo").val();
+    idcap = $("#id_user").val();
+    if(motivo=='' || id==''){
+        swal("¡Debe escribir un motivo para la eliminacion!", {
+            icon: "warning",
+        });
+    }
+    else{
+        swal({
             title: "¿Estás seguro?",
             text: "Una vez eliminado, no podrá recuperar este dato!",
             icon: "warning",
@@ -1702,13 +1695,15 @@ function eliminar_omision(id) {
             if (willDelete) {
                 $.ajax({
                     type: 'DELETE',
+                    data: { motivo: motivo,idcap: idcap },
                     url: "api/deleteomision/" + id + "/",
                     success: function(data) {
                         swal("¡La Omisión ha sido eliminada!", {
                             icon: "success",
                         });
-                        $("#agregar_incidencia").modal('hide');
-                        $("#razon").val('');
+                        $("#eliminar_incidencia").modal('hide');
+                        $("#motivo").val('');
+                        $("#idin").val('');
                         document.getElementById('filtro_check').click();
 
                     }
@@ -1721,6 +1716,11 @@ function eliminar_omision(id) {
             }
         });
 
+    }
+
+
+
+    
 }
 
 function eliminar_in_emp(id) {

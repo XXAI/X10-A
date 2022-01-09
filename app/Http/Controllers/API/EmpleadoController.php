@@ -317,9 +317,13 @@ class EmpleadoController extends Controller
       $h_termino = (substr($horario['detalleHorario'][0]['reglaAsistencia']->EndTime,11,12));
 
       //dd($ffin);
-
+      $pases = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+      ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","1")
+      ->get();
          $diasJustificados = DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
          ->where("ENDSPECDAY",">=",$fini)->where("DATEID","<>","1")
+
+        
          /*->where("ENDSPECDAY","<=", $ffin.'T23:59:59')
             ->where(function($a)use($fini,$ffin){
             $a->where("STARTSPECDAY", ">=", $fini.'T00:00:00')
@@ -362,7 +366,7 @@ class EmpleadoController extends Controller
                  } 
                  $num=count($arreglo_dias);
 
-        return response()->json(["permisos" => $diasJustificados,"horario" => $horario,"toteconomico"=>$num]);
+        return response()->json(["permisos" => $diasJustificados,"horario" => $horario,"toteconomico"=>$num,"pases"=>$pases]);
     }
 
 

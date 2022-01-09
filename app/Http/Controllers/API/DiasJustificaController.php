@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\DiasJustifica;
 use App\Models\Incidencias;
+use App\Models\incidenciasEliminadas;
 use Illuminate\Http\Request;
 use App\Models\Usuarios;
 use App\Models\User;
@@ -51,7 +52,7 @@ class DiasJustificaController extends Controller
                 $registro->YUANYING = $request->razon;
                 $registro->DATE = now();
                 $registro->captura_id=$request->idcap;
-                $registro->incidencia_id = $request->id_inci;
+                $registro->incidencia_id = '';
                 $registro->save();
 
                 return response()->json(['data'=>$registro, 'mensaje'=>'Registrado Correctamente']);
@@ -107,9 +108,23 @@ class DiasJustificaController extends Controller
      * @param  \App\Models\DiasJustifica  $diasJustifica
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         //dd("holalalala: ".$id  );
+        $datos = DiasJustifica::where("id","=",$id)->first();
+      // dd($datos);
+        $datosinci = new incidenciasEliminadas;
+        $datosinci->incidencia_id = $id;
+        $datosinci->userid = $datos['USERID'];
+        $datosinci->inicio = $datos['STARTSPECDAY'];
+        $datosinci->captura_id = $request->idcap;
+        $datosinci->fin = $datos['ENDSPECDAY'];
+        $datosinci->user_id = $datos['captura_id'];        
+        $datosinci->motivo = $request->motivo;
+        $datosinci->tipo_incidencia = $datos['DATEID'];;
+        $datosinci->fecha = now();
+        $datosinci->save();
+
         $registro=DiasJustifica::FindOrFail($id);
         $result = $registro->delete();
 

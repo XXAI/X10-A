@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Omisiones;
+use App\Models\incidenciasEliminadas;
 use App\Models\ChecadasTrabajador;
 use App\Models\Usuarios;
 use App\Models\User;
@@ -62,13 +63,26 @@ class EntraSalidaController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         try {
-        $registro = Omisiones::FindOrFail($id);     
+
+            $datos = omisiones::where("EXACTID","=",$id)->first();
+            // dd($datos);
+              $datosinci = new incidenciasEliminadas;
+              $datosinci->incidencia_id = $id;
+              $datosinci->userid = $datos['USERID'];
+              $datosinci->inicio = $datos['CHECKTIME'];
+              $datosinci->captura_id = $request->idcap;
+              $datosinci->fin = $datos['CHECKTIME'];
+              $datosinci->user_id = $datos['MODIFYBY'];              
+              $datosinci->motivo = $request->motivo;
+              $datosinci->tipo_incidencia = $datos['CHECKTYPE'];
+              $datosinci->fecha = now();
+              $datosinci->save();    
+
+        $registro = Omisiones::FindOrFail($id);   
        
-       //$checada=ChecadasTrabajador::where("WorkCode","=",$id)->first();
-      // dd($checada);
         ChecadasTrabajador::where("WorkCode","=",$id)->delete();
         $result = $registro->delete();  
 
