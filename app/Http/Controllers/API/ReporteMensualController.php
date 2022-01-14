@@ -145,7 +145,7 @@ class ReporteMensualController extends Controller
                         ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00'); 
         }])
         ->whereNull("state")
-        ->where("carType", '<>','700230001')
+        //->where("carType", '<>','700230001')
         //->WHERE("FPHONE", "=", 'CSSSA017213')
         ->WHEREIN("FPHONE", $arreglo_clues)
         ->Where(function($query2)use($parametros){
