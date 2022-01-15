@@ -121,7 +121,7 @@ class DiasJustificaController extends Controller
         $datosinci->fin = $datos['ENDSPECDAY'];
         $datosinci->user_id = $datos['captura_id'];        
         $datosinci->motivo = $request->motivo;
-        $datosinci->tipo_incidencia = $datos['DATEID'];;
+        $datosinci->tipo_incidencia = $datos['DATEID'];
         $datosinci->fecha = now();
         $datosinci->save();
 
