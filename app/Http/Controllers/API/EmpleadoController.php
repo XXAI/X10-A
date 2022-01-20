@@ -339,8 +339,7 @@ class EmpleadoController extends Controller
          $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
          //dd($fecha_mes_fin."--------".$fecha_mes_inicio);
                   
-                 $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)
-                 //->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])
+                 $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)                
                   ->where("STARTSPECDAY","<=",$fecha_mes_fin)
                  ->where("ENDSPECDAY",">=",$fecha_mes_inicio)
                  ->where("DATEID","=","6")
