@@ -523,7 +523,8 @@ class reporteController extends Controller
                                 ->join("USERINFO", "USERINFO.USERID", "=", "checkinout.USERID")
                                 ->where("TITLE", "=",  $desc)
                                 ->whereBetween("CHECKTIME", [$inicio_sal, $final_sal])
-                                ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn","WorkCode","UserExtFmt")
+                               // ->select(DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn","WorkCode","UserExtFmt")
+                                ->select(DB::RAW("MIN(CONVERT(nvarchar(16), CHECKTIME, 120)) AS FECHAHORA"),DB::RAW("MIN(CONVERT(nvarchar(5), CHECKTIME, 108)) AS HORA"),"checkinout.sn","WorkCode","UserExtFmt")
                                 ->groupBy("checkinout.sn","WorkCode","UserExtFmt")
                                 ->first();
                         
@@ -947,15 +948,24 @@ class reporteController extends Controller
                         
                         if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
                            { 
-                               
-                               $asistencia[$indice]['checado_salida'] =$checada_salida->HORA. " (Verifique Su Registro)";
+                                if($trab!=0){
+                                    $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                                }else{
+                                    $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                                }
+                               //. " (Verifique Su Registro)";
                                $asistencia[$indice]['validacion'] = 1;
                            }
                         //|| ($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
                             
                         else
                         if (is_null($checada_salida->sn)){
-                            $asistencia[$indice]['checado_salida'] = $checada_salida->HORA; }                               
+                            if($trab!=0){
+                                $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                            }else{
+                                $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                            }
+                         }                               
                            else{
                                 $tipo=" ";
                                 $asistencia[$indice]['omisionsal'] = $checada_salida->WorkCode;
@@ -975,7 +985,12 @@ class reporteController extends Controller
                                         
                                 
                                     }
-                                     $asistencia[$indice]['checado_salida'] = $checada_salida->HORA.$tipo;
+                                    if($trab!=0){
+                                        $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA.$tipo;
+                                    }else{
+                                        $asistencia[$indice]['checado_salida'] =$checada_salida->HORA.$tipo;
+                                    }
+                                   //  $asistencia[$indice]['checado_salida'] = $checada_salida->HORA.$tipo;
                                 }
                                 else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
                            }
