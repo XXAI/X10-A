@@ -199,8 +199,9 @@ class ReporteTrimestralController extends Controller
               
                 $jornada_laboral = 0;
                 
-                $checada_fuera=0;
+                //$checada_fuera=0;
                 $dia_economico = 0;
+                $checada_fuera = false;
                 //dd($dias_otorgados);
                 if($dias_otorgados != -1)
                 {
@@ -208,6 +209,8 @@ class ReporteTrimestralController extends Controller
                     //dd($dias_mes);
                     for($i = 1; $i<=$dias_mes; $i++)
                     {
+                       
+                        
                         $fecha_evaluar = new Carbon($fecha_inicio);
                         $fecha_evaluar->day = $i;
                        // dd($fecha_evaluar);
@@ -383,48 +386,9 @@ class ReporteTrimestralController extends Controller
                                         }
 
 
-                                        
-                                        
-                                        /* else if($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID'] == 1){                                                
-                                            $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
-                                            $fecha_hora_entrada_exacta->addMinutes(1);
-                                            $pase=0;
-                                            $checada_fuera=0;
-                                                if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
-                                                { 
-                                                    foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
-                                                       
-                                                        $checada_entrada_nueva = new Carbon($dato_checada->CHECKTIME);  
-                                                                                                              
-                                                                //lessThanOrEqualTo greaterThanOrEqualTo
-                                                                if($checada_entrada_nueva->lessThanOrEqualTo($fecha_hora_entrada_exacta))
-                                                                {                                                                      
-                                                                    $checada_fuera=0;
-                                                                    break;
-                                                                    
-                                                                } else{
-                                                                    $checada_fuera=0;
-                                                                }
-                                                           
-                                                        }                                                   
-                                                      // dd($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."  fecha  ".$fecha_evaluar.' checada '.$checada_entrada_nueva. "  exacta ".$fecha_hora_entrada_exacta. "  fuera ".$checada_fuera);
-                                                    if($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID'] == 1 && $checada_fuera==0){
-                                                        $pase=1;
-                                                    }
-                                              
-                                                }                                                 
-                                                   
-                                                if($pase==1){
-                                                    $verificador++;
-                                                }
-                                               
-                                        } */
-                                        
-                                        
-                                        
-                                        else{
+                                    else{
                                             //return array("datos" =>intval($dias_habiles[$fecha_evaluar->dayOfWeekIso]['reglaAsistencia']['WorkDay']));
-                                            if($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID'] == 6)
+                                            /* if($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID'] == 6)
                                             {
                                                 $dia_laboral = intval($dias_habiles[$fecha_evaluar->dayOfWeekIso]['reglaAsistencia']['WorkDay']);//Revisar urgente
                                                 $dia_economico = $dia_economico + $dia_laboral;
@@ -433,10 +397,73 @@ class ReporteTrimestralController extends Controller
                                             {
                                               //  dd("7 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                 break;
-                                            }
-                                            //Dias otorgados (aqui hay que verificar)
+                                            } */
+                                          
+                                            switch($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']){
+                                                case 1:
+                                                   //dd("7 ".$fecha_evaluar->format('Y-m-d'));
+                                                    $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
+                                                    $fecha_hora_entrada_exacta->addMinutes(1);
+                                                    
+                                                   
+                                                    //
+                                                       if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
+                                                        { 
+                                                            
+                                                           
+                                                            foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                                                                 
+                                                                $checada_entrada_nueva = new Carbon($dato_checada->CHECKTIME);  
+                                                                     
+                                                                          // print_r($fecha_hora_entrada_exacta."checada ".$checada_entrada_nueva );        
+                                                                        //lessThanOrEqualTo greaterThanOrEqualTo
+                                                                       // $checada_fuera=0; 
+
+                                                                        if($checada_entrada_nueva->lessThanOrEqualTo($fecha_hora_entrada_exacta))
+                                                                        {                                                                      
+                                                                            $checada_fuera=true; 
+                                                                           // break;                                                                           //break;                                                                          
+                                                                            
+                                                                        }
+                                                                       
+                                                                   
+                                                                } 
+                                                                                                                
+                                                                   
+                                                                    
+                                                        }   
+                                                     
+                                                           
+                                                break;
+    
+                                                case 6:
+                                                    $dia_laboral = intval($dias_habiles[$fecha_evaluar->dayOfWeekIso]['reglaAsistencia']['WorkDay']);//Revisar urgente
+                                                    $dia_economico = $dia_economico + $dia_laboral;  
+                                                   
+                                                   // dd($dia_economico);
+
+                                                break;
+
+                                           
+                                             }
+                                             
+                                            // 77dd($dia_economico);
+                                             if($dia_economico == 2)
+                                             {
+                                             //  dd("7 ".$fecha_evaluar->format('Y-m-d'));exit();
+                                                 break;
+                                             } 
+                                            //dd($checada_fuera);
+                                            
+                                             if($checada_fuera == false && $dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']==1){
+                                                //echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                               // $checada_fuera=0;
+                                                break;
+                                            }     
+                                                     
+                                                                                      
                                             $verificador++;
-                                        }    
+                                        }     
                                     }else
                                     {   
                                         //dias no habiles para su horario
@@ -446,6 +473,8 @@ class ReporteTrimestralController extends Controller
                                    // dd("8 ".$fecha_evaluar->format('Y-m-d'));exit();
                                     break;        
                                 }
+                            
+                               
                             }else{
                               //  dd("9 ".$fecha_evaluar->format('Y-m-d'));exit();
                                 break;  
@@ -455,14 +484,15 @@ class ReporteTrimestralController extends Controller
                            // dd("10 ".$fecha_evaluar->format('Y-m-d'));exit();
                             break; 
                         }    
-
+                       
                         //echo $fecha_evaluar->format("Y-m-d")."--";
                     }
+                   
                    
                 }
               //  dd($pase);
             // print_r($empleados_trimestral);
-          //dd("VERi=".$verificador."dias= ".$dias_mes);
+        //  dd("VERi=".$verificador."dias= ".$dias_mes);
                 if($trimestre == 1)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] = 3;
