@@ -5,9 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Carbon\Carbon, DB, PDF, View, Dompdf\Dompdf;;
+use Carbon\Carbon, \Auth,DB, PDF, View, Dompdf\Dompdf;;
 
 use App\Models\Usuarios;
+use App\Models\User;
 use App\Models\ReglasHorarios;
 use App\Models\Festivos;
 use App\Models\Contingencia;
