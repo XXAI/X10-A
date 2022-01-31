@@ -50,9 +50,11 @@ class ReporteMensualController extends Controller
 
     public function reporteMensual_8002(Request $request)
     {
+        $datos_unidad = ConfiguracionUnidad::first();
+        $usuario = Auth::user();
 
         $asistencia = $this->claseFaltas($request);
-        $pdf = PDF::loadView('reportes//reporte-mensual-8002', ['empleados' => $asistencia]);
+        $pdf = PDF::loadView('reportes//reporte-mensual-8002', ['empleados' => $asistencia,"unidad" => $datos_unidad, 'usuario' => $usuario]);
         $pdf->setPaper('LEGAL', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true,'isRemoteEnabled' => true]);
         return $pdf->stream('Reporte-Mensual-8002.pdf');
