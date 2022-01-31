@@ -171,7 +171,7 @@ switch($empleados['trimestre'])
                         </td>
                     </tr>
                    <tr>
-                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: OFICINA CENTRAL</td>
+                    <td colspan='2' class='datos'>UNIDAD EXPEDIDORA: @if($usuario['base_id']==1) OFICINA CENTRAL @else {{$unidad['unidad']}}  @endif </td>
                     <td colspan='2' class='datos'>TIPO DE TRABAJADOR: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</td>
                    </tr>
                 </tbody>

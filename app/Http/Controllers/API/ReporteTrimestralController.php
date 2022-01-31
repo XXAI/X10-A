@@ -35,7 +35,7 @@ class ReporteTrimestralController extends Controller
         $parametros = Input::all();
         $usuario = Auth::user();
         
-      
+      //dd($usuario);
        
         $datos_configuracion = ConfiguracionTrimestral::where("trimestre", $parametros['trimestre'])
                                                     ->where("anio", $parametros['anio'])
