@@ -81,20 +81,30 @@ class ReporteTrimestralController extends Controller
             }
         }
 
-        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [10,11,12]];
+        $catalogo_trimestre = [ 1 =>[1,2,3], 2 => [4,5,6], 3=> [7,8,9], 4=> [11]];
         
         $empleados_trimestral = [];
 
         
         foreach ($catalogo_trimestre[$trimestre] as $index_trimestre => $data_trimestre) {
+            /* $fecha_ejercicio='2021-12-01';
+            $fecha_ejercicio= new Carbon($fecha_ejercicio);*/
 
+          
             $fecha_ejercicio = Carbon::now();
             $fecha_ejercicio->year =  $anio;
+
+            //dd($data_trimestre."trim".$anio);
+            $fecha_ejercicio->day = 1; 
             $fecha_ejercicio->month = $data_trimestre;
-            $fecha_ejercicio->day = 1;
+         //   dd($fecha_ejercicio);
+           
+           
             $fecha_inicio = $fecha_ejercicio->format('Y-m-d');
             $fecha_fin = $fecha_ejercicio->format('Y-m-').$fecha_ejercicio->daysInMonth;
             $dias_mes = $fecha_ejercicio->daysInMonth;
+
+            //dd( $fecha_ejercicio);
             //$dias_mes = $dias_mes;
            //dd($fecha_fin);
             //Obtenemos los dias Festivos
@@ -203,10 +213,11 @@ class ReporteTrimestralController extends Controller
                 $dia_economico = 0;
                 $checada_fuera = false;
                 //dd($dias_otorgados);
+              
                 if($dias_otorgados != -1)
                 {
                     
-                    //dd($dias_mes);
+                  
                     for($i = 1; $i<=$dias_mes; $i++)
                     {
                        
@@ -398,10 +409,10 @@ class ReporteTrimestralController extends Controller
                                               //  dd("7 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                 break;
                                             } */
-                                          
+                                          //  dd("holaaaa" .$fecha_evaluar);
                                             switch($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']){
                                                 case 1:
-                                                   //dd("7 ".$fecha_evaluar->format('Y-m-d'));
+                                                  //dd("fecha: ".$fecha_evaluar->format('Y-m-d'));
                                                     $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
                                                     $fecha_hora_entrada_exacta->addMinutes(1);
                                                     
@@ -409,23 +420,24 @@ class ReporteTrimestralController extends Controller
                                                     //
                                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
                                                         { 
-                                                            
+                                                           
                                                            
                                                             foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
                                                                  
                                                                 $checada_entrada_nueva = new Carbon($dato_checada->CHECKTIME);  
                                                                      
-                                                                          // print_r($fecha_hora_entrada_exacta."checada ".$checada_entrada_nueva );        
+                                                                           //print_r($fecha_hora_entrada_exacta."checada ".$checada_entrada_nueva );        
                                                                         //lessThanOrEqualTo greaterThanOrEqualTo
-                                                                       // $checada_fuera=0; 
-
+                                                                  
+                                                                      // 
                                                                         if($checada_entrada_nueva->lessThanOrEqualTo($fecha_hora_entrada_exacta))
-                                                                        {                                                                      
+                                                                        {            
+                                                                            
                                                                             $checada_fuera=true; 
                                                                            // break;                                                                           //break;                                                                          
                                                                             
                                                                         }
-                                                                       
+                                                                        
                                                                    
                                                                 } 
                                                                                                                 
@@ -443,6 +455,7 @@ class ReporteTrimestralController extends Controller
                                                    // dd($dia_economico);
 
                                                 break;
+                                                
 
                                            
                                              }
@@ -453,15 +466,16 @@ class ReporteTrimestralController extends Controller
                                              //  dd("7 ".$fecha_evaluar->format('Y-m-d'));exit();
                                                  break;
                                              } 
-                                            //dd($checada_fuera);
+                                           // dd($checada_fuera);
                                             
                                              if($checada_fuera == false && $dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']==1){
-                                                //echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                                echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                             //  dd($fecha_evaluar);
                                                // $checada_fuera=0;
                                                 break;
                                             }     
                                                      
-                                                                                      
+                                            $checada_fuera=false;                                          
                                             $verificador++;
                                         }     
                                     }else
