@@ -279,15 +279,28 @@
 <br>
 <br>
 <p class="centrado datos fuente_datos">
-    <strong>LAE. ANITA DEL CARMEN GARCÍA LEÓN
-    <br>
-    SUBDIRECTORA DE RECURSOS HUMANOS.</strong>
+
+    @if ($datos_empleado->FPHONE=='CSSSA017266')
+        <strong>DRA. ESTHER GOMEZ JIMENEZ
+        <br>
+        JEFA DEL DISTRITO DE SALUD.</strong>
+    @else
+        <strong>LAE. ANITA DEL CARMEN GARCÍA LEÓN
+        <br>
+        SUBDIRECTORA DE RECURSOS HUMANOS.</strong>
+    @endif
 </p>
 <br>
 <br>
 <p class="text-center fuente_datos">
+
+    @if ($datos_empleado->FPHONE=='CSSSA017266')
+    <strong>REVISO:<br>ING. DAVID ARTURO DE LOS SANTOS PEÑA.<br>
+    -JEFE DE RECURSOS HUMANOS-</strong>
+    @else
     <strong>REVISO:<br>ING. GABRIEL DE LA GUARDIA NAGANO.<br>
     -Jefe del Departamento de Operación y Sistematización de Nomina-</strong>
+    @endif
 </p>
 @else
    <div>
