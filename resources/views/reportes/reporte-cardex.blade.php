@@ -105,7 +105,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                 <tbody>
                     <tr>
                         <td width="100px">
-                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/salud.png' width="100px">
+                            <img src='https://sistematizacion.saludchiapas.gob.mx/images/salud.png' width="100px">
                         </td>
                         <td>
                             <div class="centrado datos">
@@ -120,7 +120,7 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                         </td>
                         
                         <td width="100px">
-                            <img src='http://sistematizacion.saludchiapas.gob.mx/images/chiapas.png' width="100px">
+                            <img src='https://sistematizacion.saludchiapas.gob.mx/images/chiapas.png' width="100px">
                         </td>
                     </tr>
                   
