@@ -259,7 +259,7 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-            $fecha_x = new Carbon("2021-10-09");
+            $fecha_x = new Carbon("2021-10-03");
            // print_r("hol2");
             while($parametro_final->greaterThanOrEqualTo($parametro_inicial))
             {
