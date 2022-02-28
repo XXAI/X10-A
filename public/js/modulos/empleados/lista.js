@@ -712,6 +712,10 @@ function obtener_omisiones() {
                     break;
 
                     default:
+                        oentrada = 0;
+                        osalida = 0;
+                    break;
+
 
 
                 } 
