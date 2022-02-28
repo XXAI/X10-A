@@ -714,6 +714,7 @@ function obtener_omisiones() {
                     default:
                         oentrada = 0;
                         osalida = 0;
+                        algo=0;
                     break;
 
 
@@ -722,9 +723,11 @@ function obtener_omisiones() {
                 /* if (value.CHECKTYPE == 'I') {
                     oentrada += 1;
                 } else { osalida += 1; } */
-                if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
+
+                console.log("subs "+fecha.substr(0, 10) + "check "+value.CHECKTIME.substr(0, 10));
+                /* if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
                     algo = 1;
-                }
+                } */
 
 
             });
