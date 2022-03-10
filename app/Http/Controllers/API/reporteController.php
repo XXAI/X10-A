@@ -777,6 +777,9 @@ class reporteController extends Controller
                                         case 51:
                                             $impr="Vacaciones 2022 Invierno ".$memo;                                   
                                             break;
+                                            case 52:
+                                                $impr="Licencia por Paternidad ".$memo;                                   
+                                                break;
 
 
                                         default:
