@@ -163,7 +163,7 @@
                             NO. LOTE: {{$tipotra}}
                             
                             <br>
-                            QNA. APLICACIÓN: 21/2021<br>
+                            QNA. APLICACIÓN: 8/2022<br>
                             MES: {{ $empleados['nombre_mes'] }} AÑO: {{ $empleados['filtros']['anio'] }}<br>
                             {{-- <table width="100%" cellspacing="0" cellspadding="0"><tbody><tr><td>QUINCENA:</td><td style="border: 1px solid #000;text-align:center">@if($empleados['filtros']['quincena'] == 1) X @else    @endif</td><td></td><td style="border: 1px solid #000; text-align:center" width="50px">@if($empleados['filtros']['quincena'] == 2) X @else  @endif</td></tr></tbody></table> --}}
                             

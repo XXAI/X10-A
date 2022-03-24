@@ -27,8 +27,9 @@ class ReporteMensualController extends Controller
     {
         //return Input::all();
         //$empleados = $this->claseAsistencia($request);
+        //dd("holaasasas");
         $empleados = $this->claseFaltas($request);
-        
+        //dd($empleados);
         return response()->json(["usuarios" => $empleados['datos']]);
     }
 
@@ -62,7 +63,8 @@ class ReporteMensualController extends Controller
 
     function claseAsistencia(Request $request)
     {
-        
+        //dd("ksksskskalaa");
+      
         $parametros = Input::all();
         //return response()->json(["usuarios" => "hola"]);
         $reglas     = ReglasHorarios::where("CheckIn", "=", 1)->get();
@@ -162,10 +164,11 @@ class ReporteMensualController extends Controller
         ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
-      
+     // dd($empleados);
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
+            
             $indice_horario_seleccionado = 0;
             $arreglo_consulta = array();
             $dias_habiles = array();
@@ -187,6 +190,7 @@ class ReporteMensualController extends Controller
             //return response()->json(["usuarios" => $i]);
             //dd($fecha_inicio);
             $i = 1;
+            //dd($dias_mes);
             for($i; $i<=$dias_mes; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
@@ -547,9 +551,7 @@ class ReporteMensualController extends Controller
                         ->orWhere("ENDSPECDAY", ">=", $fecha_inicio);   
         }])
         ->leftjoin("empleados_sirh", "empleados_sirh.rfc", "=", "USERINFO.TITLE")
-    //   ->whereNull("state")
-       // ->where("carType", '<>','700230001')
-      //  ->whereIn("FPHONE", ['CSSSA017213', 'CSSSA017324'])
+   
       ->WHEREIN("FPHONE", $arreglo_clues)
         ->where(function($query2)use($parametros){
             $query2->where('Name','LIKE','%'.$parametros['nombre'].'%')
@@ -600,10 +602,10 @@ class ReporteMensualController extends Controller
                 }
             }
 
-            if($indice_horario_seleccionado >= count($horarios_periodo))
+            /*if($indice_horario_seleccionado >= count($horarios_periodo))
             {
                 return 3; //Ya no tiene horarios
-            }
+            }*/
 
             return array("indice" => $indice_horario_seleccionado, "inicio_periodo" => $fecha_inicio_periodo, "fin_periodo" => $fecha_fin_periodo, "habiles" => $dias_habiles, "jornada"=> $jornada_laboral);
         }else{
@@ -613,6 +615,8 @@ class ReporteMensualController extends Controller
 
     function VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $dias_otorgados, $arreglo_salidas)
     {
+
+       
        // $fecha_evaluar=new Carbon('2021-10-10');
        // dd($fecha_evaluar);
         $dia = $fecha_evaluar->dayOfWeekIso;
@@ -807,6 +811,7 @@ class ReporteMensualController extends Controller
     {
         
         $parametros = Input::all();
+        
         $fecha_limite_actual = Carbon::now();
         $anio = $fecha_limite_actual->year;
         $mes  = $fecha_limite_actual->month;
@@ -825,7 +830,7 @@ class ReporteMensualController extends Controller
         
         $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,0);  
         $fecha_fin = Carbon::create($anio, $mes, $fecha_inicio->daysInMonth, 23,59,59); 
-        
+       
         $arreglo_festivos = $this->dias_festivos($fecha_inicio, $fecha_fin);
         $arreglo_salidas = $this->salidas_autorizadas($fecha_inicio, $fecha_fin);
         $empleados = $this->empleados_checadas($fecha_inicio, $fecha_fin, $parametros);
@@ -834,7 +839,9 @@ class ReporteMensualController extends Controller
         $personal = 0;
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
+           // return ["datos"=>$data_empleado->horarios];
             $horarios_periodo = $data_empleado->horarios;
+            
             $indice_horario_seleccionado = 0;
             $arreglo_consulta = array();
             $dia_falta = array();
@@ -843,22 +850,24 @@ class ReporteMensualController extends Controller
             $dias_habiles = array();
             $banderaHorarios = false;
             $jornada_laboral = 0;
-
+            return ["datos"=>$empleado_seleccionado];
             $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "FALTAS_TOTALES" => 0, "RETARDOS" => 0, "RETARDOS_QUINCENALES" => array("Q1"=>array(), "Q2"=>array()), "FALTAS_QUINCENALES" => array("Q1"=>array(), "Q2"=>array()), 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0, "MINUTOS_PASES" => 0];
             
             $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
             //return $checadas_empleado;
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
             
-            $i = 1;
+            $i = 15;
+            
             for($i; $i<=$fecha_inicio->daysInMonth; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
                 $fecha_evaluar->day = $i;
-                
+               
                 if($fecha_evaluar->greaterThan($fecha_limite_actual))
                 {
                     $arreglo_consulta[$i] = "N/C";  
+                    
                     continue; //salimos brincamos el for por si no tiene horario
                 }
                 
@@ -869,6 +878,7 @@ class ReporteMensualController extends Controller
                 }
                 
                 $validacion_horario = $this->validaHorario($fecha_evaluar, $indice_horario_seleccionado, $horarios_periodo, $dias_habiles, $jornada_laboral);
+                
                 if (!is_array($validacion_horario)) {
                     $personal++;
                     continue;
@@ -877,7 +887,7 @@ class ReporteMensualController extends Controller
                 {
                     $jornada_laboral = $validacion_horario['jornada'];
                 }
-
+                
                 if($validacion_horario == 0)// Sin horario
                 {
                     $arreglo_consulta[$i] = "S/H";  
@@ -894,10 +904,11 @@ class ReporteMensualController extends Controller
                     $dias_habiles = $validacion_horario["habiles" ]; 
                     
                     
-                    if(!array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles)){  $arreglo_consulta[$i] = "N/A"; continue; } //No es día habil para su horario
-                    if(isset($dias_otorgados['festivos']) && array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados['festivos'])){ $arreglo_consulta[$i] = $dias_otorgados['festivos'][$fecha_evaluar->format('Y-m-d')][0]->siglas->ReportSymbol; $resumen['OMISIONES']++; /**/ continue; }//Se Valida el dia completo con justificante
+                    if(!array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles)){  $arreglo_consulta[$i] = "N/A";  continue; } //No es día habil para su horario
+                    if(isset($dias_otorgados['festivos']) && array_key_exists($fecha_evaluar->format('Y-m-d'), $dias_otorgados['festivos'])){  $arreglo_consulta[$i] = $dias_otorgados['festivos'][$fecha_evaluar->format('Y-m-d')][0]->siglas->ReportSymbol; $resumen['OMISIONES']++; /**/ continue; }//Se Valida el dia completo con justificante
                     if(array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos)){ $arreglo_consulta[$i] = "DF"; continue; }//Se Valida el dia completo festivo
                     if(array_key_exists($fecha_evaluar->dayOfWeekIso, $dias_habiles) && !array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado)){ 
+                        
                         $dia_seleccionado = $dias_habiles[$fecha_evaluar->dayOfWeekIso]->reglaAsistencia;                  
                         $num_dia_jornada = floatval($dia_seleccionado->WorkDay);
 
@@ -910,10 +921,14 @@ class ReporteMensualController extends Controller
                         }else{
                             $dia_falta_quincenas['Q2'][] = $i;
                         }
+                        
+                    
                         continue; 
                     }// Tiene horario y no checadas es falta directa, habiendo justificado dias
                     
                     $resultado = $this->VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $dias_otorgados, $arreglo_salidas);
+
+                    
                     //return $resultado;
                     $arreglo_consulta[$i] = $resultado['simbolo'];  
                     $i = $i + $resultado['diferencia'];
