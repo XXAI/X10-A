@@ -104,8 +104,7 @@
                             UNIDAD RESPONSABLE:INSTITUTO DE SALUD DEL ESTADO DE CHIAPAS<br>  @if($usuario['base_id']==1) OFICINA CENTRAL @else {{$unidad['unidad']}}  @endif</b>
                             <br><br>
                             <b>AGRADECE A USTED SE SIRVA APLICAR LOS DESCUENTOS POR INASISTENCIAS DEL PERSONAL QUE ACONTINUACION SE DETALLA.</b>
-                            <!--<b style='font-size:14pt'>PERSONAL: {{ strtoupper($empleados['tipo_trabajador']['descripcion']) }}</b>
-                            </div>-->
+                   
                            
                         </td>
                         <td width="100px">

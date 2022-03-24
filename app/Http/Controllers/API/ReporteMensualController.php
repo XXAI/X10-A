@@ -850,7 +850,7 @@ class ReporteMensualController extends Controller
             $dias_habiles = array();
             $banderaHorarios = false;
             $jornada_laboral = 0;
-            return ["datos"=>$empleado_seleccionado];
+            //return ["datos"=>$empleado_seleccionado];
             $resumen = ["ASISTENCIA" => 0, "FALTAS" => 0, "FALTAS_TOTALES" => 0, "RETARDOS" => 0, "RETARDOS_QUINCENALES" => array("Q1"=>array(), "Q2"=>array()), "FALTAS_QUINCENALES" => array("Q1"=>array(), "Q2"=>array()), 'RETARDOS_1' =>0, 'RETARDOS_2' =>0, "OMISIONES" => 0, "JUSTIFICADOS" => 0, "MINUTOS_PASES" => 0];
             
             $checadas_empleado  = $this->checadas_empleado($data_empleado->checadas);
