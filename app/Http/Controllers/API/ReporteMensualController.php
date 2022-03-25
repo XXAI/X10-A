@@ -857,7 +857,7 @@ class ReporteMensualController extends Controller
             //return $checadas_empleado;
             $dias_otorgados     = $this->dias_otorgados($data_empleado->dias_otorgados);
             
-            $i = 15;
+            $i = 1;
             
             for($i; $i<=$fecha_inicio->daysInMonth; $i++)
             {
