@@ -132,7 +132,7 @@
                case 3:
                    $relleno = "3300000";
                    $relleno = $relleno+$documento; 
-                   $tipotra="PEV0004";
+                   $tipotra="PEV0037";
                break;
 
                case 4 :
