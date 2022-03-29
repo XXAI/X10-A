@@ -133,6 +133,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Año</label>
                         <select class="select form-control" name="config_anio" id="config_anio" onclick="ver_configuracion()">
+                            <option value = '2022'>2022</option>
                             <option value = '2021'>2021</option>
                             <option value = '2020'>2020</option>
                             <option value = '2019'>2019</option>
