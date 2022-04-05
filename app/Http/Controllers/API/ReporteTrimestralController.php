@@ -507,10 +507,10 @@ class ReporteTrimestralController extends Controller
               //  dd($pase);
             // print_r($empleados_trimestral);
         //  dd("VERi=".$verificador."dias= ".$dias_mes);
-                if($trimestre == 1)
+                /*if($trimestre == 1)
                 {
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['TRIMESTRAL'] += 1;
-                }else if($verificador == $dias_mes)
+                }else*/ if($verificador == $dias_mes)
                 {
                     
                     //$empleados[$index_empleado]->TRIMESTRAL += 1;
