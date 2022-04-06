@@ -68,7 +68,7 @@ class EmpleadoController extends Controller
       //  dd($arreglo_clues);
         $idcap = Auth::id();         
     
-        $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados")->where('status', '=', 0)->WHEREIN("FPHONE", $arreglo_clues);        
+        $usuarios = Usuarios::with("horarios.detalleHorario","dias_justificados","tipotrabajador")->where('status', '=', 0)->WHEREIN("FPHONE", $arreglo_clues);        
      
       
          if($name !='')

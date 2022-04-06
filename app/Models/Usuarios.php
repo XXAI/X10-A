@@ -41,7 +41,9 @@ class Usuarios extends Model
     public function dias_justificados(){
         return $this->hasMany('App\Models\DiasJustifica', 'USERID', "USERID");
     }
-
+    public function tipotrabajador(){
+        return $this->hasOne('App\Models\Departamentos', 'id', 'ur_id');
+    }
     public function Sirh_Empleados(){
         return $this->hasOne('App\Models\SirhEmpleados', 'rfc', 'TITLE');
     }

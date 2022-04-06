@@ -35,6 +35,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">R.F.C.</th>
+                        <th scope="col">Tipo Trabajador</th>
                         <th scope="col">Horario</th>
                         <th scope="col">Estatus</th>
                         <!-- <th scope="col">--</th> -->

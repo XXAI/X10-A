@@ -15,7 +15,7 @@ var id_x;
 var rfc_x, tipotra;
 var id_inci;
 var msj, ban_url,vardel;
-var mes_nac, idempleado, idhorario;
+var mes_nac, idempleado, idhorario,tipotrabajador;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
 var banemp = 0;
 var leyenda = 1;
@@ -82,10 +82,12 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
-        //console.log(data);
+       // console.log(data);
         base = data.base.id;
         maxid = data.max;
         cargar_datos_empleado(data.usuarios.data);
+        tipotrabajador = data.departamentos;
+        
         festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -346,12 +348,14 @@ function modifica_horario(idho, inifec, finfec, idh, id) {
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
-    //console.log(datos);
+    
+    //console.log(tipotrabajador);
     $.each(datos, function(key, value) {
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
+        var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
        
         if (value.horarios.length > 0) {
             var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
@@ -369,7 +373,7 @@ function cargar_datos_empleado(datos) {
         } else
             var campo4 = $("<td>Sin Horario</><a type='button' class='btn btn-link' data-toggle='modal' data-target='#agregar_empleado' onclick='editEmpleado(" + value.USERID + ")'><i class='fa fa-edit' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Editar Empleado'></i></a>");
 
-        linea.append(campo1, campo2, campo3, campo4, campo5, campo6);
+        linea.append(campo1, campo2, campo3, campo7, campo4, campo5, campo6);
         table.append(linea);
 
 
