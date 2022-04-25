@@ -849,6 +849,7 @@ function obtener_justificantes(fini, ffin) {
                 case 6:
                     bandera=0;
                     console.log(diff+"dif"+data.toteconomico);
+                    console.log(diaslab.length);
                     if (diaslab.length == 5) {
                     
                         if (data.toteconomico <= diff){
