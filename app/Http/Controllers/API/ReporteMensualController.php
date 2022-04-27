@@ -142,7 +142,7 @@ class ReporteMensualController extends Controller
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00');//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin);
         }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
@@ -196,6 +196,7 @@ class ReporteMensualController extends Controller
                 $fecha_evaluar = new Carbon($fecha_inicio);
 
                 $fecha_evaluar->day = $i;
+                
                 //dd($fecha_evaluar);
                 //if($fecha_evaluar->lessThanOrEqualTo($fecha_limite_actual))
                 if($fecha_evaluar->lessThan($fecha_limite_actual))
@@ -538,11 +539,11 @@ class ReporteMensualController extends Controller
             
         }
         $fecha_fin->addDay();
-       // dd($fecha_fin);
+        //dd($fecha_inicio);
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio);//->where("ENDDATE", ">=", $fecha_fin.'T00:00:00');
+            $query->where("STARTDATE", "<=", $fecha_inicio)->where("ENDDATE", ">=", $fecha_fin);
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -572,6 +573,7 @@ class ReporteMensualController extends Controller
 
     function validaHorario($fecha_evaluar, $indice_horario_seleccionado, $horarios_periodo, $dias_habiles, $jornada_laboral)
     {
+        //dd($horarios_periodo);
         if($indice_horario_seleccionado < count($horarios_periodo))
         {
             $fecha_inicio_periodo =  new Carbon($horarios_periodo[$indice_horario_seleccionado]->STARTDATE);
@@ -618,12 +620,12 @@ class ReporteMensualController extends Controller
 
        
        // $fecha_evaluar=new Carbon('2021-10-10');
-       // dd($fecha_evaluar);
+       //dd($fecha_evaluar);
         $dia = $fecha_evaluar->dayOfWeekIso;
         $dia_inicio = intval($validacion_horario['habiles'][$dia]->SDAYS);
         $dia_final  = intval($validacion_horario['habiles'][$dia]->EDAYS);
         $diferencia_dias = $dia_final - $dia_inicio;
-        
+     ///   dd($validacion_horario);
         $dia_seleccionado = $validacion_horario['habiles'][$fecha_evaluar->dayOfWeekIso]->reglaAsistencia;
                   
         $num_dia_jornada = floatval($dia_seleccionado->WorkDay);
@@ -843,7 +845,7 @@ class ReporteMensualController extends Controller
         $personal = 0;
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
-           // return ["datos"=>$data_empleado->horarios];
+          // return ["datos"=>$data_empleado->horarios];
             $horarios_periodo = $data_empleado->horarios;
             
             $indice_horario_seleccionado = 0;
