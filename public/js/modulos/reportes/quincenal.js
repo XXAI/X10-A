@@ -4,6 +4,7 @@
 $(document).ready(function() {
     //cargar_dato("");
     cargar_catalogo();
+    //llenacampos(tipotra);
 });
 
 function cargar_catalogo() {
@@ -136,11 +137,43 @@ function generar_reporte() {
     var nombre = $("#nombre").val();
     var quincena = $("#quincena").val();
     var documento = $("#documento").val();
+    var lote = $("#lote").val();
+    var quincenaaplica = $("#quincenaaplica").val();
     if (documento == '') { documento = 1; }
     /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
 
-    win = window.open('./api/reporte-mensual?anio=' + anio + "&mes=" + mes + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre + "&quincena=" + quincena + "&documento=" + documento, '_blank');
+    win = window.open('./api/reporte-mensual?anio=' + anio + "&mes=" + mes + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre + "&quincena=" + quincena + "&documento=" + documento + "&lote=" + lote + "&quincenaaplica=" + quincenaaplica,'_blank');
+}
+
+function llenacampos(tipotra)
+{
+    switch(tipotra){
+        case "1":
+            $("#documento").val("110000");
+            $("#lote").val("GOV0004");
+            break;
+        case "2":
+            $("#documento").val("110000");
+            $("#lote").val("GOV0004");
+            break;
+        case "3":
+            $("#documento").val("330000");
+            $("#lote").val("PEV0004");
+            break;
+        case "4":
+            $("#documento").val("110000");
+            $("#lote").val("CAR0004");
+            break;
+        case "5":
+            $("#documento").val("200000");
+            $("#lote").val("CON0004");
+           // alert(xfin);
+            break; 
+    }
+
+//alert(tipotra);
+
 }
 
 function generar_reporte_juridico() {
@@ -150,9 +183,11 @@ function generar_reporte_juridico() {
     var nombre = $("#nombre").val();
     var quincena = $("#quincena").val();
     var documento = $("#documento").val();
+    var lote = $("#lote").val();
+    var quincenaaplica = $("#quincenaaplica").val();
     if (documento == '') { documento = 1; }
     /*obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'quincena': quincena };*/
 
 
-    win = window.open('./api/reporte-mensual-8002?anio=' + anio + "&mes=" + mes + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre + "&quincena=" + quincena + "&documento=" + documento, '_blank');
+    win = window.open('./api/reporte-mensual-8002?anio=' + anio + "&mes=" + mes + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre + "&quincena=" + quincena + "&documento=" + documento + "&lote=" + lote + "&quincenaaplica=" + quincenaaplica,'_blank');
 }

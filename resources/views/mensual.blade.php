@@ -64,16 +64,11 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tipo Trabajador</label>
-                        <select id='tipo_trabajador' class='select form-control'>
+                        <select id='tipo_trabajador' class='select form-control' onchange="llenacampos(this.value)">
                         </select>
                     </div>    
                 </div>
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">No Documento</label>
-                        <input type='text' class='form-control' name='documento' id='documento'>
-                    </div>    
-                </div>
+                
                 <div class="col-sm-2">
                     <div class="form-group">            
                         <button class="btn btn-success" type='button' onclick="btn_filtrar()"><i class="fa fa-search fa-3x" ></i></button>
@@ -81,6 +76,27 @@
                         <button class="btn btn-info" type='button' onclick="generar_reporte_juridico()"><i class="fa fa-print "></i> <br>8002</button>
                     </div>    
                 </div>
+           </div>
+           <div class="row" style='width:99%'>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">No Documento</label>
+                            <input type='text' class='form-control' name='documento' id='documento' value="0">
+                        </div>    
+                    </div>
+
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Lote</label>
+                            <input type='text' class='form-control' name='lote' id='lote' value="GOV0004">
+                        </div>    
+                     </div>
+                     <div class="col-sm-1">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Quincena/Año</label>
+                            <input type='text' class='form-control' name='quincenaaplica' id='quincenaaplica' value="10/2022">
+                        </div>    
+                     </div>
            </div>
            
             <table class="table table-bordered table-faltas">
