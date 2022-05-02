@@ -34,8 +34,10 @@ function btn_filtrar() {
     var tipo_trabajador = $("#tipo_trabajador").val();
     var documento = $("#documento").val();
     var nombre = $("#nombre").val();
+    var lote = $("#lote").val();
+    var quincenaaplica = $("#quincenaaplica").val();
 
-    obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'nombre': nombre, 'documento': documento };
+    obj_filtro = { 'anio': anio, 'mes': mes, 'tipo_trabajador': tipo_trabajador, 'nombre': nombre, 'documento': documento, "lote" : lote, "quincenaaplica" : quincenaaplica };
     cargar_dato(obj_filtro);
 }
 
