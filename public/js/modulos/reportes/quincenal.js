@@ -172,6 +172,15 @@ function llenacampos(tipotra)
             $("#lote").val("CON0004");
            // alert(xfin);
             break; 
+        case "6":
+            $("#documento").val("200000");
+            $("#lote").val("CON0004");
+            // alert(xfin);
+            break; 
+        case "7":
+            $("#documento").val("110000");
+            $("#lote").val("GOV0004");
+            break;
     }
 
 //alert(tipotra);

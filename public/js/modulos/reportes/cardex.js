@@ -28,7 +28,7 @@ function cargar_grid(dato) {
             var campo3 = $("<td>" + value.sirh__empleados.curp + "</td>");
             var campo4 = $("<td>" + value.sirh__empleados.cr + "</td>");
             var campo5 = $("<td>" + value.sirh__empleados.nombre + "</td>");
-            var campo6 = $("<td style='text-align:center'><input type='checkbox' class='empleado' value='" + value.Badgenumber + "'></td>");
+            var campo6 = $("<td style='text-align:center'><input type='checkbox' id= 'casilla' class='empleado' value='" + value.Badgenumber + "'></td>");
             var campo7 = $("<td a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#modal_incidencias' onclick='btn_x(\"" + value.USERID + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Incidencias'></i></a></td>");
 
             //
@@ -127,6 +127,12 @@ function btn_x(id) {
 function generar_reporte() {
     var valor = $('input:checkbox[class=empleado]:checked').val();
     var anio = $("#anio").val();
-    console.log(anio);
-    win = window.open('./api/reporte-cardex?empleado=' + valor + '&anio=' + anio, '_blank');
+    console.log(valor);
+    if( valor != null ) {
+        win = window.open('./api/reporte-cardex?empleado=' + valor + '&anio=' + anio, '_blank');
+        
+    }else{
+        alert('Debe Seleccionar la Casilla del empleado a imprimir');
+    }
+    
 }

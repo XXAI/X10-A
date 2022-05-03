@@ -238,28 +238,33 @@ $meses = ['', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'A
                 <td>O: ONOMASTICO</td>
                 <td>P/E: PERMISO ECONÓMICO</td>
                 <td>P/A: PAGO DE GUARDIA</td>
+                <td>COV: COVID</td>
             </tr>
             <tr>
                 <td>P/S: LICENCIA S/GOSE DE SUELDO</td>
                 <td>V: VACACIONES</td>
                 <td>O/E: OMISIÓN ENTRADA</td>
                 <td>M: MEMORANDUM</td>
+                <td>R/D: REPOSICION</td>
             </tr>
             <tr>
                 <td>P/G: LICENCIA C/GOSE DE SUELDO</td>
                 <td>E: LICENCIA MÉDICA</td>
                 <td>O/S: OMISIÓN SALIDA</td>
+                <td>MR: MEDIANO RIESGO</td>
                 
             </tr>
             <tr>
                 <td>R/1:RETARDO MENOR</td>
                 <td>L/S: LICENCIA SINDICAL</td>
                 <td>S: SUSPENSIÓN</td>
+                <td>AR: ALTO RIESGO</td>
             </tr>
             <tr>
                 <td>R/2:RETARDO MAYOR</td>
                 <td>C: COMISIÓN</td>
                 <td>P/H: PERMISO POR HORA</td>
+                <td>BR: BAJO RIESGO</td>
             </tr>
             
         </tbody>    
