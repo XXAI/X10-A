@@ -103,6 +103,7 @@ class ReporteMensualController extends Controller
         
         $fecha_actual = Carbon::now();
         $fecha_actual->year = $anio;
+      //  dd($mes);
 
         $fecha_inicio = $anio."-".$mes."-01";
         $dias_mes = $fecha_actual->daysInMonth;
@@ -163,7 +164,7 @@ class ReporteMensualController extends Controller
         })
         ->where("ur_id", "=", $tipo_trabajador)
        //->where("userid", "=", "28353")
-        ->orWhereNull("ur_id")
+       // ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
      // dd($empleados);
@@ -569,7 +570,7 @@ class ReporteMensualController extends Controller
         ->orderBy("Badgenumber", "ASC")
         //->limit(296)
         ->get();
-        
+        //dd($empleados);
         return $empleados;
     }
 
@@ -586,8 +587,8 @@ class ReporteMensualController extends Controller
             }
             if($jornada_laboral == 0)
             {
-                //var_dump($dias_habiles);
-                $dias_jornada = $horarios_periodo[$indice_horario_seleccionado]->detalleHorario;
+                //var_dump($dias_habiles);                
+                $dias_jornada = $horarios_periodo[$indice_horario_seleccionado]->detalleHorario;               
                 $inicio_jornada = $dias_jornada[0]['STARTTIME'];
                 $fin_jornada    = $dias_jornada[0]['ENDTIME'];
                 $jornada_inicio =new Carbon($inicio_jornada);
@@ -819,10 +820,11 @@ class ReporteMensualController extends Controller
     {
         
         $parametros = Input::all();
-        
+       
         $fecha_limite_actual = Carbon::now();
         $anio = $fecha_limite_actual->year;
         $mes  = $fecha_limite_actual->month;
+        
         $arreglo_resultado = Array();
         if(count($parametros) > 0)
         {
@@ -839,6 +841,7 @@ class ReporteMensualController extends Controller
         }
         
         $fecha_inicio = Carbon::create($anio, $mes, 01,0,0,0);  
+        //dd($fecha_inicio);
         $fecha_fin = Carbon::create($anio, $mes, $fecha_inicio->daysInMonth, 23,59,59); 
        
         $arreglo_festivos = $this->dias_festivos($fecha_inicio, $fecha_fin);
