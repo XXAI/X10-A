@@ -36,7 +36,8 @@ class RegisterController extends Controller
            $registro->password = Hash::make($request->password);
             $registro->base_id=$request->base;
             $registro->email = $request->email;
-            $registro->alias = "bsx";        
+            $registro->alias = "bsx";     
+            $registro->is_superuser = 0;  
             $registro->save();
             $id_user=User::max('id'); 
             $user_base = new BaseUser;
