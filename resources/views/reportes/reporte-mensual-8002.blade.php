@@ -190,9 +190,9 @@
             NOMBRE Y FIRMA
             </td>
             <td class="centrado tamano">
-            <br>SUBDIRECTORA DE RECURSOS HUMANOS
+            <br>SUBDIRECTOR DE RECURSOS HUMANOS
             <br><br><br>
-            L.A.E. ANITA DEL CARMEN GARCÍA LEÓN
+            I.S.C. ELESBAN HIRAM RAMIREZ SANCHEZ
             <HR>
             NOMBRE Y FIRMA
             </td>
