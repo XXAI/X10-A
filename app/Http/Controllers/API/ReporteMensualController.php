@@ -145,7 +145,7 @@ class ReporteMensualController extends Controller
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin);
+            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
         }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       

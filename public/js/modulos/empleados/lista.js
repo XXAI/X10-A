@@ -1069,9 +1069,9 @@ function sel_inci(valor) {
         case 1:
             console.log(resumen_checadas.Pase_Salida);
             pasesal = 6 - resumen_checadas.Pase_Salida;
-            mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
+           /*  mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
-
+ */
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         //case 6:          
