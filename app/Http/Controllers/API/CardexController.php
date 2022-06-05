@@ -237,7 +237,7 @@ class CardexController extends Controller
                // $query->where("STARTDATE", ">=", $fecha_inicio)->where("ENDDATE", "<=", '2022-12-31T23:59:59'); 
                //$query->whereBetween("ENDDATE", [ $fecha_inicio, $fecha_fin])->orwhereBetween("STARTDATE", [ $fecha_inicio, $fecha_fin]);
                //$query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '" .$fecha_fin."' and STARTDATE between '". $fecha_inicio."' and '". $fecha_fin."')");
-               $query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59' and STARTDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59')");
+               $query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59' and STARTDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59')")->orderBy('STARTDATE', 'ASC');
               //  where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin); 
                 //$query->where("ENDDATE", ">=", $fecha_inicio)
                 //->orderBy('STARTDATE', 'ASC');
@@ -274,7 +274,7 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-            $fecha_x = new Carbon("2022-01-06");
+            $fecha_x = new Carbon("2022-02-10");
            // print_r("hol2");
             while($parametro_final->greaterThanOrEqualTo($parametro_inicial))
             {
@@ -357,7 +357,10 @@ class CardexController extends Controller
                                         {
                                             //dd($horarios_periodo);
                                            
-                                            $diferencia_dias_nocturnos = $horarios_periodo[0]['detalleHorario'][0]->SDAYS-$horarios_periodo[0]['detalleHorario'][0]->EDAYS;
+                                            foreach($horario_evaluar['dias_habiles'] as $dias_index => $dia_ingreso){
+                                                    
+                                            }
+                                            $diferencia_dias_nocturnos = $dia_ingreso->SDAYS-$dia_ingreso->EDAYS;
                                             
                                             if($diferencia_dias_nocturnos!=0){
                                                 $parametro_inicial->addDays(1);
@@ -373,25 +376,37 @@ class CardexController extends Controller
                                             
                                              if($parametro_inicial->equalTo($fecha_x) && $checada_entrada!=0)
                                             {
-                                                dd($parametro_inicial);
-                                                //dd($fin_salida);
-                                               // dd($parametro_inicial.'sssssss'.$fecha_x);
-                                             //   dd($checada);
-                                              //  dd($dato_checada." fin: ".$fin_salida);
-                                               // print_r("holaaaaa");
-                                                //print_r($inicio_salida); 
-                                               // print_r($fin_salida); 
-                                                print_r($dato_checada);
+                                               /*  foreach ($dias_otorgados[$parametro_inicial->format('Y-m-d')] as $index_otorgado => $dato_otorgado) {
+                                                    dd($dato_otorgado->DATEID);
+                                                } */
+                                            
                                             } 
-                                            //dd($dato_checada." fin: ".$fin_salida);
+
+
+                                             
                                           
                                             if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                                             {
                                                 $checada_salida = 1;
                                             }
+
+                                            if(array_key_exists($parametro_inicial->format('Y-m-d'), $dias_otorgados)){
+                                             foreach ($dias_otorgados[$parametro_inicial->format('Y-m-d')] as $index_otorgado => $dato_otorgado) {
+                                                if($dato_otorgado->DATEID == 1 && $checada->lessThanOrEqualTo($inicio_salida) && $checada->greaterThanOrEqualTo($inicio_salida->subHours(2))){
+                                                    $checada_salida = 3;
+                                                }
+                                            } 
+                                        }
+                                            
+                                            
+                                           
+
+                                          //  dd($checada_salida);
                                         }
                                     
                                     }
+
+                                   
 
                                     if(array_key_exists($parametro_inicial->format('Y-m-d'), $omisiones))
                                     {
@@ -400,8 +415,8 @@ class CardexController extends Controller
                                             if($dato_omision->CHECKTYPE == "O" || $dato_omision->CHECKTYPE == "S"){ $checada_salida = 1;  }
                                         }
                                     }
-                                  // dd($checada_entrada+$checada_salida );
-                                    
+                                   // dd($checada_entrada. "sal".$checada_salida );
+                                     
                                     if($checada_entrada == 1 and $checada_salida == 1){
                                         $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] = "" ; #Revisar
                                     }else if($checada_entrada == 2 and $checada_salida == 1){
@@ -427,6 +442,10 @@ class CardexController extends Controller
                                     }else if($checada_entrada == 0 and $checada_salida == 0)  
                                     {
                                         $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F";
+                                    }
+                                    else if($checada_entrada == 1 and $checada_salida == 3)  
+                                    {
+                                        $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
                                     }
                                     
                                 }else
@@ -496,7 +515,7 @@ class CardexController extends Controller
         $diferencia_dias_sin_horario = 0;
         $horario = "";
         $actualizacion = false;
-        //dd($indice);
+       // dd("bandera: ".$bandera);
         if($bandera == 0)
         {
             $indice_pivote = $indice;

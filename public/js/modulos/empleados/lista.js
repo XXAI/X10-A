@@ -13,7 +13,6 @@ var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
 var rfc_x, tipotra;
-var superuser;
 var id_inci;
 var msj, ban_url,vardel;
 var mes_nac, idempleado, idhorario,tipotrabajador;
@@ -28,9 +27,7 @@ arreglo_mes = Array("", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "
 $(document).ready(function() {
 
     $("#form-hora").hide();
-   // superuser();
-    
-    superuser = $("#super_user").val();
+    superuser();
     cargar_catalogo_base();
     cargar_empleados('');
     $("#buscar").keypress(function(e) {
@@ -64,12 +61,12 @@ $(document).ready(function() {
 });
 
 function superuser() {
-    /* if (superuser == 1) {
+    var superuser = $("#super_user").val();
+    if (superuser == 1) {
         document.getElementById('cat_base').disabled = false;
     } else {
         document.getElementById('cat_base').disabled = true;
-    } */
-    //console.log(superuser);
+    }
 }
 
 function mostrar_form_hora() {
@@ -367,8 +364,7 @@ function cargar_datos_empleado(datos) {
             hsalida = hsalida.substring(16, 11);
           
             var campo5 = $("<td>" + hentrada + " - " + hsalida + "</td>");
-            //if (idcap == 15 || idcap == 13 || idcap == 10) {
-                if (superuser == 0) {
+            if (idcap == 15 || idcap == 13 || idcap == 10) {
                 var campo6 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a>");
             } else {
 
@@ -812,6 +808,7 @@ function obtener_justificantes(fini, ffin) {
                 permisos.push(element);
             });
             pases=data.pases;
+            
             console.log(data);
     
             if (permisos.length > 0) {
@@ -1069,9 +1066,9 @@ function sel_inci(valor) {
         case 1:
             console.log(resumen_checadas.Pase_Salida);
             pasesal = 6 - resumen_checadas.Pase_Salida;
-           /*  mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
+            mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
- */
+
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
         //case 6:          
