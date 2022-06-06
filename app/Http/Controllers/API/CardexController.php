@@ -80,7 +80,7 @@ class CardexController extends Controller
         $empleados->asistencia = $datos['datos'];    
         $empleados->jornada = $datos['horario'];    
 
-    //  dd($empleados);
+    // dd($empleados);
         //return response()->json(["usuarios" => $datos]);                    
         $pdf = PDF::loadView('reportes//reporte-cardex', ['empleados' => $empleados]);
         $pdf->setPaper('LETTER', 'landscape');
@@ -236,8 +236,8 @@ class CardexController extends Controller
             }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
                // $query->where("STARTDATE", ">=", $fecha_inicio)->where("ENDDATE", "<=", '2022-12-31T23:59:59'); 
                //$query->whereBetween("ENDDATE", [ $fecha_inicio, $fecha_fin])->orwhereBetween("STARTDATE", [ $fecha_inicio, $fecha_fin]);
-               //$query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '" .$fecha_fin."' and STARTDATE between '". $fecha_inicio."' and '". $fecha_fin."')");
-               $query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59' and STARTDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59')")->orderBy('STARTDATE', 'ASC');
+               $query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '" .$fecha_fin."' or STARTDATE between '". $fecha_inicio."' and '". $fecha_fin."')");
+              // $query->whereRaw("( ENDDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59' or STARTDATE between '". $fecha_inicio."' and '2022-12-31T23:59:59')");
               //  where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->where("ENDDATE", ">=", $fecha_fin); 
                 //$query->where("ENDDATE", ">=", $fecha_inicio)
                 //->orderBy('STARTDATE', 'ASC');
