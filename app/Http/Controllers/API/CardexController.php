@@ -262,7 +262,7 @@ class CardexController extends Controller
             //dd($horarios_periodo[0]['detalleHorario'][0]->SDAYS);
             $omisiones          = $this->omisiones($empleados->omisiones);
             $dias_otorgados     = $this->dias_otorgados($empleados->dias_otorgados);
-            $diferencia_dias_nocturnos = $horarios_periodo[0]['detalleHorario'][0]->SDAYS-$horarios_periodo[0]['detalleHorario'][0]->EDAYS;
+          //  $diferencia_dias_nocturnos = $horarios_periodo[0]['detalleHorario'][0]->SDAYS-$horarios_periodo[0]['detalleHorario'][0]->EDAYS;
 
             
             #Empieza lo bueno, revision de checadas
@@ -391,12 +391,12 @@ class CardexController extends Controller
                                             }
 
                                             if(array_key_exists($parametro_inicial->format('Y-m-d'), $dias_otorgados)){
-                                             foreach ($dias_otorgados[$parametro_inicial->format('Y-m-d')] as $index_otorgado => $dato_otorgado) {
-                                                if($dato_otorgado->DATEID == 1 && $checada->lessThanOrEqualTo($inicio_salida) && $checada->greaterThanOrEqualTo($inicio_salida->subHours(2))){
-                                                    $checada_salida = 3;
-                                                }
-                                            } 
-                                        }
+                                                foreach ($dias_otorgados[$parametro_inicial->format('Y-m-d')] as $index_otorgado => $dato_otorgado) {
+                                                    if($dato_otorgado->DATEID == 1 && $checada->lessThanOrEqualTo($inicio_salida) && $checada->greaterThanOrEqualTo($inicio_salida->subHours(2))){
+                                                        $checada_salida = 3;
+                                                    }
+                                                } 
+                                            }
                                             
                                             
                                            
