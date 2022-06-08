@@ -296,6 +296,26 @@ class EmpleadoController extends Controller
 
         return response()->json(["omisiones" => $omisiones,"diasJustificados" => $diasJustificados]);
     }
+
+    public function buscapases(Request $request)
+    {
+       $id = $request->id;
+       $fecha = $request->fecha;       
+       $fini = $request->fini;
+       $ffin = $request->ffin; 
+       //dd($fini);    
+
+     
+       
+      $pases = DiasOtorgados::where("userid","=",$id)/* ->where("STARTSPECDAY","<=",$ffin)
+      ->where("ENDSPECDAY",">=",$fini)*/->where("DATEID","=","1") 
+      ->get();
+     
+      return response()->json(["pases"=>$pases]);
+        
+
+      
+    }
     public function buscapermiso(Request $request)
     {
        $id = $request->id;
@@ -387,11 +407,11 @@ class EmpleadoController extends Controller
        
        
 
-$fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
-$fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
-$fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
-$fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
-//dd($fecha_mes_fin."--------".$fecha_mes_inicio);
+        $fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
+        $fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
+        $fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
+        $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
+        //dd($fecha_mes_fin."--------".$fecha_mes_inicio);
          
         $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)
         //->whereBetween("CHECKTIME",[(substr($fecha_mes_inicio->firstOfMonth(),-19,10)."T".'00:00:01.000'),(substr($fecha_mes_fin->lastOfMonth(),-19,10)."T".'23:59:59.000')])

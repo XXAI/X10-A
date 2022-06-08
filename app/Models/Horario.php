@@ -8,8 +8,7 @@ class Horario extends Model
 {
     //protected $connection = 'GM';
     
-    protected $connection = 'dinamica';
-   
+    protected $connection = 'dinamica';   
     protected $table = "NUM_RUN";
 
 /*     public function xxxx(){

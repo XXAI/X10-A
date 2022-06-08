@@ -444,6 +444,11 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     cargar_datos_checadas(urlchecadas)
     $("#hentra").html(jini);
     $("#hsal").html(jfin);
+    $inicio= $("#fecha_inicio").val();
+    $fin= $("#fecha_fin").val();
+   // obtener_pases(inicio, fin);
+    //$("#total_pases").html("hols pasaes"); 
+    
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
@@ -771,7 +776,34 @@ function obtener_omisiones() {
         }
     });
 }
+function obtener_pases() {
 
+
+    fini = $("#fecha_inicio").val();
+    ffin = $("#fecha_fin").val();
+    console.log(fini);
+    inicio = new Date(fini);
+    termino = new Date(ffin);     
+    codein = 1;
+        
+        
+        permisos = [];
+        jQuery.ajax({
+            data: { id: id, fini: fini, ffin: ffin, codein: codein },
+            type: "GET",
+            dataType: "json",
+            url: "./api/pases/",
+    
+        }).done(function(data) {            
+            
+            console.log(data);   
+            
+    
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+    
+        });
+  
+}
 function obtener_justificantes(fini, ffin) {
 
 
@@ -1043,7 +1075,7 @@ function cargar_datos_checadas(urlchecadas) {
         }
     });
 }
-
+//RAGUCARUSSA\SQLEXPRESS
 function incluir_leyenda() {
 
     if ($("#leyenda").prop('checked')) {
