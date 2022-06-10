@@ -145,10 +145,11 @@ class ReporteMensualController extends Controller
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
-        }/*, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+            $query->where("STARTDAsTE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
+            //$query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
+        }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
-        }*/, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
+        }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
             $query->where("ENDSPECDAY","<=", $fecha_fin.'T23:59:59')                   
                    ->where("STARTSPECDAY", ">=", $fecha_inicio.'T00:00:00')
                         ->orWhere("ENDSPECDAY", ">=", $fecha_inicio.'T00:00:00'); 
@@ -167,7 +168,8 @@ class ReporteMensualController extends Controller
        // ->orWhereNull("ur_id")
         ->orderBy("carType", "DESC")
         ->get();
-     // dd($empleados);
+        // dd($empleados);
+        // dd($horarios_periodo);
         foreach ($empleados as $index_empleado => $data_empleado) {
             $empleado_seleccionado = $empleados[$index_empleado];
             $horarios_periodo = $data_empleado->horarios;
@@ -546,7 +548,8 @@ class ReporteMensualController extends Controller
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDATE", "<=", $fecha_inicio)->where("ENDDATE", ">=", $fecha_fin);
+           //$query->where("STARTDAaTE", "<=", $fecha_inicio)->where("ENDDATE", ">=", $fecha_fin);
+          $query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){

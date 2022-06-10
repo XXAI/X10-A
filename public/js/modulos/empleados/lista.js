@@ -446,7 +446,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     $("#hsal").html(jfin);
     $inicio= $("#fecha_inicio").val();
     $fin= $("#fecha_fin").val();
-   // obtener_pases(inicio, fin);
+    obtener_pases(inicio, fin);
     //$("#total_pases").html("hols pasaes"); 
     
     id_x = id;
@@ -778,7 +778,7 @@ function obtener_omisiones() {
 }
 function obtener_pases() {
 
-
+    id = $("#id").val();
     fini = $("#fecha_inicio").val();
     ffin = $("#fecha_fin").val();
     console.log(fini);
