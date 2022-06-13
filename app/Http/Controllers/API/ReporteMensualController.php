@@ -145,8 +145,8 @@ class ReporteMensualController extends Controller
         $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-            $query->where("STARTDAsTE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
-            //$query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
+           // $query->where("STARTDAsTE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
+           $query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
@@ -196,13 +196,15 @@ class ReporteMensualController extends Controller
             //dd($fecha_inicio);
             $i = 1;
             //dd($dias_mes);
+            $fecha_x= new Carbon("2022-05-03");
+            //dd($fecha_x);
             for($i; $i<=$dias_mes; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
 
                 $fecha_evaluar->day = $i;
                 
-                //dd($fecha_evaluar);
+                
                 //if($fecha_evaluar->lessThanOrEqualTo($fecha_limite_actual))
                 if($fecha_evaluar->lessThan($fecha_limite_actual))
                 {
@@ -261,6 +263,7 @@ class ReporteMensualController extends Controller
 
                                     $checada_entrada = 0;
                                     $checada_salida  = 0;
+                                    //dd("holaas hosp");
                                     if(!array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_festivos) && !array_key_exists($fecha_evaluar->format('Y-m-d'), $arreglo_contingencia))
                                     {
                                         if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado))
@@ -282,6 +285,38 @@ class ReporteMensualController extends Controller
                                                 }
                                                 if($checada_salida == 0)
                                                 {
+
+                                                   /*  foreach($horario_evaluar['dias_habiles'] as $dias_index => $dia_ingreso){
+                                                    
+                                                    }
+                                                    $diferencia_dias_nocturnos = $dia_ingreso->SDAYS-$dia_ingreso->EDAYS;
+                                                   
+                                                    if($fecha_evaluar->greaterThanOrEqualTo($fecha_x) && $checada_entrada!=0)
+                                                    {
+                                                        
+                                                        //dd($indice_horario_seleccionado);
+                                                    } 
+                                                    if($diferencia_dias_nocturnos!=0){
+                                                        $fecha_evaluar->addDays(1);
+                                                       // dd($parametro_inicial);
+                                                        if(array_key_exists($fecha_evaluar->format('Y-m-d'), $checadas_empleado)){
+                                                                foreach ($checadas_empleado[$fecha_evaluar->format('Y-m-d')] as $index_checada => $dato_checada) {
+                                                                    $checada = new Carbon($dato_checada->CHECKTIME);
+                                                                }
+                                                            
+                                                            //("hol: ".$checada);
+                                                                $inicio_salida= $inicio_salida->addDays(1);
+                                                                $fin_salida= $fin_salida->addDay(1);
+                                                               
+                                                         }
+                                                       // $checada= $checada->addDay(1);
+                                                    }                
+ */
+
+
+
+
+
                                                     if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                                                         $checada_salida = 1;
                                                 }
@@ -625,8 +660,8 @@ class ReporteMensualController extends Controller
     {
 
        
-       // $fecha_evaluar=new Carbon('2021-10-10');
-       //dd($fecha_evaluar);
+     //   $fecha_evaluar=new Carbon('2025-05-03');
+      // dd($fecha_evaluar);
         $dia = $fecha_evaluar->dayOfWeekIso;
         $dia_inicio = intval($validacion_horario['habiles'][$dia]->SDAYS);
         $dia_final  = intval($validacion_horario['habiles'][$dia]->EDAYS);
@@ -638,12 +673,17 @@ class ReporteMensualController extends Controller
         $inicio_entrada = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime1, 11,8));
         $fin_entrada =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckInTime2, 11,8));
         $fin_entrada->addMinute();
-        if($diferencia_dias == 0)
+        $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
+        $inicio_salida_fija =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
+        $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
+        if($diferencia_dias != 0)
         {
-            $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
-            $inicio_salida_fija =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
-            $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
+            $inicio_salida->addDay();
+            $inicio_salida_fija->addDay();
+            $fin_salida->addDay();
         }
+        
+        //$fin_salida->addMinute();
 
         $checada_entrada = 0;
         $checada_salida  = 0;
@@ -783,7 +823,7 @@ class ReporteMensualController extends Controller
             }
             
         }
-
+        
         if($checada_entrada == 1 && $checada_salida == 1)
         {
             $simbolo_turno = "A";
@@ -877,9 +917,10 @@ class ReporteMensualController extends Controller
             
             for($i; $i<=$fecha_inicio->daysInMonth; $i++)
             {
+               
                 $fecha_evaluar = new Carbon($fecha_inicio);
                 $fecha_evaluar->day = $i;
-               
+              //  dd($fecha_evaluar);
                 if($fecha_evaluar->greaterThan($fecha_limite_actual))
                 {
                     $arreglo_consulta[$i] = "N/C";  

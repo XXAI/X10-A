@@ -17,7 +17,7 @@ class Usuarios extends Model
 
 
     public function horarios(){
-        return $this->hasMany('App\Models\UsuarioHorario', 'USERID', "USERID")->orderBy('ENDDATE','DESC')->with("nombre_horario");//  ->where("STARTDATE", "<=", date("Y-m-d").'T00:00:00')->where("ENDDATE", ">=", date("Y-m-d").'T00:00:00');
+        return $this->hasMany('App\Models\UsuarioHorario', 'USERID', "USERID")->orderBy('ENDDATE','ASC')->with("nombre_horario");//  ->where("STARTDATE", "<=", date("Y-m-d").'T00:00:00')->where("ENDDATE", ">=", date("Y-m-d").'T00:00:00');
     }
     
 
