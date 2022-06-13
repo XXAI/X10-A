@@ -307,7 +307,7 @@ class EmpleadoController extends Controller
 
      
        
-      $pases = DiasOtorgados::where("usearid","=",$id)/* ->where("STARTSPECDAY","<=",$ffin)
+      $pases = DiasOtorgados::where("userid","=",$id)/* ->where("STARTSPECDAY","<=",$ffin)
       ->where("ENDSPECDAY",">=",$fini)*/->where("DATEID","=","1") 
       ->get();
      

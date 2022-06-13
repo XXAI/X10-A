@@ -358,8 +358,9 @@ function cargar_datos_empleado(datos) {
         var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
        
         if (value.horarios.length > 0) {
-            var hentrada = value.horarios[0].detalle_horario[0].STARTTIME;
-            var hsalida = value.horarios[0].detalle_horario[0].ENDTIME;
+            //console.log((value.horarios.length));
+            var hentrada = value.horarios[value.horarios.length - 1].detalle_horario[value.horarios.length - 1].STARTTIME;
+            var hsalida = value.horarios[value.horarios.length - 1].detalle_horario[value.horarios.length - 1].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
           
