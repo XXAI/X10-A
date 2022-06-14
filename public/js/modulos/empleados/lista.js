@@ -7,7 +7,7 @@ var tot_eco=0;
 var diaeco;
 var onomastico, omisiones_total;
 var pasesal;
-var inicio, base, maxid;
+var inicio, base, maxid,periodo_ini,periodo_fin;
 var fin;
 var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
@@ -36,6 +36,9 @@ $(document).ready(function() {
         }
     });
     cargar_horarios();
+    periodo_ini = $("#inicio").val();
+    periodo_fin = $("#fin").val();
+    console.log(periodo_ini);
     $('#btn-mod-hora').hide();
     //cargar_incidencias()
     idcap = $("#id_user").val();
@@ -53,7 +56,7 @@ $(document).ready(function() {
         limpia_empleados();
         //  $("#tipotra").empty();
     });
-    // console.log(idcap);
+     
 
 
 
@@ -358,9 +361,9 @@ function cargar_datos_empleado(datos) {
         var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
        
         if (value.horarios.length > 0) {
-            //console.log((value.horarios.length));
-            var hentrada = value.horarios[value.horarios.length - 1].detalle_horario[value.horarios.length - 1].STARTTIME;
-            var hsalida = value.horarios[value.horarios.length - 1].detalle_horario[value.horarios.length - 1].ENDTIME;
+            ultimo_horario=value.horarios.length - 1;
+            var hentrada = value.horarios[ultimo_horario].detalle_horario[0].STARTTIME;
+            var hsalida = value.horarios[ultimo_horario].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
           
@@ -387,6 +390,7 @@ function cargar_datos_empleado(datos) {
 function btn_filtrar() {
     var buscar = $("#buscar").val();
     cargar_empleados(buscar);
+    
 
 
 }
@@ -426,7 +430,8 @@ function obtenerDiasLab(idho) {
 
 function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
-
+    
+    
     console.log(id);
     editEmpleado(id);
     obten_fecnac(rfc);
@@ -445,9 +450,10 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     cargar_datos_checadas(urlchecadas)
     $("#hentra").html(jini);
     $("#hsal").html(jfin);
-    $inicio= $("#fecha_inicio").val();
-    $fin= $("#fecha_fin").val();
-    obtener_pases(inicio, fin);
+    id = id;
+    
+  
+    //obtener_pases(id,inicio,fin);
     //$("#total_pases").html("hols pasaes"); 
     
     id_x = id;
@@ -777,12 +783,13 @@ function obtener_omisiones() {
         }
     });
 }
-function obtener_pases() {
-
+function obtener_pases(x,fini,ffin) {
+   
     id = $("#id").val();
     fini = $("#fecha_inicio").val();
     ffin = $("#fecha_fin").val();
-    console.log(fini);
+    console.log(x+"mm ".fini+"nnn".ffin);
+  //  console.log(x+"mm ");
     inicio = new Date(fini);
     termino = new Date(ffin);     
     codein = 1;
@@ -1324,6 +1331,7 @@ function filtrar_checadas() {
     inicio = $("#inicio").val();
     fin = $("#fin").val();
     cargar_datos_checadas(urlchecadas);
+    
     //cargar_blade_checadas();
 
 
