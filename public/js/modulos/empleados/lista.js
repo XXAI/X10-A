@@ -453,13 +453,14 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     id = id;
     
   
-    //obtener_pases(id,inicio,fin);
-    //$("#total_pases").html("hols pasaes"); 
+   
     
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
-
+    console.log(fin);
+    //
+    
 
 }
 
@@ -783,33 +784,38 @@ function obtener_omisiones() {
         }
     });
 }
-function obtener_pases(x,fini,ffin) {
+function obtener_pases() {
    
-    id = $("#id").val();
-    fini = $("#fecha_inicio").val();
-    ffin = $("#fecha_fin").val();
-    console.log(x+"mm ".fini+"nnn".ffin);
+    //id = id;
+    id = id_x
+    fini = $("#inicio").val();
+    ffin = $("#fin").val();
+    console.log(id);
   //  console.log(x+"mm ");
     inicio = new Date(fini);
     termino = new Date(ffin);     
     codein = 1;
         
         
-        permisos = [];
+         permisos = [];
         jQuery.ajax({
-            data: { id: id, fini: fini, ffin: ffin, codein: codein },
+            data: { id: id, fini: fini, ffin:ffin, codein: codein },
             type: "GET",
             dataType: "json",
             url: "./api/pases/",
     
         }).done(function(data) {            
             
-            console.log(data);   
+            console.log(data);  
+            pases_total=data; 
+           // $("#total_pases").html(pases_total); 
+            document.getElementById("total_pases").innerHTML= pases_total.pases+" HRS.";  
+            //$("#total_pases").html("hols pasaes"); 
             
     
         }).fail(function(jqXHR, textStatus, errorThrown) {
     
-        });
+        }); 
   
 }
 function obtener_justificantes(fini, ffin) {
@@ -1330,7 +1336,10 @@ function editEmpleado(id) {
 function filtrar_checadas() {
     inicio = $("#inicio").val();
     fin = $("#fin").val();
+    id = $("#id").val();
+    console.log(id);
     cargar_datos_checadas(urlchecadas);
+    obtener_pases();
     
     //cargar_blade_checadas();
 

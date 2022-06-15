@@ -303,15 +303,35 @@ class EmpleadoController extends Controller
        $fecha = $request->fecha;       
        $fini = $request->fini;
        $ffin = $request->ffin; 
-       //dd($fini);    
+      // dd($id);    
 
      
        
-      $pases = DiasOtorgados::where("userid","=",$id)/* ->where("STARTSPECDAY","<=",$ffin)
-      ->where("ENDSPECDAY",">=",$fini)*/->where("DATEID","=","1") 
-      ->get();
-     
-      return response()->json(["pases"=>$pases]);
+      $pasesSalidas= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+      ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","1")->get();
+
+
+      $totalPases=0;
+      $diff=0;
+        foreach ($pasesSalidas as $i => $value) {
+            
+            if($value != null) {                                       
+                
+                // for ($i=0; $i < count($pasesSalidas); $i++) { 
+                $final=$pasesSalidas[$i]['ENDSPECDAY'];
+                $inicio=$pasesSalidas[$i]['STARTSPECDAY'];                
+                $inicio = new Carbon($value->STARTSPECDAY);
+                $final = new Carbon($value->ENDSPECDAY);
+                $diff = $inicio->diffInMinutes($final);            
+                $totalPases = $totalPases+ $diff;
+                //  dd($inicio);
+                //  }
+                
+            }
+            
+        }
+        $totalPases=$totalPases/60;
+      return response()->json(["pases"=>$totalPases]);
         
 
       
