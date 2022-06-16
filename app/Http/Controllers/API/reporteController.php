@@ -30,8 +30,8 @@ class reporteController extends Controller
         $parametros = Input::all();
         $usuario = Auth::user();
 
-        $diaActual = Carbon::now()->isoFormat('dddd D \d\e MMMM \d\e\l Y');
-        
+        //$diaActual = Carbon::now()->isoFormat('dddd D \d\e MMMM \d\e\l Y');
+        $diaActual = '';
       
        
         
