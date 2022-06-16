@@ -286,7 +286,7 @@
         <br>
         JEFA DEL DISTRITO DE SALUD.</strong>
     @else
-        <strong>LAE. ANITA DEL CARMEN GARCÍA LEÓN
+        <strong>I.S.C. ELESBAN HIRAM RAMIREZ SANCHEZ
         <br>
         SUBDIRECTORA DE RECURSOS HUMANOS.</strong>
     @endif
