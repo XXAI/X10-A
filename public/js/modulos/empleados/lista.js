@@ -18,7 +18,7 @@ var msj, ban_url, vardel;
 var mes_nac, idempleado, idhorario, tipotrabajador;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
 var banemp = 0;
-var leyenda = 1;
+var leyenda = 0;
 let permisos = [];
 arreglo_diafest = Array();
 arreglo_dias = Array("", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO")
@@ -458,7 +458,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
-    console.log(fin);
+   // console.log(fin);
     //
 
 
@@ -1097,7 +1097,7 @@ function incluir_leyenda() {
         leyenda = 0;
     }
 
-    console.log("val", leyenda);
+   // console.log("val", leyenda);
 
 
 }
@@ -1254,12 +1254,11 @@ function cargar_blade_checadas() {
 
 function imprimir_tarjeta() {
 
-
     impre = 1;
     //inicio = new Date(inicio);
 
     
-    
+  
     /*  inicio = new Date(inicio);
      console.log(inicio);
    // inicio = inicio.setDate(inicio.getDate() + 1);
@@ -1267,6 +1266,7 @@ function imprimir_tarjeta() {
     inicio = inicio.getDate() + "-" + mes + "-" + inicio.getFullYear(); 
     console.log(inicio);  */
 
+  
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
 
