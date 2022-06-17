@@ -793,8 +793,7 @@ function obtener_pases() {
     ffin = $("#fin").val();
     console.log(id);
     //  console.log(x+"mm ");
-    inicio = new Date(fini);
-    termino = new Date(ffin);
+   
     codein = 1;
 
 
@@ -1259,12 +1258,14 @@ function imprimir_tarjeta() {
     impre = 1;
     //inicio = new Date(inicio);
 
-
-    inicio = inicio.setDate(inicio.getDate() + 1);
-    inicio = new Date(inicio);
+    
+    
+    /*  inicio = new Date(inicio);
+     console.log(inicio);
+   // inicio = inicio.setDate(inicio.getDate() + 1);
     mes = inicio.getMonth() + 1;
-    inicio = inicio.getDate() + "-" + mes + "-" + inicio.getFullYear();
-    console.log(inicio);
+    inicio = inicio.getDate() + "-" + mes + "-" + inicio.getFullYear(); 
+    console.log(inicio);  */
 
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');

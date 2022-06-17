@@ -117,7 +117,7 @@
                                               <div class="row">
                                                   <div class="col-md-4" >
                                                       <label for="fecha_inicio">Fecha Inicio:</label>
-                                                      <input type="date" class="form-control" id="inicio" min="2019-10-01" name="fecha_inicio" value="">
+                                                      <input type="date" class="form-control" id="inicio" min="2019-10-01" name="fecha_inicio" value="" >
                                                   </div>                                             
                                                   <div class="col-md-4" >
                                                       <label for="fecha_inicio">Fecha Fin:</label>  
