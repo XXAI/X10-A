@@ -3,19 +3,19 @@ var dato, impre = 0;
 var date = new Date();
 var resumen_checadas;
 var diaslab;
-var tot_eco=0;
+var tot_eco = 0;
 var diaeco;
 var onomastico, omisiones_total;
 var pasesal;
-var inicio, base, maxid,periodo_ini,periodo_fin;
+var inicio, base, maxid, periodo_ini, periodo_fin;
 var fin;
 var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
 var rfc_x, tipotra;
 var id_inci;
-var msj, ban_url,vardel;
-var mes_nac, idempleado, idhorario,tipotrabajador;
+var msj, ban_url, vardel;
+var mes_nac, idempleado, idhorario, tipotrabajador;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
 var banemp = 0;
 var leyenda = 1;
@@ -56,7 +56,7 @@ $(document).ready(function() {
         limpia_empleados();
         //  $("#tipotra").empty();
     });
-     
+
 
 
 
@@ -85,12 +85,12 @@ function cargar_empleados(dato) {
         dataType: "json",
         url: './api/empleado',
     }).done(function(data, textStatus, jqXHR) {
-       // console.log(data);
+        // console.log(data);
         base = data.base.id;
         maxid = data.max;
         cargar_datos_empleado(data.usuarios.data);
         tipotrabajador = data.departamentos;
-        
+
         festivos(data.festivos);
     }).fail(function(jqXHR, textStatus, errorThrown) {
 
@@ -351,7 +351,7 @@ function modifica_horario(idho, inifec, finfec, idh, id) {
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
-    
+
     //console.log(tipotrabajador);
     $.each(datos, function(key, value) {
         var linea = $("<tr></tr>");
@@ -359,14 +359,14 @@ function cargar_datos_empleado(datos) {
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
         var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
-       
+
         if (value.horarios.length > 0) {
-            ultimo_horario=value.horarios.length - 1;
+            ultimo_horario = value.horarios.length - 1;
             var hentrada = value.horarios[ultimo_horario].detalle_horario[0].STARTTIME;
             var hsalida = value.horarios[ultimo_horario].detalle_horario[0].ENDTIME;
             hentrada = hentrada.substring(16, 11);
             hsalida = hsalida.substring(16, 11);
-          
+
             var campo5 = $("<td>" + hentrada + " - " + hsalida + "</td>");
             if (idcap == 15 || idcap == 13 || idcap == 10) {
                 var campo6 = $("<a type='button' class='btn btn-link'' data-toggle='modal' data-target='#modal_kardex' onclick='incidencia(\"" + value.USERID + "\",\"" + value.Badgenumber + "\",\"" + value.Name + "\",\"" + value.TITLE + "\",\"" + hentrada + "\",\"" + hsalida + "\",\"" + diaslab + "\")'><i class='fa fa-eye' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Ver Checadas'></i></a>");
@@ -390,7 +390,7 @@ function cargar_datos_empleado(datos) {
 function btn_filtrar() {
     var buscar = $("#buscar").val();
     cargar_empleados(buscar);
-    
+
 
 
 }
@@ -430,8 +430,8 @@ function obtenerDiasLab(idho) {
 
 function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
-    
-    
+
+
     console.log(id);
     editEmpleado(id);
     obten_fecnac(rfc);
@@ -451,16 +451,16 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     $("#hentra").html(jini);
     $("#hsal").html(jfin);
     id = id;
-    
-  
-   
-    
+
+
+
+
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
     console.log(fin);
     //
-    
+
 
 }
 
@@ -530,7 +530,7 @@ function guardar_empleado() {
 
             swal("Exito!", data.mensaje, "success");
             limpia_empleados();
-            
+
             $("#empleado-hora").html('');
             $("#tipotra").empty();
             $('#agregar_empleado').modal('hide');
@@ -656,48 +656,48 @@ function guarda_omision() {
 }
 
 async function obtener_economicos() {
-    
-    
+
+
     id = $("#id").val();
-    tipoomi = $("#tipo_es").val();  
+    tipoomi = $("#tipo_es").val();
     fecha = $("#fecha_reg").val();
     fini = $("#f_ini").val();
-    ffin = $("#f_fin").val();    
-    tot_eco=0;
+    ffin = $("#f_fin").val();
+    tot_eco = 0;
     tipotra = 5;
-    
-   $.ajax({
+
+    $.ajax({
         type: "GET",
         url: "./api/economicos/",
-        data: { id: id, tipotra: tipotra,fini:fini, ffin:ffin},
+        data: { id: id, tipotra: tipotra, fini: fini, ffin: ffin },
         dataType: "json",
         success: function(data) {
-             
-            $.each(data.economicos, function(key, value) {        
+
+            $.each(data.economicos, function(key, value) {
 
 
             });
 
-            tot_eco=data.toteconomico;
+            tot_eco = data.toteconomico;
 
-            
 
-          //  return tot_eco;
-           // console.log(tot_eco);
-       
-   
-            
+
+            //  return tot_eco;
+            // console.log(tot_eco);
+
+
+
 
         },
         error: function(data) {
-            console.log("hols"+fini+"dsdsds"+ffin+"errora");
+            console.log("hols" + fini + "dsdsds" + ffin + "errora");
             alert('error');
         }
     });
 
     //tot_eco= obtener_economicos();
     //console.log(tot_eco);
-   // validando_incidencia();
+    // validando_incidencia();
 }
 
 
@@ -705,8 +705,8 @@ function obtener_omisiones() {
     //omision = [];
     id = $("#id").val();
     tipoomi = $("#tipo_es").val();
-   // fecha = xini;
-   fecha = $("#fecha_reg").val();;
+    // fecha = xini;
+    fecha = $("#fecha_reg").val();;
     var algo = 0;
     oentrada = 0;
     osalida = 0;
@@ -723,25 +723,25 @@ function obtener_omisiones() {
                 switch (value.CHECKTYPE) {
                     case 'I':
                         oentrada += 1;
-                    break;
+                        break;
                     case 'O':
                         osalida += 1;
-                    break;
+                        break;
 
                     default:
                         oentrada = 0;
                         osalida = 0;
-                        algo=0;
-                    break;
+                        algo = 0;
+                        break;
 
 
 
-                } 
+                }
                 /* if (value.CHECKTYPE == 'I') {
                     oentrada += 1;
                 } else { osalida += 1; } */
 
-                console.log("subs "+fecha.substr(0, 10) + "check "+value.CHECKTIME.substr(0, 10));
+                console.log("subs " + fecha.substr(0, 10) + "check " + value.CHECKTIME.substr(0, 10));
                 /* if (fecha.substr(0, 10) == value.CHECKTIME.substr(0, 10)) {
                     algo = 1;
                 } */
@@ -771,7 +771,7 @@ function obtener_omisiones() {
                 oentrada = 0;
                 osalida = 0;
 
-                
+
             }
 
 
@@ -784,97 +784,98 @@ function obtener_omisiones() {
         }
     });
 }
+
 function obtener_pases() {
-   
+
     //id = id;
     id = id_x
     fini = $("#inicio").val();
     ffin = $("#fin").val();
     console.log(id);
-  //  console.log(x+"mm ");
+    //  console.log(x+"mm ");
     inicio = new Date(fini);
-    termino = new Date(ffin);     
+    termino = new Date(ffin);
     codein = 1;
-        
-        
-         permisos = [];
-        jQuery.ajax({
-            data: { id: id, fini: fini, ffin:ffin, codein: codein },
-            type: "GET",
-            dataType: "json",
-            url: "./api/pases/",
-    
-        }).done(function(data) {            
-            
-            console.log(data);  
-            pases_total=data; 
-           // $("#total_pases").html(pases_total); 
-            document.getElementById("total_pases").innerHTML= pases_total.pases+" HRS.";  
-            //$("#total_pases").html("hols pasaes"); 
-            
-    
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-    
-        }); 
-  
+
+
+    permisos = [];
+    jQuery.ajax({
+        data: { id: id, fini: fini, ffin: ffin, codein: codein },
+        type: "GET",
+        dataType: "json",
+        url: "./api/pases/",
+
+    }).done(function(data) {
+
+        console.log(data);
+        pases_total = data;
+        // $("#total_pases").html(pases_total); 
+        document.getElementById("total_pases").innerHTML = pases_total.pases + " HRS.";
+        //$("#total_pases").html("hols pasaes"); 
+
+
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+    });
+
 }
+
 function obtener_justificantes(fini, ffin) {
 
 
     fini = $("#f_ini").val();
     ffin = $("#f_fin").val();
     inicio = new Date(fini);
-    termino = new Date(ffin);   
-    
-    
-    if (inicio.getTime() <= termino.getTime() ){       
-        
+    termino = new Date(ffin);
+
+
+    if (inicio.getTime() <= termino.getTime()) {
+
         permisos = [];
         jQuery.ajax({
             data: { id: id, fini: fini, ffin: ffin, codein: codein },
             type: "GET",
             dataType: "json",
             url: "./api/permisos/",
-    
+
         }).done(function(data) {
 
             codein = $("#code_in").val();
             id = $("#id").val();
             fecha = xini;
             date_1 = moment($("#f_ini").val());
-            date_2 = moment($("#f_fin").val());                
+            date_2 = moment($("#f_fin").val());
             diff_in_days = date_2.diff(date_1, 'days');
             diff_in_hours = date_2.diff(date_1, 'hours', true);
             diff = 0;
             diff = 1 + diff_in_days;
             var fec_com = moment(date_1).format();
             fec_com = fec_com.substr(5, 5);
-    
+
             data.permisos.forEach(element => {
                 permisos.push(element);
             });
-            pases=data.pases;
-            
+            pases = data.pases;
+
             console.log(data);
-    
+
             if (permisos.length > 0) {
-                
+
                 swal("¡La incidencia no se puede ingresar porque la fecha ya esta asignada a una incidencia!", {
                     icon: "warning",
                 });
-            }else{
-       
+            } else {
 
-            switch (parseInt(codein)) {
-                case 1:
-                              
-                        if(pases.length>0){                   
-                        swal("¡No se puede Ingresar ese pase de salida!", {
-                            icon: "warning",
-                        });
-                        }
-                        else{
-        
+
+                switch (parseInt(codein)) {
+                    case 1:
+
+                        if (pases.length > 0) {
+                            swal("¡No se puede Ingresar ese pase de salida!", {
+                                icon: "warning",
+                            });
+                        } else {
+
                             if (diff_in_days == 0) {
                                 if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
                                     inserta_incidencia();
@@ -890,80 +891,79 @@ function obtener_justificantes(fini, ffin) {
                                 });
                             }
                         }
-                    
-                break;
 
-                case 6:
-                    bandera=0;
-                    console.log(diff+"dif"+data.toteconomico);
-                    console.log(diaslab.length);
-                    if (diaslab.length == 5) {
-                    
-                        if (data.toteconomico <= diff){
-                            if ((data.toteconomico == 0 && diff <= 2) || (data.toteconomico == 1 && diff == 1)) {
-                                inserta_incidencia();
-                                bandera = 1;
-                             //   mensaje = "mensaje1";
-    
+                        break;
+
+                    case 6:
+                        bandera = 0;
+                        console.log(diff + "dif" + data.toteconomico);
+                        console.log(diaslab.length);
+                        if (diaslab.length == 5) {
+
+                            if (data.toteconomico <= diff) {
+                                if ((data.toteconomico == 0 && diff <= 2) || (data.toteconomico == 1 && diff == 1)) {
+                                    inserta_incidencia();
+                                    bandera = 1;
+                                    //   mensaje = "mensaje1";
+
+                                } else {
+
+                                    swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
+                                        icon: "warning",
+                                    });
+
+                                }
                             } else {
-                                                            
+                                bandera = 0;
                                 swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
                                     icon: "warning",
                                 });
-                                
                             }
-                        }else{
-                            bandera=0;
-                            swal("¡Solo puede tener maximo 2 dias económicos en el mes!", {
-                                icon: "warning",
-                            });
-                        }
-                    } else {
-                        if ((data.toteconomico == 0 && diff <= 1)) {
-                            inserta_incidencia();
-                            bandera = 1;
-    
                         } else {
-                            bandera = 0;
-                            swal("¡Solo puede tener 1 dia económico en el mes!", {
+                            if ((data.toteconomico == 0 && diff <= 1)) {
+                                inserta_incidencia();
+                                bandera = 1;
+
+                            } else {
+                                bandera = 0;
+                                swal("¡Solo puede tener 1 dia económico en el mes!", {
+                                    icon: "warning",
+                                });
+                            }
+                        }
+                        break;
+
+                    case 10:
+                        if (diff_in_days == 0 && fec_com == onomastico) {
+                            inserta_incidencia();
+                        } else {
+                            swal("¡La fecha no es la misma que su onomástico!", {
                                 icon: "warning",
                             });
+                            msj = "La fecha no es la misma que su onomástico";
                         }
-                    }
-                break;
 
-                case 10:
-                    if (diff_in_days == 0 && fec_com == onomastico) {
+                        break;
+
+                    default:
                         inserta_incidencia();
-                    } else {
-                        swal("¡La fecha no es la misma que su onomástico!", {
-                            icon: "warning",
-                        });
-                        msj = "La fecha no es la misma que su onomástico";
-                    }
 
-                break;
+                }
+            }
 
-                default:
-                    inserta_incidencia();
-           
-            }
-            }
-            
-         
-    
+
+
         }).fail(function(jqXHR, textStatus, errorThrown) {
-    
+
         });
-    }
-     else{
+    } else {
         swal("¡Verifique las Fechas!", {
             icon: "warning",
         });
-    } 
+    }
 
 
- 
+
 
 
 
@@ -1002,13 +1002,13 @@ function obtener_incidencias() {
 function sel_tiporeg(tiporeg) {
 
     agregar_entsal(xini, xfin)
-   /*  if (tiporeg == "I") {
-        $("#fecha_reg").val(xini);
-    } else {
-        $("#fecha_reg").val(xfin);
-    } */
+        /*  if (tiporeg == "I") {
+             $("#fecha_reg").val(xini);
+         } else {
+             $("#fecha_reg").val(xfin);
+         } */
 
-    switch(tiporeg){
+    switch (tiporeg) {
         case "I":
             $("#fecha_reg").val(xini);
             break;
@@ -1023,11 +1023,11 @@ function sel_tiporeg(tiporeg) {
             break;
         case "S":
             $("#fecha_reg").val(xfin);
-           // alert(xfin);
+            // alert(xfin);
             break;
 
-        
-        
+
+
 
     }
     //obtener_omisiones();
@@ -1117,13 +1117,13 @@ function sel_inci(valor) {
 
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
-        //case 6:          
+            //case 6:          
 
-       // document.getElementById("btn_prueba").click();        
-        //console.log("economico:  " + tot_eco.length);
-       /*  tot_eco=obtener_economicos();
-        console.log("economico:  " + Promise.obtener_economicos(tot_eco)); */
-       // console.log("EconocmicosTotales ".tot_eco)
+            // document.getElementById("btn_prueba").click();        
+            //console.log("economico:  " + tot_eco.length);
+            /*  tot_eco=obtener_economicos();
+             console.log("economico:  " + Promise.obtener_economicos(tot_eco)); */
+            // console.log("EconocmicosTotales ".tot_eco)
             /* if (diaslab.length == 5) {
                 console.log("economico:  " + tot_eco);
                 diaeco = 2 - tot_eco;
@@ -1142,18 +1142,18 @@ function sel_inci(valor) {
 
             break;
 
-        //case 22:
+            //case 22:
             // $('#f_fin').attr('disabled', true);
 
 
-           // break;
+            // break;
         default:
             mensaje = "  ";
             mostrarMensaje(mensaje);
     }
 
 }
- 
+
 function cargar_blade_checadas() {
 
 
@@ -1161,7 +1161,7 @@ function cargar_blade_checadas() {
     var xe = 'SIN REGISTRO';;
     table.html("");
     $.each(datos_checadas_mes, function(index, value) {
-        
+
 
         icono = "<i class='fa fa-check' style='color:green'></i>";
 
@@ -1186,7 +1186,7 @@ function cargar_blade_checadas() {
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
 
             if (value.checado_entrada_fuera != null && value.checado_entrada == "SIN REGISTRO") {
-                xe =   "<i style='color:red'>" + value.checado_entrada + "<br>" + value.checado_entrada_fuera + "</i>";
+                xe = "<i style='color:red'>" + value.checado_entrada + "<br>" + value.checado_entrada_fuera + "</i>";
             }
             /* else (value.retardo == 1) 
                 xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
@@ -1214,19 +1214,16 @@ function cargar_blade_checadas() {
             icono5 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia' onclick='eliminaridomision(" + value.omisionsal + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Omision-----Capturado por: " + value.captura_omision.username + "' ></i></i></a>";
         }
         if (value.checado_salida == "SIN REGISTRO")
-            if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } 
-            else if (value.checado_salida_fuera2 != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera2 + ")</i>"; }
-            else { xs = value.checado_salida; }
-           // 
-
+            if (value.checado_salida_fuera != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera + ")</i>"; } else if (value.checado_salida_fuera2 != null) { xs = value.checado_salida + "<i style='color:red'><br>(" + value.checado_salida_fuera2 + ")</i>"; } else { xs = value.checado_salida; }
+        // 
         else
             xs = value.checado_salida;
 
 
         if (value.ban_inci >= 1)
             icono2 = "<a type='button' class='btn btn-link' data-toggle='modal' data-target='#eliminar_incidencia' onclick='eliminarid(" + value.ban_inci + ")' ><i class='fa fa-eraser' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Eliminar Incidencia'></i></i></a>";
-            //onclick='eliminar(" + value.ban_inci + ")'
-            //<a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a>
+        //onclick='eliminar(" + value.ban_inci + ")'
+        //<a type='button' class='btn btn-link' style='color:blue' data-toggle='modal' data-target='#agregar_incidencia' onclick='generar_inci(\"" + value.jorini + "\",\"" + value.jorfin + "\")'><i class='fa fa-id-card-o' aria-hidden='true' data-toggle='tooltip' data-placement='top' title='Generar Incidencia'></i></a>
         else
             icono2 = " ";
 
@@ -1258,7 +1255,16 @@ function cargar_blade_checadas() {
 
 function imprimir_tarjeta() {
 
+
     impre = 1;
+    //inicio = new Date(inicio);
+
+
+    inicio = inicio.setDate(inicio.getDate() + 1);
+    inicio = new Date(inicio);
+    mes = inicio.getMonth() + 1;
+    inicio = inicio.getDate() + "-" + mes + "-" + inicio.getFullYear();
+    console.log(inicio);
 
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
@@ -1318,9 +1324,9 @@ function editEmpleado(id) {
             } else { $("#interino").prop('checked', false); }
 
 
-           
+
             diaslab = (data.data.horarios[0].detalle_horario);
-           
+
 
         },
         error: function(data) {
@@ -1335,12 +1341,13 @@ function editEmpleado(id) {
 
 function filtrar_checadas() {
     inicio = $("#inicio").val();
+
     fin = $("#fin").val();
     id = $("#id").val();
     console.log(id);
     cargar_datos_checadas(urlchecadas);
     obtener_pases();
-    
+
     //cargar_blade_checadas();
 
 
@@ -1485,7 +1492,7 @@ function validar(idinci) {
 
 function validando_incidencia() {
     editEmpleado(idempleado);
-  
+
     if (ban_url == 1) {
         id = $("#userid").val();
         documentos = $("#documentos").val();
@@ -1521,25 +1528,25 @@ function validando_incidencia() {
     fec_com = fec_com.substr(5, 5);
 
     switch (parseInt(tipo_incidencia)) {
-         case 1: //Pase de Salida                  
-           /*  if (diff_in_days == 0) {
-                if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
-                    bandera = 1;
-                } else {
-                    bandera = 0
-                    msj = "Verifique la solicitud";
-                }
-            } else {
-                bandera = 0
-                msj = "Verifique la solicitud";
-            }
-            console.log(bandera); */
+        case 1: //Pase de Salida                  
+            /*  if (diff_in_days == 0) {
+                 if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
+                     bandera = 1;
+                 } else {
+                     bandera = 0
+                     msj = "Verifique la solicitud";
+                 }
+             } else {
+                 bandera = 0
+                 msj = "Verifique la solicitud";
+             }
+             console.log(bandera); */
             bandera = 0;
             break;
 
         case 10: //Onomastico   
 
-            
+
             break;
 
 
@@ -1636,7 +1643,7 @@ function inserta_incidencia_emp() {
 function save_justi_emp() {
 
 
-            inserta_incidencia();
+    inserta_incidencia();
 
 
 
@@ -1678,10 +1685,10 @@ function eliminarid(id) {
 
 
 
-function eliminar(){
-    if (vardel==0){
+function eliminar() {
+    if (vardel == 0) {
         eliminar_incidencia();
-    }else{
+    } else {
         eliminar_omision();
     }
 }
@@ -1690,100 +1697,100 @@ function eliminar_incidencia() {
     id = $("#idin").val();
     motivo = $("#motivo").val();
     idcap = $("#id_user").val();
-    if(motivo=='' || id==''){
+    if (motivo == '' || id == '') {
         swal("¡Debe escribir un motivo para la eliminacion!", {
             icon: "warning",
         });
-    }
-    else{
-    
-    swal({
-            title: "¿Estás seguro?",
-            text: "Una vez eliminado, no podrá recuperar este dato!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    type: 'DELETE',
-                    data: { motivo: motivo,idcap: idcap },
-                    url: "api/deleteincidencia/" + id + "/",
-                    success: function(data) {
-                        swal("¡La incidencia ha sido eliminada!", {
-                            icon: "success",
-                        });
-                        $("#eliminar_incidencia").modal('hide');
-                        $("#motivo").val('');
-                        $("#idin").val('');
-                        document.getElementById('filtro_check').click();
+    } else {
 
-                    }
-                });
+        swal({
+                title: "¿Estás seguro?",
+                text: "Una vez eliminado, no podrá recuperar este dato!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'DELETE',
+                        data: { motivo: motivo, idcap: idcap },
+                        url: "api/deleteincidencia/" + id + "/",
+                        success: function(data) {
+                            swal("¡La incidencia ha sido eliminada!", {
+                                icon: "success",
+                            });
+                            $("#eliminar_incidencia").modal('hide');
+                            $("#motivo").val('');
+                            $("#idin").val('');
+                            document.getElementById('filtro_check').click();
 
+                        }
+                    });
 
 
-            } else {
-                swal("El registro no se ha eliminado");
-            }
-        });
+
+                } else {
+                    swal("El registro no se ha eliminado");
+                }
+            });
     }
 
 }
+
 function eliminaridomision(id) {
     vardel = 1;
     $("#idin").val(id);
 
 }
+
 function eliminar_omision() {
 
     id = $("#idin").val();
     motivo = $("#motivo").val();
     idcap = $("#id_user").val();
-    if(motivo=='' || id==''){
+    if (motivo == '' || id == '') {
         swal("¡Debe escribir un motivo para la eliminacion!", {
             icon: "warning",
         });
-    }
-    else{
+    } else {
         swal({
-            title: "¿Estás seguro?",
-            text: "Una vez eliminado, no podrá recuperar este dato!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    type: 'DELETE',
-                    data: { motivo: motivo,idcap: idcap },
-                    url: "api/deleteomision/" + id + "/",
-                    success: function(data) {
-                        swal("¡La Omisión ha sido eliminada!", {
-                            icon: "success",
-                        });
-                        $("#eliminar_incidencia").modal('hide');
-                        $("#motivo").val('');
-                        $("#idin").val('');
-                        document.getElementById('filtro_check').click();
+                title: "¿Estás seguro?",
+                text: "Una vez eliminado, no podrá recuperar este dato!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'DELETE',
+                        data: { motivo: motivo, idcap: idcap },
+                        url: "api/deleteomision/" + id + "/",
+                        success: function(data) {
+                            swal("¡La Omisión ha sido eliminada!", {
+                                icon: "success",
+                            });
+                            $("#eliminar_incidencia").modal('hide');
+                            $("#motivo").val('');
+                            $("#idin").val('');
+                            document.getElementById('filtro_check').click();
 
-                    }
-                });
+                        }
+                    });
 
 
 
-            } else {
-                swal("El registro no se ha eliminado");
-            }
-        });
+                } else {
+                    swal("El registro no se ha eliminado");
+                }
+            });
 
     }
 
 
 
-    
+
 }
 
 function eliminar_in_emp(id) {

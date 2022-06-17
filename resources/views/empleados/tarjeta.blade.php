@@ -288,7 +288,7 @@
     @else
         <strong>I.S.C. ELESBAN HIRAM RAMIREZ SANCHEZ
         <br>
-        SUBDIRECTORA DE RECURSOS HUMANOS.</strong>
+        SUBDIRECTOR DE RECURSOS HUMANOS.</strong>
     @endif
 </p>
 <br>

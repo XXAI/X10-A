@@ -61,7 +61,9 @@ class reporteController extends Controller
         $htra=0;
         $fecha_inicio='2019-10-01T00:00:00.000';
         $fecha_fin='2200-12-31T23:59:59.000';
-        $inicio = $request->fecha_inicio;
+        $inicio = date('Y-m-d h:i:s A', strtotime($request->fecha_inicio));
+        //$inicio = $request->fecha_inicio;
+        //dd(date('Y-m-d', strtotime($request->fecha_inicio)));
         $fin = $request->fecha_fin;
       
         $Rfc = str_replace("(", "/", $Rfc);
@@ -99,6 +101,7 @@ class reporteController extends Controller
             $inicio = date("Y-m-")."01";
             $fin = date("Y-m-d");
         }else{
+           // dd($inicio);
             $f_ini= new Carbon($inicio);
             $f_fin = new Carbon($fin);
             $ff_fin = new Carbon($fin);
@@ -297,7 +300,7 @@ class reporteController extends Controller
            
         $diff= $f_ini->diffInDays($f_fin)+1;
         $fecha_pivote = $f_ini;
-
+        //dd($fecha_pivote);
         $asistencia = array();
         $rm=0;
         $rme=0;        
