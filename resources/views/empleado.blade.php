@@ -103,15 +103,16 @@
                                               <br>
 
                                               <div class="row">
+                                                  
+                                                   <div class="col-md-6" >
+                                                      <label for="ecoanual">Economicos en el año:</label>  
+                                                      <span id="ecoanual" name="ecoanual"></span>
+                                                  </div> 
                                                   <div class="col-md-6" >
                                                       
                                                       <label for="pases">Pases de Salida:</label>  
                                                       <span id="total_pases" name="total_pases"></span>
                                                   </div>
-                                                  <!-- <div class="col-md-6" >
-                                                      <label for="hsal">Hora Salida:</label>  
-                                                      <span id="hsal" name="hsal"></span>
-                                                  </div> -->
                                               </div>
                                               <br>
                                               <div class="row">

@@ -810,6 +810,7 @@ function obtener_pases() {
         pases_total = data;
         // $("#total_pases").html(pases_total); 
         document.getElementById("total_pases").innerHTML = pases_total.pases + " HRS.";
+        document.getElementById("ecoanual").innerHTML = pases_total.EconomicoAnual;
         //$("#total_pases").html("hols pasaes"); 
 
 

@@ -304,8 +304,8 @@ class EmpleadoController extends Controller
        $fini = $request->fini;
        $ffin = $request->ffin;   
        $tipo_trabajador = Usuarios::select('ur_id')->where("userid","=",$id)->first();  
-       
-       //dd('goggoglglg');
+      // dd($fini);
+     $tipo_ur = $tipo_trabajador->ur_id;
 
       $pasesSalidas= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
       ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","1")->get();
@@ -331,33 +331,39 @@ class EmpleadoController extends Controller
         }
         $totalPases=$totalPases/60;
 
-        $EconomicoAnual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
-        ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","1")->get();
+        if($tipo_ur<=4){
+            $fecha_inicial='2021-10-01';
+            $fecha_final='2022-09-30';
+        }else{
+            $fecha_inicial='2022-01-01';
+            $fecha_final='2022-12-31';
+        }
+
+        $EconomicoAnual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$fecha_final)
+        ->where("ENDSPECDAY",">=",$fecha_inicial)->where("DATEID","=","6")->get();
   
-        $totalPases=0;
-        $diff=0;
-          foreach ($pasesSalidas as $i => $value) {
-              
-              if($value != null) {                                       
-                  
-                  // for ($i=0; $i < count($pasesSalidas); $i++) { 
-                  $final=$pasesSalidas[$i]['ENDSPECDAY'];
-                  $inicio=$pasesSalidas[$i]['STARTSPECDAY'];                
-                  $inicio = new Carbon($value->STARTSPECDAY);
-                  $final = new Carbon($value->ENDSPECDAY);
-                  $diff = $inicio->diffInMinutes($final);            
-                  $totalPases = $totalPases+ $diff;
-                  //  dd($inicio);
-                  //  }
-                  
-              }
-              
-          }
-          $totalPases=$totalPases/60;
+        $arreglo_dias_anual = array();    
+        $num_anual = 0;   
+      foreach ($EconomicoAnual as $key => $value) {           
+
+         // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+          $inicioEconomicoAnual = new Carbon($value->STARTSPECDAY);
+          $finEconomicoAnual = new Carbon($value->ENDSPECDAY);
+          $diffEconomicoAnual = $inicioEconomicoAnual->diffInDays($finEconomicoAnual);            
+          $arreglo_dias_anual[substr($inicioEconomicoAnual, 0,10)][] = $value;
+          
+          for ($i=0; $i < $diffEconomicoAnual; $i++) { 
+             $arreglo_dias_anual[substr($inicioEconomicoAnual->addDays(), 0,10)][] = $value;
+             
+            
+          } 
+       
+      } 
+      $num_anual=count($arreglo_dias_anual);
 
 
 
-      return response()->json(["pases"=>$totalPases]);
+      return response()->json(["pases"=>$totalPases,"EconomicoAnual"=>$num_anual]);
         
 
       
