@@ -402,40 +402,60 @@ class EmpleadoController extends Controller
             ->orWhere("ENDSPECDAY", ">=", $fini.'T00:00:00');
          })*/->get();       
          $fecha_mes = new Carbon($fini);
+        
          $fecha_mes_inicio = new Carbon($fini);
          $fecha_mes_fin = new Carbon($fini);
-
+         
          $fecha_mes_inicio=$fecha_mes_inicio->firstOfMonth();
          $fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
+       
          $fecha_mes_inicio= str_replace(" ", "T", $fecha_mes_inicio);
          $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
+
+        // dd($fecha_mes_fin);
          //dd($fecha_mes_fin."--------".$fecha_mes_inicio);
                   
                  $diasEconomicoMensual= DiasOtorgados::where("userid","=",$id)                
                   ->where("STARTSPECDAY","<=",$fecha_mes_fin)
-                 ->where("ENDSPECDAY",">=",$fecha_mes_inicio)
+                 ->where("ENDSPECDAY",">=",$fecha_mes_inicio)                 
                  ->where("DATEID","=","6")
                 ->get(); 
                    
          
                    $arreglo_dias = array();    
                    $num = 0;   
-                 foreach ($diasEconomicoMensual as $key => $value) {           
+                 foreach ($diasEconomicoMensual as $key => $value) {          
           
-                    // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
-                     $inicio = new Carbon($value->STARTSPECDAY);
-                     $fin = new Carbon($value->ENDSPECDAY);
-                     $diff = $inicio->diffInDays($fin);            
-                     $arreglo_dias[substr($inicio, 0,10)][] = $value;
-                     
-                     for ($i=0; $i < $diff; $i++) { 
-                        $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
-                        
                        
-                     } 
+                        // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
+                        $inicio = new Carbon($value->STARTSPECDAY);
+                        $fin = new Carbon($value->ENDSPECDAY);
+                        $diff = $inicio->diffInDays($fin);            
+                        $arreglo_dias[substr($inicio, 0,10)][] = $value;
+                        
+                        for ($i=0; $i < $diff; $i++) { 
+                            $arreglo_dias[substr($inicio->addDays(), 0,10)][] = $value;
+                            
+                        
+                        } 
+                    //  dd("inicio ".$inicio."  fin".$fin );
+                   /*  $dia_mes_inicial = new Carbon($arreglo_dias[substr($inicio, 0,10)][count($arreglo_dias)-1]->STARTSPECDAY);
+                    $primer_dia_mes= substr($arreglo_dias[substr($inicio, 0,10)][count($arreglo_dias)-1]->ENDSPECDAY,8,2);
+                    $dia_mes_final =    new Carbon($arreglo_dias[substr($inicio, 0,10)][count($arreglo_dias)-1]->ENDSPECDAY);
+                    $dia_compara =substr($dia_mes_final,0,10)." 11:00:00";
+                    if($dia_mes_inicial->isLastMonth()==true && $primer_dia_mes=="01" && $dia_mes_final->lessThanOrEqualTo($dia_compara)){
+                        $num=0;
+                     }else{  
+                     $num=count($arreglo_dias);
+                     } */
+                    } 
+                 
                   
-                 } 
+                //dd($dia_mes_inicial->isLastMonth());
+                // dd($dia_mes_inicial."    fin ".$dia_mes_final." primer: ".$primer_dia_mes." diacompara: ".$dia_compara);
+                  
                  $num=count($arreglo_dias);
+                // dd($num); 
 
         return response()->json(["permisos" => $diasJustificados,"horario" => $horario,"toteconomico"=>$num,"pases"=>$pases]);
     }
