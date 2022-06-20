@@ -458,7 +458,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
     id_x = id;
     $("#iduser").html(iduser);
     $("#nombre").html(nombre);
-   // console.log(fin);
+    // console.log(fin);
     //
 
 
@@ -788,12 +788,13 @@ function obtener_omisiones() {
 function obtener_pases() {
 
     //id = id;
+    document.getElementById("ecoanual").innerHTML = 0;
     id = id_x
     fini = $("#inicio").val();
     ffin = $("#fin").val();
-    console.log(id);
+    //console.log(id);
     //  console.log(x+"mm ");
-   
+
     codein = 1;
 
 
@@ -806,7 +807,7 @@ function obtener_pases() {
 
     }).done(function(data) {
 
-        console.log(data);
+        //console.log(data);
         pases_total = data;
         // $("#total_pases").html(pases_total); 
         document.getElementById("total_pases").innerHTML = pases_total.pases + " HRS.";
@@ -1098,7 +1099,7 @@ function incluir_leyenda() {
         leyenda = 0;
     }
 
-   // console.log("val", leyenda);
+    // console.log("val", leyenda);
 
 
 }
@@ -1258,8 +1259,8 @@ function imprimir_tarjeta() {
     impre = 1;
     //inicio = new Date(inicio);
 
-    
-  
+
+
     /*  inicio = new Date(inicio);
      console.log(inicio);
    // inicio = inicio.setDate(inicio.getDate() + 1);
@@ -1267,7 +1268,7 @@ function imprimir_tarjeta() {
     inicio = inicio.getDate() + "-" + mes + "-" + inicio.getFullYear(); 
     console.log(inicio);  */
 
-  
+
     //win = window.open('./api/reporte-trimestral?anio=' + anio + "&trimestre=" + trimestre + "&tipo_trabajador=" + tipo_trabajador + "&nombre=" + nombre, '_blank'); 
     win = window.open('./api/imprimirTarjeta?id=' + dato + "&fecha_inicio=" + inicio + "&fecha_fin=" + fin + "&leyenda=" + leyenda + "&impre=" + impre, '_blank');
 
@@ -1327,8 +1328,8 @@ function editEmpleado(id) {
 
 
 
-            diaslab = (data.data.horarios[0].detalle_horario);
-
+            diaslab = (data.data.horarios[data.data.horarios.length - 1].detalle_horario);
+            //console.log(diaslab);
 
         },
         error: function(data) {

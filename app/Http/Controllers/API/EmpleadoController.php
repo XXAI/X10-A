@@ -331,13 +331,13 @@ class EmpleadoController extends Controller
         }
         $totalPases=$totalPases/60;
 
-        if($tipo_ur<=4){
+       /*  if($tipo_ur<=4){
             $fecha_inicial='2021-10-01';
             $fecha_final='2022-09-30';
-        }else{
+        }else{ */
             $fecha_inicial='2022-01-01';
             $fecha_final='2022-12-31';
-        }
+       // }
 
         $EconomicoAnual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$fecha_final)
         ->where("ENDSPECDAY",">=",$fecha_inicial)->where("DATEID","=","6")->get();
