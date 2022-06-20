@@ -822,7 +822,7 @@ class ReporteMensualController extends Controller
             }
             
         }
-        if($checada_entrada > 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
+        if(isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
         {
             $checada_salida = 1;
         }
