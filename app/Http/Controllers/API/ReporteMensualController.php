@@ -147,6 +147,7 @@ class ReporteMensualController extends Controller
         }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
            // $query->where("STARTDAsTE", "<=", $fecha_inicio.'T00:00:00')->orwhere("ENDDATE", ">=", $fecha_fin);
            $query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
+           
         }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
             $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
         }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){       
@@ -196,8 +197,8 @@ class ReporteMensualController extends Controller
             //dd($fecha_inicio);
             $i = 1;
             //dd($dias_mes);
-            $fecha_x= new Carbon("2022-05-03");
-            //dd($fecha_x);
+            /* $fecha_x= new Carbon("2022-05-10");
+            dd($fecha_x); */
             for($i; $i<=$dias_mes; $i++)
             {
                 $fecha_evaluar = new Carbon($fecha_inicio);
@@ -283,6 +284,8 @@ class ReporteMensualController extends Controller
                                                     }
                                                     
                                                 }
+                                               
+
                                                 if($checada_salida == 0)
                                                 {
 
@@ -291,11 +294,12 @@ class ReporteMensualController extends Controller
                                                     }
                                                     $diferencia_dias_nocturnos = $dia_ingreso->SDAYS-$dia_ingreso->EDAYS;
                                                    
-                                                    if($fecha_evaluar->greaterThanOrEqualTo($fecha_x) && $checada_entrada!=0)
+                                                    if($fecha_evaluar->EqualTo($fecha_x) && $checada_entrada!=0)
                                                     {
                                                         
-                                                        //dd($indice_horario_seleccionado);
+                                                        dd("aqui estamos");
                                                     } 
+                                                    /*
                                                     if($diferencia_dias_nocturnos!=0){
                                                         $fecha_evaluar->addDays(1);
                                                        // dd($parametro_inicial);
@@ -312,10 +316,6 @@ class ReporteMensualController extends Controller
                                                        // $checada= $checada->addDay(1);
                                                     }                
  */
-
-
-
-
 
                                                     if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
                                                         $checada_salida = 1;
@@ -659,7 +659,8 @@ class ReporteMensualController extends Controller
     function VerificadorAsistencia($fecha_evaluar, $validacion_horario, $checadas_empleado, $dias_otorgados, $arreglo_salidas)
     {
 
-       
+         $fecha_x= new Carbon("2022-05-10");
+       // dd($fecha_x); 
      //   $fecha_evaluar=new Carbon('2025-05-03');
       // dd($fecha_evaluar);
         $dia = $fecha_evaluar->dayOfWeekIso;
@@ -698,8 +699,7 @@ class ReporteMensualController extends Controller
         $contador_faltas = 0;
         $contador_asistencia = 0;
         //dd($dias_otorgados);
-        //if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 6){ $checada_entrada = 0; }
-        //if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 6){ $checada_salida = 0; }
+      
         if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 3){ $calcular_entrada = 1; }
         if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
         if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5){ $calcular_salida = 1; }
@@ -742,6 +742,8 @@ class ReporteMensualController extends Controller
                 }
                 
             }
+
+           
             if($checada_salida == 0 && $diferencia_dias == 0)
             {
                 if($checada->greaterThanOrEqualTo($inicio_salida) && $checada->lessThanOrEqualTo($fin_salida))
@@ -756,10 +758,7 @@ class ReporteMensualController extends Controller
             }
         }
 
-        if($checada_entrada == 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
-        {
-            $checada_salida = 1;
-        }
+        
        // dd($checadas_empleado[$fecha_evaluar->format('Y-m-d')]);
        //dd($diferencia_dias);
         if($diferencia_dias != 0)
@@ -771,7 +770,7 @@ class ReporteMensualController extends Controller
             $pase=0;
            // dd("hola");
             
-            //if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify) == 2){ $checada_salida = 0; }
+            
             if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
             if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5)
             { 
@@ -819,11 +818,20 @@ class ReporteMensualController extends Controller
                     }
                   
                  }
-                 
+           
             }
             
         }
-        
+        if($checada_entrada > 1 && isset($arreglo_salidas[$fecha_evaluar->format('Y-m-d')]))
+        {
+            $checada_salida = 1;
+        }
+
+       /*  if($fecha_evaluar->EqualTo($fecha_x))
+        {
+            
+            dd("aqui estamos ".$checada_salida);
+        }  */
         if($checada_entrada == 1 && $checada_salida == 1)
         {
             $simbolo_turno = "A";
@@ -840,6 +848,7 @@ class ReporteMensualController extends Controller
         }else if(($checada_entrada == 1 || $checada_entrada == 2 ) && $checada_salida == 0)
         {
             //dd("entrada ".$checada_entrada. "  salida  ".$checada_salida);
+            
             $simbolo_turno = "FS";            
             $contador_faltas++;
         }else if($checada_entrada == 0 && $checada_salida == 0)
