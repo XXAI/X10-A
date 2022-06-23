@@ -246,7 +246,7 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-           $fecha_x = new Carbon("2022-04-01");
+           $fecha_x = new Carbon("2022-05-22");
            // $fecha_x ='2022-04-01T00:00:00';
           //  dd($fecha_x);
            // print_r("hol2");
@@ -259,11 +259,11 @@ class CardexController extends Controller
                 if($contador_horario == 0 && $diferencia_dias_sin_horario == 0)
                 {
                    
-                     /* if($parametro_inicial->equalTo($fecha_x))
+                     if($parametro_inicial->equalTo($fecha_x))
                         { 
                            dd("golllllll");
                             //dd($indice_horario_seleccionado);
-                        }  */
+                        }  
                    //dd($parametro_inicial);
                  //   $indice_horario_seleccionado=3;
                     $horario_evaluar = $this->validar_horario($horarios_periodo, $indice_horario_seleccionado, $parametro_inicial, $bandera );
