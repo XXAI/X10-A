@@ -799,163 +799,107 @@ class reporteController extends Controller
 
                         if(is_null($checada_extra)){
                                 "checada_extra";
-
-                                if(isset($checada_entrada) || !is_null($checada_entrada )){                        
-                                    $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
-                                    $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);                          
-                                    $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
-                                    $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
-        
-                                    $asistencia[$indice]['retardo'] =0;
-                                                if ($formato_checado>($tolerancia)){
-                                                    if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=40){
-                                                            if(is_null($checada_extra)|| ($checada_extra->TIPO==1)){
-                                                                $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;//." Retardo Menor";
-                                                                $asistencia[$indice]['retardo'] = 1;
-                                                                $rme=$rme+1;
-                                                            }
-                                                            else{
-                                                                $asistencia[$indice]['checado_entrada'] = $impr;
-                                                                $asistencia[$indice]['retardo'] = 0;
-                                                            }
-                                                        }
-                                                    if ($formato_checado->diffInMinutes($tolerancia) >= 41){
-                                                        if(is_null($checada_extra) || ($checada_extra->TIPO==1)){
-                                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
-                                                            $rm=$rm+1;
-                                                        }
-                                                        else{
-                                                            $asistencia[$indice]['checado_entrada'] = $impr;
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                //dd($checada_entrada);
-                                                   if (is_null($checada_entrada->sn) ){
-                                                     $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; 
-                                                     
-                                                    }                               
-                                                    else{
-                                                        $tipo=0;
-                                                        $asistencia[$indice]['omision'] = $checada_entrada->WorkCode;
-                                                        $asistencia[$indice]['user_omision'] = $checada_entrada->UserExtFmt;
-                                                        $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                                        if($nombrebase<>'ZKAccess'){
-                                                            switch($checada_entrada->sn){
-                                                                
-                                                                    case "I":
-                                                                        $tipo=" Omisión Entrada";
-                                                                        break;
-                                                                   
-                                                                  
-                                                                    
-                                                                
-                                                        
-                                                            }
-                                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. $tipo;
-                                                             
-                                                        }
-                                                        else{
-                                                            $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
-                                                        } 
-                                                    }
-                                                
-        
-                                }
-                                if(isset($omision_entrada)) {
-                                    $tipo=0;
-                                                            $asistencia[$indice]['omision'] = $omision_entrada->EXACTID;
-                                                            $asistencia[$indice]['user_omision'] = $omision_entrada->MODIFYBY;
-                                                            $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                                            if($nombrebase<>'ZKAccess'){
-                                                                switch($omision_entrada->CHECKTYPE){
-                                                                    
-                                                                        case "I":
-                                                                            $tipo=" Omisión Entrada";
-                                                                            break;
-                                                                       
-                                                                        case "E":
-                                                                            $tipo=" Constancia de Entrada";
-                                                                            break;
-                                                                        case "R":
-                                                                            $tipo=" Justificado por Retardo";
-                                                                            $asistencia[$indice]['retardo'] = 0;
-                                                                            $rme=$rme-1;
-                                                                            break;
-                                                                        
-                                                                    
-                                                            
-                                                                }
-                                                                $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ. $tipo;
-                                                                 
-                                                            }
-                                                            else{
-                                                                $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ;
-                                                            } 
-                                                            
-                                                           // $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
-                                                           // $asistencia[$indice]['checado_entrada_fuera']=null;
-                                }
-
-                                if(isset($checada_salida) || !is_null($checada_salida)){                           
-                        
-                        
-                                    if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
-                                       { 
-                                            if($trab!=0){
-                                                $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
-                                            }else{
-                                                $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
-                                            }
-                                           //. " (Verifique Su Registro)";
-                                           $asistencia[$indice]['validacion'] = 1;
-                                       }
-                                    //|| ($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
-                                        
-                                    else
-                                    if (is_null($checada_salida->sn)){
-                                        if($trab!=0){
-                                            $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
-                                        }else{
-                                            $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
-                                        }
-                                     }                               
-                                       else{
-                                            $tipo=" ";
-                                            $asistencia[$indice]['omisionsal'] = $checada_salida->WorkCode;
-                                            $asistencia[$indice]['user_omision'] = $checada_salida->UserExtFmt;
-                                            $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
-                                            if($nombrebase<>'ZKAccess'){
-                                                switch($checada_salida->sn){
-                                                                
-                                                   
-                                                    case "O":
-                                                        $tipo=" Omisión Salida";
-                                                        break;
-                                                    
-                                                    case "S":
-                                                        $tipo=" Constancia de Salida";
-                                                        break;     
-                                                    
-                                            
-                                                }
-                                                if($trab!=0){
-                                                    $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA.$tipo;
-                                                }else{
-                                                    $asistencia[$indice]['checado_salida'] =$checada_salida->HORA.$tipo;
-                                                }
-                                               //  $asistencia[$indice]['checado_salida'] = $checada_salida->HORA.$tipo;
-                                            }
-                                            else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
-                                       }
-                                        
-                                }
                         }
                         else{
                                 $hora_extra=$checada_extra->HORA;
                             }
                         
-                        
+                        if(isset($checada_entrada) || !is_null($checada_entrada )){                        
+                            $formato_checado = new Carbon($fecha_eval." ".$checada_entrada->HORA);
+                            $hora_con_tolerancia = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->HoraInicio);                          
+                            $hora_permitida = new Carbon($fecha_eval." ".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarEntrada);
+                            $tolerancia=$hora_con_tolerancia->addMinutes($var_reglas[$fecha_evaluar->dayOfWeekIso]->Tolerancia);
+
+                            $asistencia[$indice]['retardo'] =0;
+                                        if ($formato_checado>($tolerancia)){
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 1 && $formato_checado->diffInMinutes($tolerancia)<=40){
+                                                    if(is_null($checada_extra)|| ($checada_extra->TIPO==1)){
+                                                        $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;//." Retardo Menor";
+                                                        $asistencia[$indice]['retardo'] = 1;
+                                                        $rme=$rme+1;
+                                                    }
+                                                    else{
+                                                        $asistencia[$indice]['checado_entrada'] = $impr;
+                                                        $asistencia[$indice]['retardo'] = 0;
+                                                    }
+                                                }
+                                            if ($formato_checado->diffInMinutes($tolerancia) >= 41){
+                                                if(is_null($checada_extra) || ($checada_extra->TIPO==1)){
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA." Retardo Mayor";
+                                                    $rm=$rm+1;
+                                                }
+                                                else{
+                                                    $asistencia[$indice]['checado_entrada'] = $impr;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        //dd($checada_entrada);
+                                           if (is_null($checada_entrada->sn) ){
+                                             $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA; 
+                                             
+                                            }                               
+                                            else{
+                                                $tipo=0;
+                                                $asistencia[$indice]['omision'] = $checada_entrada->WorkCode;
+                                                $asistencia[$indice]['user_omision'] = $checada_entrada->UserExtFmt;
+                                                $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
+                                                if($nombrebase<>'ZKAccess'){
+                                                    switch($checada_entrada->sn){
+                                                        
+                                                            case "I":
+                                                                $tipo=" Omisión Entrada";
+                                                                break;
+                                                           
+                                                          
+                                                            
+                                                        
+                                                
+                                                    }
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA. $tipo;
+                                                     
+                                                }
+                                                else{
+                                                    $asistencia[$indice]['checado_entrada'] = $checada_entrada->HORA;
+                                                } 
+                                            }
+                                        
+
+                        }
+                        if(isset($omision_entrada)) {
+                            $tipo=0;
+                                                    $asistencia[$indice]['omision'] = $omision_entrada->EXACTID;
+                                                    $asistencia[$indice]['user_omision'] = $omision_entrada->MODIFYBY;
+                                                    $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
+                                                    if($nombrebase<>'ZKAccess'){
+                                                        switch($omision_entrada->CHECKTYPE){
+                                                            
+                                                                case "I":
+                                                                    $tipo=" Omisión Entrada";
+                                                                    break;
+                                                               
+                                                                case "E":
+                                                                    $tipo=" Constancia de Entrada";
+                                                                    break;
+                                                                case "R":
+                                                                    $tipo=" Justificado por Retardo";
+                                                                    $asistencia[$indice]['retardo'] = 0;
+                                                                    $rme=$rme-1;
+                                                                    break;
+                                                                
+                                                            
+                                                    
+                                                        }
+                                                        $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ. $tipo;
+                                                         
+                                                    }
+                                                    else{
+                                                        $asistencia[$indice]['checado_entrada'] = $omision_entrada->HORAJ;
+                                                    } 
+                                                    
+                                                   // $asistencia[$indice]['checado_entrada_fuera'] =$checada_entrada_fuera->HORA;
+                                                   // $asistencia[$indice]['checado_entrada_fuera']=null;
+                        }
                         
                     if(empty($asistencia[$indice]['checado_entrada'])){
                         $asistencia[$indice]['checado_entrada'] = "SIN REGISTRO";
@@ -1005,17 +949,87 @@ class reporteController extends Controller
                    // dd($checada_sal_fuera);
                       
 
-                    
+                    if(isset($checada_salida) || !is_null($checada_salida) &&  ($checada_extra->TIPO!=46)){                           
+                        
+                       // dd($checada_extra->TIPO);
+                        if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
+                           {   
+                                if($trab!=0){
+                                    $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                                }else{
+                                    $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                                }
+                               //. " (Verifique Su Registro)";
+                               $asistencia[$indice]['validacion'] = 1;
+                           }
+                        //|| ($checada_salida->HORA<$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida)
+                            
+                        else
+                        if (is_null($checada_salida->sn)){
+                            if($trab!=0){
+                                $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                            }else{
+                                $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
+                            }
+                         }                               
+                           else{
+                                $tipo=" ";
+                                $asistencia[$indice]['omisionsal'] = $checada_salida->WorkCode;
+                                $asistencia[$indice]['user_omision'] = $checada_salida->UserExtFmt;
+                                $asistencia[$indice]['captura_omision'] = User::where("id","=",$asistencia[$indice]['user_omision'])->first();
+                                if($nombrebase<>'ZKAccess'){
+                                    switch($checada_salida->sn){
+                                                    
+                                       
+                                        case "O":
+                                            $tipo=" Omisión Salida";
+                                            break;
+                                        
+                                        case "S":
+                                            $tipo=" Constancia de Salida";
+                                            break;     
+                                        
+                                
+                                    }
+                                    if($trab!=0){
+                                        $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA.$tipo;
+                                    }else{
+                                        $asistencia[$indice]['checado_salida'] =$checada_salida->HORA.$tipo;
+                                    }
+                                   //  $asistencia[$indice]['checado_salida'] = $checada_salida->HORA.$tipo;
+                                }
+                                else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
+                           }
+                            
+                    }else{
+                        $asistencia[$indice]['checado_entrada'] = $impr;
+                        $asistencia[$indice]['checado_salida'] = $impr;
+                        $asistencia[$indice]['validacion'] = 0;
+                    }
                     if(empty($asistencia[$indice]['checado_salida'])){
                             if(is_null($checada_extra)){
                             $asistencia[$indice]['checado_salida'] ="SIN REGISTRO";
                             $asistencia[$indice]['validacion'] = 0;
                             }
-                        else{
-                            $asistencia[$indice]['checado_salida'] = $impr;                            
-                                $ini = new Carbon($checada_extra->INI);
-                                $fin = new Carbon($checada_extra->FIN);
-                                $asistencia[$indice]['validacion'] = 1;
+                            else{
+                                if($checada_extra->TIPO==1){
+                                    //dd($checada_sal_fuera);
+                                    if(is_null($checada_sal_fuera->HORA) || empty($checada_sal_fuera->HORA)){
+                                        $asistencia[$indice]['checado_salida'] = "SIN REGISTRO";
+                                        $asistencia[$indice]['validacion'] = 0;
+                                    }else{
+                                        $asistencia[$indice]['checado_salida'] = $impr;
+                                        $asistencia[$indice]['validacion'] = 1;
+                                        
+                                    }
+                                }
+
+                                else{
+                                        $asistencia[$indice]['checado_salida'] = $impr;                            
+                                        $ini = new Carbon($checada_extra->INI);
+                                        $fin = new Carbon($checada_extra->FIN);
+                                        $asistencia[$indice]['validacion'] = 1;
+                                }
                             }                        
                     }
                        

@@ -155,7 +155,7 @@ function cargar_blade_checadas() {
             xe = "<i style='color:red'>" + value.checado_entrada + "</i>";
         } else
             xe = value.checado_entrada;
-        if (value.checado_salida == value.checado_salida_fuera)
+        if (value.checado_salida == value.checado_salida_fuera) 
             xs = value.checado_salida;
         else
             xs = value.checado_salida + "(" + value.checado_salida_fuera + ")";
