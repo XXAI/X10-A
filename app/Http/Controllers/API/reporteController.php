@@ -949,7 +949,7 @@ class reporteController extends Controller
                    // dd($checada_sal_fuera);
                       
 
-                    if(isset($checada_salida) || !is_null($checada_salida) &&  ($checada_extra->TIPO!=46)){                           
+                    if(isset($checada_salida) || !is_null($checada_salida)){// &&  ($checada_extra->TIPO!=46)){                           
                         
                        // dd($checada_extra->TIPO);
                         if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
@@ -1001,18 +1001,17 @@ class reporteController extends Controller
                                 else $asistencia[$indice]['checado_salida'] = $checada_salida->HORA;
                            }
                             
-                    }else{
-                        $asistencia[$indice]['checado_entrada'] = $impr;
+                    }/* else{
+                        //$asistencia[$indice]['checado_entrada'] = $impr;
                         $asistencia[$indice]['checado_salida'] = $impr;
                         $asistencia[$indice]['validacion'] = 0;
-                    }
+                    } */
                     if(empty($asistencia[$indice]['checado_salida'])){
                             if(is_null($checada_extra)){
                             $asistencia[$indice]['checado_salida'] ="SIN REGISTRO";
                             $asistencia[$indice]['validacion'] = 0;
-                            }
-                            else{
-                                if($checada_extra->TIPO==1){
+                            }else{
+                                      if($checada_extra->TIPO==1){
                                     //dd($checada_sal_fuera);
                                     if(is_null($checada_sal_fuera->HORA) || empty($checada_sal_fuera->HORA)){
                                         $asistencia[$indice]['checado_salida'] = "SIN REGISTRO";
@@ -1024,7 +1023,8 @@ class reporteController extends Controller
                                     }
                                 }
 
-                                else{
+                                else{ 
+                               
                                         $asistencia[$indice]['checado_salida'] = $impr;                            
                                         $ini = new Carbon($checada_extra->INI);
                                         $fin = new Carbon($checada_extra->FIN);
