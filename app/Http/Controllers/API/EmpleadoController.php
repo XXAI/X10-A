@@ -83,6 +83,7 @@ class EmpleadoController extends Controller
  //DB::enableQueryLog(); 
          //CSSSA009162
         $usuarios = $usuarios->where("HOLIDAY",'<>',0)->orderBy('USERID','DESC')->paginate(200);
+        //dd($usuarios);
         $incidencias = TiposIncidencia::orderBy('LeaveName','ASC')->whereNotIn('LeaveId', [4,5,7,9,28])->get();  
         $departamentos = Departamentos::get();  
         $edificios = Edificios::get();   
@@ -99,7 +100,7 @@ class EmpleadoController extends Controller
        /*  if($request->get('bh'))
         {  */ 
         $bh = $request->get('bh');
-        $data = Horario::select('NUM_RUNID','NAME')->where("NAME",'LIKE','%'.$bh.'%')->get();        
+        $data = Horario::with('deta_Horario')->select('NUM_RUNID','NAME')->where("NAME",'LIKE','%'.$bh.'%')->get();        
         
       
       return response()->json($data);  
@@ -584,7 +585,7 @@ class EmpleadoController extends Controller
                 $registro->FPHONE=$request->clues;
                 $registro->ATT=$request->mmi;
                 $registro->INLATE= $request->interino;
-            //$registro->DEFAULTDEPTID=$request->tipotra;   
+               // $registro->DEFAULTDEPTID=$request->tipotra;   
                 $registro->ur_id=$request->tipotra;          
                 $registro->MINZU=$request->area;           
                 $registro->save(); 

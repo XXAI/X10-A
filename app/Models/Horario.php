@@ -11,6 +11,11 @@ class Horario extends Model
     protected $connection = 'dinamica';   
     protected $table = "NUM_RUN";
 
+    public function deta_Horario(){
+        return $this->hasOne('App\Models\DetalleHorario','NUM_RUNID', "NUM_OF_RUN_ID");
+
+    }
+
 /*     public function xxxx(){
         return $this->hasMany('App\Models\UsuarioHorario', "NUM_OF_RUN_ID", 'NUM_RUNID');
     }

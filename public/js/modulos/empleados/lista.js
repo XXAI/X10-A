@@ -359,6 +359,8 @@ function cargar_datos_empleado(datos) {
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
         var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
+       // var campo7 = $("<td>algo</td>");
+
 
         if (value.horarios.length > 0) {
             ultimo_horario = value.horarios.length - 1;
@@ -514,51 +516,55 @@ function guardar_empleado() {
 
     var tipo;
     // console.log(banemp);
-    if (banemp == 1) {
-        url_emp = "api/edita-empleado/" + idempleado;
-        tipo = 'GET';
+    if (tipotra!='' || tipotra!=null){
+            if (banemp == 1) {
+                url_emp = "api/edita-empleado/" + idempleado;
+                tipo = 'GET';
 
-    } else {
-        url_emp = "api/guarda-empleado";
-        tipo = 'POST';
-    }
-    $.ajax({
-        type: tipo,
-        url: url_emp,
-        data: { biome: biome, name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
-        success: function(data) {
-
-            swal("Exito!", data.mensaje, "success");
-            limpia_empleados();
-
-            $("#empleado-hora").html('');
-            $("#tipotra").empty();
-            $('#agregar_empleado').modal('hide');
-
-            cargar_empleados('');
-
-
-
-        },
-        error: function(xhr) {
-            var qw = '';
-            var pinta = "";
-            var res = xhr.responseJSON;
-            if ($.isEmptyObject(res) == false) {
-                $.each(res.errors, function(key, value) {
-                    console.log($('#' + key))
-                    $('#' + key).css("border", "1px solid red");
-
-                    qw = value + "\n" + qw + "\n";
-
-
-                });
-                swal("Error", qw, "error");
-
-
+            } else {
+                url_emp = "api/guarda-empleado";
+                tipo = 'POST';
             }
+            $.ajax({
+                type: tipo,
+                url: url_emp,
+                data: { biome: biome, name: name, rf: rf, sexo: sexo, fechaing: fechaing, fecnac: fecnac, codigo: codigo, clues: clues, area: area, tipotra: tipotra, street: street, city: city, ini_fec: ini_fec, fin_fec: fin_fec, code: code, mmi: mmi, interino: interino },
+                success: function(data) {
+
+                    swal("Exito!", data.mensaje, "success");
+                    limpia_empleados();
+
+                    $("#empleado-hora").html('');
+                    $("#tipotra").empty();
+                    $('#agregar_empleado').modal('hide');
+
+                    cargar_empleados('');
+
+
+
+                },
+                error: function(xhr) {
+                    var qw = '';
+                    var pinta = "";
+                    var res = xhr.responseJSON;
+                    if ($.isEmptyObject(res) == false) {
+                        $.each(res.errors, function(key, value) {
+                            console.log($('#' + key))
+                            $('#' + key).css("border", "1px solid red");
+
+                            qw = value + "\n" + qw + "\n";
+
+
+                        });
+                        swal("Error", qw, "error");
+
+
+                    }
+                }
+            })
+        }else{
+            alert("Verifique el tipo de trabajdor");
         }
-    })
 
 
 

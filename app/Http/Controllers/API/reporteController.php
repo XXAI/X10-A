@@ -23,8 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 class reporteController extends Controller
 {
-
-
+     
     public function imprimirTarjeta(Request $request)
     {
         $parametros = Input::all();
@@ -65,7 +64,8 @@ class reporteController extends Controller
         //$inicio = $request->fecha_inicio;
         //dd(date('Y-m-d', strtotime($request->fecha_inicio)));
         $fin = $request->fecha_fin;
-      
+        $catalogo_dias = [0 => "DOMINGO", 1 => "LUNES", 2 => "MARTES", 3 => "MIERCOLES", 4 => "JUEVES", 5 => "VIERNES", 6 => "SABADO"];
+
         $Rfc = str_replace("(", "/", $Rfc);
         $Rfc = str_replace(" ", "+", $Rfc);
         if (!isset($parametros['id'])){
@@ -117,6 +117,8 @@ class reporteController extends Controller
         $f_inicio_mes= str_replace(" ", "T", $f_inicio_mes);
         $f_fin_mes= str_replace(" ", "T", $f_fin_mes);
 
+       
+        
         //Se sacaron variables de inicio para las consultas en la base de datos
        
          //$validacion= Usuarios::with("horarios.detalleHorario")->where("userinfo.TITLE", "=",  $desc)->first();
@@ -955,7 +957,11 @@ class reporteController extends Controller
                         if(($checada_salida->HORA>$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida) )
                            {   
                                 if($trab!=0){
-                                    $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                                    $otro_dia=new Carbon($checada_salida->FECHAHORA);
+                                    $otro_dia=$otro_dia->dayOfWeekIso;
+                                    $asistencia[$indice]['checado_salida'] = $catalogo_dias[$otro_dia]." ".$checada_salida->HORA;
+                                
+                                    //$asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
                                 }else{
                                     $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
                                 }
@@ -967,7 +973,11 @@ class reporteController extends Controller
                         else
                         if (is_null($checada_salida->sn)){
                             if($trab!=0){
-                                $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
+                                //dd("sdsdsdsd");
+                                $otro_dia=new Carbon($checada_salida->FECHAHORA);
+                                $otro_dia=$otro_dia->dayOfWeekIso;
+                                $asistencia[$indice]['checado_salida'] = $catalogo_dias[$otro_dia]." ".$checada_salida->HORA;
+                               //$asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA;
                             }else{
                                 $asistencia[$indice]['checado_salida'] =$checada_salida->HORA;
                             }
@@ -992,7 +1002,10 @@ class reporteController extends Controller
                                 
                                     }
                                     if($trab!=0){
-                                        $asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA.$tipo;
+                                        $otro_dia=new Carbon($checada_salida->FECHAHORA);
+                                        $otro_dia=$otro_dia->dayOfWeekIso;
+                                        $asistencia[$indice]['checado_salida'] = $catalogo_dias[$otro_dia]." ".$checada_salida->HORA." ".$tipo;
+                                        //$asistencia[$indice]['checado_salida'] =$checada_salida->FECHAHORA.$tipo;
                                     }else{
                                         $asistencia[$indice]['checado_salida'] =$checada_salida->HORA.$tipo;
                                     }

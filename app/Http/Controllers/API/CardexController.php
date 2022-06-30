@@ -261,7 +261,7 @@ class CardexController extends Controller
                    
                      if($parametro_inicial->equalTo($fecha_x))
                         { 
-                           dd("golllllll");
+                           //dd("golllllll");
                             //dd($indice_horario_seleccionado);
                         }  
                    //dd($parametro_inicial);
