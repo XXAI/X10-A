@@ -64,7 +64,7 @@ class reporteController extends Controller
         //$inicio = $request->fecha_inicio;
         //dd(date('Y-m-d', strtotime($request->fecha_inicio)));
         $fin = $request->fecha_fin;
-        $catalogo_dias = [0 => "DOMINGO", 1 => "LUNES", 2 => "MARTES", 3 => "MIERCOLES", 4 => "JUEVES", 5 => "VIERNES", 6 => "SABADO"];
+        $catalogo_dias = [7 => "DOMINGO", 1 => "LUNES", 2 => "MARTES", 3 => "MIERCOLES", 4 => "JUEVES", 5 => "VIERNES", 6 => "SABADO"];
 
         $Rfc = str_replace("(", "/", $Rfc);
         $Rfc = str_replace(" ", "+", $Rfc);
