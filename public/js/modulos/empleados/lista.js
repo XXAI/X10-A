@@ -351,16 +351,18 @@ function modifica_horario(idho, inifec, finfec, idh, id) {
 
 function cargar_datos_empleado(datos) {
     var table = $("#empleados");
-
+    
     //console.log(tipotrabajador);
     $.each(datos, function(key, value) {
+
+      //  console.log(value);
         var linea = $("<tr></tr>");
         var campo1 = $("<td>" + value.Badgenumber + "</td>");
         var campo2 = $("<td>" + value.Name + "</td>");
         var campo3 = $("<td>" + value.TITLE + "</td>");
         var campo7 = $("<td>" + value.tipotrabajador.descripcion + "</td>");
        // var campo7 = $("<td>algo</td>");
-
+      
 
         if (value.horarios.length > 0) {
             ultimo_horario = value.horarios.length - 1;
