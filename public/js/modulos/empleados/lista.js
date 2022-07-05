@@ -797,10 +797,10 @@ function obtener_pases() {
 
     //id = id;
     document.getElementById("ecoanual").innerHTML = 0;
-    id = id_x
+    id = id_x;
     fini = $("#inicio").val();
     ffin = $("#fin").val();
-    //console.log(id);
+    console.log(id);
     //  console.log(x+"mm ");
 
     codein = 1;

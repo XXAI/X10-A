@@ -631,7 +631,7 @@ class ReporteMensualController extends Controller
                 $fin_jornada    = $dias_jornada[0]['ENDTIME'];
                 $jornada_inicio =new Carbon($inicio_jornada);
                 $jornada_fin    =new Carbon($fin_jornada);
-                $jornada_fin->addMinutes(30);
+                $jornada_fin->addMinutes(59);
                 $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
             }
             while($fecha_evaluar->greaterThan($fecha_inicio_periodo) && $fecha_fin_periodo->lessThan($fecha_evaluar) && $indice_horario_seleccionado < count($horarios_periodo))

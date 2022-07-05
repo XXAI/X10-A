@@ -301,6 +301,7 @@ class EmpleadoController extends Controller
     public function buscapases(Request $request)
     {
        $id = $request->id;
+       //dd($id);
        $fecha = $request->fecha;       
        $fini = $request->fini;
        $ffin = $request->ffin;   
@@ -340,7 +341,7 @@ class EmpleadoController extends Controller
             $fecha_final='2022-12-31';
         }
 
-        $EconomicoAnual= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$fecha_final)
+        $EconomicoAnual= DiasOtorgados::where("userid","=",43447)->where("STARTSPECDAY","<=",$fecha_final)
         ->where("ENDSPECDAY",">=",$fecha_inicial)->where("DATEID","=","6")->get();
   
         $arreglo_dias_anual = array();    
@@ -356,12 +357,12 @@ class EmpleadoController extends Controller
           for ($i=0; $i < $diffEconomicoAnual; $i++) { 
              $arreglo_dias_anual[substr($inicioEconomicoAnual->addDays(), 0,10)][] = $value;
              
-            
+             //sdd($arreglo_dias_anual);
           } 
-       
+      
       } 
       $num_anual=count($arreglo_dias_anual);
-
+      //dd($num_anual);
 
 
       return response()->json(["pases"=>$totalPases,"EconomicoAnual"=>$num_anual]);
