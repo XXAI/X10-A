@@ -10,6 +10,7 @@ use Carbon\Carbon, DB;
 use App\Models\Usuarios;
 use App\Models\Departamentos;
 use App\Models\UsuarioHorario;
+use App\Models\ReglasHorarios;
 use App\Models\Festivos;
 use App\Models\Omisiones;
 use App\Models\DiasJustifica;
@@ -304,7 +305,8 @@ class EmpleadoController extends Controller
        //dd($id);
        $fecha = $request->fecha;       
        $fini = $request->fini;
-       $ffin = $request->ffin;   
+       $ffin = $request->ffin; 
+       $codein =  $request->codein; 
        $tipo_trabajador = Usuarios::select('ur_id')->where("userid","=",$id)->first();  
       // dd($fini);
      $tipo_ur = $tipo_trabajador->ur_id;
@@ -362,7 +364,6 @@ class EmpleadoController extends Controller
       
       } 
       $num_anual=count($arreglo_dias_anual);
-      //dd($num_anual);
 
 
       return response()->json(["pases"=>$totalPases,"EconomicoAnual"=>$num_anual]);
@@ -546,17 +547,46 @@ class EmpleadoController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+
+    public function permisos_empleados(Request $request){
+        $id = 922;
+        $tipo_ur = 5;//$tipo_trabajador->ur_id;
+
+        if($tipo_ur<=4){
+            $fecha_inicio='2021-10-01';
+            $fecha_fin='2022-09-30';
+        }else{ 
+            $fecha_inicio='2022-01-01';
+            $fecha_fin='2022-12-31';
+        }
+
+        $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'dias_otorgados.siglas', 
+        /* 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
+        $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
+    },  */
+    
+    'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
+       
+       $query->whereRaw("( ENDDATE >= '". $fecha_inicio."' and  STARTDATE <= '".$fecha_fin."')");
+       
+    }/* , 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
+        $query->where("CHECKTIME", ">=", $fecha_inicio)->where("CHECKTIME", "<=", $fecha_fin);
+    } */, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
+        $query->where("ENDSPECDAY","<=", $fecha_fin)                   
+               ->where("STARTSPECDAY", ">=", $fecha_inicio)
+                    ->orWhere("ENDSPECDAY", ">=", $fecha_inicio); 
+     
+    }])
+    ->Where("USERID","=",$id)->first(); 
+
+    //$horarios_periodo = $this->ordernarHorarios($empleados->horarios); 
+
+   // return response()->json(["omisiones" => $empleados->onisiones]);
+   //dd($empleados->horarios);
+    return array("datos" => $empleados->horarios);
     }
 
+   
     /**
      * Update the specified resource in storage.
      *

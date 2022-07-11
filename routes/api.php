@@ -56,6 +56,7 @@ use Illuminate\Http\Request;
     Route::get('/economicos', 'API\EmpleadoController@buscaEconomico');  
     Route::get('/permisos', 'API\EmpleadoController@buscapermiso');
     Route::get('/pases', 'API\EmpleadoController@buscapases');
+    Route::get('/permisos_empleados', 'API\EmpleadoController@permisos_empleados');
     Route::get('/buscaincidencia/{id}', 'API\IncidenciaController@show');
     Route::get('/justificante/{id}',    'API\IncidenciaController@justificante');
     Route::get('/validaincidencia/{id}', 'API\DiasJustificaController@update');

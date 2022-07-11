@@ -1144,6 +1144,12 @@ function sel_inci(valor) {
             mostrarMensaje(mensaje); */
 
             //break;
+
+        /* case 27:
+            cargar_permisos_empleados();
+            console.log("hsdhsjdhsjd");
+            break; */
+        
         case 10:
 
             mensaje = "Su onomástico es el: " + onomastico.substr(3, 2) + " de " + arreglo_mes[mes_nac] + " No se puede tomar en fecha diferente";
@@ -1875,5 +1881,32 @@ function eliminar_hora_emp(id) {
             }
         });
 
+
+}
+
+
+function cargar_permisos_empleados()
+{
+    idempleado = 922;
+    //idempleado = parseInt(id);
+    //$("#tipotra").empty();
+    //cargar_departamentos();
+
+
+    $.ajax({
+        type: "GET",
+        url: "./api/permisos_empleados/",
+        data: { idempleado: idempleado },
+
+        dataType: "json",
+        success: function(data) {
+
+            console.log(data);
+
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
 
 }
