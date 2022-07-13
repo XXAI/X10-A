@@ -42,12 +42,8 @@ class EmpleadoController extends Controller
     {
 
       
-        $name = $request->get('buscar');  
-       
+        $name = $request->get('buscar');     
     
-      
-     
-
         $buscaBase=DB::table("catalogo_bases")->where("id","=",auth()->user()['base_id'])->first();
         $max=Usuarios::max('USERID');
                 if(isset($max)){
