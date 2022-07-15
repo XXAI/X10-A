@@ -233,17 +233,20 @@ class ReporteTrimestralController extends Controller
                                  //verificador de horas de jornada
                
                                 if($jornada_laboral == 0)
-                                {
-                                   
-                                        $inicio_jornada = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['STARTTIME'];
-                                       
-                                        $fin_jornada    = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['ENDTIME'];
-                                        $jornada_inicio =new Carbon($inicio_jornada);
-                                        $jornada_fin    =new Carbon($fin_jornada);
-                                        $jornada_fin->addMinutes(30);
-                                        $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
-                                        //$jornada_laboral =1;
-                                        $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_fin->diffInHours($jornada_inicio);
+                                {                                   
+                                        if(count($horarios_periodo[$indice_horario_seleccionado]['detalleHorario'])>0){
+                                            $inicio_jornada = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['STARTTIME'];
+                                        
+                                            $fin_jornada    = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['ENDTIME'];
+                                            $jornada_inicio =new Carbon($inicio_jornada);
+                                            $jornada_fin    =new Carbon($fin_jornada);
+                                            $jornada_fin->addMinutes(30);
+                                            $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
+                                            //$jornada_laboral =1;
+                                            $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_fin->diffInHours($jornada_inicio);
+                                        }else{
+                                            continue;
+                                        }
                                         //return array("datos" => $jornada_laboral);
                                 }
                                 //fin veririficador
