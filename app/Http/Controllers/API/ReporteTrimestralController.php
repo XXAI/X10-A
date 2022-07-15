@@ -469,7 +469,7 @@ class ReporteTrimestralController extends Controller
                                            // dd($checada_fuera);
                                             
                                              if($checada_fuera == false && $dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']==1){
-                                                echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                             //echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
                                              //  dd($fecha_evaluar);
                                                // $checada_fuera=0;
                                                 break;
