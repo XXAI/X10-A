@@ -233,20 +233,17 @@ class ReporteTrimestralController extends Controller
                                  //verificador de horas de jornada
                
                                 if($jornada_laboral == 0)
-                                {                                   
-                                        if(count($horarios_periodo[$indice_horario_seleccionado]['detalleHorario'])>0){
-                                            $inicio_jornada = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['STARTTIME'];
-                                        
-                                            $fin_jornada    = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['ENDTIME'];
-                                            $jornada_inicio =new Carbon($inicio_jornada);
-                                            $jornada_fin    =new Carbon($fin_jornada);
-                                            $jornada_fin->addMinutes(30);
-                                            $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
-                                            //$jornada_laboral =1;
-                                            $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_fin->diffInHours($jornada_inicio);
-                                        }else{
-                                            continue;
-                                        }
+                                {
+                                   
+                                        $inicio_jornada = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['STARTTIME'];
+                                       
+                                        $fin_jornada    = $horarios_periodo[$indice_horario_seleccionado]['detalleHorario'][0]['ENDTIME'];
+                                        $jornada_inicio =new Carbon($inicio_jornada);
+                                        $jornada_fin    =new Carbon($fin_jornada);
+                                        $jornada_fin->addMinutes(30);
+                                        $jornada_laboral = $jornada_fin->diffInHours($jornada_inicio);
+                                        //$jornada_laboral =1;
+                                        $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = $jornada_fin->diffInHours($jornada_inicio);
                                         //return array("datos" => $jornada_laboral);
                                 }
                                 //fin veririficador
@@ -472,7 +469,7 @@ class ReporteTrimestralController extends Controller
                                            // dd($checada_fuera);
                                             
                                              if($checada_fuera == false && $dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']==1){
-                                             //echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                                echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
                                              //  dd($fecha_evaluar);
                                                // $checada_fuera=0;
                                                 break;
