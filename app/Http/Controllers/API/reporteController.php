@@ -722,13 +722,15 @@ class reporteController extends Controller
                                         case 34:
                                             $impr="Vacaciones 2021 Invierno ".$memo;                                   
                                             break;
+                                        case 35:
+                                            $impr="BECA " .$memo;                                 
+                                            break;
+                                            
                                         case 36:
                                             $impr="Cuidados Paternales ".$memo;                                   
                                             break;
 
-                                        case 35:
-                                            $impr="BECA " .$memo;                                 
-                                            break;
+                                        
                                         case 37:
                                             $impr="Licencia Matrimonial ".$memo;                                   
                                             break;
