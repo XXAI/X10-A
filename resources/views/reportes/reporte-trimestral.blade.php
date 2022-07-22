@@ -222,6 +222,7 @@ switch($empleados['trimestre'])
                 }
             }else{
                 $relleno = "0000000";
+                $numero = $config['no_documento'];
             }
         ?>
             
