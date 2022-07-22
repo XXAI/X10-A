@@ -545,7 +545,8 @@ class EmpleadoController extends Controller
 
 
     public function permisos_empleados(Request $request){
-        $id = 922;
+        $id = $request->idempleado;
+   
         $tipo_ur = 5;//$tipo_trabajador->ur_id;
 
         if($tipo_ur<=4){
@@ -577,9 +578,7 @@ class EmpleadoController extends Controller
 
     //$horarios_periodo = $this->ordernarHorarios($empleados->horarios); 
 
-   // return response()->json(["omisiones" => $empleados->onisiones]);
-   //dd($empleados->horarios);
-    return array("datos" => $empleados->horarios);
+   return response()->json(["permisos" => $empleados->dias_otorgados,"horario" => $empleados->horarios]);   
     }
 
    

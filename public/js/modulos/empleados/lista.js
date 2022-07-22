@@ -437,6 +437,7 @@ function incidencia(id, iduser, nombre, rfc, jini, jfin, diaslab) {
 
 
     console.log(id);
+    cargar_permisos_empleados(id);
     editEmpleado(id);
     obten_fecnac(rfc);
     sacadias();
@@ -1119,7 +1120,8 @@ function sel_inci(valor) {
     switch (parseInt(valor)) {
 
         case 1:
-            console.log(resumen_checadas.Pase_Salida);
+           // console.log(resumen_checadas.Pase_Salida);
+          // cargar_permisos_empleados();
             pasesal = 6 - resumen_checadas.Pase_Salida;
             mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
@@ -1885,9 +1887,9 @@ function eliminar_hora_emp(id) {
 }
 
 
-function cargar_permisos_empleados()
+function cargar_permisos_empleados(empleado)
 {
-    idempleado = 922;
+    idempleado = empleado;
     //idempleado = parseInt(id);
     //$("#tipotra").empty();
     //cargar_departamentos();
