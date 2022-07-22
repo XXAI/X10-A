@@ -204,21 +204,24 @@ switch($empleados['trimestre'])
         </tr>
     </table>   
         <?php 
-            
-            $relleno = "1100000";
-            $numero = $config['no_documento'];
-            switch ($empleados['tipo_trabajador']['id']) {
-                /*case 6:
-                case 11:
-                case 13:
-                break;*/
-                case 3:
-                    $relleno = "3300000";
-                break;
-                default:
-                    $relleno = "1100000";
-                break;
-                
+            if($usuario['base_id']==1){
+                $relleno = "1100000";
+                $numero = $config['no_documento'];
+                switch ($empleados['tipo_trabajador']['id']) {
+                    /*case 6:
+                    case 11:
+                    case 13:
+                    break;*/
+                    case 3:
+                        $relleno = "3300000";
+                    break;
+                    default:
+                        $relleno = "1100000";
+                    break;
+                    
+                }
+            }else{
+                $relleno = "0000000";
             }
         ?>
             
