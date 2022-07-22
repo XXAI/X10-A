@@ -150,9 +150,10 @@ class ReporteTrimestralController extends Controller
             $empleados = Usuarios::with(['horarios.detalleHorario.reglaAsistencia', 'checadas'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
             }, 'horarios'=>function($query)use($fecha_inicio, $fecha_fin){
-                $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')
+               /*  $query->where("STARTDATE", "<=", $fecha_inicio.'T00:00:00')
                 ->orWhere("STARTDATE", "<=", $fecha_fin.'T00:00:00')
-                ->orderBy('STARTDATE');
+                ->orderBy('STARTDATE'); */
+                $query->whereRaw("( ENDDATE >= '". $fecha_inicio."T00:00:00' and  STARTDATE <= '".$fecha_fin."T23:59:59')");
             }, 'omisiones'=>function($query)use($fecha_inicio, $fecha_fin){
                 $query->where("CHECKTIME", ">=", $fecha_inicio.'T00:00:00')->where("CHECKTIME", "<=", $fecha_fin.'T23:59:59');
             }, 'dias_otorgados'=>function($query)use($fecha_inicio, $fecha_fin){
@@ -195,8 +196,9 @@ class ReporteTrimestralController extends Controller
                     $empleados_trimestral[$empleados[$index_empleado]->TITLE]['jornada_laboral'] = 0;
                 }
                 
-
+               // dd($empleados[$index_empleado]->TITLE);
                 $horarios_periodo = $data_empleado->horarios;
+               // dd($horarios_periodo);
                 $indice_horario_seleccionado = 0;
                 $arreglo_consulta = array();
                 $dias_habiles = array();
@@ -213,7 +215,7 @@ class ReporteTrimestralController extends Controller
                 $dia_economico = 0;
                 $checada_fuera = false;
                 //dd($dias_otorgados);
-              
+                //dd($indice_horario_seleccionado." cuantos ". count($horarios_periodo));
                 if($dias_otorgados != -1)
                 {
                     
@@ -227,7 +229,7 @@ class ReporteTrimestralController extends Controller
                        // dd($fecha_evaluar);
                         if($fecha_evaluar->lessThan($fecha_limite_actual))
                         {
-                            
+                           
                             if($indice_horario_seleccionado < count($horarios_periodo))
                             {
                                  //verificador de horas de jornada
@@ -412,7 +414,7 @@ class ReporteTrimestralController extends Controller
                                                 break;
                                             } */
                                           //  dd("holaaaa" .$fecha_evaluar);
-                                            switch($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']){
+                                             switch($dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']){
                                                 case 1:
                                                   //dd("fecha: ".$fecha_evaluar->format('Y-m-d'));
                                                     $fecha_hora_entrada_exacta = new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dias_habiles[$fecha_evaluar->dayOfWeekIso]->STARTTIME, 11, 8));
@@ -428,10 +430,6 @@ class ReporteTrimestralController extends Controller
                                                                  
                                                                 $checada_entrada_nueva = new Carbon($dato_checada->CHECKTIME);  
                                                                      
-                                                                           //print_r($fecha_hora_entrada_exacta."checada ".$checada_entrada_nueva );        
-                                                                        //lessThanOrEqualTo greaterThanOrEqualTo
-                                                                  
-                                                                      // 
                                                                         if($checada_entrada_nueva->lessThanOrEqualTo($fecha_hora_entrada_exacta))
                                                                         {            
                                                                             
@@ -461,7 +459,7 @@ class ReporteTrimestralController extends Controller
 
                                            
                                              }
-                                             
+                                              
                                             // 77dd($dia_economico);
                                              if($dia_economico == 2)
                                              {
@@ -471,7 +469,7 @@ class ReporteTrimestralController extends Controller
                                            // dd($checada_fuera);
                                             
                                              if($checada_fuera == false && $dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']==1){
-                                                echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
+                                              //  echo("      var= ".$checada_fuera."fecha".$fecha_evaluar."tipo".$dias_otorgados[$fecha_evaluar->format('Y-m-d')][0]['DATEID']."checo".$dato_checada->CHECKTIME);
                                              //  dd($fecha_evaluar);
                                                // $checada_fuera=0;
                                                 break;
@@ -625,7 +623,7 @@ class ReporteTrimestralController extends Controller
         $bandera = 0;
         $licencia_medica = 0;
         foreach ($arreglo as $key => $value) {
-            if($value->DATEID == 21 || $value->DATEID == 22 ){ $bandera = 1; }
+            if($value->DATEID === 21 || $value->DATEID === 22 ){ $bandera = 1; }
             
  
            // $arreglo_dias[substr($value->STARTSPECDAY, 0,10)][] = $value;
