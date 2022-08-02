@@ -13,7 +13,7 @@ var xini, xfin;
 var id, idcap, fecha, tipo, pagoGuardiaTotal = 0;
 var id_x;
 var rfc_x, tipotra;
-var id_inci;
+var id_inci, focu=0;
 var msj, ban_url, vardel;
 var mes_nac, idempleado, idhorario, tipotrabajador;
 var tipo_incidencia, date_1, date_2, razon, diff_in_days, diff_in_hours, diff, fec_com, bandera, msj, val_in, yy, url_emp;
@@ -799,10 +799,16 @@ function obtener_pases() {
     //id = id;
     document.getElementById("ecoanual").innerHTML = 0;
     id = id_x;
-    fini = $("#inicio").val();
-    ffin = $("#fin").val();
+    if (focu===0) {
+        fini = $("#inicio").val();
+        ffin = $("#fin").val();
+
+    } else{ 
+        fini = $("#f_ini").val()+":00";
+        ffin = $("#f_fin").val()+":00";}
+   
     console.log(id);
-    //  console.log(x+"mm ");
+     // console.log(fini);
 
     codein = 1;
 
@@ -837,7 +843,7 @@ function obtener_justificantes(fini, ffin) {
     ffin = $("#f_fin").val();
     inicio = new Date(fini);
     termino = new Date(ffin);
-
+//console.log(inicio);
 
     if (inicio.getTime() <= termino.getTime()) {
 
@@ -867,7 +873,7 @@ function obtener_justificantes(fini, ffin) {
             });
             pases = data.pases;
 
-            console.log(data);
+            console.log(data.pases);
 
             if (permisos.length > 0) {
 
@@ -888,7 +894,8 @@ function obtener_justificantes(fini, ffin) {
 
                             if (diff_in_days == 0) {
                                 if (pasesal >= diff_in_hours && diff_in_hours <= 2 && diff_in_hours > 0) {
-                                    inserta_incidencia();
+                                  //  console.log("si registroo");
+                                   inserta_incidencia();
                                 } else {
                                     bandera = 0
                                     swal("¡No se puede Ingresar ese pase de salida!", {
@@ -1122,7 +1129,10 @@ function sel_inci(valor) {
         case 1:
            // console.log(resumen_checadas.Pase_Salida);
           // cargar_permisos_empleados();
-            pasesal = 6 - resumen_checadas.Pase_Salida;
+            obtener_pases();
+            console.log(pases_total.pases);
+            //pasesal = 6 - resumen_checadas.Pase_Salida;
+            pasesal = 6 - pases_total.pases;
             mensaje = "Tiene " + pasesal + " horas disponibles para pase de salida, Recuerde que solo puede tomar máximo 2 horas en la jornada";
             mostrarMensaje(mensaje);
 
@@ -1593,6 +1603,7 @@ function inserta_incidencia() {
     ffin = moment(date_2.add(x, 'd')).format();
     fini = fini.substr(0, 10) + " " + fini.substr(11, 8) + ".00";
     ffin = ffin.substr(0, 10) + " " + ffin.substr(11, 8) + ".00";
+    
     if (razon == "") {
         swal("Verifique!", "Este campo es necesario", "error");
         $("#razon").focus();
@@ -1661,8 +1672,8 @@ function inserta_incidencia_emp() {
 
 function save_justi_emp() {
 
-
-    inserta_incidencia();
+//alert("holaaaa jesisisiis");
+   inserta_incidencia();
 
 
 
@@ -1886,7 +1897,11 @@ function eliminar_hora_emp(id) {
 
 }
 
-
+function probando_focus(){
+   
+    focu = 1;
+    
+}
 function cargar_permisos_empleados(empleado)
 {
     idempleado = empleado;
