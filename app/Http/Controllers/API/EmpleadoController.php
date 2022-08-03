@@ -301,13 +301,16 @@ class EmpleadoController extends Controller
        //dd($id);
        $fecha = $request->fecha;       
        $fini = $request->fini;
+       $fecha_mes_fin = new Carbon($fini);
+       $fecha_mes_fin=$fecha_mes_fin->lastOfMonth();
+       $fecha_mes_fin= str_replace(" ", "T", $fecha_mes_fin);
        $ffin = $request->ffin; 
        $codein =  $request->codein; 
        $tipo_trabajador = Usuarios::select('ur_id')->where("userid","=",$id)->first();  
       // dd($fini);
      $tipo_ur = $tipo_trabajador->ur_id;
 
-      $pasesSalidas= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$ffin)
+      $pasesSalidas= DiasOtorgados::where("userid","=",$id)->where("STARTSPECDAY","<=",$fecha_mes_fin)
       ->where("ENDSPECDAY",">=",$fini)->where("DATEID","=","1")->get();
 
       $totalPases=0;

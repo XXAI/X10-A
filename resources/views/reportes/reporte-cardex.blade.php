@@ -24,7 +24,7 @@
         }
         .datos
         {
-            font-size: 9pt;
+            font-size: 8pt;
         }
         .firmantes
         {
