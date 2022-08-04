@@ -1138,8 +1138,11 @@ function sel_inci(valor) {
 
             //swal("Aviso","Tiene "+pasesal+ " horas disponibles para pase de salida, Recuerde que solo puede tomar maximo 2 horas en un dia");
             break;
-            //case 6:          
-
+            /* case 6:      
+            obtener_justificantes(fini,ffin);
+            console.log("putos transitos");
+            break;
+ */
             // document.getElementById("btn_prueba").click();        
             //console.log("economico:  " + tot_eco.length);
             /*  tot_eco=obtener_economicos();
