@@ -133,6 +133,7 @@ class LogsController extends Controller
         $iduser = auth()->user()['id'];
         $buscaBase = BaseUser::where("user_id","=",$iduser)->first();
         $namedb = $buscaBase->base;
+        //dd($namedb);
         
         $bi = $request->get('bi');
        // $data_in = User::with("BaseUsers")->orderBy('nombre','ASC')->where("nombre",'LIKE','%'.$bi.'%')->get(); 
@@ -141,7 +142,7 @@ class LogsController extends Controller
         ->join("users_bases", "users_bases.user_id", "=","users.id")
         ->where("nombre",'LIKE','%'.$bi.'%')->where("base","=",$namedb)->where("users.id",'!=',1)->get(); 
         
-        //dd($data_in); ->where("base","=",$namedb)
+        //dd($data_in); //->where("base","=",$namedb)
       
       return response()->json($data_in);  
         

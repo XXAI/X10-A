@@ -703,7 +703,7 @@ class ReporteMensualController extends Controller
         if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 3){ $calcular_entrada = 1; }
         if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 4){ $checada_salida = 1; }
         if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 5){ $calcular_salida = 1; }
-
+       
         //return array("E"=>$checada_entrada, "EC" => $calcular_entrada, "S"=>$checada_salida, "SC"=>$calcular_salida);
         //omisiones falta checar
         
@@ -826,7 +826,8 @@ class ReporteMensualController extends Controller
         {
             $checada_salida = 1;
         }
-
+        if(isset($dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['entradas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 2){ $checada_entrada = 0; }
+        if(isset($dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')]) && $dias_otorgados['salidas'][$fecha_evaluar->format('Y-m-d')][0]->siglas->Classify == 2){ $checada_salida = 0; }
        /*  if($fecha_evaluar->EqualTo($fecha_x))
         {
             
