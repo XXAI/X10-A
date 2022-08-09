@@ -64,7 +64,7 @@
           </div>
         </div>
       </li> -->
-      @if(Auth::user()->id != 15  && Auth::user()->id != 10 && Auth::user()->id != 1091 && Auth::user()->id != 1142) 
+      @if(Auth::user()->id != 15  && Auth::user()->id != 10 && Auth::user()->id != 13 && Auth::user()->id != 1091 && Auth::user()->id != 1142) 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_reportes" aria-expanded="true" aria-controls="menu_reportes">
           <i class="fa fa-fw fa-print"></i>
