@@ -126,7 +126,7 @@ class reporteController extends Controller
             $validacion = $conexion->table("userinfo")
             ->join("USER_OF_RUN", "USER_OF_RUN.USERID", "=", "userinfo.USERID")
             ->join("NUM_RUN_DEIL","NUM_RUN_DEIL.NUM_RUNID", "=", "USER_OF_RUN.NUM_OF_RUN_ID")
-            ->join("DEPARTMENTS","DEPARTMENTS.type","=","userinfo.FPHONE")
+            //->join("DEPARTMENTS","DEPARTMENTS.type","=","userinfo.FPHONE")
             ->where("userinfo.TITLE", "=",  $desc)->first();
           // dd($validacion);
           
