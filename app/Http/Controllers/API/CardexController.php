@@ -246,7 +246,7 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-           $fecha_x = new Carbon("2022-06-02");
+           $fecha_x = new Carbon("2022-01-23");
            // $fecha_x ='2022-04-01T00:00:00';
           //  dd($fecha_x);
            // print_r("hol2");
@@ -256,17 +256,24 @@ class CardexController extends Controller
                 //var_dump($parametro_inicial);
                 
                 //echo $parametro_inicial."--";
+               // echo $parametro_inicial."<br>";
+              /*  if($parametro_inicial->equalTo($fecha_x))
+               {
+                 // dd($horario_evaluar);
+                   dd($parametro_inicial. "es la fecha ". $indice_horario_seleccionado." contador=".$contador_horario." diferencia= ".$diferencia_dias_sin_horario);
+               }   */
                 
-                #Verificamos la vigencia de los horarios
+                #Verificamos la vigencia de los horarios        
                 if($contador_horario == 0 && $diferencia_dias_sin_horario == 0)
+             
                 {
                     
                    //dd($parametro_inicial);
                  //   $indice_horario_seleccionado=3;
                 
-                   
+                 
                     $horario_evaluar = $this->validar_horario($horarios_periodo, $indice_horario_seleccionado, $parametro_inicial, $bandera );
-                   // dd($horario_evaluar['dias_sin_horario']);
+                 //  dd($horario_evaluar);
                     if($horario_evaluar['dias_sin_horario'] > 0)
                     {
                         $diferencia_dias_sin_horario = $horario_evaluar['dias_sin_horario'];
@@ -338,7 +345,7 @@ class CardexController extends Controller
                                                 $checada_entrada = 3;
                                             }    
                                         }
-                                        
+                                       
                                         if($checada_salida == 0)
                                         {    //dd($bandera);
                                            
@@ -351,7 +358,7 @@ class CardexController extends Controller
                                             if($parametro_inicial->equalTo($fecha_x) && $checada_entrada!=0)
                                             {
                                                
-                                                //dd($indice_horario_seleccionado);
+                                              //  dd($indice_horario_seleccionado);
                                             } 
                                            
                                             if($diferencia_dias_nocturnos!=0){
@@ -384,11 +391,11 @@ class CardexController extends Controller
                                                     
                                                     //("hol: ".$checada);
                                                        
-                                                       
+                                                    $contador_horario--;     
                                                  }
                                                  
                                               // $checada= $checada->addDay(1);
-                                             
+                                              
                                             }                                       
                                          
                 
@@ -533,40 +540,17 @@ class CardexController extends Controller
         $actualizacion = false;
 
         //dd($horarios);
-        $fecha_validacion_x = new Carbon("2021-10-11");
+        $fecha_validacion_x = new Carbon("2022-06-22");
          $arreglo_horarios_inicio = array();
         $arreglo_horarios_fin = array(); 
-        foreach ($horarios as $key => $value) {
-          /*  $arreglo_horarios_inicio[$key]=$value->STARTDATE;
-            $arreglo_horarios_fin[$key]= $value->ENDDATE; 
-             if($arreglo_horarios_inicio<=$fecha_validacion_x && $arreglo_horarios_fin>=$fecha_validacion_x){
-                dd($key);
-            } else{
-                dd("se paso de reata");
-            }
-            */
+        foreach ($horarios as $key => $value) {         
 
             $inicio_x[$key]=$value->STARTDATE;
-            $fin_x[$key]=$value->ENDDATE;
-          
+            $fin_x[$key]=$value->ENDDATE;          
             
             
         }
-       // dd($inicio_x);
-        //dd("fechaeva: ".$fecha_validacion_x."  inicio: ".$arreglo_horarios_inicio. " fin: $arreglo_horarios_fin")
-        
-       /*  for($i=0;$i<$numero_horarios;$i++){
-            $inicio_x= $arreglo_horarios_inicio[$i];
-            $fin_x =  $arreglo_horarios_fin[$i];
-
-          print_r($inicio_x) ;
-        } */
-        //dd("inicio= ".$inicio_x."fin= ".$fin_x);
-        
-
-       // $fecha_validacion = new Carbon ('2022-06-02');
-       // dd("bandera: ".$bandera);
-       //echo $bandera."<br>";
+      
          if($bandera == 0)
         {
             $indice_pivote = $indice;
@@ -590,26 +574,35 @@ class CardexController extends Controller
             //return ($fecha_validacion->equalTo($fecha_inicio_periodo));
             
             $horario = "";
-           // dd($fecha_validacion." - ".$fecha_inicio_periodo." = ".$diferencia_dias_sin_horario." - ".$fecha_fin_periodo);
-
+          /*   if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion_x) && $fecha_fin_periodo->greaterThanOrEqualTo($fecha_validacion_x) && $indice_pivote < $numero_horarios)
+            {
+                dd($indice_pivote);
+            
+            } */
            
             if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion) && $fecha_fin_periodo->greaterThanOrEqualTo($fecha_validacion) && $indice_pivote < $numero_horarios)
             {
                
                     if ($indice_pivote < $numero_horarios){
-                        $fecha_inicio_periodo =  new Carbon($horarios[$indice_pivote]->STARTDATE);
+
+                        if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion)&& $fecha_fin_periodo->greaterThanOrEqualTo($fecha_validacion)){
+                            $fecha_inicio_periodo =  $fecha_validacion;
+                        }else{$fecha_inicio_periodo =  new Carbon($horarios[$indice_pivote]->STARTDATE);}
+
+                        
                         $fecha_fin_periodo =  new Carbon(substr($horarios[$indice_pivote]->ENDDATE, 0,10)."T23:59:59");              
-                        $dias_habiles = $this->dias_horario($horarios[$indice_pivote]->detalleHorario);        
+                        $dias_habiles = $this->dias_horario($horarios[$indice_pivote]->detalleHorario);       
                     
-                        $diferencia_dias = $fecha_validacion->diffInDays($fecha_fin_periodo) + 1;
+                        $diferencia_dias = $fecha_inicio_periodo->diffInDays($fecha_fin_periodo) + 1;
+                        //$diferencia_dias = 0;
                         $actualizacion = true;
                         $indice = $indice_pivote;
                     }
                     $indice_pivote++;
-            }/* else{
-               $diferencia_dias_sin_horario = $fecha_validacion->diffInDays($fecha_inicio_periodo);
-                $bandera=1;
-            } */
+            } /* else{
+                $diferencia_dias = 0;
+                //$bandera=1;
+            }  */
             
        
             foreach ($dias_habiles as $key => $value) {
