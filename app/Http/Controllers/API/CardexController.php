@@ -246,7 +246,7 @@ class CardexController extends Controller
             $diferencia_dias_sin_horario = 0;
             $dias_habiles = [];
             //for($dia_periodo = 1; $dia_periodo <= $dias_totales; $dia_periodo++)
-           $fecha_x = new Carbon("2022-01-23");
+           $fecha_x = new Carbon("2022-03-21");
            // $fecha_x ='2022-04-01T00:00:00';
           //  dd($fecha_x);
            // print_r("hol2");
@@ -257,11 +257,7 @@ class CardexController extends Controller
                 
                 //echo $parametro_inicial."--";
                // echo $parametro_inicial."<br>";
-              /*  if($parametro_inicial->equalTo($fecha_x))
-               {
-                 // dd($horario_evaluar);
-                   dd($parametro_inicial. "es la fecha ". $indice_horario_seleccionado." contador=".$contador_horario." diferencia= ".$diferencia_dias_sin_horario);
-               }   */
+               
                 
                 #Verificamos la vigencia de los horarios        
                 if($contador_horario == 0 && $diferencia_dias_sin_horario == 0)
@@ -294,6 +290,7 @@ class CardexController extends Controller
                 }
               //  dd($bandera);
                //unset($empleados);
+              
              
                 if($diferencia_dias_sin_horario == 0)
                 {
@@ -304,7 +301,7 @@ class CardexController extends Controller
                         if(!array_key_exists($parametro_inicial->format('Y-m-d'), $dias_otorgados))
                         {
                            // $diferencia_dias_nocturnos = $dia_ingreso->EDAYS - $dia_ingreso->SDAYS;
-                          
+                           
                             $dia_seleccionado = $dias_habiles[$parametro_inicial->dayOfWeekIso]->reglaAsistencia;
                             
                             $tolerancia = ( intval($dia_seleccionado->LateMinutes) + 1);#Se agrega regla de tolerancia 
@@ -325,6 +322,7 @@ class CardexController extends Controller
                             
                             if(!array_key_exists($parametro_inicial->format('Y-m-d'), $arreglo_festivos) && !array_key_exists($parametro_inicial->format('Y-m-d'), $arreglo_contingencia))
                             {
+                               
                                 if(array_key_exists($parametro_inicial->format('Y-m-d'), $checadas_empleado))
                                 {
                                     
@@ -429,7 +427,8 @@ class CardexController extends Controller
                                             if($dato_omision->CHECKTYPE == "O" || $dato_omision->CHECKTYPE == "S"){ $checada_salida = 1;  }
                                         }
                                     }
-                                   // dd($checada_entrada. "sal".$checada_salida );
+                                  
+                                   // 
                                      
                                     if($checada_entrada == 1 and $checada_salida == 1){
                                         $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] = "" ; #Revisar
@@ -463,8 +462,7 @@ class CardexController extends Controller
                                     }
                                     
                                 }else
-                                {
-                                    
+                                {                                    
                                     $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  "F";
                                 }
                             }else{
@@ -475,6 +473,9 @@ class CardexController extends Controller
                             $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
                         }  
                         
+                    } else if(array_key_exists($parametro_inicial->format('Y-m-d'),$arreglo_festivos) && array_key_exists($parametro_inicial->format('Y-m-d'), $dias_otorgados)){
+                        $resultado[$parametro_inicial->year][$parametro_inicial->month][$parametro_inicial->day] =  $dias_otorgados[$parametro_inicial->format('Y-m-d')][0]['siglas']['ReportSymbol'];
+                     
                     }else
                     {   
                         # No hacemos nada en los dias no habiles
@@ -570,16 +571,9 @@ class CardexController extends Controller
             $fecha_fin_periodo =  new Carbon(substr($horarios_seleccionado->ENDDATE, 0,10)."T23:59:59");           
             $dias_habiles = $this->dias_horario($horarios_seleccionado->detalleHorario);
          
-            //$diferencia_dias = $fecha_validacion->diffInDays($fecha_fin_periodo);
-            //return ($fecha_validacion->equalTo($fecha_inicio_periodo));
-            
-            $horario = "";
-          /*   if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion_x) && $fecha_fin_periodo->greaterThanOrEqualTo($fecha_validacion_x) && $indice_pivote < $numero_horarios)
-            {
-                dd($indice_pivote);
-            
-            } */
            
+            $horario = "";
+        
             if($fecha_inicio_periodo->lessThanOrEqualTo($fecha_validacion) && $fecha_fin_periodo->greaterThanOrEqualTo($fecha_validacion) && $indice_pivote < $numero_horarios)
             {
                
