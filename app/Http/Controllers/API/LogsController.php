@@ -179,7 +179,7 @@ class LogsController extends Controller
       }
        
       $conexion = DB::connection('dinamica');
-     
+      
       if(isset($conexion)) $nombrebase = $conexion->getDatabaseName(); 
 
       $parametros = Input::all();

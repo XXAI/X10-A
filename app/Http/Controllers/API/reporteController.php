@@ -402,10 +402,10 @@ class reporteController extends Controller
                             $final_sal=new carbon($fecha_eval."T".$var_reglas[$fecha_evaluar->dayOfWeekIso]->FinChecarSalida.":00.000");
 
 
-                            if($nombrebase == 'gomezmaza'){
+                            //if($nombrebase == 'gomezmaza'){
                                 $final_entra->addMinute();  
                                 $final_sal->addMinute(); 
-                            }
+                            //}
                            // $final_entra->addHour();
                             $final_entra= str_replace(" ", "T", $final_entra);
                             $final_sal= str_replace(" ", "T", $final_sal);
