@@ -261,7 +261,7 @@ class ReporteMensualController extends Controller
                                     $fin_entrada->addMinute();
                                     $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
                                     $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
-
+                                    $fin_salida->addMinute();
                                     $checada_entrada = 0;
                                     $checada_salida  = 0;
                                     //dd("holaas hosp");
@@ -684,7 +684,7 @@ class ReporteMensualController extends Controller
             $fin_salida->addDay();
         }
         
-        //$fin_salida->addMinute();
+        $fin_salida->addMinute();
 
         $checada_entrada = 0;
         $checada_salida  = 0;
@@ -767,6 +767,8 @@ class ReporteMensualController extends Controller
             $inicio_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
             $inicio_salida_fija =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime1, 11,8));
             $fin_salida =  new Carbon($fecha_evaluar->format('Y-m-d')."T".substr($dia_seleccionado->CheckOutTime2, 11,8));
+            $fin_salida->addMinute();
+           
             $pase=0;
            // dd("hola");
             

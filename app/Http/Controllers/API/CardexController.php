@@ -473,7 +473,7 @@ class CardexController extends Controller
             }
             
         /*}*/
-        return array("datos" => $resultado, "horario" => $jornada);
+        return array("datos" => $resultado, "horario" => $jornada, "permisos" => $dias_otorgados);
         unset($resultado);
     }
 

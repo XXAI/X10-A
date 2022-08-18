@@ -87,7 +87,7 @@
 <?php
 
 $objeto = $empleados;
-//print_r($objeto);
+print_r($objeto);
 /* $clave = $objeto['ur'].$objeto['gf'].$objeto['fn'].$objeto['sf'].$objeto['pg'].$objeto['al'].$objeto['pp'].$objeto['partida'].$objeto['codigo'].$objeto['numpto']; */
 $clave = $objeto->Sirh_Empleados['clave'];
 //print_r($objeto->Sirh_Empleados['rfc']);
